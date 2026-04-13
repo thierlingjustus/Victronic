@@ -1,0 +1,342 @@
+import React from 'react';
+import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
+import { 
+  Monitor, Smartphone, Zap, Fan, Box, Layers, Wrench,
+  Lightbulb, CheckCircle, PenTool, Factory, ShieldCheck, Package,
+  Link as LinkIcon, Award, Clock, Search, Truck, ArrowRight, Mail, Phone, MapPin, ChevronRight
+} from 'lucide-react';
+import { products } from '../data/products';
+
+const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-100px" }}
+    transition={{ duration: 0.6, delay }}
+  >
+    {children}
+  </motion.div>
+);
+
+export default function Home() {
+  return (
+    <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-[#0070f3] selection:text-white overflow-hidden">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 font-bold text-xl tracking-tight">
+            <div className="w-6 h-6 bg-[#0070f3] rounded-sm flex items-center justify-center">
+              <div className="w-3 h-3 bg-white rounded-full" />
+            </div>
+            Victronic
+          </div>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+            <a href="#about" className="hover:text-[#0070f3] transition-colors">Über uns</a>
+            <a href="#services" className="hover:text-[#0070f3] transition-colors">Leistungen</a>
+            <a href="#products" className="hover:text-[#0070f3] transition-colors">Produkte</a>
+            <a href="#process" className="hover:text-[#0070f3] transition-colors">Prozess</a>
+          </div>
+          <a href="#contact" className="text-sm font-medium bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors">
+            Kontakt
+          </a>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6">
+        <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0070f3]/10 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[#0070f3] text-xs font-semibold uppercase tracking-wider mb-8">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0070f3] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0070f3]"></span>
+              </span>
+              B2B Elektronik-Zulieferer
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6">
+              Elektronische Lösungen für <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0070f3] to-[#00dfd8]">
+                industrielle Anwendungen
+              </span>
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+              Maßgeschneiderte Komponenten, schnelle Beschaffung und zuverlässige Lieferketten für Ingenieure und Produktentwickler.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a href="#contact" className="button-glow group bg-black text-white px-6 py-3 rounded-md font-medium flex items-center gap-2 w-full sm:w-auto justify-center">
+                Angebot anfordern
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </a>
+              <a href="#about" className="bg-white border border-gray-200 text-black px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors w-full sm:w-auto justify-center flex">
+                Mehr erfahren
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-24 bg-white border-y border-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <FadeIn>
+            <div className="grid md:grid-cols-2 gap-16 items-center">
+              <div>
+                <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Über Victronic</h2>
+                <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                  Die Victronic GmbH steht für ein modernes Lieferantenkonzept: klein, flexibel und hocheffizient. Seit 2008 bieten wir intelligente elektronische Lösungen mit engen Herstellerbeziehungen und voller Transparenz über die gesamte Lieferkette.
+                </p>
+                <p className="text-gray-600 text-lg leading-relaxed">
+                  Unser Ziel ist es, die technische Beschaffung zu vereinfachen und eine schnelle, zuverlässige Projektabwicklung zu gewährleisten – unterstützt durch ISO-zertifizierte Partner.
+                </p>
+              </div>
+              <div className="relative">
+                <div className="aspect-square bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden relative group">
+                  <img 
+                    src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000" 
+                    alt="Electronic Circuit Board" 
+                    className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[#0070f3]/20 to-transparent mix-blend-overlay" />
+                </div>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="py-24 px-6 relative">
+        <div className="max-w-7xl mx-auto">
+          <FadeIn>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Unsere Leistungen</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">Umfassende Unterstützung für Ihre elektronischen Projekte.</p>
+            </div>
+          </FadeIn>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { title: "Produkte", desc: "Standardkomponenten und maßgeschneiderte Lösungen vom Prototyp bis zur Serienproduktion.", icon: Box, link: "#products" },
+              { title: "Systeme", desc: "Module und vollständig angepasste Baugruppen, zugeschnitten auf Ihre spezifische Anwendung.", icon: Layers, link: "/systems" },
+              { title: "Beratung", desc: "Schneller und direkter technischer und kaufmännischer Support für Ihre Projekte.", icon: Lightbulb, link: "#contact" }
+            ].map((service, i) => (
+              <FadeIn key={i} delay={i * 0.1}>
+                {service.link.startsWith('/') ? (
+                  <Link to={service.link} className="block hover-glow bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer">
+                    <div className="w-12 h-12 bg-blue-50 text-[#0070f3] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                      <service.icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-3">{service.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{service.desc}</p>
+                  </Link>
+                ) : (
+                  <a href={service.link} className="block hover-glow bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer">
+                    <div className="w-12 h-12 bg-blue-50 text-[#0070f3] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                      <service.icon className="w-6 h-6" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-3">{service.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{service.desc}</p>
+                  </a>
+                )}
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Products Section */}
+      <section id="products" className="py-24 bg-[#050505] text-white px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#333_1px,transparent_1px),linear-gradient(to_bottom,#333_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20" />
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <FadeIn>
+            <div className="mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Produktkategorien</h2>
+              <p className="text-gray-400 max-w-2xl">Hochwertige Komponenten für anspruchsvolle Industrieanwendungen. Klicken Sie auf eine Lösung für technische Details.</p>
+            </div>
+          </FadeIn>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
+            {products.map((product, i) => (
+              <FadeIn key={product.id} delay={i * 0.05}>
+                <Link to={`/products/${product.id}`} className="block group bg-white/5 border border-white/10 p-6 rounded-xl hover:bg-white/10 hover:border-[#00dfd8]/50 transition-all cursor-pointer h-full relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#0070f3]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-[#00dfd8] mb-4 transition-colors relative z-10" />
+                  <h3 className="font-medium text-sm md:text-base relative z-10">{product.name}</h3>
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
+                    <ArrowRight className="w-4 h-4 text-[#00dfd8]" />
+                  </div>
+                </Link>
+              </FadeIn>
+            ))}
+          </div>
+          
+          <FadeIn delay={0.4}>
+            <div className="inline-flex items-center gap-2 text-sm text-gray-400 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+              <div className="w-2 h-2 rounded-full bg-[#00dfd8]" />
+              Sonderlösungen für alle Produktkategorien verfügbar.
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section id="process" className="py-24 px-6">
+        <div className="max-w-7xl mx-auto">
+          <FadeIn>
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Unser Prozess</h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">Wir begleiten Ihr Projekt vom Konzept bis zur Massenproduktion.</p>
+            </div>
+          </FadeIn>
+
+          <div className="relative">
+            <div className="hidden md:block absolute top-1/2 left-0 right-0 h-px bg-gray-200 -translate-y-1/2" />
+            <div className="grid md:grid-cols-6 gap-8 relative z-10">
+              {[
+                { step: "01", name: "Planung & Entwicklung", icon: Lightbulb },
+                { step: "02", name: "Designfreigabe", icon: CheckCircle },
+                { step: "03", name: "Werkzeugbau", icon: PenTool },
+                { step: "04", name: "Prototypenfertigung", icon: Factory },
+                { step: "05", name: "Prüfung & Freigabe", icon: ShieldCheck },
+                { step: "06", name: "Serienproduktion", icon: Package }
+              ].map((item, i) => (
+                <FadeIn key={i} delay={i * 0.1}>
+                  <div className="flex flex-col items-center text-center group">
+                    <div className="w-12 h-12 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center mb-4 group-hover:border-[#0070f3] group-hover:text-[#0070f3] transition-colors relative z-10">
+                      <item.icon className="w-5 h-5" />
+                    </div>
+                    <div className="text-xs font-bold text-gray-400 mb-1">{item.step}</div>
+                    <h3 className="text-sm font-semibold">{item.name}</h3>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Us Section */}
+      <section className="py-24 bg-gray-50 border-y border-gray-200 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <FadeIn>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">Warum Victronic?</h2>
+              <div className="space-y-6">
+                {[
+                  { title: "Direkter Herstellerzugang", icon: LinkIcon },
+                  { title: "Zertifizierte Qualitätsstandards", icon: Award },
+                  { title: "Schnelle Reaktionszeiten", icon: Clock },
+                  { title: "Transparente Lieferketten", icon: Search },
+                  { title: "Zuverlässige Lieferung", icon: Truck }
+                ].map((reason, i) => (
+                  <div key={i} className="flex items-center gap-4 group">
+                    <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-[#0070f3] transition-colors">
+                      <reason.icon className="w-5 h-5 text-gray-600 group-hover:text-[#0070f3] transition-colors" />
+                    </div>
+                    <span className="text-lg font-medium text-gray-800">{reason.title}</span>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.2}>
+              <div className="bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-[#0070f3]/5 rounded-bl-full" />
+                <h3 className="text-2xl font-bold mb-4">Zertifizierte Qualität</h3>
+                <p className="text-gray-600 leading-relaxed mb-6">
+                  Wir arbeiten ausschließlich mit Herstellern zusammen, die nach internationalen Standards zertifiziert sind.
+                </p>
+                <div className="flex gap-4">
+                  <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-semibold text-gray-600 border border-gray-200">ISO 9001</span>
+                  <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-semibold text-gray-600 border border-gray-200">ISO/TS16949</span>
+                </div>
+              </div>
+            </FadeIn>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-24 px-6 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-[#0070f3] to-transparent opacity-30" />
+        
+        <div className="max-w-4xl mx-auto">
+          <FadeIn>
+            <div className="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden flex flex-col md:flex-row">
+              <div className="p-10 md:p-12 md:w-1/2 bg-gray-50 border-r border-gray-200">
+                <h2 className="text-3xl font-bold tracking-tight mb-2">Kontakt aufnehmen</h2>
+                <p className="text-gray-600 mb-8">Bereit für Ihr nächstes Projekt? Wir freuen uns auf Ihre Anfrage.</p>
+                
+                <div className="space-y-6">
+                  <div className="flex items-start gap-4">
+                    <MapPin className="w-6 h-6 text-[#0070f3] shrink-0" />
+                    <div>
+                      <div className="font-semibold">Victronic GmbH</div>
+                      <div className="text-gray-600">Otto-Hahn-Straße 19<br />22941 Bargteheide<br />Deutschland</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Phone className="w-6 h-6 text-[#0070f3] shrink-0" />
+                    <a href="tel:+4945329758230" className="text-gray-600 hover:text-[#0070f3] transition-colors">+49 4532 975 82 30</a>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <Mail className="w-6 h-6 text-[#0070f3] shrink-0" />
+                    <a href="mailto:info@victronic-gmbh.de" className="text-gray-600 hover:text-[#0070f3] transition-colors">info@victronic-gmbh.de</a>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-10 md:p-12 md:w-1/2 bg-white">
+                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                    <input type="text" className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0070f3]/50 focus:border-[#0070f3] transition-all" placeholder="Ihr Name" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">E-Mail</label>
+                    <input type="email" className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0070f3]/50 focus:border-[#0070f3] transition-all" placeholder="ihre@email.de" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Nachricht</label>
+                    <textarea rows={4} className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0070f3]/50 focus:border-[#0070f3] transition-all resize-none" placeholder="Wie können wir Ihnen helfen?"></textarea>
+                  </div>
+                  <button className="w-full bg-black text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 group">
+                    Anfrage senden
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </form>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-white border-t border-gray-200 py-12 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 font-bold text-lg tracking-tight">
+            <div className="w-5 h-5 bg-[#0070f3] rounded-sm flex items-center justify-center">
+              <div className="w-2.5 h-2.5 bg-white rounded-full" />
+            </div>
+            Victronic GmbH
+          </div>
+          <div className="text-sm text-gray-500">
+            &copy; {new Date().getFullYear()} Victronic GmbH. Alle Rechte vorbehalten.
+          </div>
+          <div className="flex gap-6 text-sm text-gray-500">
+            <a href="#" className="hover:text-black transition-colors">Impressum</a>
+            <a href="#" className="hover:text-black transition-colors">Datenschutz</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
