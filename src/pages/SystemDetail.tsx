@@ -267,7 +267,7 @@ export default function SystemDetail() {
                 <motion.div 
                   key={`tooltip-${i}`}
                   style={{ x: transforms[i].x, y: transforms[i].y, opacity: tooltipsOpacity }} 
-                  className={`absolute z-[60] w-40 md:w-56 ${layer.side === 'left' ? 'mr-[9rem] md:mr-[14rem] text-right right-1/2' : 'ml-[9rem] md:ml-[14rem] left-1/2'}`}
+                  className={`absolute z-[60] w-40 md:w-56 ${layer.side === 'left' ? 'mr-[13rem] md:mr-[22rem] text-right right-1/2' : 'ml-[13rem] md:ml-[22rem] left-1/2'}`}
                 >
                   <div className="hidden md:block h-[1px] w-8 bg-[#0070f3] absolute top-4 opacity-50" style={{ [layer.side === 'left' ? 'right' : 'left']: '-2rem' }} />
                   <div className="bg-white/95 backdrop-blur-xl p-3 rounded-xl border border-gray-200 shadow-xl">
