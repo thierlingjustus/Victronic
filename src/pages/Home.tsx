@@ -7,6 +7,7 @@ import {
   Link as LinkIcon, Award, Clock, Search, Truck, ArrowRight, Mail, Phone, MapPin, ChevronRight
 } from 'lucide-react';
 import { products } from '../data/products';
+import logo from '../logo.png';
 
 const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
   <motion.div
@@ -25,12 +26,9 @@ export default function Home() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 font-bold text-xl tracking-tight">
-            <div className="w-6 h-6 bg-[#0070f3] rounded-sm flex items-center justify-center">
-              <div className="w-3 h-3 bg-white rounded-full" />
-            </div>
-            Victronic
-          </div>
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
+          </Link>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
             <a href="#about" className="hover:text-[#0070f3] transition-colors">Über uns</a>
             <a href="#services" className="hover:text-[#0070f3] transition-colors">Leistungen</a>

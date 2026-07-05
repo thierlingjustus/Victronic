@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowLeft, ChevronDown, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { systems } from '../data/systems';
+import logo from '../logo.png';
 
 const PROJECT_STEPS = [
   "Anfrage & Beratung",
@@ -216,11 +217,8 @@ export default function SystemDetail() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 font-bold text-xl tracking-tight text-white hover:text-[#00dfd8] transition-colors">
-            <div className="w-6 h-6 bg-[#00dfd8] rounded-sm flex items-center justify-center">
-              <div className="w-3 h-3 bg-black rounded-full" />
-            </div>
-            Victronic
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
           <Link to="/systems" className="text-sm font-medium text-gray-400 hover:text-white flex items-center gap-2 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Zurück zum Hub

@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { ArrowLeft, CheckCircle2, ChevronRight, Zap } from 'lucide-react';
 import { products } from '../data/products';
 import ProductViewer3D from '../components/ProductViewer3D';
+import logo from '../logo.png';
 
 const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
   <motion.div
@@ -46,11 +47,8 @@ export default function Product() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 font-bold text-xl tracking-tight text-white hover:text-[#00dfd8] transition-colors">
-            <div className="w-6 h-6 bg-[#00dfd8] rounded-sm flex items-center justify-center">
-              <div className="w-3 h-3 bg-black rounded-full" />
-            </div>
-            Victronic
+          <Link to="/" className="flex items-center">
+            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
           <Link to="/" className="text-sm font-medium text-gray-400 hover:text-white flex items-center gap-2 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Zurück zur Übersicht
