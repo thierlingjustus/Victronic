@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import { 
   Monitor, Smartphone, Zap, Fan, Box, Layers, Wrench,
   Lightbulb, CheckCircle, PenTool, Factory, ShieldCheck, Package,
-  Link as LinkIcon, Award, Clock, Search, Truck, ArrowRight, Mail, Phone, MapPin, ChevronRight
+  Link as LinkIcon, Award, Clock, Search, Truck, ArrowRight, Mail, Phone, MapPin, ChevronRight,
+  ArrowUpRight
 } from 'lucide-react';
 import { products } from '../data/products';
 import logo from '../logo.png';
+import building from '../building.png';
 
 const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
   <motion.div
@@ -21,63 +23,91 @@ const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: nu
 );
 
 export default function Home() {
+  const [isScrolled, setIsScrolled] = React.useState(false);
+  
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-[#0070f3] selection:text-white overflow-hidden">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md border-b border-gray-200 text-gray-800 shadow-sm' 
+          : 'bg-transparent text-white'
+      }`}>
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
+            <img src={logo} alt="Victronic GmbH Logo" className={`h-8 md:h-10 w-auto object-contain transition-all ${!isScrolled ? 'brightness-0 invert' : ''}`} />
           </Link>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-            <a href="#about" className="hover:text-[#0070f3] transition-colors">Über uns</a>
-            <a href="#services" className="hover:text-[#0070f3] transition-colors">Leistungen</a>
-            <a href="#products" className="hover:text-[#0070f3] transition-colors">Produkte</a>
-            <a href="#process" className="hover:text-[#0070f3] transition-colors">Prozess</a>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="#about" className={`transition-colors ${isScrolled ? 'text-gray-600 hover:text-[#0070f3]' : 'text-white/80 hover:text-white'}`}>Über uns</a>
+            <a href="#services" className={`transition-colors ${isScrolled ? 'text-gray-600 hover:text-[#0070f3]' : 'text-white/80 hover:text-white'}`}>Leistungen</a>
+            <a href="#products" className={`transition-colors ${isScrolled ? 'text-gray-600 hover:text-[#0070f3]' : 'text-white/80 hover:text-white'}`}>Produkte</a>
+            <a href="#process" className={`transition-colors ${isScrolled ? 'text-gray-600 hover:text-[#0070f3]' : 'text-white/80 hover:text-white'}`}>Prozess</a>
           </div>
-          <a href="#contact" className="text-sm font-medium bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors">
+          <a href="#contact" className={`text-sm font-medium px-5 py-2 rounded-full transition-all duration-300 ${
+            isScrolled 
+              ? 'bg-black text-white hover:bg-gray-800' 
+              : 'bg-white text-black hover:bg-gray-100 shadow-md'
+          }`}>
             Kontakt
           </a>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6">
-        <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0070f3]/10 blur-[120px] rounded-full pointer-events-none" />
+      <section className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[#ead9c7] via-[#e2b992] via-[#d47c50] to-[#b15233] pt-32 pb-4 px-6">
+        {/* Decorative Grid Overlay with Low Opacity */}
+        <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
         
-        <div className="max-w-4xl mx-auto text-center relative z-10">
+        {/* Main Hero Content */}
+        <div className="max-w-4xl mx-auto text-center relative z-30 pt-8 md:pt-16 px-6 flex flex-col items-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: -25 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col items-center"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[#0070f3] text-xs font-semibold uppercase tracking-wider mb-8">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0070f3] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0070f3]"></span>
-              </span>
-              B2B Elektronik-Zulieferer
-            </div>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6">
-              Elektronische Lösungen für <br className="hidden md:block" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0070f3] to-[#00dfd8]">
-                industrielle Anwendungen
-              </span>
+            <h1 className="text-6xl md:text-9xl font-black text-white tracking-tight leading-none mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
+              Victronic
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-              Maßgeschneiderte Komponenten, schnelle Beschaffung und zuverlässige Lieferketten für Ingenieure und Produktentwickler.
+            <p className="text-sm md:text-lg font-bold text-white/90 max-w-xl mb-8 leading-relaxed uppercase tracking-[0.18em] drop-shadow-[0_1px_4px_rgba(0,0,0,0.15)]">
+              Elektronische Lösungen für alle Anwendungen
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a href="#contact" className="button-glow group bg-black text-white px-6 py-3 rounded-md font-medium flex items-center gap-2 w-full sm:w-auto justify-center">
-                Angebot anfordern
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="#about" className="bg-white border border-gray-200 text-black px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors w-full sm:w-auto justify-center flex">
-                Mehr erfahren
-              </a>
-            </div>
+            
+            {/* Pill-shaped Contact Button matching photo1 */}
+            <a 
+              href="#contact" 
+              className="inline-flex items-center gap-4 bg-white text-[#111] pl-6 pr-2 py-2 rounded-full font-bold hover:scale-[1.03] transition-all shadow-xl hover:shadow-2xl group border border-white/20 select-none cursor-pointer"
+            >
+              <span className="text-sm font-semibold tracking-wide">Kontakt uns</span>
+              <div className="w-8 h-8 rounded-full bg-[#553b2d] flex items-center justify-center text-white transition-all duration-300 group-hover:bg-[#3d2419] group-hover:rotate-45">
+                <ArrowUpRight className="w-4 h-4" />
+              </div>
+            </a>
           </motion.div>
+        </div>
+
+        {/* Big Background text 'Victronic' in white/10 behind the building */}
+        <div className="absolute inset-x-0 bottom-24 md:bottom-32 flex justify-center pointer-events-none select-none z-10 overflow-hidden leading-none">
+          <span className="text-[16vw] font-black text-white/10 tracking-tighter uppercase leading-none select-none">
+            Victronic
+          </span>
+        </div>
+
+        {/* Building Image at the Bottom (with z-20 to be on top of background text but behind navbar) */}
+        <div className="relative w-full max-w-4xl mx-auto flex justify-center z-20 pointer-events-none -mb-4">
+          <img 
+            src={building} 
+            alt="Victronic Gebäude" 
+            className="w-[85%] md:w-[70%] h-auto max-h-[300px] md:max-h-[480px] object-contain object-bottom filter sepia-[0.12] saturate-[1.15] brightness-[0.95] contrast-[1.02]"
+          />
         </div>
       </section>
 
