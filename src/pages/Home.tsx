@@ -32,10 +32,10 @@ export default function Home() {
             <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-            <a href="#about" className="hover:text-[#0070f3] transition-colors">Über uns</a>
-            <a href="#services" className="hover:text-[#0070f3] transition-colors">Leistungen</a>
-            <a href="#products" className="hover:text-[#0070f3] transition-colors">Produkte</a>
-            <a href="#process" className="hover:text-[#0070f3] transition-colors">Prozess</a>
+            <a href="#about" className="hover:text-[#14b8a6] transition-colors">Über uns</a>
+            <a href="#services" className="hover:text-[#14b8a6] transition-colors">Leistungen</a>
+            <a href="#products" className="hover:text-[#14b8a6] transition-colors">Produkte</a>
+            <a href="#process" className="hover:text-[#14b8a6] transition-colors">Prozess</a>
           </div>
           <a href="#contact" className="text-sm font-medium bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-colors shadow-sm">
             Kontakt
@@ -128,7 +128,7 @@ export default function Home() {
               <FadeIn key={i} delay={i * 0.1}>
                 {service.link.startsWith('/') ? (
                   <Link to={service.link} className="block hover-glow bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer">
-                    <div className="w-12 h-12 bg-blue-50 text-[#0070f3] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-teal-50 text-[#14b8a6] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                       <service.icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-xl font-bold mb-3">{service.title}</h3>
@@ -136,7 +136,7 @@ export default function Home() {
                   </Link>
                 ) : (
                   <a href={service.link} className="block hover-glow bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer">
-                    <div className="w-12 h-12 bg-blue-50 text-[#0070f3] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-teal-50 text-[#14b8a6] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                       <service.icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-xl font-bold mb-3">{service.title}</h3>
@@ -164,12 +164,12 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
             {products.map((product, i) => (
               <FadeIn key={product.id} delay={i * 0.05}>
-                <Link to={`/products/${product.id}`} className="block group bg-white border border-gray-200 shadow-sm p-6 rounded-xl hover:border-[#0070f3]/50 hover:shadow-md transition-all cursor-pointer h-full relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#0070f3]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-[#0070f3] mb-4 transition-colors relative z-10" />
-                  <h3 className="font-medium text-sm md:text-base text-gray-800 group-hover:text-[#0070f3] relative z-10 transition-colors">{product.name}</h3>
+                <Link to={`/products/${product.id}`} className="block group bg-white border border-gray-200 shadow-sm p-6 rounded-xl hover:border-[#14b8a6]/50 hover:shadow-md transition-all cursor-pointer h-full relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#14b8a6]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-[#14b8a6] mb-4 transition-colors relative z-10" />
+                  <h3 className="font-medium text-sm md:text-base text-gray-800 group-hover:text-[#14b8a6] relative z-10 transition-colors">{product.name}</h3>
                   <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
-                    <ArrowRight className="w-4 h-4 text-[#0070f3]" />
+                    <ArrowRight className="w-4 h-4 text-[#14b8a6]" />
                   </div>
                 </Link>
               </FadeIn>
@@ -178,7 +178,7 @@ export default function Home() {
           
           <FadeIn delay={0.4}>
             <div className="inline-flex items-center gap-2 text-sm text-gray-600 bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
-              <div className="w-2 h-2 rounded-full bg-[#0070f3]" />
+              <div className="w-2 h-2 rounded-full bg-[#14b8a6]" />
               Sonderlösungen für alle Produktkategorien verfügbar.
             </div>
           </FadeIn>
@@ -208,7 +208,7 @@ export default function Home() {
               ].map((item, i) => (
                 <FadeIn key={i} delay={i * 0.1}>
                   <div className="flex flex-col items-center text-center group">
-                    <div className="w-12 h-12 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center mb-4 group-hover:border-[#0070f3] group-hover:text-[#0070f3] transition-colors relative z-10">
+                    <div className="w-12 h-12 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center mb-4 group-hover:border-[#14b8a6] group-hover:text-[#14b8a6] transition-colors relative z-10">
                       <item.icon className="w-5 h-5" />
                     </div>
                     <div className="text-xs font-bold text-gray-400 mb-1">{item.step}</div>
@@ -236,8 +236,8 @@ export default function Home() {
                   { title: "Zuverlässige Lieferung", icon: Truck }
                 ].map((reason, i) => (
                   <div key={i} className="flex items-center gap-4 group">
-                    <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-[#0070f3] transition-colors">
-                      <reason.icon className="w-5 h-5 text-gray-600 group-hover:text-[#0070f3] transition-colors" />
+                    <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-[#14b8a6] transition-colors">
+                      <reason.icon className="w-5 h-5 text-gray-600 group-hover:text-[#14b8a6] transition-colors" />
                     </div>
                     <span className="text-lg font-medium text-gray-800">{reason.title}</span>
                   </div>

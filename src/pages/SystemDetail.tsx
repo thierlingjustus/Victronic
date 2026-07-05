@@ -220,7 +220,7 @@ export default function SystemDetail() {
           <Link to="/" className="flex items-center">
             <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
-          <Link to="/systems" className="text-sm font-medium text-gray-500 hover:text-[#0070f3] flex items-center gap-2 transition-colors">
+          <Link to="/systems" className="text-sm font-medium text-gray-500 hover:text-[#14b8a6] flex items-center gap-2 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Zurück zum Hub
           </Link>
         </div>
@@ -267,7 +267,7 @@ export default function SystemDetail() {
                 <motion.div 
                   key={`tooltip-${i}`}
                   style={{ x: transforms[i].x, y: transforms[i].y, opacity: tooltipsOpacity }} 
-                  className={`absolute z-[60] w-40 md:w-56 ${layer.side === 'left' ? 'mr-[18rem] md:mr-[32rem] text-right right-1/2' : 'ml-[18rem] md:ml-[32rem] left-1/2'}`}
+                  className={`absolute z-[60] w-40 md:w-56 ${layer.side === 'left' ? 'mr-[9rem] md:mr-[14rem] text-right right-1/2' : 'ml-[9rem] md:ml-[14rem] left-1/2'}`}
                 >
                   <div className="hidden md:block h-[1px] w-8 bg-[#0070f3] absolute top-4 opacity-50" style={{ [layer.side === 'left' ? 'right' : 'left']: '-2rem' }} />
                   <div className="bg-white/95 backdrop-blur-xl p-3 rounded-xl border border-gray-200 shadow-xl">

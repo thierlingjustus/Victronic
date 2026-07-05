@@ -50,7 +50,7 @@ export default function Product() {
           <Link to="/" className="flex items-center">
             <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
-          <Link to="/" className="text-sm font-medium text-gray-500 hover:text-[#0070f3] flex items-center gap-2 transition-colors">
+          <Link to="/" className="text-sm font-medium text-gray-500 hover:text-[#14b8a6] flex items-center gap-2 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Zurück zur Übersicht
           </Link>
         </div>
