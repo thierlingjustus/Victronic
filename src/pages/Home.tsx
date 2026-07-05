@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { products } from '../data/products';
 import logo from '../logo.png';
-import building from '../building.png';
+import buildingBg from '../building.jpg';
 
 const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
   <motion.div
@@ -23,91 +23,60 @@ const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: nu
 );
 
 export default function Home() {
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  
-  React.useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-[#0070f3] selection:text-white overflow-hidden">
       {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-md border-b border-gray-200 text-gray-800 shadow-sm' 
-          : 'bg-transparent text-white'
-      }`}>
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm text-gray-800">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="Victronic GmbH Logo" className={`h-8 md:h-10 w-auto object-contain transition-all ${!isScrolled ? 'brightness-0 invert' : ''}`} />
+            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-            <a href="#about" className={`transition-colors ${isScrolled ? 'text-gray-600 hover:text-[#0070f3]' : 'text-white/80 hover:text-white'}`}>Über uns</a>
-            <a href="#services" className={`transition-colors ${isScrolled ? 'text-gray-600 hover:text-[#0070f3]' : 'text-white/80 hover:text-white'}`}>Leistungen</a>
-            <a href="#products" className={`transition-colors ${isScrolled ? 'text-gray-600 hover:text-[#0070f3]' : 'text-white/80 hover:text-white'}`}>Produkte</a>
-            <a href="#process" className={`transition-colors ${isScrolled ? 'text-gray-600 hover:text-[#0070f3]' : 'text-white/80 hover:text-white'}`}>Prozess</a>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+            <a href="#about" className="hover:text-[#0070f3] transition-colors">Über uns</a>
+            <a href="#services" className="hover:text-[#0070f3] transition-colors">Leistungen</a>
+            <a href="#products" className="hover:text-[#0070f3] transition-colors">Produkte</a>
+            <a href="#process" className="hover:text-[#0070f3] transition-colors">Prozess</a>
           </div>
-          <a href="#contact" className={`text-sm font-medium px-5 py-2 rounded-full transition-all duration-300 ${
-            isScrolled 
-              ? 'bg-black text-white hover:bg-gray-800' 
-              : 'bg-white text-black hover:bg-gray-100 shadow-md'
-          }`}>
+          <a href="#contact" className="text-sm font-medium bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-colors shadow-sm">
             Kontakt
           </a>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[#ead9c7] via-[#e2b992] via-[#d47c50] to-[#b15233] pt-32 pb-4 px-6">
-        {/* Decorative Grid Overlay with Low Opacity */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none" />
+      <section 
+        className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-cover bg-center pt-24 px-6"
+        style={{ backgroundImage: `url(${buildingBg})` }}
+      >
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/45 pointer-events-none" />
         
         {/* Main Hero Content */}
-        <div className="max-w-4xl mx-auto text-center relative z-30 pt-8 md:pt-16 px-6 flex flex-col items-center">
+        <div className="max-w-4xl mx-auto text-center relative z-20 px-6 flex flex-col items-center">
           <motion.div
             initial={{ opacity: 0, y: -25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex flex-col items-center"
           >
-            <h1 className="text-6xl md:text-9xl font-black text-white tracking-tight leading-none mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.15)]">
+            <h1 className="text-6xl md:text-9xl font-black text-white tracking-tight leading-none mb-6 drop-shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
               Victronic
             </h1>
-            <p className="text-sm md:text-lg font-bold text-white/90 max-w-xl mb-8 leading-relaxed uppercase tracking-[0.18em] drop-shadow-[0_1px_4px_rgba(0,0,0,0.15)]">
+            <p className="text-sm md:text-lg font-bold text-white/95 max-w-xl mb-10 leading-relaxed uppercase tracking-[0.18em] drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
               Elektronische Lösungen für alle Anwendungen
             </p>
             
-            {/* Pill-shaped Contact Button matching photo1 */}
+            {/* Pill-shaped Contact Button */}
             <a 
               href="#contact" 
-              className="inline-flex items-center gap-4 bg-white text-[#111] pl-6 pr-2 py-2 rounded-full font-bold hover:scale-[1.03] transition-all shadow-xl hover:shadow-2xl group border border-white/20 select-none cursor-pointer"
+              className="inline-flex items-center gap-4 bg-white text-[#111] pl-6 pr-2 py-2 rounded-full font-bold hover:scale-[1.03] transition-all shadow-xl hover:shadow-2xl group select-none cursor-pointer"
             >
               <span className="text-sm font-semibold tracking-wide">Kontakt uns</span>
-              <div className="w-8 h-8 rounded-full bg-[#553b2d] flex items-center justify-center text-white transition-all duration-300 group-hover:bg-[#3d2419] group-hover:rotate-45">
+              <div className="w-8 h-8 rounded-full bg-[#0070f3] flex items-center justify-center text-white transition-all duration-300 group-hover:bg-[#005bc4] group-hover:rotate-45">
                 <ArrowUpRight className="w-4 h-4" />
               </div>
             </a>
           </motion.div>
-        </div>
-
-        {/* Big Background text 'Victronic' in white/10 behind the building */}
-        <div className="absolute inset-x-0 bottom-24 md:bottom-32 flex justify-center pointer-events-none select-none z-10 overflow-hidden leading-none">
-          <span className="text-[16vw] font-black text-white/10 tracking-tighter uppercase leading-none select-none">
-            Victronic
-          </span>
-        </div>
-
-        {/* Building Image at the Bottom (with z-20 to be on top of background text but behind navbar) */}
-        <div className="relative w-full max-w-4xl mx-auto flex justify-center z-20 pointer-events-none -mb-4">
-          <img 
-            src={building} 
-            alt="Victronic Gebäude" 
-            className="w-[85%] md:w-[70%] h-auto max-h-[300px] md:max-h-[480px] object-contain object-bottom filter sepia-[0.12] saturate-[1.15] brightness-[0.95] contrast-[1.02]"
-          />
         </div>
       </section>
 
