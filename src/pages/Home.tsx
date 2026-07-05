@@ -150,26 +150,26 @@ export default function Home() {
       </section>
 
       {/* Products Section */}
-      <section id="products" className="py-24 bg-[#050505] text-white px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#333_1px,transparent_1px),linear-gradient(to_bottom,#333_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20" />
+      <section id="products" className="py-24 bg-[#fafafa] text-gray-800 px-6 relative overflow-hidden border-t border-b border-gray-100">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-80" />
         
         <div className="max-w-7xl mx-auto relative z-10">
           <FadeIn>
             <div className="mb-16">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Produktkategorien</h2>
-              <p className="text-gray-400 max-w-2xl">Hochwertige Komponenten für anspruchsvolle Industrieanwendungen. Klicken Sie auf eine Lösung für technische Details.</p>
+              <p className="text-gray-500 max-w-2xl">Hochwertige Komponenten für anspruchsvolle Industrieanwendungen. Klicken Sie auf eine Lösung für technische Details.</p>
             </div>
           </FadeIn>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
             {products.map((product, i) => (
               <FadeIn key={product.id} delay={i * 0.05}>
-                <Link to={`/products/${product.id}`} className="block group bg-white/5 border border-white/10 p-6 rounded-xl hover:bg-white/10 hover:border-[#00dfd8]/50 transition-all cursor-pointer h-full relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#0070f3]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-[#00dfd8] mb-4 transition-colors relative z-10" />
-                  <h3 className="font-medium text-sm md:text-base relative z-10">{product.name}</h3>
+                <Link to={`/products/${product.id}`} className="block group bg-white border border-gray-200 shadow-sm p-6 rounded-xl hover:border-[#0070f3]/50 hover:shadow-md transition-all cursor-pointer h-full relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#0070f3]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-[#0070f3] mb-4 transition-colors relative z-10" />
+                  <h3 className="font-medium text-sm md:text-base text-gray-800 group-hover:text-[#0070f3] relative z-10 transition-colors">{product.name}</h3>
                   <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
-                    <ArrowRight className="w-4 h-4 text-[#00dfd8]" />
+                    <ArrowRight className="w-4 h-4 text-[#0070f3]" />
                   </div>
                 </Link>
               </FadeIn>
@@ -177,8 +177,8 @@ export default function Home() {
           </div>
           
           <FadeIn delay={0.4}>
-            <div className="inline-flex items-center gap-2 text-sm text-gray-400 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-              <div className="w-2 h-2 rounded-full bg-[#00dfd8]" />
+            <div className="inline-flex items-center gap-2 text-sm text-gray-600 bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
+              <div className="w-2 h-2 rounded-full bg-[#0070f3]" />
               Sonderlösungen für alle Produktkategorien verfügbar.
             </div>
           </FadeIn>

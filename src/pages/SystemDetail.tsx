@@ -28,10 +28,10 @@ const ProcessIndicator = ({ scrollYProgress }: { scrollYProgress: any }) => {
   }, [scrollYProgress, activeStep]);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-[#050505] to-transparent pb-6 pt-12 pointer-events-none hidden md:block">
+    <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-white to-transparent pb-6 pt-12 pointer-events-none hidden md:block">
       <div className="max-w-5xl mx-auto px-6">
         <div className="flex justify-between items-center relative">
-          <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-white/10 -z-10" />
+          <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-gray-200 -z-10" />
           {PROJECT_STEPS.map((step, idx) => {
             const isActive = idx <= activeStep;
             const isCurrent = idx === activeStep;
@@ -40,12 +40,12 @@ const ProcessIndicator = ({ scrollYProgress }: { scrollYProgress: any }) => {
                 <div 
                   className={`w-2 h-2 rounded-full border transition-all duration-500 ${
                     isActive 
-                      ? 'bg-[#00dfd8] border-[#00dfd8] shadow-[0_0_10px_rgba(0,223,216,0.8)]' 
-                      : 'bg-white/20 border-white/10 shadow-[0_0_10px_rgba(0,223,216,0)]'
+                      ? 'bg-[#0070f3] border-[#0070f3] shadow-[0_0_10px_rgba(0,112,243,0.5)]' 
+                      : 'bg-gray-200 border-gray-300 shadow-[0_0_10px_rgba(0,112,243,0)]'
                   } ${isCurrent ? 'scale-150' : 'scale-100'}`} 
                 />
-                <span className={`text-[10px] uppercase tracking-wider font-medium max-w-[80px] text-center leading-tight transition-colors duration-500 ${
-                  isActive ? 'text-[#00dfd8]' : 'text-gray-500'
+                <span className={`text-[10px] uppercase tracking-wider font-semibold max-w-[80px] text-center leading-tight transition-colors duration-500 ${
+                  isActive ? 'text-[#0070f3]' : 'text-gray-400'
                 }`}>
                   {step}
                 </span>
@@ -131,63 +131,63 @@ export default function SystemDetail() {
       desc: "High-Res Bildschirmoberfläche", 
       side: "right",
       content: <img src="https://picsum.photos/seed/seascape/1200/900" alt="Display" className="w-full h-full object-cover rounded-2xl" referrerPolicy="no-referrer" />,
-      className: "bg-transparent border-white/20 z-[59] shadow-2xl"
+      className: "bg-transparent border-gray-200 z-[59] shadow-2xl"
     },
     { 
       name: "Glas", 
       desc: "Schützendes Trägersubstrat", 
       side: "left",
-      content: <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent rounded-2xl backdrop-blur-sm" />,
-      className: "bg-white/5 border-white/30 z-[58]"
+      content: <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent rounded-2xl backdrop-blur-sm" />,
+      className: "bg-white/10 border-gray-300 z-[58]"
     },
     { 
       name: "Farbfilter", 
       desc: "Erzeugt die RGB-Subpixel", 
       side: "right",
       content: <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjYiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjYiIGZpbGw9InJlZCIgb3BhY2l0eT0iMC4zIi8+PHJlY3QgeD0iMiIgd2lkdGg9IjIiIGhlaWdodD0iNiIgZmlsbD0iZ3JlZW4iIG9wYWNpdHk9IjAuMyIvPjxyZWN0IHg9IjQiIHdpZHRoPSIyIiBoZWlnaHQ9IjYiIGZpbGw9ImJsdWUiIG9wYWNpdHk9IjAuMyIvPjwvc3ZnPg==')] rounded-2xl opacity-50" />,
-      className: "bg-transparent border-white/10 z-[57]"
+      className: "bg-transparent border-gray-200 z-[57]"
     },
     { 
       name: "Gegen-Elektrode", 
       desc: "Gemeinsamer elektrischer Pol", 
       side: "left",
-      content: <div className="absolute inset-0 bg-white/5 rounded-2xl border border-white/10" />,
-      className: "bg-transparent border-white/10 z-[56]"
+      content: <div className="absolute inset-0 bg-gray-100/10 rounded-2xl border border-gray-250" />,
+      className: "bg-transparent border-gray-200 z-[56]"
     },
     { 
       name: "Flüssigkristall", 
       desc: "Steuert die Lichtdurchlässigkeit", 
       side: "right",
-      content: <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/20 to-blue-500/20 rounded-2xl backdrop-blur-md" />,
-      className: "bg-transparent border-cyan-500/30 z-[55]"
+      content: <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-blue-600/10 rounded-2xl backdrop-blur-md" />,
+      className: "bg-transparent border-blue-200 z-[55]"
     },
     { 
       name: "Transistor (TFT)", 
       desc: "Aktive Matrix zur Pixelsteuerung", 
       side: "left",
-      content: <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHBhdGggZD0iTTAgMGgyMHYyMEgwem0xMCAxMGgxMHYxMEgxMHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==')] rounded-2xl" />,
-      className: "bg-black/60 border-gray-600 z-[54]"
+      content: <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHBhdGggZD0iTTAgMGgyMHYyMEgwem0xMCAxMGgxMHYxMEgxMHoiIGZpbGw9InJnYmEoMCwwLDAsMC4wMikiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==')] rounded-2xl" />,
+      className: "bg-white/90 border-gray-300 z-[54]"
     },
     { 
       name: "Pixel-Elektrode", 
       desc: "Individuelle Pixel-Ansteuerung", 
       side: "right",
-      content: <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] rounded-2xl" />,
-      className: "bg-transparent border-white/10 z-[53]"
+      content: <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4wMikiLz48L3N2Zz4=')] rounded-2xl" />,
+      className: "bg-transparent border-gray-200 z-[53]"
     },
     { 
       name: "Rear-Polarisator", 
       desc: "Polarisiert das Hintergrundlicht", 
       side: "left",
-      content: <div className="absolute inset-0 bg-black/80 rounded-2xl" />,
-      className: "bg-transparent border-black/50 z-[52]"
+      content: <div className="absolute inset-0 bg-slate-900/90 rounded-2xl" />,
+      className: "bg-transparent border-slate-700 z-[52]"
     },
     { 
       name: "Beleuchtung", 
       desc: "LED-Hintergrundbeleuchtung", 
       side: "right",
       content: <div className="absolute inset-0 bg-white rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.9)]" />,
-      className: "bg-white border-white z-[51]"
+      className: "bg-white border-gray-200 z-[51]"
     },
   ];
 
@@ -201,9 +201,9 @@ export default function SystemDetail() {
 
   if (!system) {
     return (
-      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center">
+      <div className="min-h-screen bg-white text-gray-800 flex flex-col items-center justify-center">
         <h1 className="text-2xl mb-4">System nicht gefunden</h1>
-        <button onClick={() => navigate('/systems')} className="text-[#00dfd8] hover:underline flex items-center gap-2">
+        <button onClick={() => navigate('/systems')} className="text-[#0070f3] hover:underline flex items-center gap-2">
           <ArrowLeft className="w-4 h-4" /> Zurück zur Übersicht
         </button>
       </div>
@@ -213,14 +213,14 @@ export default function SystemDetail() {
   const layerStyle = "absolute w-64 md:w-96 aspect-[4/3] rounded-2xl border flex items-center justify-center transition-shadow duration-300";
 
   return (
-    <div className="bg-[#050505] text-white font-sans selection:bg-[#00dfd8] selection:text-black">
+    <div className="bg-white text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#050505]/80 backdrop-blur-md border-b border-white/10">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center">
             <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
           </Link>
-          <Link to="/systems" className="text-sm font-medium text-gray-400 hover:text-white flex items-center gap-2 transition-colors">
+          <Link to="/systems" className="text-sm font-medium text-gray-500 hover:text-[#0070f3] flex items-center gap-2 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Zurück zum Hub
           </Link>
         </div>
@@ -233,23 +233,23 @@ export default function SystemDetail() {
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           
           {/* Background Gradient */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,223,216,0.03)_0%,transparent_70%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,112,243,0.03)_0%,transparent_70%)] pointer-events-none" />
 
           {/* Intro Section */}
           <motion.div 
             style={{ opacity: introOpacity, y: introY, pointerEvents: introPointerEvents as any }}
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-30"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-[#00dfd8] text-xs font-semibold uppercase tracking-wider mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[#0070f3] text-xs font-semibold uppercase tracking-wider mb-6">
               VICTRONIC-Lösung
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-4">
               {system.name}
             </h1>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto mb-12">
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12">
               {system.description}
             </p>
-            <div className="animate-bounce text-gray-500 flex flex-col items-center gap-2">
+            <div className="animate-bounce text-gray-400 flex flex-col items-center gap-2">
               <span className="text-sm uppercase tracking-widest">Scroll to explore</span>
               <ChevronDown className="w-6 h-6" />
             </div>
@@ -269,10 +269,10 @@ export default function SystemDetail() {
                   style={{ x: transforms[i].x, y: transforms[i].y, opacity: tooltipsOpacity }} 
                   className={`absolute z-[60] w-40 md:w-56 ${layer.side === 'left' ? 'mr-[18rem] md:mr-[32rem] text-right right-1/2' : 'ml-[18rem] md:ml-[32rem] left-1/2'}`}
                 >
-                  <div className="hidden md:block h-[1px] w-8 bg-[#00dfd8] absolute top-4 opacity-50" style={{ [layer.side === 'left' ? 'right' : 'left']: '-2rem' }} />
-                  <div className="bg-[#050505]/90 backdrop-blur-xl p-3 rounded-xl border border-white/10 shadow-2xl">
-                    <h3 className="text-[#00dfd8] font-bold text-[10px] md:text-xs uppercase tracking-wider">{layer.name}</h3>
-                    <p className="text-gray-400 text-[9px] md:text-[10px] mt-1 leading-tight">{layer.desc}</p>
+                  <div className="hidden md:block h-[1px] w-8 bg-[#0070f3] absolute top-4 opacity-50" style={{ [layer.side === 'left' ? 'right' : 'left']: '-2rem' }} />
+                  <div className="bg-white/95 backdrop-blur-xl p-3 rounded-xl border border-gray-200 shadow-xl">
+                    <h3 className="text-[#0070f3] font-bold text-[10px] md:text-xs uppercase tracking-wider">{layer.name}</h3>
+                    <p className="text-gray-600 text-[9px] md:text-[10px] mt-1 leading-tight">{layer.desc}</p>
                   </div>
                 </motion.div>
               ))}
@@ -296,12 +296,12 @@ export default function SystemDetail() {
             style={{ opacity: tooltipsOpacity }}
             className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-[70] max-w-xs md:max-w-sm pointer-events-none"
           >
-            <div className="bg-[#050505]/95 backdrop-blur-2xl p-6 rounded-2xl border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.8)]">
-              <div className="w-8 h-8 rounded-full bg-[#00dfd8]/20 flex items-center justify-center mb-4">
-                <ShieldCheck className="w-4 h-4 text-[#00dfd8]" />
+            <div className="bg-white/95 backdrop-blur-2xl p-6 rounded-2xl border border-gray-200 shadow-2xl">
+              <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mb-4">
+                <ShieldCheck className="w-4 h-4 text-[#0070f3]" />
               </div>
-              <h3 className="text-white font-bold text-sm md:text-base mb-2 uppercase tracking-wide">Kundenspezifische Qualifizierung</h3>
-              <p className="text-gray-400 text-xs md:text-sm leading-relaxed">
+              <h3 className="text-gray-900 font-bold text-sm md:text-base mb-2 uppercase tracking-wide">Kundenspezifische Qualifizierung</h3>
+              <p className="text-gray-600 text-xs md:text-sm leading-relaxed">
                 Jedes Display-System durchläuft strenge, kundenspezifische Testverfahren. Von optischer Performance bis hin zu extremen Umweltbedingungen garantieren wir höchste Zuverlässigkeit für industrielle Anwendungen.
               </p>
             </div>
@@ -310,35 +310,35 @@ export default function SystemDetail() {
           {/* Outro Section */}
           <motion.div 
             style={{ opacity: outroOpacity, y: outroY, pointerEvents: outroPointerEvents as any }}
-            className="absolute inset-0 flex items-center justify-center px-6 z-30 bg-[#050505]/80 backdrop-blur-sm"
+            className="absolute inset-0 flex items-center justify-center px-6 z-30 bg-white/80 backdrop-blur-sm"
           >
-            <div className="max-w-4xl w-full bg-gradient-to-br from-[#00dfd8]/10 to-transparent border border-[#00dfd8]/30 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#00dfd8]/10 blur-[100px] rounded-full" />
+            <div className="max-w-4xl w-full bg-gradient-to-br from-blue-50 to-transparent border border-blue-100 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden shadow-xl text-gray-800">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#0070f3]/5 blur-[100px] rounded-full" />
               
-              <ShieldCheck className="w-16 h-16 text-[#00dfd8] mx-auto mb-6" />
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">
-                Der Victronic <span className="text-[#00dfd8]">No-Extra-Cost</span> Vorteil
+              <ShieldCheck className="w-16 h-16 text-[#0070f3] mx-auto mb-6" />
+              <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
+                Der Victronic <span className="text-[#0070f3]">No-Extra-Cost</span> Vorteil
               </h2>
-              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
                 Keine versteckten Kosten. Keine bösen Überraschungen. Wir garantieren Ihnen einen fixen Projektablauf ohne Mehrkosten für Korrekturschritte über die initialen Toolingkosten hinaus.
               </p>
               
               <div className="grid md:grid-cols-3 gap-6 mb-12 text-left">
-                <div className="bg-black/50 p-6 rounded-xl border border-white/5">
-                  <div className="text-[#00dfd8] font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 01. Fixe Toolingkosten</div>
-                  <div className="text-sm text-gray-400">Einmalige Investition, keine Nachforderungen bei Iterationen.</div>
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <div className="text-[#0070f3] font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 01. Fixe Toolingkosten</div>
+                  <div className="text-sm text-gray-600">Einmalige Investition, keine Nachforderungen bei Iterationen.</div>
                 </div>
-                <div className="bg-black/50 p-6 rounded-xl border border-white/5">
-                  <div className="text-[#00dfd8] font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 02. Voller Datenbesitz</div>
-                  <div className="text-sm text-gray-400">Alle Werkzeuge und Konstruktionsdaten gehen in Ihr Eigentum über.</div>
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <div className="text-[#0070f3] font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 02. Voller Datenbesitz</div>
+                  <div className="text-sm text-gray-600">Alle Werkzeuge und Konstruktionsdaten gehen in Ihr Eigentum über.</div>
                 </div>
-                <div className="bg-black/50 p-6 rounded-xl border border-white/5">
-                  <div className="text-[#00dfd8] font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 03. Risikofreie Serie</div>
-                  <div className="text-sm text-gray-400">Garantierte Qualität und Liefertreue für die gesamte Serienlaufzeit.</div>
+                <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                  <div className="text-[#0070f3] font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 03. Risikofreie Serie</div>
+                  <div className="text-sm text-gray-600">Garantierte Qualität und Liefertreue für die gesamte Serienlaufzeit.</div>
                 </div>
               </div>
 
-              <Link to="/#contact" className="inline-flex items-center justify-center gap-2 bg-[#00dfd8] text-black px-8 py-4 rounded-md font-bold hover:bg-white transition-colors">
+              <Link to="/#contact" className="inline-flex items-center justify-center gap-2 bg-[#0070f3] text-white px-8 py-4 rounded-md font-bold hover:bg-[#005bc4] transition-colors shadow-md">
                 Projekt jetzt besprechen
               </Link>
             </div>
