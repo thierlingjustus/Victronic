@@ -54,19 +54,9 @@ export default function Home() {
                 <Link to="/inhalt-recht" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
                   Inhalt / Recht
                 </Link>
-                <button 
-                  onClick={() => {
-                    const trigger = (window as any).UC_UI;
-                    if (trigger && typeof trigger.showSecondLayer === 'function') {
-                      trigger.showSecondLayer();
-                    } else {
-                      alert("Cookie-Einstellungen können über Ihren Browser verwaltet werden.");
-                    }
-                  }} 
-                  className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors font-medium"
-                >
-                  Cookie-Einstellungen
-                </button>
+                <Link to="/agb" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
+                  AGB
+                </Link>
               </div>
             </div>
           </div>

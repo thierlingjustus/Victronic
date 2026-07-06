@@ -162,19 +162,9 @@ export default function Footer() {
               <Link to="/inhalt-recht" className="text-[#14b8a6] hover:underline block transition-all">
                 Inhalt / Recht
               </Link>
-              <button 
-                onClick={() => {
-                  const trigger = (window as any).UC_UI;
-                  if (trigger && typeof trigger.showSecondLayer === 'function') {
-                    trigger.showSecondLayer();
-                  } else {
-                    alert("Cookie-Einstellungen können über Ihren Browser verwaltet werden.");
-                  }
-                }} 
-                className="text-[#14b8a6] hover:underline block text-left transition-all"
-              >
-                Cookie-Einstellungen
-              </button>
+              <Link to="/agb" className="text-[#14b8a6] hover:underline block transition-all">
+                AGB
+              </Link>
             </div>
 
           </div>
