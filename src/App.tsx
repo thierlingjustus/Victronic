@@ -5,10 +5,12 @@ const Home = lazy(() => import('./pages/Home'));
 const Product = lazy(() => import('./pages/Product'));
 const SystemsHub = lazy(() => import('./pages/SystemsHub'));
 const SystemDetail = lazy(() => import('./pages/SystemDetail'));
+const Datenschutz = lazy(() => import('./pages/Datenschutz'));
+const Impressum = lazy(() => import('./pages/Impressum'));
 
 const LoadingFallback = () => (
-  <div className="min-h-screen bg-[#050505] flex items-center justify-center">
-    <div className="w-8 h-8 border-2 border-[#00dfd8] border-t-transparent rounded-full animate-spin" />
+  <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
+    <div className="w-8 h-8 border-2 border-[#14b8a6] border-t-transparent rounded-full animate-spin" />
   </div>
 );
 
@@ -21,6 +23,8 @@ export default function App() {
           <Route path="/products/:id" element={<Product />} />
           <Route path="/systems" element={<SystemsHub />} />
           <Route path="/systems/:id" element={<SystemDetail />} />
+          <Route path="/datenschutz" element={<Datenschutz />} />
+          <Route path="/impressum" element={<Impressum />} />
         </Routes>
       </Suspense>
     </Router>

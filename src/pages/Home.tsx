@@ -5,7 +5,7 @@ import {
   Monitor, Smartphone, Zap, Fan, Box, Layers, Wrench,
   Lightbulb, CheckCircle, PenTool, Factory, ShieldCheck, Package,
   Link as LinkIcon, Award, Clock, Search, Truck, ArrowRight, Mail, Phone, MapPin, ChevronRight,
-  ArrowUpRight
+  ArrowUpRight, ChevronDown
 } from 'lucide-react';
 import { products } from '../data/products';
 import logo from '../logo.png';
@@ -37,6 +37,35 @@ export default function Home() {
             <a href="#services" className="hover:text-[#14b8a6] transition-colors">Leistungen</a>
             <a href="#products" className="hover:text-[#14b8a6] transition-colors">Produkte</a>
             <a href="#process" className="hover:text-[#14b8a6] transition-colors">Prozess</a>
+            
+            {/* Impressum Dropdown */}
+            <div className="relative group py-2">
+              <span className="hover:text-[#14b8a6] transition-colors flex items-center gap-1 cursor-pointer">
+                Impressum
+                <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
+              </span>
+              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 bg-white border border-gray-200 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
+                <Link to="/impressum" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
+                  Impressum
+                </Link>
+                <Link to="/datenschutz" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
+                  Datenschutz
+                </Link>
+                <button 
+                  onClick={() => {
+                    const trigger = (window as any).UC_UI;
+                    if (trigger && typeof trigger.showSecondLayer === 'function') {
+                      trigger.showSecondLayer();
+                    } else {
+                      alert("Cookie-Einstellungen können über Ihren Browser verwaltet werden.");
+                    }
+                  }} 
+                  className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors font-medium"
+                >
+                  Cookie-Einstellungen
+                </button>
+              </div>
+            </div>
           </div>
           <a href="#contact" className="text-sm font-medium bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-colors shadow-sm">
             Kontakt
