@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowLeft, ChevronDown, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { systems } from '../data/systems';
 import logo from '../logo.png';
+import Footer from '../components/Footer';
 
 const PROJECT_STEPS = [
   "Anfrage & Beratung",
@@ -346,6 +347,7 @@ export default function SystemDetail() {
 
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

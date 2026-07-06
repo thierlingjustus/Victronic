@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { systems } from '../data/systems';
 import logo from '../logo.png';
+import Footer from '../components/Footer';
 
 const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
   <motion.div
@@ -93,6 +94,7 @@ export default function SystemsHub() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

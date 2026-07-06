@@ -10,6 +10,7 @@ import {
 import { products } from '../data/products';
 import logo from '../logo.png';
 import buildingBg from '../building.jpg';
+import Footer from '../components/Footer';
 
 const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
   <motion.div
@@ -317,23 +318,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-12 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 font-bold text-lg tracking-tight">
-            <div className="w-5 h-5 bg-[#0070f3] rounded-sm flex items-center justify-center">
-              <div className="w-2.5 h-2.5 bg-white rounded-full" />
-            </div>
-            Victronic GmbH
-          </div>
-          <div className="text-sm text-gray-500">
-            &copy; {new Date().getFullYear()} Victronic GmbH. Alle Rechte vorbehalten.
-          </div>
-          <div className="flex gap-6 text-sm text-gray-500">
-            <a href="#" className="hover:text-black transition-colors">Impressum</a>
-            <a href="#" className="hover:text-black transition-colors">Datenschutz</a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

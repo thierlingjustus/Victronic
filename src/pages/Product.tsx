@@ -5,6 +5,7 @@ import { ArrowLeft, CheckCircle2, ChevronRight, Zap } from 'lucide-react';
 import { products } from '../data/products';
 import ProductViewer3D from '../components/ProductViewer3D';
 import logo from '../logo.png';
+import Footer from '../components/Footer';
 
 const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
   <motion.div
@@ -139,6 +140,7 @@ export default function Product() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
