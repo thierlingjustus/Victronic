@@ -153,8 +153,14 @@ export default function Footer() {
             </div>
 
             <div className="mt-8 space-y-2 text-xs font-light">
+              <Link to="/impressum" className="text-[#14b8a6] hover:underline block transition-all">
+                Impressum
+              </Link>
               <Link to="/datenschutz" className="text-[#14b8a6] hover:underline block transition-all">
                 Datenschutzerklärung
+              </Link>
+              <Link to="/inhalt-recht" className="text-[#14b8a6] hover:underline block transition-all">
+                Inhalt / Recht
               </Link>
               <button 
                 onClick={() => {

@@ -7,6 +7,7 @@ const SystemsHub = lazy(() => import('./pages/SystemsHub'));
 const SystemDetail = lazy(() => import('./pages/SystemDetail'));
 const Datenschutz = lazy(() => import('./pages/Datenschutz'));
 const Impressum = lazy(() => import('./pages/Impressum'));
+const InhaltRecht = lazy(() => import('./pages/InhaltRecht'));
 
 const LoadingFallback = () => (
   <div className="min-h-screen bg-[#fafafa] flex items-center justify-center">
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/systems/:id" element={<SystemDetail />} />
           <Route path="/datenschutz" element={<Datenschutz />} />
           <Route path="/impressum" element={<Impressum />} />
+          <Route path="/inhalt-recht" element={<InhaltRecht />} />
         </Routes>
       </Suspense>
     </Router>

@@ -51,6 +51,9 @@ export default function Home() {
                 <Link to="/datenschutz" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
                   Datenschutz
                 </Link>
+                <Link to="/inhalt-recht" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
+                  Inhalt / Recht
+                </Link>
                 <button 
                   onClick={() => {
                     const trigger = (window as any).UC_UI;
