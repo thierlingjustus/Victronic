@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 
 export default function Impressum() {
   return (
-    <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white">
+    <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
       {/* Navigation */}
       <Navbar backTo="/" />
 
@@ -15,7 +15,7 @@ export default function Impressum() {
           
           {/* Header */}
           <div className="border-b border-gray-100 pb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-100 text-[#14b8a6] text-xs font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-4">
               <Landmark className="w-3.5 h-3.5" /> Rechtliches
             </div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-2">Impressum</h1>
@@ -53,7 +53,7 @@ export default function Impressum() {
 
             {/* Right: Contact details */}
             <div className="space-y-6 bg-gray-50 border border-gray-200 rounded-2xl p-6">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#14b8a6] mb-2 flex items-center gap-1.5">
+              <h2 className="text-sm font-bold uppercase tracking-wider text-brand-700 mb-2 flex items-center gap-1.5">
                 <Scale className="w-4 h-4" /> Kontakt &amp; Details
               </h2>
               
@@ -70,7 +70,7 @@ export default function Impressum() {
                   <Mail className="w-4 h-4 text-gray-400 shrink-0 mt-0.5" />
                   <div>
                     <div className="text-gray-400 text-xs">E-Mail</div>
-                    <a href="mailto:info@victronic-gmbh.de" className="font-semibold hover:underline text-[#14b8a6]">info@victronic-gmbh.de</a>
+                    <a href="mailto:info@victronic-gmbh.de" className="font-semibold hover:underline text-brand-700">info@victronic-gmbh.de</a>
                   </div>
                 </div>
 

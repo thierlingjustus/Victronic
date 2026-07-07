@@ -3,7 +3,22 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --color-electric-blue: #0070f3;
+
+  /*
+   * Victronic-Markenblau, abgeleitet aus dem Logo (Cyan-Blau #00a0e8).
+   * 500 = Logofarbe. 600/700 sind abgedunkelte Stufen für Flächen bzw.
+   * Text/Links auf Weiß (700 erreicht WCAG-AA-Kontrast).
+   */
+  --color-brand-50: #f0f9fe;
+  --color-brand-100: #e0f2fc;
+  --color-brand-200: #b9e5f8;
+  --color-brand-300: #7dd0f2;
+  --color-brand-400: #38b9ec;
+  --color-brand-500: #00a0e8;
+  --color-brand-600: #0084c4;
+  --color-brand-700: #006da3;
+  --color-brand-800: #005580;
+  --color-brand-900: #054059;
 }
 
 body {

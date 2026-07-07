@@ -84,7 +84,7 @@ function AnalogClock({ timezone }: { timezone: string }) {
             y1="50" 
             x2="50" 
             y2="14" 
-            stroke="#14b8a6" 
+            stroke="var(--color-brand-400)" 
             strokeWidth="1" 
             strokeLinecap="round" 
             transform={`rotate(${secondAngle} 50 50)`} 
@@ -145,24 +145,24 @@ export default function Footer() {
 
             <div className="space-y-1.5 font-light">
               <p>
-                E-Mail: <a href="mailto:info@victronic-gmbh.de" className="text-[#14b8a6] hover:underline transition-all">info@victronic-gmbh.de</a>
+                E-Mail: <a href="mailto:info@victronic-gmbh.de" className="text-brand-300 hover:underline transition-all">info@victronic-gmbh.de</a>
               </p>
               <p>
-                Web: <a href="https://www.victronic-gmbh.de" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline transition-all">www.victronic-gmbh.de</a>
+                Web: <a href="https://www.victronic-gmbh.de" target="_blank" rel="noopener noreferrer" className="text-brand-300 hover:underline transition-all">www.victronic-gmbh.de</a>
               </p>
             </div>
 
             <div className="mt-8 space-y-2 text-xs font-light">
-              <Link to="/impressum" className="text-[#14b8a6] hover:underline block transition-all">
+              <Link to="/impressum" className="text-brand-300 hover:underline block transition-all">
                 Impressum
               </Link>
-              <Link to="/datenschutz" className="text-[#14b8a6] hover:underline block transition-all">
+              <Link to="/datenschutz" className="text-brand-300 hover:underline block transition-all">
                 Datenschutzerklärung
               </Link>
-              <Link to="/inhalt-recht" className="text-[#14b8a6] hover:underline block transition-all">
+              <Link to="/inhalt-recht" className="text-brand-300 hover:underline block transition-all">
                 Inhalt / Recht
               </Link>
-              <Link to="/agb" className="text-[#14b8a6] hover:underline block transition-all">
+              <Link to="/agb" className="text-brand-300 hover:underline block transition-all">
                 AGB
               </Link>
             </div>

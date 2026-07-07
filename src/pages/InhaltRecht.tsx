@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 
 export default function InhaltRecht() {
   return (
-    <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white">
+    <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
       {/* Navigation */}
       <Navbar backTo="/" />
 
@@ -15,7 +15,7 @@ export default function InhaltRecht() {
           
           {/* Header */}
           <div className="border-b border-gray-100 pb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-100 text-[#14b8a6] text-xs font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-4">
               <Scale className="w-3.5 h-3.5" /> Rechtliches
             </div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-2">Inhalt &amp; Recht</h1>
@@ -25,7 +25,7 @@ export default function InhaltRecht() {
           {/* Section: Inhalt des Onlineangebotes */}
           <section className="space-y-4">
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
-              <BookOpen className="w-5 h-5 text-[#14b8a6]" /> Inhalt des Onlineangebotes
+              <BookOpen className="w-5 h-5 text-brand-700" /> Inhalt des Onlineangebotes
             </h2>
             <div className="text-gray-600 leading-relaxed space-y-4">
               <p>
@@ -46,7 +46,7 @@ export default function InhaltRecht() {
           {/* Section: Urheber und Nutzungsrecht */}
           <section className="space-y-4 pt-4">
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
-              <Copyright className="w-5 h-5 text-[#14b8a6]" /> Urheber- und Nutzungsrecht
+              <Copyright className="w-5 h-5 text-brand-700" /> Urheber- und Nutzungsrecht
             </h2>
             <div className="text-gray-600 leading-relaxed space-y-4">
               <p>

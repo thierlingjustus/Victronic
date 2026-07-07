@@ -15,7 +15,7 @@ import FadeIn from '../components/FadeIn';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-[#0070f3] selection:text-white overflow-hidden">
+    <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-brand-600 selection:text-white overflow-hidden">
       {/* Navigation */}
       <Navbar />
 
@@ -48,7 +48,7 @@ export default function Home() {
               className="inline-flex items-center gap-4 bg-white text-[#111] pl-6 pr-2 py-2 rounded-full font-bold hover:scale-[1.03] transition-all shadow-xl hover:shadow-2xl group select-none cursor-pointer"
             >
               <span className="text-sm font-semibold tracking-wide">Kontakt uns</span>
-              <div className="w-8 h-8 rounded-full bg-[#0070f3] flex items-center justify-center text-white transition-all duration-300 group-hover:bg-[#005bc4] group-hover:rotate-45">
+              <div className="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center text-white transition-all duration-300 group-hover:bg-brand-700 group-hover:rotate-45">
                 <ArrowUpRight className="w-4 h-4" />
               </div>
             </a>
@@ -77,7 +77,7 @@ export default function Home() {
                     alt="Electronic Circuit Board" 
                     className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#0070f3]/20 to-transparent mix-blend-overlay" />
+                  <div className="absolute inset-0 bg-gradient-to-tr from-brand-500/20 to-transparent mix-blend-overlay" />
                 </div>
               </div>
             </div>
@@ -104,7 +104,7 @@ export default function Home() {
               <FadeIn inView key={i} delay={i * 0.1}>
                 {service.link.startsWith('/') ? (
                   <Link to={service.link} className="block hover-glow bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer">
-                    <div className="w-12 h-12 bg-teal-50 text-[#14b8a6] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-brand-50 text-brand-700 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                       <service.icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-xl font-bold mb-3">{service.title}</h3>
@@ -112,7 +112,7 @@ export default function Home() {
                   </Link>
                 ) : (
                   <a href={service.link} className="block hover-glow bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer">
-                    <div className="w-12 h-12 bg-teal-50 text-[#14b8a6] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <div className="w-12 h-12 bg-brand-50 text-brand-700 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                       <service.icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-xl font-bold mb-3">{service.title}</h3>
@@ -140,12 +140,12 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
             {products.map((product, i) => (
               <FadeIn inView key={product.id} delay={i * 0.05}>
-                <Link to={`/products/${product.id}`} className="block group bg-white border border-gray-200 shadow-sm p-6 rounded-xl hover:border-[#14b8a6]/50 hover:shadow-md transition-all cursor-pointer h-full relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#14b8a6]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-[#14b8a6] mb-4 transition-colors relative z-10" />
-                  <h3 className="font-medium text-sm md:text-base text-gray-800 group-hover:text-[#14b8a6] relative z-10 transition-colors">{product.name}</h3>
+                <Link to={`/products/${product.id}`} className="block group bg-white border border-gray-200 shadow-sm p-6 rounded-xl hover:border-brand-300 hover:shadow-md transition-all cursor-pointer h-full relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-brand-700 mb-4 transition-colors relative z-10" />
+                  <h3 className="font-medium text-sm md:text-base text-gray-800 group-hover:text-brand-700 relative z-10 transition-colors">{product.name}</h3>
                   <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
-                    <ArrowRight className="w-4 h-4 text-[#14b8a6]" />
+                    <ArrowRight className="w-4 h-4 text-brand-700" />
                   </div>
                 </Link>
               </FadeIn>
@@ -154,7 +154,7 @@ export default function Home() {
           
           <FadeIn inView delay={0.4}>
             <div className="inline-flex items-center gap-2 text-sm text-gray-600 bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
-              <div className="w-2 h-2 rounded-full bg-[#14b8a6]" />
+              <div className="w-2 h-2 rounded-full bg-brand-500" />
               Sonderlösungen für alle Produktkategorien verfügbar.
             </div>
           </FadeIn>
@@ -184,7 +184,7 @@ export default function Home() {
               ].map((item, i) => (
                 <FadeIn inView key={i} delay={i * 0.1}>
                   <div className="flex flex-col items-center text-center group">
-                    <div className="w-12 h-12 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center mb-4 group-hover:border-[#14b8a6] group-hover:text-[#14b8a6] transition-colors relative z-10">
+                    <div className="w-12 h-12 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center mb-4 group-hover:border-brand-400 group-hover:text-brand-700 transition-colors relative z-10">
                       <item.icon className="w-5 h-5" />
                     </div>
                     <div className="text-xs font-bold text-gray-400 mb-1">{item.step}</div>
@@ -212,8 +212,8 @@ export default function Home() {
                   { title: "Zuverlässige Lieferung", icon: Truck }
                 ].map((reason, i) => (
                   <div key={i} className="flex items-center gap-4 group">
-                    <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-[#14b8a6] transition-colors">
-                      <reason.icon className="w-5 h-5 text-gray-600 group-hover:text-[#14b8a6] transition-colors" />
+                    <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-brand-400 transition-colors">
+                      <reason.icon className="w-5 h-5 text-gray-600 group-hover:text-brand-700 transition-colors" />
                     </div>
                     <span className="text-lg font-medium text-gray-800">{reason.title}</span>
                   </div>
@@ -222,7 +222,7 @@ export default function Home() {
             </FadeIn>
             <FadeIn inView delay={0.2}>
               <div className="bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#0070f3]/5 rounded-bl-full" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-600/5 rounded-bl-full" />
                 <h3 className="text-2xl font-bold mb-4">Zertifizierte Qualität</h3>
                 <p className="text-gray-600 leading-relaxed mb-6">
                   Wir arbeiten ausschließlich mit Herstellern zusammen, die nach internationalen Standards zertifiziert sind.
@@ -239,7 +239,7 @@ export default function Home() {
 
       {/* Contact Section */}
       <section id="contact" className="py-24 px-6 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-[#0070f3] to-transparent opacity-30" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-30" />
         
         <div className="max-w-4xl mx-auto">
           <FadeIn inView>
@@ -250,19 +250,19 @@ export default function Home() {
                 
                 <div className="space-y-6">
                   <div className="flex items-start gap-4">
-                    <MapPin className="w-6 h-6 text-[#0070f3] shrink-0" />
+                    <MapPin className="w-6 h-6 text-brand-700 shrink-0" />
                     <div>
                       <div className="font-semibold">Victronic GmbH</div>
                       <div className="text-gray-600">Otto-Hahn-Straße 19<br />22941 Bargteheide<br />Deutschland</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-4">
-                    <Phone className="w-6 h-6 text-[#0070f3] shrink-0" />
-                    <a href="tel:+4945329758230" className="text-gray-600 hover:text-[#0070f3] transition-colors">+49 4532 975 82 30</a>
+                    <Phone className="w-6 h-6 text-brand-700 shrink-0" />
+                    <a href="tel:+4945329758230" className="text-gray-600 hover:text-brand-700 transition-colors">+49 4532 975 82 30</a>
                   </div>
                   <div className="flex items-center gap-4">
-                    <Mail className="w-6 h-6 text-[#0070f3] shrink-0" />
-                    <a href="mailto:info@victronic-gmbh.de" className="text-gray-600 hover:text-[#0070f3] transition-colors">info@victronic-gmbh.de</a>
+                    <Mail className="w-6 h-6 text-brand-700 shrink-0" />
+                    <a href="mailto:info@victronic-gmbh.de" className="text-gray-600 hover:text-brand-700 transition-colors">info@victronic-gmbh.de</a>
                   </div>
                 </div>
               </div>
@@ -271,15 +271,15 @@ export default function Home() {
                 <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                    <input type="text" className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0070f3]/50 focus:border-[#0070f3] transition-all" placeholder="Ihr Name" />
+                    <input type="text" className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-600 transition-all" placeholder="Ihr Name" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">E-Mail</label>
-                    <input type="email" className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0070f3]/50 focus:border-[#0070f3] transition-all" placeholder="ihre@email.de" />
+                    <input type="email" className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-600 transition-all" placeholder="ihre@email.de" />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Nachricht</label>
-                    <textarea rows={4} className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0070f3]/50 focus:border-[#0070f3] transition-all resize-none" placeholder="Wie können wir Ihnen helfen?"></textarea>
+                    <textarea rows={4} className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-600 transition-all resize-none" placeholder="Wie können wir Ihnen helfen?"></textarea>
                   </div>
                   <button className="w-full bg-black text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 group">
                     Anfrage senden

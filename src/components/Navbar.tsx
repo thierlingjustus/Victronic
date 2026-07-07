@@ -18,34 +18,34 @@ export default function Navbar({ backTo, backLabel = 'Zurück zur Startseite' }:
         </Link>
 
         {backTo ? (
-          <Link to={backTo} className="text-sm font-medium text-gray-500 hover:text-[#14b8a6] flex items-center gap-2 transition-colors">
+          <Link to={backTo} className="text-sm font-medium text-gray-500 hover:text-brand-700 flex items-center gap-2 transition-colors">
             <ArrowLeft className="w-4 h-4" /> {backLabel}
           </Link>
         ) : (
           <>
             <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-              <a href="#about" className="hover:text-[#14b8a6] transition-colors">Über uns</a>
-              <a href="#services" className="hover:text-[#14b8a6] transition-colors">Leistungen</a>
-              <a href="#products" className="hover:text-[#14b8a6] transition-colors">Produkte</a>
-              <a href="#process" className="hover:text-[#14b8a6] transition-colors">Prozess</a>
+              <a href="#about" className="hover:text-brand-700 transition-colors">Über uns</a>
+              <a href="#services" className="hover:text-brand-700 transition-colors">Leistungen</a>
+              <a href="#products" className="hover:text-brand-700 transition-colors">Produkte</a>
+              <a href="#process" className="hover:text-brand-700 transition-colors">Prozess</a>
 
               {/* Impressum Dropdown */}
               <div className="relative group py-2">
-                <span className="hover:text-[#14b8a6] transition-colors flex items-center gap-1 cursor-pointer">
+                <span className="hover:text-brand-700 transition-colors flex items-center gap-1 cursor-pointer">
                   Impressum
                   <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
                 </span>
                 <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 bg-white border border-gray-200 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
-                  <Link to="/impressum" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
+                  <Link to="/impressum" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-700 transition-colors">
                     Impressum
                   </Link>
-                  <Link to="/datenschutz" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
+                  <Link to="/datenschutz" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-700 transition-colors">
                     Datenschutz
                   </Link>
-                  <Link to="/inhalt-recht" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
+                  <Link to="/inhalt-recht" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-700 transition-colors">
                     Inhalt / Recht
                   </Link>
-                  <Link to="/agb" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
+                  <Link to="/agb" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-700 transition-colors">
                     AGB
                   </Link>
                 </div>

@@ -17,12 +17,12 @@ export default function Product() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white overflow-hidden relative">
+    <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white overflow-hidden relative">
       {/* Light Grid Background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-70 pointer-events-none" />
       
       {/* Neon Blue Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0070f3]/5 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-600/5 blur-[150px] rounded-full pointer-events-none" />
 
       {/* Navigation */}
       <Navbar backTo="/" backLabel="Zurück zur Übersicht" />
@@ -32,7 +32,7 @@ export default function Product() {
           {/* Header */}
           <FadeIn>
             <div className="mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[#0070f3] text-xs font-semibold uppercase tracking-wider mb-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-6">
                 <product.icon className="w-4 h-4" />
                 {product.name}
               </div>
@@ -59,7 +59,7 @@ export default function Product() {
               <FadeIn delay={0.3}>
                 <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                    <Zap className="w-6 h-6 text-[#0070f3]" />
+                    <Zap className="w-6 h-6 text-brand-700" />
                     Technische Spezifikationen
                   </h2>
                   <div className="space-y-6">
@@ -75,18 +75,18 @@ export default function Product() {
 
               {/* Synergy & Norms */}
               <FadeIn delay={0.4}>
-                <div className="bg-gradient-to-br from-blue-50 to-transparent border border-blue-100 rounded-2xl p-8">
-                  <h2 className="text-2xl font-bold text-[#0070f3] mb-4">Synergie & Normen</h2>
+                <div className="bg-gradient-to-br from-brand-50 to-transparent border border-brand-100 rounded-2xl p-8">
+                  <h2 className="text-2xl font-bold text-brand-700 mb-4">Synergie & Normen</h2>
                   <p className="text-gray-600 leading-relaxed mb-6">
                     {product.synergy}
                   </p>
                   <ul className="space-y-3">
                     <li className="flex items-start gap-3 text-sm text-gray-500">
-                      <CheckCircle2 className="w-5 h-5 text-[#0070f3] shrink-0" />
+                      <CheckCircle2 className="w-5 h-5 text-brand-700 shrink-0" />
                       <span>Nahtlose Integration in bestehende Victronic-Baugruppen</span>
                     </li>
                     <li className="flex items-start gap-3 text-sm text-gray-500">
-                      <CheckCircle2 className="w-5 h-5 text-[#0070f3] shrink-0" />
+                      <CheckCircle2 className="w-5 h-5 text-brand-700 shrink-0" />
                       <span>Erfüllt höchste industrielle Qualitätsstandards</span>
                     </li>
                   </ul>
@@ -100,7 +100,7 @@ export default function Product() {
                   <p className="text-gray-400 mb-8">
                     Lassen Sie uns gemeinsam die optimale Lösung für Ihre spezifischen Anforderungen im Bereich {product.name} finden.
                   </p>
-                  <Link to="/#contact" className="inline-flex items-center justify-center gap-2 bg-[#0070f3] text-white px-8 py-4 rounded-md font-medium hover:bg-[#005bc4] transition-colors w-full group">
+                  <Link to="/#contact" className="inline-flex items-center justify-center gap-2 bg-brand-600 text-white px-8 py-4 rounded-md font-medium hover:bg-brand-700 transition-colors w-full group">
                     Technische Beratung anfordern
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>

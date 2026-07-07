@@ -68,7 +68,7 @@ export default function AGB() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white">
+    <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
       {/* Navigation */}
       <Navbar backTo="/" />
 
@@ -78,7 +78,7 @@ export default function AGB() {
           
           {/* Header */}
           <div className="border-b border-gray-100 pb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-100 text-[#14b8a6] text-xs font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-4">
               <FileText className="w-3.5 h-3.5" /> AGB
             </div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-2">Allgemeine Geschäftsbedingungen</h1>
@@ -88,14 +88,14 @@ export default function AGB() {
           {/* Quick jump */}
           <div className="bg-gray-50 rounded-2xl p-6 border border-gray-150">
             <h2 className="text-sm font-bold text-gray-800 uppercase tracking-wider mb-4 flex items-center gap-2">
-              <Landmark className="w-4 h-4 text-[#14b8a6]" /> Schnellnavigation
+              <Landmark className="w-4 h-4 text-brand-700" /> Schnellnavigation
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs">
               {sections.map((sec) => (
                 <a 
                   key={sec.num} 
                   href={`#sec-${sec.num}`} 
-                  className="text-gray-600 hover:text-[#14b8a6] hover:underline flex gap-1 items-center"
+                  className="text-gray-600 hover:text-brand-700 hover:underline flex gap-1 items-center"
                 >
                   <span className="font-bold text-gray-400">{sec.num}.</span> {sec.title}
                 </a>
@@ -108,7 +108,7 @@ export default function AGB() {
             {sections.map((sec) => (
               <section key={sec.num} id={`sec-${sec.num}`} className="scroll-mt-24 space-y-3">
                 <h2 className="text-lg md:text-xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
-                  <span className="text-[#14b8a6]">{sec.num}.</span> {sec.title}
+                  <span className="text-brand-700">{sec.num}.</span> {sec.title}
                 </h2>
                 <p className="text-gray-600 leading-relaxed text-sm md:text-base">
                   {sec.text}

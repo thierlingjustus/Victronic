@@ -42,12 +42,12 @@ const ProcessIndicator = ({ scrollYProgress }: { scrollYProgress: any }) => {
                 <div 
                   className={`w-2 h-2 rounded-full border transition-all duration-500 ${
                     isActive 
-                      ? 'bg-[#0070f3] border-[#0070f3] shadow-[0_0_10px_rgba(0,112,243,0.5)]' 
+                      ? 'bg-brand-600 border-brand-600 shadow-[0_0_10px_rgba(0,112,243,0.5)]' 
                       : 'bg-gray-200 border-gray-300 shadow-[0_0_10px_rgba(0,112,243,0)]'
                   } ${isCurrent ? 'scale-150' : 'scale-100'}`} 
                 />
                 <span className={`text-[10px] uppercase tracking-wider font-semibold max-w-[80px] text-center leading-tight transition-colors duration-500 ${
-                  isActive ? 'text-[#0070f3]' : 'text-gray-400'
+                  isActive ? 'text-brand-700' : 'text-gray-400'
                 }`}>
                   {step}
                 </span>
@@ -155,8 +155,8 @@ export default function SystemDetail() {
       name: "Flüssigkristall", 
       desc: "Steuert die Lichtdurchlässigkeit", 
       side: "right",
-      content: <div className="absolute inset-0 bg-gradient-to-b from-blue-500/10 to-blue-600/10 rounded-2xl backdrop-blur-md" />,
-      className: "bg-transparent border-blue-200 z-[55]"
+      content: <div className="absolute inset-0 bg-gradient-to-b from-brand-500/10 to-brand-600/10 rounded-2xl backdrop-blur-md" />,
+      className: "bg-transparent border-brand-200 z-[55]"
     },
     { 
       name: "Transistor (TFT)", 
@@ -203,7 +203,7 @@ export default function SystemDetail() {
   const layerStyle = "absolute w-64 md:w-96 aspect-[4/3] rounded-2xl border flex items-center justify-center transition-shadow duration-300";
 
   return (
-    <div className="bg-white text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white">
+    <div className="bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
       {/* Navigation */}
       <Navbar backTo="/systems" backLabel="Zurück zum Hub" />
 
@@ -221,7 +221,7 @@ export default function SystemDetail() {
             style={{ opacity: introOpacity, y: introY, pointerEvents: introPointerEvents as any }}
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-30"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-[#0070f3] text-xs font-semibold uppercase tracking-wider mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-6">
               VICTRONIC-Lösung
             </div>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-4">
@@ -250,9 +250,9 @@ export default function SystemDetail() {
                   style={{ x: transforms[i].x, y: transforms[i].y, opacity: tooltipsOpacity }} 
                   className={`absolute z-[60] w-40 md:w-56 ${layer.side === 'left' ? 'mr-[13rem] md:mr-[22rem] text-right right-1/2' : 'ml-[13rem] md:ml-[22rem] left-1/2'}`}
                 >
-                  <div className="hidden md:block h-[1px] w-8 bg-[#0070f3] absolute top-4 opacity-50" style={{ [layer.side === 'left' ? 'right' : 'left']: '-2rem' }} />
+                  <div className="hidden md:block h-[1px] w-8 bg-brand-600 absolute top-4 opacity-50" style={{ [layer.side === 'left' ? 'right' : 'left']: '-2rem' }} />
                   <div className="bg-white/95 backdrop-blur-xl p-3 rounded-xl border border-gray-200 shadow-xl">
-                    <h3 className="text-[#0070f3] font-bold text-[10px] md:text-xs uppercase tracking-wider">{layer.name}</h3>
+                    <h3 className="text-brand-700 font-bold text-[10px] md:text-xs uppercase tracking-wider">{layer.name}</h3>
                     <p className="text-gray-600 text-[9px] md:text-[10px] mt-1 leading-tight">{layer.desc}</p>
                   </div>
                 </motion.div>
@@ -278,8 +278,8 @@ export default function SystemDetail() {
             className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-[70] max-w-xs md:max-w-sm pointer-events-none"
           >
             <div className="bg-white/95 backdrop-blur-2xl p-6 rounded-2xl border border-gray-200 shadow-2xl">
-              <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center mb-4">
-                <ShieldCheck className="w-4 h-4 text-[#0070f3]" />
+              <div className="w-8 h-8 rounded-full bg-brand-50 flex items-center justify-center mb-4">
+                <ShieldCheck className="w-4 h-4 text-brand-700" />
               </div>
               <h3 className="text-gray-900 font-bold text-sm md:text-base mb-2 uppercase tracking-wide">Kundenspezifische Qualifizierung</h3>
               <p className="text-gray-600 text-xs md:text-sm leading-relaxed">
@@ -293,12 +293,12 @@ export default function SystemDetail() {
             style={{ opacity: outroOpacity, y: outroY, pointerEvents: outroPointerEvents as any }}
             className="absolute inset-0 flex items-center justify-center px-6 z-30 bg-white/80 backdrop-blur-sm"
           >
-            <div className="max-w-4xl w-full bg-gradient-to-br from-blue-50 to-transparent border border-blue-100 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden shadow-xl text-gray-800">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#0070f3]/5 blur-[100px] rounded-full" />
+            <div className="max-w-4xl w-full bg-gradient-to-br from-brand-50 to-transparent border border-brand-100 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden shadow-xl text-gray-800">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-brand-600/5 blur-[100px] rounded-full" />
               
-              <ShieldCheck className="w-16 h-16 text-[#0070f3] mx-auto mb-6" />
+              <ShieldCheck className="w-16 h-16 text-brand-700 mx-auto mb-6" />
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
-                Der Victronic <span className="text-[#0070f3]">No-Extra-Cost</span> Vorteil
+                Der Victronic <span className="text-brand-700">No-Extra-Cost</span> Vorteil
               </h2>
               <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
                 Keine versteckten Kosten. Keine bösen Überraschungen. Wir garantieren Ihnen einen fixen Projektablauf ohne Mehrkosten für Korrekturschritte über die initialen Toolingkosten hinaus.
@@ -306,20 +306,20 @@ export default function SystemDetail() {
               
               <div className="grid md:grid-cols-3 gap-6 mb-12 text-left">
                 <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                  <div className="text-[#0070f3] font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 01. Fixe Toolingkosten</div>
+                  <div className="text-brand-700 font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 01. Fixe Toolingkosten</div>
                   <div className="text-sm text-gray-600">Einmalige Investition, keine Nachforderungen bei Iterationen.</div>
                 </div>
                 <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                  <div className="text-[#0070f3] font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 02. Voller Datenbesitz</div>
+                  <div className="text-brand-700 font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 02. Voller Datenbesitz</div>
                   <div className="text-sm text-gray-600">Alle Werkzeuge und Konstruktionsdaten gehen in Ihr Eigentum über.</div>
                 </div>
                 <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                  <div className="text-[#0070f3] font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 03. Risikofreie Serie</div>
+                  <div className="text-brand-700 font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 03. Risikofreie Serie</div>
                   <div className="text-sm text-gray-600">Garantierte Qualität und Liefertreue für die gesamte Serienlaufzeit.</div>
                 </div>
               </div>
 
-              <Link to="/#contact" className="inline-flex items-center justify-center gap-2 bg-[#0070f3] text-white px-8 py-4 rounded-md font-bold hover:bg-[#005bc4] transition-colors shadow-md">
+              <Link to="/#contact" className="inline-flex items-center justify-center gap-2 bg-brand-600 text-white px-8 py-4 rounded-md font-bold hover:bg-brand-700 transition-colors shadow-md">
                 Projekt jetzt besprechen
               </Link>
             </div>

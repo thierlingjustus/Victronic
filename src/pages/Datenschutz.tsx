@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 
 export default function Datenschutz() {
   return (
-    <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white">
+    <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
       {/* Navigation */}
       <Navbar backTo="/" />
 
@@ -15,7 +15,7 @@ export default function Datenschutz() {
           
           {/* Header */}
           <div className="border-b border-gray-100 pb-8 mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-100 text-[#14b8a6] text-xs font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-4">
               <Shield className="w-3.5 h-3.5" /> Rechtliches
             </div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-2">Datenschutzerklärung</h1>
@@ -25,36 +25,36 @@ export default function Datenschutz() {
           {/* Table of Contents */}
           <div className="bg-gray-50 rounded-2xl p-6 mb-12 border border-gray-150">
             <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-[#14b8a6]" /> Inhalt
+              <FileText className="w-5 h-5 text-brand-700" /> Inhalt
             </h2>
             <ul className="grid md:grid-cols-2 gap-3 text-sm">
               <li>
-                <a href="#blick" className="text-gray-600 hover:text-[#14b8a6] hover:underline flex items-center gap-1.5">
+                <a href="#blick" className="text-gray-600 hover:text-brand-700 hover:underline flex items-center gap-1.5">
                   <span className="font-semibold text-gray-400">1.</span> Datenschutz auf einen Blick
                 </a>
               </li>
               <li>
-                <a href="#hosting" className="text-gray-600 hover:text-[#14b8a6] hover:underline flex items-center gap-1.5">
+                <a href="#hosting" className="text-gray-600 hover:text-brand-700 hover:underline flex items-center gap-1.5">
                   <span className="font-semibold text-gray-400">2.</span> Hosting &amp; Infrastruktur
                 </a>
               </li>
               <li>
-                <a href="#hinweise" className="text-gray-600 hover:text-[#14b8a6] hover:underline flex items-center gap-1.5">
+                <a href="#hinweise" className="text-gray-600 hover:text-brand-700 hover:underline flex items-center gap-1.5">
                   <span className="font-semibold text-gray-400">3.</span> Allgemeine Hinweise &amp; Pflichten
                 </a>
               </li>
               <li>
-                <a href="#erfassung" className="text-gray-600 hover:text-[#14b8a6] hover:underline flex items-center gap-1.5">
+                <a href="#erfassung" className="text-gray-600 hover:text-brand-700 hover:underline flex items-center gap-1.5">
                   <span className="font-semibold text-gray-400">4.</span> Datenerfassung auf der Website
                 </a>
               </li>
               <li>
-                <a href="#analyse" className="text-gray-600 hover:text-[#14b8a6] hover:underline flex items-center gap-1.5">
+                <a href="#analyse" className="text-gray-600 hover:text-brand-700 hover:underline flex items-center gap-1.5">
                   <span className="font-semibold text-gray-400">5.</span> Analyse-Tools &amp; Werbung
                 </a>
               </li>
               <li>
-                <a href="#plugins" className="text-gray-600 hover:text-[#14b8a6] hover:underline flex items-center gap-1.5">
+                <a href="#plugins" className="text-gray-600 hover:text-brand-700 hover:underline flex items-center gap-1.5">
                   <span className="font-semibold text-gray-400">6.</span> Plugins &amp; Tools von Dritten
                 </a>
               </li>
@@ -67,7 +67,7 @@ export default function Datenschutz() {
             {/* Section 1 */}
             <section id="blick" className="scroll-mt-24 space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
-                <span className="text-[#14b8a6]">1.</span> Datenschutz auf einen Blick
+                <span className="text-brand-700">1.</span> Datenschutz auf einen Blick
               </h2>
               
               <div className="space-y-4">
@@ -108,8 +108,8 @@ export default function Datenschutz() {
                 </div>
               </div>
 
-              <div className="space-y-4 bg-teal-50/30 rounded-xl p-6 border border-teal-100/50">
-                <h3 className="text-lg font-semibold text-[#14b8a6] flex items-center gap-2">
+              <div className="space-y-4 bg-brand-50/50 rounded-xl p-6 border border-brand-100/60">
+                <h3 className="text-lg font-semibold text-brand-700 flex items-center gap-2">
                   <Lock className="w-5 h-5" /> Analyse-Tools und Tools von Drittanbietern
                 </h3>
                 <p className="text-sm">
@@ -121,7 +121,7 @@ export default function Datenschutz() {
             {/* Section 2 */}
             <section id="hosting" className="scroll-mt-24 space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
-                <span className="text-[#14b8a6]">2.</span> Hosting
+                <span className="text-brand-700">2.</span> Hosting
               </h2>
               <p>
                 Wir hosten die Inhalte unserer Website bei folgendem Anbieter:
@@ -145,17 +145,17 @@ export default function Datenschutz() {
                 
                 <div className="grid md:grid-cols-3 gap-6 text-sm">
                   <div className="space-y-1">
-                    <div className="font-bold text-[#14b8a6] uppercase tracking-wider text-[10px]">Webhosting</div>
+                    <div className="font-bold text-brand-700 uppercase tracking-wider text-[10px]">Webhosting</div>
                     <p className="font-semibold">ITA Systeme GmbH &amp; Co. KG</p>
                     <p className="text-gray-500">Oststraße 83<br />22844 Norderstedt</p>
                   </div>
                   <div className="space-y-1">
-                    <div className="font-bold text-[#14b8a6] uppercase tracking-wider text-[10px]">Infrastruktur</div>
+                    <div className="font-bold text-brand-700 uppercase tracking-wider text-[10px]">Infrastruktur</div>
                     <p className="font-semibold">Strato AG</p>
                     <p className="text-gray-500">Pascalstraße 10<br />10587 Berlin</p>
                   </div>
                   <div className="space-y-1">
-                    <div className="font-bold text-[#14b8a6] uppercase tracking-wider text-[10px]">Backups</div>
+                    <div className="font-bold text-brand-700 uppercase tracking-wider text-[10px]">Backups</div>
                     <p className="font-semibold">HETZNER ONLINE GMBH</p>
                     <p className="text-gray-500">Industriestraße 25<br />91710 Gunzenhausen</p>
                   </div>
@@ -173,7 +173,7 @@ export default function Datenschutz() {
             {/* Section 3 */}
             <section id="hinweise" className="scroll-mt-24 space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
-                <span className="text-[#14b8a6]">3.</span> Allgemeine Hinweise und Pflichtinformationen
+                <span className="text-brand-700">3.</span> Allgemeine Hinweise und Pflichtinformationen
               </h2>
               
               <div className="space-y-4">
@@ -308,7 +308,7 @@ export default function Datenschutz() {
             {/* Section 4 */}
             <section id="erfassung" className="scroll-mt-24 space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
-                <span className="text-[#14b8a6]">4.</span> Datenerfassung auf dieser Website
+                <span className="text-brand-700">4.</span> Datenerfassung auf dieser Website
               </h2>
               
               <div className="space-y-4">
@@ -336,7 +336,7 @@ export default function Datenschutz() {
               <div className="space-y-4 border border-gray-250 rounded-2xl p-6 bg-gray-50/50">
                 <h3 className="text-lg font-semibold text-gray-800">Einwilligung mit Usercentrics</h3>
                 <p>
-                  Diese Website nutzt die Consent-Technologie von Usercentrics, um Ihre Einwilligung zur Speicherung bestimmter Cookies auf Ihrem Endgerät oder zum Einsatz bestimmter Technologien einzuholen und diese datenschutzkonform zu dokumentieren. Anbieter dieser Technologie ist die Usercentrics GmbH, Sendlinger Straße 7, 80331 München, Website: <a href="https://usercentrics.com/de/" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline">https://usercentrics.com/de/</a> (im Folgenden „Usercentrics“).
+                  Diese Website nutzt die Consent-Technologie von Usercentrics, um Ihre Einwilligung zur Speicherung bestimmter Cookies auf Ihrem Endgerät oder zum Einsatz bestimmter Technologien einzuholen und diese datenschutzkonform zu dokumentieren. Anbieter dieser Technologie ist die Usercentrics GmbH, Sendlinger Straße 7, 80331 München, Website: <a href="https://usercentrics.com/de/" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://usercentrics.com/de/</a> (im Folgenden „Usercentrics“).
                 </p>
                 <p>
                   Wenn Sie unsere Website betreten, werden folgende personenbezogene Daten an Usercentrics übertragen:
@@ -390,7 +390,7 @@ export default function Datenschutz() {
             {/* Section 5 */}
             <section id="analyse" className="scroll-mt-24 space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
-                <span className="text-[#14b8a6]">5.</span> Analyse-Tools und Werbung
+                <span className="text-brand-700">5.</span> Analyse-Tools und Werbung
               </h2>
               
               <div className="space-y-4">
@@ -420,7 +420,7 @@ export default function Datenschutz() {
             {/* Section 6 */}
             <section id="plugins" className="scroll-mt-24 space-y-6">
               <h2 className="text-2xl font-bold text-gray-900 border-b border-gray-100 pb-3 flex items-center gap-2">
-                <span className="text-[#14b8a6]">6.</span> Plugins und Tools
+                <span className="text-brand-700">6.</span> Plugins und Tools
               </h2>
               
               <div className="space-y-4">
@@ -429,7 +429,7 @@ export default function Datenschutz() {
                   Diese Seite nutzt zur einheitlichen Darstellung von Schriftarten so genannte Google Fonts, die von Google bereitgestellt werden. Die Google Fonts sind lokal installiert. Eine Verbindung zu Servern von Google findet dabei nicht statt.
                 </p>
                 <p>
-                  Weitere Informationen zu Google Fonts finden Sie unter <a href="https://developers.google.com/fonts/faq" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline">https://developers.google.com/fonts/faq</a> und in der Datenschutzerklärung von Google: <a href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline">https://policies.google.com/privacy?hl=de</a>.
+                  Weitere Informationen zu Google Fonts finden Sie unter <a href="https://developers.google.com/fonts/faq" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://developers.google.com/fonts/faq</a> und in der Datenschutzerklärung von Google: <a href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://policies.google.com/privacy?hl=de</a>.
                 </p>
               </div>
 
@@ -445,13 +445,13 @@ export default function Datenschutz() {
                   Die Speicherung und Analyse der Daten erfolgt auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an der einheitlichen Darstellung des Schriftbildes auf seiner Website. Sofern eine entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TTDSG, soweit die Einwilligung die Speicherung von Cookies oder den Zugriff auf Informationen im Endgerät des Nutzers (z. B. Device-Fingerprinting) im Sinne des TTDSG umfasst. Die Einwilligung ist jederzeit widerrufbar.
                 </p>
                 <p>
-                  Die Datenübertragung in die USA wird auf die Standardvertragsklauseln der EU-Kommission gestützt. Details finden Sie hier: <a href="https://www.adobe.com/de/privacy/eudatatransfers.html" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline">https://www.adobe.com/de/privacy/eudatatransfers.html</a>.
+                  Die Datenübertragung in die USA wird auf die Standardvertragsklauseln der EU-Kommission gestützt. Details finden Sie hier: <a href="https://www.adobe.com/de/privacy/eudatatransfers.html" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://www.adobe.com/de/privacy/eudatatransfers.html</a>.
                 </p>
                 <p>
-                  Nähere Informationen zu Adobe Fonts erhalten Sie unter: <a href="https://www.adobe.com/de/privacy/policies/adobe-fonts.html" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline">https://www.adobe.com/de/privacy/policies/adobe-fonts.html</a>.
+                  Nähere Informationen zu Adobe Fonts erhalten Sie unter: <a href="https://www.adobe.com/de/privacy/policies/adobe-fonts.html" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://www.adobe.com/de/privacy/policies/adobe-fonts.html</a>.
                 </p>
                 <p>
-                  Die Datenschutzerklärung von Adobe finden Sie unter: <a href="https://www.adobe.com/de/privacy/policy.html" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline">https://www.adobe.com/de/privacy/policy.html</a>.
+                  Die Datenschutzerklärung von Adobe finden Sie unter: <a href="https://www.adobe.com/de/privacy/policy.html" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://www.adobe.com/de/privacy/policy.html</a>.
                 </p>
               </div>
 
@@ -467,10 +467,10 @@ export default function Datenschutz() {
                   Die Nutzung von Google Maps erfolgt im Interesse einer ansprechenden Darstellung unserer Online-Angebote und an einer leichten Auffindbarkeit der von uns auf der Website angegebenen Orte. Dies stellt ein berechtigtes Interesse im Sinne von Art. 6 Abs. 1 lit. f DSGVO dar. Sofern eine entsprechende Einwilligung abgefragt wurde, erfolgt die Verarbeitung ausschließlich auf Grundlage von Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1 TTDSG, soweit die Einwilligung die Speicherung von Cookies oder den Zugriff auf Informationen im Endgerät des Nutzers (z. B. Device-Fingerprinting) im Sinne des TTDSG umfasst. Die Einwilligung ist jederzeit widerrufbar.
                 </p>
                 <p>
-                  Die Datenübertragung in die USA wird auf die Standardvertragsklauseln der EU-Kommission gestützt. Details finden Sie hier: <a href="https://privacy.google.com/businesses/gdprcontrollerterms/" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline">https://privacy.google.com/businesses/gdprcontrollerterms/</a> und <a href="https://privacy.google.com/businesses/gdprcontrollerterms/sccs/" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline">https://privacy.google.com/businesses/gdprcontrollerterms/sccs/</a>.
+                  Die Datenübertragung in die USA wird auf die Standardvertragsklauseln der EU-Kommission gestützt. Details finden Sie hier: <a href="https://privacy.google.com/businesses/gdprcontrollerterms/" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://privacy.google.com/businesses/gdprcontrollerterms/</a> und <a href="https://privacy.google.com/businesses/gdprcontrollerterms/sccs/" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://privacy.google.com/businesses/gdprcontrollerterms/sccs/</a>.
                 </p>
                 <p>
-                  Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der Datenschutzerklärung von Google: <a href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer" className="text-[#14b8a6] hover:underline">https://policies.google.com/privacy?hl=de</a>.
+                  Mehr Informationen zum Umgang mit Nutzerdaten finden Sie in der Datenschutzerklärung von Google: <a href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://policies.google.com/privacy?hl=de</a>.
                 </p>
               </div>
             </section>
