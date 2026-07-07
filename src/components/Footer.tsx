@@ -124,9 +124,9 @@ export default function Footer() {
             <AnalogClock timezone="Asia/Shanghai" />
           </div>
 
-          {/* Contact */}
+          {/* Kontakt */}
           <div className="flex flex-col text-left font-sans text-sm text-gray-300">
-            <h3 className="text-xl font-light text-gray-100 mb-6 tracking-wide">Contact</h3>
+            <h3 className="text-xl font-light text-gray-100 mb-6 tracking-wide">Kontakt</h3>
             
             <div className="space-y-1 leading-relaxed text-gray-400 font-light">
               <p className="font-semibold text-gray-300">Victronic GmbH</p>
@@ -137,7 +137,7 @@ export default function Footer() {
             <div className="border-t border-gray-800/80 my-5" />
 
             <div className="space-y-1.5 text-gray-400 font-light">
-              <p>Phone: +49 4532 - 975 82 30</p>
+              <p>Telefon: +49 4532 - 975 82 30</p>
               <p>Fax: +49 4532 - 975 82 39</p>
             </div>
 
@@ -169,6 +169,10 @@ export default function Footer() {
 
           </div>
 
+        </div>
+
+        <div className="border-t border-gray-800 mt-16 pt-6 text-xs text-gray-500 text-center font-light">
+          © {new Date().getFullYear()} Victronic GmbH · Otto-Hahn-Straße 19 · 22941 Bargteheide
         </div>
       </div>
     </footer>
