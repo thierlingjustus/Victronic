@@ -123,11 +123,13 @@ export default function SystemDetail() {
   ];
 
   const layersData = [
-    { 
-      name: "Front-Polarisator", 
-      desc: "High-Res Bildschirmoberfläche", 
+    {
+      name: "Front-Polarisator",
+      desc: "High-Res Bildschirmoberfläche",
       side: "right",
-      content: <img src="https://picsum.photos/seed/seascape/1200/900" alt="Display" className="w-full h-full object-cover rounded-2xl" referrerPolicy="no-referrer" />,
+      // TODO(Victronic): Hier optional ein echtes Produkt-/Display-Foto einsetzen.
+      // Bis dahin deutet ein Markenverlauf den aktiven Bildschirm an.
+      content: <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-brand-800 via-brand-500 to-brand-200" />,
       className: "bg-transparent border-gray-200 z-[59] shadow-2xl"
     },
     { 

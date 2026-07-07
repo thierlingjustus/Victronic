@@ -67,13 +67,17 @@ export default function Home() {
                 </p>
               </div>
               <div className="relative">
-                <div className="aspect-square bg-gray-50 rounded-2xl border border-gray-100 overflow-hidden relative group">
-                  <img 
-                    src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=1000" 
-                    alt="Electronic Circuit Board" 
-                    className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
+                <div className="aspect-square bg-gray-50 rounded-xl border border-gray-100 overflow-hidden relative">
+                  {/*
+                    TODO(Victronic): Hier ein echtes Firmenfoto einsetzen
+                    (z.B. Team, Fertigung oder Produktdetail).
+                    Übergangsweise wird das Gebäudefoto aus dem Hero verwendet.
+                  */}
+                  <img
+                    src={buildingBg}
+                    alt="Firmensitz der Victronic GmbH in Bargteheide"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-brand-500/20 to-transparent mix-blend-overlay" />
                 </div>
               </div>
             </div>
