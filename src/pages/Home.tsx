@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import {
   Box, Layers,
   Lightbulb, CheckCircle, PenTool, Factory, ShieldCheck, Package,
-  Link as LinkIcon, Award, Clock, Search, Truck, ArrowRight, Mail, Phone, MapPin, ChevronRight
+  ArrowRight, Mail, Phone, MapPin, ChevronRight
 } from 'lucide-react';
 import { products } from '../data/products';
 import buildingBg from '../building.jpg';
@@ -192,24 +192,34 @@ export default function Home() {
       {/* Why Us Section */}
       <section className="py-24 bg-gray-50 border-y border-gray-200 px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-16 items-start">
             <FadeIn inView>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">Warum Victronic?</h2>
-              <div className="space-y-6">
-                {[
-                  { title: "Direkter Herstellerzugang", icon: LinkIcon },
-                  { title: "Zertifizierte Qualitätsstandards", icon: Award },
-                  { title: "Schnelle Reaktionszeiten", icon: Clock },
-                  { title: "Transparente Lieferketten", icon: Search },
-                  { title: "Zuverlässige Lieferung", icon: Truck }
-                ].map((reason, i) => (
-                  <div key={i} className="flex items-center gap-4 group">
-                    <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center group-hover:border-brand-400 transition-colors">
-                      <reason.icon className="w-5 h-5 text-gray-600 group-hover:text-brand-700 transition-colors" />
-                    </div>
-                    <span className="text-lg font-medium text-gray-800">{reason.title}</span>
-                  </div>
-                ))}
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Direkter Zugang zum Hersteller</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Seit 2008 pflegen wir enge, langjährige Beziehungen zu unseren Herstellern.
+                    Für Sie heißt das: kurze Wege, verlässliche Auskünfte und volle Transparenz
+                    über die gesamte Lieferkette – von der Anfrage bis zur Serienlieferung.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Schnelle Reaktionszeiten</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Als kleines, flexibles Team entscheiden wir schnell. Technische und
+                    kaufmännische Fragen beantworten wir direkt – ohne Umwege und ohne
+                    anonyme Support-Strukturen.
+                  </p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Zuverlässige Lieferung</h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    Termintreue ist in der Industrie keine Kür. Transparente Lieferketten und
+                    eingespielte Abläufe sorgen dafür, dass Ihre Komponenten dann ankommen,
+                    wenn Ihre Fertigung sie braucht.
+                  </p>
+                </div>
               </div>
             </FadeIn>
             <FadeIn inView delay={0.2}>
