@@ -18,12 +18,6 @@ export default function Product() {
 
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white overflow-hidden relative">
-      {/* Light Grid Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-70 pointer-events-none" />
-      
-      {/* Neon Blue Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand-600/5 blur-[150px] rounded-full pointer-events-none" />
-
       {/* Navigation */}
       <Navbar backTo="/" backLabel="Zurück zur Übersicht" />
 
@@ -32,7 +26,7 @@ export default function Product() {
           {/* Header */}
           <FadeIn>
             <div className="mb-12">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-6">
+              <div className="inline-flex items-center gap-2 text-brand-700 text-xs font-semibold uppercase tracking-widest mb-6">
                 <product.icon className="w-4 h-4" />
                 {product.name}
               </div>
@@ -57,7 +51,7 @@ export default function Product() {
             <div className="space-y-12">
               {/* Specs */}
               <FadeIn delay={0.3}>
-                <div className="bg-gray-50 border border-gray-200 rounded-2xl p-8">
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
                     <Zap className="w-6 h-6 text-brand-700" />
                     Technische Spezifikationen
@@ -75,8 +69,8 @@ export default function Product() {
 
               {/* Synergy & Norms */}
               <FadeIn delay={0.4}>
-                <div className="bg-gradient-to-br from-brand-50 to-transparent border border-brand-100 rounded-2xl p-8">
-                  <h2 className="text-2xl font-bold text-brand-700 mb-4">Synergie & Normen</h2>
+                <div className="bg-brand-50/50 border border-brand-100 rounded-xl p-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Synergie & Normen</h2>
                   <p className="text-gray-600 leading-relaxed mb-6">
                     {product.synergy}
                   </p>
@@ -95,7 +89,7 @@ export default function Product() {
 
               {/* CTA */}
               <FadeIn delay={0.5}>
-                <div className="bg-gray-950 text-white rounded-2xl p-8 text-center shadow-lg">
+                <div className="bg-gray-950 text-white rounded-xl p-8 text-center shadow-lg">
                   <h3 className="text-2xl font-bold mb-4">Projekt besprechen</h3>
                   <p className="text-gray-400 mb-8">
                     Lassen Sie uns gemeinsam die optimale Lösung für Ihre spezifischen Anforderungen im Bereich {product.name} finden.

@@ -11,11 +11,11 @@ export default function Impressum() {
 
       {/* Main Content */}
       <main className="pt-32 pb-24 px-6 relative z-10 max-w-4xl mx-auto">
-        <div className="bg-white border border-gray-200 rounded-3xl p-8 md:p-12 shadow-sm space-y-10">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 md:p-12 shadow-sm space-y-10">
           
           {/* Header */}
           <div className="border-b border-gray-100 pb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 text-brand-700 text-xs font-semibold uppercase tracking-widest mb-4">
               <Landmark className="w-3.5 h-3.5" /> Rechtliches
             </div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-2">Impressum</h1>
@@ -52,7 +52,7 @@ export default function Impressum() {
             </div>
 
             {/* Right: Contact details */}
-            <div className="space-y-6 bg-gray-50 border border-gray-200 rounded-2xl p-6">
+            <div className="space-y-6 bg-gray-50 border border-gray-200 rounded-lg p-6">
               <h2 className="text-sm font-bold uppercase tracking-wider text-brand-700 mb-2 flex items-center gap-1.5">
                 <Scale className="w-4 h-4" /> Kontakt &amp; Details
               </h2>

@@ -11,11 +11,11 @@ export default function Datenschutz() {
 
       {/* Main Content */}
       <main className="pt-32 pb-24 px-6 relative z-10 max-w-4xl mx-auto">
-        <div className="bg-white border border-gray-200 rounded-3xl p-8 md:p-12 shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 md:p-12 shadow-sm">
           
           {/* Header */}
           <div className="border-b border-gray-100 pb-8 mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 text-brand-700 text-xs font-semibold uppercase tracking-widest mb-4">
               <Shield className="w-3.5 h-3.5" /> Rechtliches
             </div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-2">Datenschutzerklärung</h1>
@@ -23,7 +23,7 @@ export default function Datenschutz() {
           </div>
 
           {/* Table of Contents */}
-          <div className="bg-gray-50 rounded-2xl p-6 mb-12 border border-gray-150">
+          <div className="bg-gray-50 rounded-lg p-6 mb-12 border border-gray-150">
             <h2 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
               <FileText className="w-5 h-5 text-brand-700" /> Inhalt
             </h2>
@@ -140,7 +140,7 @@ export default function Datenschutz() {
                 </p>
               </div>
 
-              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-4">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 space-y-4">
                 <h3 className="font-semibold text-gray-800">Wir setzen folgende(n) Hoster ein:</h3>
                 
                 <div className="grid md:grid-cols-3 gap-6 text-sm">
@@ -189,7 +189,7 @@ export default function Datenschutz() {
                 </p>
               </div>
 
-              <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-3">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 space-y-3">
                 <h3 className="font-semibold text-gray-800">Hinweis zur verantwortlichen Stelle</h3>
                 <div className="text-sm space-y-1">
                   <p className="font-bold text-gray-900">Victronic GmbH</p>
@@ -232,7 +232,7 @@ export default function Datenschutz() {
                 </p>
               </div>
 
-              <div className="space-y-4 bg-gray-50 border border-gray-200 rounded-2xl p-6">
+              <div className="space-y-4 bg-gray-50 border border-gray-200 rounded-lg p-6">
                 <h3 className="text-base font-bold text-gray-900 uppercase tracking-wider text-xs">Widerspruchsrecht gegen die Datenerhebung in besonderen Fällen sowie gegen Direktwerbung (Art. 21 DSGVO)</h3>
                 <p className="text-sm font-medium text-gray-700">
                   WENN DIE DATENVERARBEITUNG AUF GRUNDLAGE VON ART. 6 ABS. 1 LIT. E ODER F DSGVO ERFOLGT, HABEN SIE JEDERZEIT AUS GRÜNDEN, DIE SICH AUS IHRER BESONDEREN SITUATION ERGEBEN, DAS RECHT, GEGEN DIE VERARBEITUNG IHRER PERSONENBEZOGENEN DATEN WIDERSPRUCH EINZULEGEN; DIES GILT AUCH FÜR EIN AUF DIESE BESTIMMUNGEN GESTÜTZTES PROFILING. DIE JEWEILIGE RECHTSGRUNDLAGE, AUF DENEN EINE VERARBEITUNG BERUHT, ENTNEHMEN SIE DIESER DATENSCHUTZERKLÄRUNG. WENN SIE WIDERSPRUCH EINLEGEN, WERDEN WIR IHRE BETROFFENEN PERSONENBEZOGENEN DATEN NICHT MEHR VERARBEITEN, ES SEI DENN, WIR KÖNNEN ZWINGENDE SCHUTZWÜRDIGE GRÜNDE FÜR DIE VERARBEITUNG NACHWEISEN, DIE IHRE INTERESSEN, RECHTE UND FREIHEITEN ÜBERWIEGEN ODER DIE VERARBEITUNG DIENT DER GELTENDMACHUNG, AUSÜBUNG ODER VERTEIDIGUNG VON RECHTSANSPRÜCHEN (WIDERSPRUCH NACH ART. 21 ABS. 1 DSGVO).
@@ -333,7 +333,7 @@ export default function Datenschutz() {
                 </p>
               </div>
 
-              <div className="space-y-4 border border-gray-250 rounded-2xl p-6 bg-gray-50/50">
+              <div className="space-y-4 border border-gray-250 rounded-lg p-6 bg-gray-50/50">
                 <h3 className="text-lg font-semibold text-gray-800">Einwilligung mit Usercentrics</h3>
                 <p>
                   Diese Website nutzt die Consent-Technologie von Usercentrics, um Ihre Einwilligung zur Speicherung bestimmter Cookies auf Ihrem Endgerät oder zum Einsatz bestimmter Technologien einzuholen und diese datenschutzkonform zu dokumentieren. Anbieter dieser Technologie ist die Usercentrics GmbH, Sendlinger Straße 7, 80331 München, Website: <a href="https://usercentrics.com/de/" target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">https://usercentrics.com/de/</a> (im Folgenden „Usercentrics“).

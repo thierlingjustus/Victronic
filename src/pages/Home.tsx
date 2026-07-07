@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import {
   Box, Layers,
   Lightbulb, CheckCircle, PenTool, Factory, ShieldCheck, Package,
-  Link as LinkIcon, Award, Clock, Search, Truck, ArrowRight, Mail, Phone, MapPin, ChevronRight,
-  ArrowUpRight
+  Link as LinkIcon, Award, Clock, Search, Truck, ArrowRight, Mail, Phone, MapPin, ChevronRight
 } from 'lucide-react';
 import { products } from '../data/products';
 import buildingBg from '../building.jpg';
@@ -35,22 +34,19 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex flex-col items-center"
           >
-            <h1 className="text-6xl md:text-9xl font-black text-white tracking-tight leading-none mb-6 drop-shadow-[0_4px_16px_rgba(0,0,0,0.3)]">
+            <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-5 drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
               Victronic
             </h1>
-            <p className="text-sm md:text-lg font-bold text-white/95 max-w-xl mb-10 leading-relaxed uppercase tracking-[0.18em] drop-shadow-[0_2px_8px_rgba(0,0,0,0.3)]">
+            <p className="text-lg md:text-xl text-white/90 max-w-2xl mb-10 leading-relaxed drop-shadow-[0_1px_6px_rgba(0,0,0,0.35)]">
               Elektronische Lösungen für alle Anwendungen
             </p>
-            
-            {/* Pill-shaped Contact Button */}
-            <a 
-              href="#contact" 
-              className="inline-flex items-center gap-4 bg-white text-[#111] pl-6 pr-2 py-2 rounded-full font-bold hover:scale-[1.03] transition-all shadow-xl hover:shadow-2xl group select-none cursor-pointer"
+
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-md text-sm font-semibold hover:bg-gray-100 transition-colors shadow-lg"
             >
-              <span className="text-sm font-semibold tracking-wide">Kontakt uns</span>
-              <div className="w-8 h-8 rounded-full bg-brand-600 flex items-center justify-center text-white transition-all duration-300 group-hover:bg-brand-700 group-hover:rotate-45">
-                <ArrowUpRight className="w-4 h-4" />
-              </div>
+              Kontaktieren Sie uns
+              <ArrowRight className="w-4 h-4" />
             </a>
           </motion.div>
         </div>
@@ -103,16 +99,16 @@ export default function Home() {
             ].map((service, i) => (
               <FadeIn inView key={i} delay={i * 0.1}>
                 {service.link.startsWith('/') ? (
-                  <Link to={service.link} className="block hover-glow bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer">
-                    <div className="w-12 h-12 bg-brand-50 text-brand-700 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <Link to={service.link} className="block bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer transition-all hover:border-brand-300 hover:shadow-sm">
+                    <div className="w-12 h-12 bg-brand-50 text-brand-700 rounded-lg flex items-center justify-center mb-6">
                       <service.icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-xl font-bold mb-3">{service.title}</h3>
                     <p className="text-gray-600 leading-relaxed">{service.desc}</p>
                   </Link>
                 ) : (
-                  <a href={service.link} className="block hover-glow bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer">
-                    <div className="w-12 h-12 bg-brand-50 text-brand-700 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                  <a href={service.link} className="block bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer transition-all hover:border-brand-300 hover:shadow-sm">
+                    <div className="w-12 h-12 bg-brand-50 text-brand-700 rounded-lg flex items-center justify-center mb-6">
                       <service.icon className="w-6 h-6" />
                     </div>
                     <h3 className="text-xl font-bold mb-3">{service.title}</h3>
@@ -127,8 +123,6 @@ export default function Home() {
 
       {/* Products Section */}
       <section id="products" className="py-24 bg-[#fafafa] text-gray-800 px-6 relative overflow-hidden border-t border-b border-gray-100">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-80" />
-        
         <div className="max-w-7xl mx-auto relative z-10">
           <FadeIn inView>
             <div className="mb-16">
@@ -141,10 +135,9 @@ export default function Home() {
             {products.map((product, i) => (
               <FadeIn inView key={product.id} delay={i * 0.05}>
                 <Link to={`/products/${product.id}`} className="block group bg-white border border-gray-200 shadow-sm p-6 rounded-xl hover:border-brand-300 hover:shadow-md transition-all cursor-pointer h-full relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-brand-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-brand-700 mb-4 transition-colors relative z-10" />
-                  <h3 className="font-medium text-sm md:text-base text-gray-800 group-hover:text-brand-700 relative z-10 transition-colors">{product.name}</h3>
-                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0">
+                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-brand-700 mb-4 transition-colors" />
+                  <h3 className="font-medium text-sm md:text-base text-gray-800 group-hover:text-brand-700 transition-colors">{product.name}</h3>
+                  <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowRight className="w-4 h-4 text-brand-700" />
                   </div>
                 </Link>
@@ -153,10 +146,9 @@ export default function Home() {
           </div>
           
           <FadeIn inView delay={0.4}>
-            <div className="inline-flex items-center gap-2 text-sm text-gray-600 bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
-              <div className="w-2 h-2 rounded-full bg-brand-500" />
+            <p className="text-sm text-gray-600 border-l-2 border-brand-500 pl-3">
               Sonderlösungen für alle Produktkategorien verfügbar.
-            </div>
+            </p>
           </FadeIn>
         </div>
       </section>
@@ -221,8 +213,7 @@ export default function Home() {
               </div>
             </FadeIn>
             <FadeIn inView delay={0.2}>
-              <div className="bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-brand-600/5 rounded-bl-full" />
+              <div className="bg-white p-8 md:p-12 rounded-xl border border-gray-200 shadow-sm">
                 <h3 className="text-2xl font-bold mb-4">Zertifizierte Qualität</h3>
                 <p className="text-gray-600 leading-relaxed mb-6">
                   Wir arbeiten ausschließlich mit Herstellern zusammen, die nach internationalen Standards zertifiziert sind.
@@ -239,11 +230,9 @@ export default function Home() {
 
       {/* Contact Section */}
       <section id="contact" className="py-24 px-6 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-brand-500 to-transparent opacity-30" />
-        
         <div className="max-w-4xl mx-auto">
           <FadeIn inView>
-            <div className="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden flex flex-col md:flex-row">
+            <div className="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden flex flex-col md:flex-row">
               <div className="p-10 md:p-12 md:w-1/2 bg-gray-50 border-r border-gray-200">
                 <h2 className="text-3xl font-bold tracking-tight mb-2">Kontakt aufnehmen</h2>
                 <p className="text-gray-600 mb-8">Bereit für Ihr nächstes Projekt? Wir freuen uns auf Ihre Anfrage.</p>

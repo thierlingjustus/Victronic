@@ -42,8 +42,8 @@ const ProcessIndicator = ({ scrollYProgress }: { scrollYProgress: any }) => {
                 <div 
                   className={`w-2 h-2 rounded-full border transition-all duration-500 ${
                     isActive 
-                      ? 'bg-brand-600 border-brand-600 shadow-[0_0_10px_rgba(0,112,243,0.5)]' 
-                      : 'bg-gray-200 border-gray-300 shadow-[0_0_10px_rgba(0,112,243,0)]'
+                      ? 'bg-brand-600 border-brand-600'
+                      : 'bg-gray-200 border-gray-300'
                   } ${isCurrent ? 'scale-150' : 'scale-100'}`} 
                 />
                 <span className={`text-[10px] uppercase tracking-wider font-semibold max-w-[80px] text-center leading-tight transition-colors duration-500 ${
@@ -213,25 +213,22 @@ export default function SystemDetail() {
       <div ref={containerRef} className="relative h-[400vh] w-full">
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           
-          {/* Background Gradient */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,112,243,0.03)_0%,transparent_70%)] pointer-events-none" />
-
           {/* Intro Section */}
           <motion.div 
             style={{ opacity: introOpacity, y: introY, pointerEvents: introPointerEvents as any }}
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-30"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold uppercase tracking-wider mb-6">
+            <div className="inline-flex items-center gap-2 text-brand-700 text-xs font-semibold uppercase tracking-widest mb-6">
               VICTRONIC-Lösung
             </div>
-            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-gray-900 mb-4">
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-gray-900 mb-4">
               {system.name}
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12">
               {system.description}
             </p>
             <div className="animate-bounce text-gray-400 flex flex-col items-center gap-2">
-              <span className="text-sm uppercase tracking-widest">Scroll to explore</span>
+              <span className="text-sm uppercase tracking-widest">Weiter scrollen</span>
               <ChevronDown className="w-6 h-6" />
             </div>
           </motion.div>
@@ -293,9 +290,7 @@ export default function SystemDetail() {
             style={{ opacity: outroOpacity, y: outroY, pointerEvents: outroPointerEvents as any }}
             className="absolute inset-0 flex items-center justify-center px-6 z-30 bg-white/80 backdrop-blur-sm"
           >
-            <div className="max-w-4xl w-full bg-gradient-to-br from-brand-50 to-transparent border border-brand-100 rounded-3xl p-8 md:p-16 text-center relative overflow-hidden shadow-xl text-gray-800">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-brand-600/5 blur-[100px] rounded-full" />
-              
+            <div className="max-w-4xl w-full bg-brand-50/50 border border-brand-100 rounded-xl p-8 md:p-16 text-center relative overflow-hidden shadow-xl text-gray-800">
               <ShieldCheck className="w-16 h-16 text-brand-700 mx-auto mb-6" />
               <h2 className="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
                 Der Victronic <span className="text-brand-700">No-Extra-Cost</span> Vorteil

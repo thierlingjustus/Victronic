@@ -35,7 +35,7 @@ export default function Navbar({ backTo, backLabel = 'Zurück zur Startseite' }:
                   Impressum
                   <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
                 </span>
-                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 bg-white border border-gray-200 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
+                <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
                   <Link to="/impressum" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-700 transition-colors">
                     Impressum
                   </Link>
@@ -51,7 +51,7 @@ export default function Navbar({ backTo, backLabel = 'Zurück zur Startseite' }:
                 </div>
               </div>
             </div>
-            <a href="#contact" className="text-sm font-medium bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-colors shadow-sm">
+            <a href="#contact" className="text-sm font-medium bg-brand-700 text-white px-5 py-2 rounded-md hover:bg-brand-800 transition-colors shadow-sm">
               Kontakt
             </a>
           </>
