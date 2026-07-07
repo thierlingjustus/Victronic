@@ -1,27 +1,13 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft, Scale, BookOpen, Copyright } from 'lucide-react';
-import logo from '../logo.png';
+import React from 'react';
+import { Scale, BookOpen, Copyright } from 'lucide-react';
 import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
 
 export default function InhaltRecht() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
-          </Link>
-          <Link to="/" className="text-sm font-medium text-gray-500 hover:text-[#14b8a6] flex items-center gap-2 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Zurück zur Startseite
-          </Link>
-        </div>
-      </nav>
+      <Navbar backTo="/" />
 
       {/* Main Content */}
       <main className="pt-32 pb-24 px-6 relative z-10 max-w-4xl mx-auto">

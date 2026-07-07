@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowLeft, ChevronDown, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { ChevronDown, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { systems } from '../data/systems';
-import logo from '../logo.png';
 import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import NotFound from '../components/NotFound';
 
 const PROJECT_STEPS = [
   "Anfrage & Beratung",
@@ -61,13 +62,8 @@ const ProcessIndicator = ({ scrollYProgress }: { scrollYProgress: any }) => {
 
 export default function SystemDetail() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const system = systems.find(s => s.id === id);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -201,14 +197,7 @@ export default function SystemDetail() {
   const outroPointerEvents = useTransform(scrollYProgress, (v) => v > 0.85 ? "auto" : "none");
 
   if (!system) {
-    return (
-      <div className="min-h-screen bg-white text-gray-800 flex flex-col items-center justify-center">
-        <h1 className="text-2xl mb-4">System nicht gefunden</h1>
-        <button onClick={() => navigate('/systems')} className="text-[#0070f3] hover:underline flex items-center gap-2">
-          <ArrowLeft className="w-4 h-4" /> Zurück zur Übersicht
-        </button>
-      </div>
-    );
+    return <NotFound title="System nicht gefunden" backTo="/systems" backLabel="Zurück zur Übersicht" />;
   }
 
   const layerStyle = "absolute w-64 md:w-96 aspect-[4/3] rounded-2xl border flex items-center justify-center transition-shadow duration-300";
@@ -216,16 +205,7 @@ export default function SystemDetail() {
   return (
     <div className="bg-white text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
-          </Link>
-          <Link to="/systems" className="text-sm font-medium text-gray-500 hover:text-[#14b8a6] flex items-center gap-2 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Zurück zum Hub
-          </Link>
-        </div>
-      </nav>
+      <Navbar backTo="/systems" backLabel="Zurück zum Hub" />
 
       <ProcessIndicator scrollYProgress={scrollYProgress} />
 

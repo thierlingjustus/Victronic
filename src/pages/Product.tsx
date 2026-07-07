@@ -1,40 +1,19 @@
-import React, { useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowLeft, CheckCircle2, ChevronRight, Zap } from 'lucide-react';
+import React from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { CheckCircle2, ChevronRight, Zap } from 'lucide-react';
 import { products } from '../data/products';
 import ProductViewer3D from '../components/ProductViewer3D';
-import logo from '../logo.png';
 import Footer from '../components/Footer';
-
-const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay }}
-  >
-    {children}
-  </motion.div>
-);
+import Navbar from '../components/Navbar';
+import NotFound from '../components/NotFound';
+import FadeIn from '../components/FadeIn';
 
 export default function Product() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const product = products.find(p => p.id === id);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [id]);
-
   if (!product) {
-    return (
-      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center">
-        <h1 className="text-2xl mb-4">Produkt nicht gefunden</h1>
-        <button onClick={() => navigate('/')} className="text-[#00dfd8] hover:underline flex items-center gap-2">
-          <ArrowLeft className="w-4 h-4" /> Zurück zur Startseite
-        </button>
-      </div>
-    );
+    return <NotFound title="Produkt nicht gefunden" backTo="/" backLabel="Zurück zur Startseite" />;
   }
 
   return (
@@ -46,16 +25,7 @@ export default function Product() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0070f3]/5 blur-[150px] rounded-full pointer-events-none" />
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
-          </Link>
-          <Link to="/" className="text-sm font-medium text-gray-500 hover:text-[#14b8a6] flex items-center gap-2 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Zurück zur Übersicht
-          </Link>
-        </div>
-      </nav>
+      <Navbar backTo="/" backLabel="Zurück zur Übersicht" />
 
       <main className="pt-32 pb-24 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">

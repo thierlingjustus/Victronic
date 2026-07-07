@@ -1,26 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowLeft, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { systems } from '../data/systems';
-import logo from '../logo.png';
 import Footer from '../components/Footer';
-
-const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.6, delay }}
-  >
-    {children}
-  </motion.div>
-);
+import Navbar from '../components/Navbar';
+import FadeIn from '../components/FadeIn';
 
 export default function SystemsHub() {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-[#0070f3] selection:text-white overflow-hidden relative">
       {/* Light Grid Background */}
@@ -30,16 +16,7 @@ export default function SystemsHub() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#0070f3]/5 blur-[150px] rounded-full pointer-events-none" />
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
-          </Link>
-          <Link to="/" className="text-sm font-medium text-gray-500 hover:text-[#14b8a6] flex items-center gap-2 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Zurück zur Startseite
-          </Link>
-        </div>
-      </nav>
+      <Navbar backTo="/" />
 
       <main className="pt-32 pb-24 px-6 relative z-10">
         <div className="max-w-7xl mx-auto">

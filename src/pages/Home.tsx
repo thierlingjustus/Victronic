@@ -1,70 +1,23 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { 
-  Monitor, Smartphone, Zap, Fan, Box, Layers, Wrench,
+import {
+  Box, Layers,
   Lightbulb, CheckCircle, PenTool, Factory, ShieldCheck, Package,
   Link as LinkIcon, Award, Clock, Search, Truck, ArrowRight, Mail, Phone, MapPin, ChevronRight,
-  ArrowUpRight, ChevronDown
+  ArrowUpRight
 } from 'lucide-react';
 import { products } from '../data/products';
-import logo from '../logo.png';
 import buildingBg from '../building.jpg';
 import Footer from '../components/Footer';
-
-const FadeIn = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, margin: "-100px" }}
-    transition={{ duration: 0.6, delay }}
-  >
-    {children}
-  </motion.div>
-);
+import Navbar from '../components/Navbar';
+import FadeIn from '../components/FadeIn';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-[#0070f3] selection:text-white overflow-hidden">
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 shadow-sm text-gray-800">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center">
-            <img src={logo} alt="Victronic GmbH Logo" className="h-8 md:h-10 w-auto object-contain" />
-          </Link>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
-            <a href="#about" className="hover:text-[#14b8a6] transition-colors">Über uns</a>
-            <a href="#services" className="hover:text-[#14b8a6] transition-colors">Leistungen</a>
-            <a href="#products" className="hover:text-[#14b8a6] transition-colors">Produkte</a>
-            <a href="#process" className="hover:text-[#14b8a6] transition-colors">Prozess</a>
-            
-            {/* Impressum Dropdown */}
-            <div className="relative group py-2">
-              <span className="hover:text-[#14b8a6] transition-colors flex items-center gap-1 cursor-pointer">
-                Impressum
-                <ChevronDown className="w-3.5 h-3.5 transition-transform group-hover:rotate-180" />
-              </span>
-              <div className="absolute left-1/2 -translate-x-1/2 top-full mt-2 w-48 bg-white border border-gray-200 rounded-2xl shadow-xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-[100]">
-                <Link to="/impressum" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
-                  Impressum
-                </Link>
-                <Link to="/datenschutz" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
-                  Datenschutz
-                </Link>
-                <Link to="/inhalt-recht" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
-                  Inhalt / Recht
-                </Link>
-                <Link to="/agb" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#14b8a6] transition-colors">
-                  AGB
-                </Link>
-              </div>
-            </div>
-          </div>
-          <a href="#contact" className="text-sm font-medium bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-colors shadow-sm">
-            Kontakt
-          </a>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Hero Section */}
       <section 
@@ -106,7 +59,7 @@ export default function Home() {
       {/* About Section */}
       <section id="about" className="py-24 bg-white border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-6">
-          <FadeIn>
+          <FadeIn inView>
             <div className="grid md:grid-cols-2 gap-16 items-center">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Über Victronic</h2>
@@ -135,7 +88,7 @@ export default function Home() {
       {/* Services Section */}
       <section id="services" className="py-24 px-6 relative">
         <div className="max-w-7xl mx-auto">
-          <FadeIn>
+          <FadeIn inView>
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Unsere Leistungen</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">Umfassende Unterstützung für Ihre elektronischen Projekte.</p>
@@ -148,7 +101,7 @@ export default function Home() {
               { title: "Systeme", desc: "Module und vollständig angepasste Baugruppen, zugeschnitten auf Ihre spezifische Anwendung.", icon: Layers, link: "/systems" },
               { title: "Beratung", desc: "Schneller und direkter technischer und kaufmännischer Support für Ihre Projekte.", icon: Lightbulb, link: "#contact" }
             ].map((service, i) => (
-              <FadeIn key={i} delay={i * 0.1}>
+              <FadeIn inView key={i} delay={i * 0.1}>
                 {service.link.startsWith('/') ? (
                   <Link to={service.link} className="block hover-glow bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer">
                     <div className="w-12 h-12 bg-teal-50 text-[#14b8a6] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
@@ -177,7 +130,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-80" />
         
         <div className="max-w-7xl mx-auto relative z-10">
-          <FadeIn>
+          <FadeIn inView>
             <div className="mb-16">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Produktkategorien</h2>
               <p className="text-gray-500 max-w-2xl">Hochwertige Komponenten für anspruchsvolle Industrieanwendungen. Klicken Sie auf eine Lösung für technische Details.</p>
@@ -186,7 +139,7 @@ export default function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12">
             {products.map((product, i) => (
-              <FadeIn key={product.id} delay={i * 0.05}>
+              <FadeIn inView key={product.id} delay={i * 0.05}>
                 <Link to={`/products/${product.id}`} className="block group bg-white border border-gray-200 shadow-sm p-6 rounded-xl hover:border-[#14b8a6]/50 hover:shadow-md transition-all cursor-pointer h-full relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-[#14b8a6]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <product.icon className="w-8 h-8 text-gray-400 group-hover:text-[#14b8a6] mb-4 transition-colors relative z-10" />
@@ -199,7 +152,7 @@ export default function Home() {
             ))}
           </div>
           
-          <FadeIn delay={0.4}>
+          <FadeIn inView delay={0.4}>
             <div className="inline-flex items-center gap-2 text-sm text-gray-600 bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm">
               <div className="w-2 h-2 rounded-full bg-[#14b8a6]" />
               Sonderlösungen für alle Produktkategorien verfügbar.
@@ -211,7 +164,7 @@ export default function Home() {
       {/* Process Section */}
       <section id="process" className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
-          <FadeIn>
+          <FadeIn inView>
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Unser Prozess</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">Wir begleiten Ihr Projekt vom Konzept bis zur Massenproduktion.</p>
@@ -229,7 +182,7 @@ export default function Home() {
                 { step: "05", name: "Prüfung & Freigabe", icon: ShieldCheck },
                 { step: "06", name: "Serienproduktion", icon: Package }
               ].map((item, i) => (
-                <FadeIn key={i} delay={i * 0.1}>
+                <FadeIn inView key={i} delay={i * 0.1}>
                   <div className="flex flex-col items-center text-center group">
                     <div className="w-12 h-12 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center mb-4 group-hover:border-[#14b8a6] group-hover:text-[#14b8a6] transition-colors relative z-10">
                       <item.icon className="w-5 h-5" />
@@ -248,7 +201,7 @@ export default function Home() {
       <section className="py-24 bg-gray-50 border-y border-gray-200 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 gap-16 items-center">
-            <FadeIn>
+            <FadeIn inView>
               <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-8">Warum Victronic?</h2>
               <div className="space-y-6">
                 {[
@@ -267,7 +220,7 @@ export default function Home() {
                 ))}
               </div>
             </FadeIn>
-            <FadeIn delay={0.2}>
+            <FadeIn inView delay={0.2}>
               <div className="bg-white p-8 md:p-12 rounded-2xl border border-gray-200 shadow-sm relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#0070f3]/5 rounded-bl-full" />
                 <h3 className="text-2xl font-bold mb-4">Zertifizierte Qualität</h3>
@@ -289,7 +242,7 @@ export default function Home() {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-px bg-gradient-to-r from-transparent via-[#0070f3] to-transparent opacity-30" />
         
         <div className="max-w-4xl mx-auto">
-          <FadeIn>
+          <FadeIn inView>
             <div className="bg-white rounded-3xl border border-gray-200 shadow-xl overflow-hidden flex flex-col md:flex-row">
               <div className="p-10 md:p-12 md:w-1/2 bg-gray-50 border-r border-gray-200">
                 <h2 className="text-3xl font-bold tracking-tight mb-2">Kontakt aufnehmen</h2>
