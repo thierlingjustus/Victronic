@@ -6,6 +6,7 @@ import { systems } from '../data/systems';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import NotFound from '../components/NotFound';
+import Seo from '../components/Seo';
 
 const PROJECT_STEPS = [
   "Anfrage & Beratung",
@@ -206,6 +207,7 @@ export default function SystemDetail() {
 
   return (
     <div className="bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
+      <Seo title={`${system.name} – Victronic GmbH`} description={system.description} />
       {/* Navigation */}
       <Navbar backTo="/systems" backLabel="Zurück zum Hub" />
 

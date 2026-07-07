@@ -2,10 +2,12 @@ import React from 'react';
 import { Shield, Lock, Eye, FileText } from 'lucide-react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import Seo from '../components/Seo';
 
 export default function Datenschutz() {
   return (
     <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
+      <Seo title="Datenschutzerklärung – Victronic GmbH" />
       {/* Navigation */}
       <Navbar backTo="/" />
 

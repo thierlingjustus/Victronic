@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import NotFound from '../components/NotFound';
 import FadeIn from '../components/FadeIn';
+import Seo from '../components/Seo';
 
 export default function Product() {
   const { id } = useParams();
@@ -18,6 +19,7 @@ export default function Product() {
 
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white overflow-hidden relative">
+      <Seo title={`${product.name} – Victronic GmbH`} description={product.strategicBenefit} />
       {/* Navigation */}
       <Navbar backTo="/" backLabel="Zurück zur Übersicht" />
 

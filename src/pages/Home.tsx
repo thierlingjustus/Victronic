@@ -11,10 +11,15 @@ import buildingBg from '../building.jpg';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import FadeIn from '../components/FadeIn';
+import Seo from '../components/Seo';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-brand-600 selection:text-white overflow-hidden">
+      <Seo
+        title="Victronic GmbH – Elektronische Komponenten und Baugruppen für die Industrie"
+        description="Victronic GmbH aus Bargteheide: Displays, elektronische Komponenten und kundenspezifische Baugruppen für Industriekunden – seit 2008 mit direkten Herstellerbeziehungen und transparenten Lieferketten."
+      />
       {/* Navigation */}
       <Navbar />
 

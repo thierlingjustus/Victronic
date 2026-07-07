@@ -2,6 +2,7 @@ import React from 'react';
 import { Scale, FileText, Landmark } from 'lucide-react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
+import Seo from '../components/Seo';
 
 export default function AGB() {
   const sections = [
@@ -69,6 +70,7 @@ export default function AGB() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
+      <Seo title="Allgemeine Geschäftsbedingungen – Victronic GmbH" />
       {/* Navigation */}
       <Navbar backTo="/" />
 

@@ -5,10 +5,15 @@ import { systems } from '../data/systems';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import FadeIn from '../components/FadeIn';
+import Seo from '../components/Seo';
 
 export default function SystemsHub() {
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white overflow-hidden relative">
+      <Seo
+        title="Systeme – Victronic GmbH"
+        description="Einbaufertige Display- und Elektroniksysteme von Victronic: TFT mit Touch, LCM/LCD-Module und kundenspezifische Baugruppen für die Industrie."
+      />
       {/* Navigation */}
       <Navbar backTo="/" />
 
