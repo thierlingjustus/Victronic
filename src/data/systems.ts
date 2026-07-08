@@ -1,5 +1,11 @@
 import { MonitorSmartphone, AppWindow, Layers, Cpu } from 'lucide-react';
 
+export interface InfoSlot {
+  title: string;
+  desc: string;
+  align: string;
+}
+
 export const systems = [
   {
     id: "tft-touch",
