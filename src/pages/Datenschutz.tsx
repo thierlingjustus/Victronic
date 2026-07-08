@@ -373,6 +373,9 @@ export default function Datenschutz() {
                 <p>
                   Die von Ihnen im Kontaktformular eingegebenen Daten verbleiben bei uns, bis Sie uns zur Löschung auffordern, Ihre Einwilligung zur Speicherung widerrufen oder der Zweck für die Datenspeicherung entfällt (z. B. nach abgeschlossener Bearbeitung Ihrer Anfrage). Zwingende gesetzliche Bestimmungen – insbesondere Aufbewahrungsfristen – bleiben unberührt.
                 </p>
+                <p>
+                  Für die technische Übermittlung der Formulardaten nutzen wir den Dienst FormSubmit (formsubmit.co). Ihre Angaben aus dem Kontaktformular (Name, E-Mail-Adresse, Nachricht) werden dabei zum Zweck der Zustellung per E-Mail über die Server dieses Anbieters übermittelt und von diesem nicht dauerhaft gespeichert. Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO bzw. unseres berechtigten Interesses an einer effizienten Bearbeitung eingehender Anfragen (Art. 6 Abs. 1 lit. f DSGVO).
+                </p>
               </div>
 
               <div className="space-y-3">

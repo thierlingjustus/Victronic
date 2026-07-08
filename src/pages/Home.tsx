@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import {
@@ -6,6 +6,13 @@ import {
   Lightbulb, CheckCircle, PenTool, Factory, ShieldCheck, Package,
   ArrowRight, Mail, Phone, MapPin, ChevronRight
 } from 'lucide-react';
+
+// Kontaktanfragen werden per FormSubmit an das Victronic-Postfach zugestellt.
+// Hinweis: Der Empfänger muss die Adresse beim allerersten Versand einmalig
+// über den Aktivierungslink von formsubmit.co bestätigen.
+const CONTACT_ENDPOINT = 'https://formsubmit.co/ajax/justus.thierling@victronic-gmbh.de';
+
+type ContactStatus = 'idle' | 'sending' | 'success' | 'error';
 import { products } from '../data/products';
 import buildingBg from '../building.jpg';
 import Footer from '../components/Footer';
@@ -14,6 +21,35 @@ import FadeIn from '../components/FadeIn';
 import Seo from '../components/Seo';
 
 export default function Home() {
+  const [contactStatus, setContactStatus] = useState<ContactStatus>('idle');
+
+  async function handleContactSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    setContactStatus('sending');
+    try {
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: data.get('name'),
+          email: data.get('email'),
+          message: data.get('message'),
+          _honey: data.get('_honey'), // Honeypot: von Bots ausgefüllt -> FormSubmit verwirft
+          _subject: 'Neue Anfrage über victronic-gmbh.de',
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      });
+      if (!res.ok) throw new Error(`FormSubmit antwortete mit Status ${res.status}`);
+      form.reset();
+      setContactStatus('success');
+    } catch {
+      setContactStatus('error');
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-brand-600 selection:text-white overflow-hidden">
       <Seo
@@ -276,23 +312,44 @@ export default function Home() {
               </div>
               
               <div className="p-10 md:p-12 md:w-1/2 bg-white">
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-4" onSubmit={handleContactSubmit}>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                    <input type="text" className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-600 transition-all" placeholder="Ihr Name" />
+                    <label htmlFor="contact-name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                    <input id="contact-name" name="name" type="text" required disabled={contactStatus === 'sending'} className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-600 transition-all disabled:opacity-60" placeholder="Ihr Name" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">E-Mail</label>
-                    <input type="email" className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-600 transition-all" placeholder="ihre@email.de" />
+                    <label htmlFor="contact-email" className="block text-sm font-medium text-gray-700 mb-1">E-Mail</label>
+                    <input id="contact-email" name="email" type="email" required disabled={contactStatus === 'sending'} className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-600 transition-all disabled:opacity-60" placeholder="ihre@email.de" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Nachricht</label>
-                    <textarea rows={4} className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-600 transition-all resize-none" placeholder="Wie können wir Ihnen helfen?"></textarea>
+                    <label htmlFor="contact-message" className="block text-sm font-medium text-gray-700 mb-1">Nachricht</label>
+                    <textarea id="contact-message" name="message" rows={4} required disabled={contactStatus === 'sending'} className="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-600 transition-all resize-none disabled:opacity-60" placeholder="Wie können wir Ihnen helfen?"></textarea>
                   </div>
-                  <button className="w-full bg-black text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 group">
-                    Anfrage senden
+                  {/* Honeypot gegen Spam-Bots – für Menschen unsichtbar */}
+                  <input type="text" name="_honey" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+                  <button type="submit" disabled={contactStatus === 'sending'} className="w-full bg-black text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 group disabled:opacity-60 disabled:cursor-not-allowed">
+                    {contactStatus === 'sending' ? 'Wird gesendet …' : 'Anfrage senden'}
                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </button>
+                  <div aria-live="polite">
+                    {contactStatus === 'success' && (
+                      <p className="text-sm text-green-700 bg-green-50 border border-green-200 rounded-md px-4 py-3">
+                        Vielen Dank! Ihre Anfrage wurde übermittelt. Wir melden uns zeitnah bei Ihnen.
+                      </p>
+                    )}
+                    {contactStatus === 'error' && (
+                      <p className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-md px-4 py-3">
+                        Ihre Anfrage konnte leider nicht übermittelt werden. Bitte versuchen Sie es erneut
+                        oder schreiben Sie uns direkt an{' '}
+                        <a href="mailto:info@victronic-gmbh.de" className="underline">info@victronic-gmbh.de</a>.
+                      </p>
+                    )}
+                  </div>
+                  <p className="text-xs text-gray-500 leading-relaxed">
+                    Mit dem Absenden erklären Sie sich mit der Verarbeitung Ihrer Angaben zur Bearbeitung
+                    der Anfrage einverstanden. Details finden Sie in unserer{' '}
+                    <Link to="/datenschutz" className="underline hover:text-brand-700 transition-colors">Datenschutzerklärung</Link>.
+                  </p>
                 </form>
               </div>
             </div>
