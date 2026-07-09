@@ -14,8 +14,9 @@ const CONTACT_ENDPOINT = 'https://formsubmit.co/ajax/justus.thierling@victronic-
 
 type ContactStatus = 'idle' | 'sending' | 'success' | 'error';
 import { products } from '../data/products';
-import buildingBg from '../building.jpg';
+import werSindWirImg from '../assets/about/Wer-sind-wir5.png';
 import Footer from '../components/Footer';
+import HeroSlideshow from '../components/HeroSlideshow';
 import Navbar from '../components/Navbar';
 import FadeIn from '../components/FadeIn';
 import Seo from '../components/Seo';
@@ -60,10 +61,11 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section 
-        className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden bg-cover bg-center pt-24 px-6"
-        style={{ backgroundImage: `url(${buildingBg})` }}
+      <section
+        className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pt-24 px-6"
       >
+        <HeroSlideshow />
+
         {/* Dark overlay for readability */}
         <div className="absolute inset-0 bg-black/45 pointer-events-none" />
         
@@ -109,14 +111,9 @@ export default function Home() {
               </div>
               <div className="relative">
                 <div className="aspect-square bg-gray-50 rounded-xl border border-gray-100 overflow-hidden relative">
-                  {/*
-                    TODO(Victronic): Hier ein echtes Firmenfoto einsetzen
-                    (z.B. Team, Fertigung oder Produktdetail).
-                    Übergangsweise wird das Gebäudefoto aus dem Hero verwendet.
-                  */}
                   <img
-                    src={buildingBg}
-                    alt="Firmensitz der Victronic GmbH in Bargteheide"
+                    src={werSindWirImg}
+                    alt="Victronic – wer wir sind"
                     className="w-full h-full object-cover"
                   />
                 </div>
