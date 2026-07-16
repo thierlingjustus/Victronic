@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img">
+  <title>TFT Displays</title>
+  <rect width="800" height="600" fill="#f0f9fe"/>
+  <circle cx="400" cy="300" r="150" fill="#e0f2fc"/>
+  <g transform="translate(330 180) scale(5.8333)" fill="none" stroke="#0084c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="20" height="14" x="2" y="3" rx="2"/>
+    <line x1="8" x2="16" y1="21" y2="21"/>
+    <line x1="12" x2="12" y1="17" y2="21"/>
+  </g>
+  <text x="400" y="430" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="600" fill="#005580" font-size="44">TFT Displays</text>
+</svg>

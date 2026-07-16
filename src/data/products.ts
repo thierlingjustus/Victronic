@@ -1,4 +1,13 @@
 import { Monitor, Smartphone, Zap, Fan, Box, Layers, Wrench } from 'lucide-react';
+// Lokale SVG-Platzhalter, bis echte Produktfotos vorliegen (DSGVO: keine externen Requests)
+import tftDisplaysImg from '../assets/products/tft-displays.svg';
+import lcmLcdModuleImg from '../assets/products/lcm-lcd-module.svg';
+import touchscreensImg from '../assets/products/touchscreens.svg';
+import stromversorgungenImg from '../assets/products/stromversorgungen.svg';
+import luefterImg from '../assets/products/luefter.svg';
+import kunststoffkomponentenImg from '../assets/products/kunststoffkomponenten.svg';
+import glasloesungenImg from '../assets/products/glasloesungen.svg';
+import montageGehaeuseImg from '../assets/products/montage-gehaeuse.svg';
 
 export const products = [
   {
@@ -14,7 +23,8 @@ export const products = [
       { label: "Schnittstellen", value: "LVDS, RGB, MIPI, eDP" }
     ],
     synergy: "Perfekt kombinierbar mit unseren OGS-Touchscreens und AG/AR-Glaslösungen für komplette HMI-Einheiten. Erfüllt Industriestandards für erweiterte Temperaturbereiche.",
-    modelType: "display"
+    modelType: "display",
+    image: tftDisplaysImg
   },
   {
     id: "lcm-lcd-module",
@@ -29,7 +39,8 @@ export const products = [
       { label: "Temperaturbereich", value: "-30°C bis +85°C (erweitert)" }
     ],
     synergy: "Ideal für batteriebetriebene Geräte. Nahtlose Integration in unsere Kunststoffgehäuse mit passgenauen Sichtfenstern.",
-    modelType: "lcd"
+    modelType: "lcd",
+    image: lcmLcdModuleImg
   },
   {
     id: "touchscreens",
@@ -44,7 +55,8 @@ export const products = [
       { label: "Controller", value: "EETI, Ilitek, Goodix (Industrie-Standard)" }
     ],
     synergy: "Optisches Bonding (Optical Bonding) mit unseren TFT-Displays und Cover-Gläsern für maximale Robustheit (IK08/IK10) und optische Klarheit.",
-    modelType: "touch"
+    modelType: "touch",
+    image: touchscreensImg
   },
   {
     id: "stromversorgungen",
@@ -59,7 +71,8 @@ export const products = [
       { label: "Schutz", value: "OVP, OCP, SCP, OTP (Umfassende Schutzschaltungen)" }
     ],
     synergy: "Zertifiziert nach ITE (EN 62368-1) und Medical (EN 60601-1). Perfekt abgestimmt auf den Energiebedarf unserer Display- und Embedded-Systeme.",
-    modelType: "power"
+    modelType: "power",
+    image: stromversorgungenImg
   },
   {
     id: "luefter",
@@ -74,7 +87,8 @@ export const products = [
       { label: "Schutzart", value: "IP55 bis IP68 für raue Umgebungen" }
     ],
     synergy: "Zentraler Bestandteil unseres Thermomanagement-Konzepts bei der Modulmontage. Verhindert Derating bei Hochleistungs-Stromversorgungen.",
-    modelType: "fan"
+    modelType: "fan",
+    image: luefterImg
   },
   {
     id: "kunststoffkomponenten",
@@ -89,7 +103,8 @@ export const products = [
       { label: "Toleranzen", value: "Höchste Präzision im Mikrometerbereich" }
     ],
     synergy: "IATF 16949 zertifizierte Fertigung. Nahtlose Integration mit unseren Glaslösungen und Elektronikbaugruppen für schlüsselfertige Systeme.",
-    modelType: "plastic"
+    modelType: "plastic",
+    image: kunststoffkomponentenImg
   },
   {
     id: "glasloesungen",
@@ -104,7 +119,8 @@ export const products = [
       { label: "Bearbeitung", value: "CNC-Fräsen für 2.5D/3D-Kanten, Bohrungen und Aussparungen" }
     ],
     synergy: "Die perfekte Ergänzung zu unseren TFTs und Touchscreens. Erfüllt Normen wie EN 50155 (Bahn) durch Splitterschutzfolien (Shatter-Proof).",
-    modelType: "glass"
+    modelType: "glass",
+    image: glasloesungenImg
   },
   {
     id: "montage-gehaeuse",
@@ -119,6 +135,7 @@ export const products = [
       { label: "Verguss", value: "Potting und Conformal Coating für extremen Umweltschutz" }
     ],
     synergy: "Wir vereinen Displays, Touch, Stromversorgung, Kunststoff und Glas zu einem geprüften, zertifizierten Gesamtsystem (Plug & Play).",
-    modelType: "assembly"
+    modelType: "assembly",
+    image: montageGehaeuseImg
   }
 ];

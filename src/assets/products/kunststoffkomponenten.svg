@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img">
+  <title>Kunststoffkomponenten</title>
+  <rect width="800" height="600" fill="#f0f9fe"/>
+  <circle cx="400" cy="300" r="150" fill="#e0f2fc"/>
+  <g transform="translate(330 180) scale(5.8333)" fill="none" stroke="#0084c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/>
+    <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/>
+    <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>
+  </g>
+  <text x="400" y="430" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="600" fill="#005580" font-size="32">Kunststoffkomponenten</text>
+</svg>

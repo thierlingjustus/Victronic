@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img">
+  <title>LCM / LCD Module</title>
+  <rect width="800" height="600" fill="#f0f9fe"/>
+  <circle cx="400" cy="300" r="150" fill="#e0f2fc"/>
+  <g transform="translate(330 180) scale(5.8333)" fill="none" stroke="#0084c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect width="14" height="20" x="5" y="2" rx="2" ry="2"/>
+    <path d="M12 18h.01"/>
+  </g>
+  <text x="400" y="405" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="600" fill="#005580" font-size="44">
+    <tspan x="400" dy="0">LCM / LCD</tspan>
+    <tspan x="400" dy="54">Module</tspan>
+  </text>
+</svg>

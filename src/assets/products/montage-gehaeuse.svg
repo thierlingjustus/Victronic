@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img">
+  <title>Montage &amp; Gehäuse</title>
+  <rect width="800" height="600" fill="#f0f9fe"/>
+  <circle cx="400" cy="300" r="150" fill="#e0f2fc"/>
+  <g transform="translate(330 180) scale(5.8333)" fill="none" stroke="#0084c4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/>
+  </g>
+  <text x="400" y="405" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-weight="600" fill="#005580" font-size="44">
+    <tspan x="400" dy="0">Montage &amp;</tspan>
+    <tspan x="400" dy="54">Gehäuse</tspan>
+  </text>
+</svg>
