@@ -9,6 +9,27 @@ import kunststoffkomponentenImg from '../assets/products/kunststoffkomponenten.s
 import glasloesungenImg from '../assets/products/glasloesungen.svg';
 import montageGehaeuseImg from '../assets/products/montage-gehaeuse.svg';
 
+// Echte Produktfotos für die alternierende Bild/Text-Galerie auf den Produktseiten
+import tftCtpExploded from '../assets/products/tft-displays/tft-ctp-exploded.jpg';
+import tftPanelFront from '../assets/products/tft-displays/tft-panel-front.jpg';
+import cogBonding from '../assets/products/lcm-lcd-module/cog-bonding.jpg';
+import fstnPanel from '../assets/products/lcm-lcd-module/fstn-panel.jpg';
+import cobModule from '../assets/products/lcm-lcd-module/cob-module.jpg';
+import ogsPanel from '../assets/products/touchscreens/ogs-panel.jpg';
+import pcapSensor from '../assets/products/touchscreens/pcap-sensor.jpg';
+import touchControllerBoard from '../assets/products/touchscreens/touch-controller-board.jpg';
+import axialFan from '../assets/products/luefter/axial-fan.jpg';
+import explodedPwm from '../assets/products/luefter/exploded-pwm.jpg';
+import explodedDualBearing from '../assets/products/luefter/exploded-dual-bearing.jpg';
+import housingProfile2k from '../assets/products/kunststoffkomponenten/2k-housing-profile.jpg';
+import magnesiumDiecast from '../assets/products/kunststoffkomponenten/magnesium-diecast.jpg';
+import housingInterior from '../assets/products/kunststoffkomponenten/housing-interior.jpg';
+import coverGlassEdge from '../assets/products/glasloesungen/cover-glass-edge.jpg';
+import coverGlassBorder from '../assets/products/glasloesungen/cover-glass-border.jpg';
+import coverGlassCutout from '../assets/products/glasloesungen/cover-glass-cutout.jpg';
+import smtPcb from '../assets/products/montage-gehaeuse/smt-pcb.jpg';
+import boxBuildModule from '../assets/products/montage-gehaeuse/box-build-module.jpg';
+
 export const products = [
   {
     id: "tft-displays",
@@ -24,7 +45,17 @@ export const products = [
     ],
     synergy: "Perfekt kombinierbar mit unseren OGS-Touchscreens und AG/AR-Glaslösungen für komplette HMI-Einheiten. Erfüllt Industriestandards für erweiterte Temperaturbereiche.",
     modelType: "display",
-    image: tftDisplaysImg
+    image: tftDisplaysImg,
+    images: [
+      {
+        src: tftCtpExploded,
+        caption: "Der vollständige TFT+CTP-Schichtaufbau in der Explosionsansicht: Deckglas, kapazitiver Touch-Sensor, Farbfilter- und TFT-Glas mit den RGB-Subpixeln, Backlight-Diffusor-Stack, LED-Leiste und Treiber-PCB mit FPC-Anschluss – die Basis für unsere Schnittstellen LVDS, RGB, MIPI und eDP."
+      },
+      {
+        src: tftPanelFront,
+        caption: "Ein fertig montiertes IPS-TFT-Panel in Frontalansicht. Die IPS-Technologie sorgt für weite Blickwinkel, kombiniert mit Sonnenlichtlesbarkeit bis 1500 cd/m² bleibt die Darstellung auch unter harten Lichtbedingungen ablesbar."
+      }
+    ]
   },
   {
     id: "lcm-lcd-module",
@@ -40,7 +71,21 @@ export const products = [
     ],
     synergy: "Ideal für batteriebetriebene Geräte. Nahtlose Integration in unsere Kunststoffgehäuse mit passgenauen Sichtfenstern.",
     modelType: "lcd",
-    image: lcmLcdModuleImg
+    image: lcmLcdModuleImg,
+    images: [
+      {
+        src: cogBonding,
+        caption: "Makroaufnahme eines COG-Bondingbereichs (Chip-on-Glass): Der Treiber-IC wird über feine Golddrähte direkt auf das Glassubstrat gebondet und dort mit den Zeilen-/Spaltenleiterbahnen des Displays verbunden."
+      },
+      {
+        src: fstnPanel,
+        caption: "Ein monochromes FSTN-Glaspanel mit Elastomer-Streifenverbinder am unteren Rand – die typische, extrem stromsparende Aufbauweise unserer FSC-, DFSTN- und FSTN-Technologien."
+      },
+      {
+        src: cobModule,
+        caption: "COB-Aufbau (Chip-on-Board): Der Treiber-IC sitzt als schwarzer Vergusstropfen direkt auf der grünen Leiterplatte, angebunden über einen Pfostenstecker – die Alternative zum Chip-on-Glass-Bonding."
+      }
+    ]
   },
   {
     id: "touchscreens",
@@ -56,7 +101,21 @@ export const products = [
     ],
     synergy: "Optisches Bonding (Optical Bonding) mit unseren TFT-Displays und Cover-Gläsern für maximale Robustheit (IK08/IK10) und optische Klarheit.",
     modelType: "touch",
-    image: touchscreensImg
+    image: touchscreensImg,
+    images: [
+      {
+        src: ogsPanel,
+        caption: "OGS – One Glass Solution: Touch-Sensor und Deckglas bilden eine einteilige Glasscheibe mit bedrucktem Rand-Bezel und FPC-Anschluss, ohne zusätzliche Bonding-Schicht zum Deckglas."
+      },
+      {
+        src: pcapSensor,
+        caption: "Auf dem PCAP-Glaspanel ist das rautenförmige ITO-Elektrodenraster des projiziert-kapazitiven Sensors sichtbar, mit zwei FPC-Anschlüssen – die Grundlage für präzises Multi-Touch."
+      },
+      {
+        src: touchControllerBoard,
+        caption: "Eine Touch-Controller-Platine mit QFP-IC und ZIF-Steckverbinder für den Sensor-FPC – stellvertretend für die eingesetzten Controller-ICs von EETI, Ilitek und Goodix."
+      }
+    ]
   },
   {
     id: "stromversorgungen",
@@ -72,7 +131,8 @@ export const products = [
     ],
     synergy: "Zertifiziert nach ITE (EN 62368-1) und Medical (EN 60601-1). Perfekt abgestimmt auf den Energiebedarf unserer Display- und Embedded-Systeme.",
     modelType: "power",
-    image: stromversorgungenImg
+    image: stromversorgungenImg,
+    images: []
   },
   {
     id: "luefter",
@@ -88,7 +148,21 @@ export const products = [
     ],
     synergy: "Zentraler Bestandteil unseres Thermomanagement-Konzepts bei der Modulmontage. Verhindert Derating bei Hochleistungs-Stromversorgungen.",
     modelType: "fan",
-    image: luefterImg
+    image: luefterImg,
+    images: [
+      {
+        src: axialFan,
+        caption: "Ein montierter Axiallüfter mit Kunststoffrahmen und Anschlusskabel – die kompakte Einheit für unsere flüsterleisen Kühlkonzepte."
+      },
+      {
+        src: explodedPwm,
+        caption: "Explosionsansicht mit Rahmen, Flügelrad, Kugellager-Rotor, bewickeltem Stator samt Ansteuerungs-PCB und 4-adriger Anschlussleitung – Basis für PWM-Steuerung und Tachosignal-Überwachung."
+      },
+      {
+        src: explodedDualBearing,
+        caption: "Der Rotoraufbau mit zwei separat sichtbaren Kugellagern beidseitig der Welle – die Dual-Ball-Bearing-Lagerung im Vergleich zum einfachen Gleitlager (Sleeve)."
+      }
+    ]
   },
   {
     id: "kunststoffkomponenten",
@@ -104,7 +178,21 @@ export const products = [
     ],
     synergy: "IATF 16949 zertifizierte Fertigung. Nahtlose Integration mit unseren Glaslösungen und Elektronikbaugruppen für schlüsselfertige Systeme.",
     modelType: "plastic",
-    image: kunststoffkomponentenImg
+    image: kunststoffkomponentenImg,
+    images: [
+      {
+        src: housingProfile2k,
+        caption: "Seitenprofil eines Präzisions-Spritzgussteils mit weicher, strukturierter Griffzone neben dem harten Gehäusekörper – ein typisches Ergebnis des 2K-Spritzgusses für Hart-Weich-Verbindungen."
+      },
+      {
+        src: magnesiumDiecast,
+        caption: "Ein Gehäuseteil aus Magnesium-Druckguss (Thixomolding) mit filigranen Verstärkungsrippen und Gewindedomen – leichtbauend und mit dem EMV-Schutz metallischer Bauteile."
+      },
+      {
+        src: housingInterior,
+        caption: "Innenansicht einer glasfaserverstärkten Kunststoff-Gehäuseschale (PA66+GF) mit präzisen Schraubdomen und Rastclips im Mikrometerbereich."
+      }
+    ]
   },
   {
     id: "glasloesungen",
@@ -120,7 +208,21 @@ export const products = [
     ],
     synergy: "Die perfekte Ergänzung zu unseren TFTs und Touchscreens. Erfüllt Normen wie EN 50155 (Bahn) durch Splitterschutzfolien (Shatter-Proof).",
     modelType: "glass",
-    image: glasloesungenImg
+    image: glasloesungenImg,
+    images: [
+      {
+        src: coverGlassEdge,
+        caption: "Ein chemisch gehärtetes Deckglas mit sauber polierter, gefaster Kante – die Basis für extreme Kratz- und Bruchfestigkeit."
+      },
+      {
+        src: coverGlassBorder,
+        caption: "Ein Deckglas mit umlaufendem, siebgedrucktem Passepartout-Rand in Schwarz – individueller Siebdruck für Logos, Buttons und Designflächen."
+      },
+      {
+        src: coverGlassCutout,
+        caption: "Ein Deckglas mit präzise CNC-gefrästem Rundausschnitt – CNC-Bearbeitung für 2.5D/3D-Kanten, Bohrungen und Aussparungen nach Kundenvorgabe."
+      }
+    ]
   },
   {
     id: "montage-gehaeuse",
@@ -136,6 +238,16 @@ export const products = [
     ],
     synergy: "Wir vereinen Displays, Touch, Stromversorgung, Kunststoff und Glas zu einem geprüften, zertifizierten Gesamtsystem (Plug & Play).",
     modelType: "assembly",
-    image: montageGehaeuseImg
+    image: montageGehaeuseImg,
+    images: [
+      {
+        src: smtPcb,
+        caption: "Eine dicht bestückte Leiterplatte in SMT-Bestückungstechnik (Surface-Mount Technology) – die Grundlage unserer elektronischen Baugruppenfertigung."
+      },
+      {
+        src: boxBuildModule,
+        caption: "Ein fertig montiertes Box-Build-Modul mit Display, Bedientasten sowie HDMI- und Ethernet-Anschluss – ein geprüftes, einbaufertiges Plug-&-Play-Gesamtsystem."
+      }
+    ]
   }
 ];
