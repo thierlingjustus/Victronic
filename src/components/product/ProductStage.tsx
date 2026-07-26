@@ -250,7 +250,13 @@ export default function ProductStage({ product }: { product: StageProduct }) {
         {/* Intro links – blendet beim Weiterscrollen aus */}
         <div ref={introRef} className="absolute inset-x-0 top-24 lg:top-1/2 lg:-translate-y-1/2 px-6 z-40">
           <div className="max-w-6xl mx-auto">
-            <div className="lg:max-w-md text-center lg:text-left bg-white/70 lg:bg-transparent backdrop-blur-sm lg:backdrop-blur-0 rounded-2xl lg:rounded-none p-5 lg:p-0">
+            {/* Unter lg liegt der Text über dem Modell und braucht eine
+                abgesetzte Karte. Ab lg steht er daneben – dort darf gar kein
+                backdrop-filter gesetzt sein, sonst legt sich ein unscharfer
+                Kasten über das Modell. Deshalb max-lg: statt eines lg-Resets:
+                backdrop-blur-0 existiert in Tailwind 4 nicht und würde den
+                Blur wirkungslos „zurücksetzen". */}
+            <div className="lg:max-w-md text-center lg:text-left max-lg:bg-white/70 max-lg:backdrop-blur-sm max-lg:rounded-2xl max-lg:p-5">
               {introBlock}
             </div>
           </div>
