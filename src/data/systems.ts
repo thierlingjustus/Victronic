@@ -1,10 +1,8 @@
 import { MonitorSmartphone, AppWindow, Layers, Cpu } from 'lucide-react';
 
-export interface InfoSlot {
-  title: string;
-  desc: string;
-  align: string;
-}
+// InfoSlot liegt jetzt in types.ts (auch von den Produktseiten genutzt) und
+// wird hier weiter re-exportiert, damit die systemVisuals-Imports bleiben.
+export type { InfoSlot } from './types';
 
 export const systems = [
   {

@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { motion, useTransform, MotionValue } from 'motion/react';
 import type { InfoSlot } from '../../data/systems';
 import { ErrorBoundary } from '../ErrorBoundary';
+import { roundedRectShape, roundedRectHole, smooth } from '../product/models/geometry';
 import VisualCallout from './VisualCallout';
 
 /**
@@ -14,40 +15,6 @@ import VisualCallout from './VisualCallout';
  * Tiefenachse zusammen; auf Desktop lässt sich das Modell per Drag drehen
  * (Zoom bewusst deaktiviert, damit das Mausrad weiter die Seite scrollt).
  */
-
-function roundedRectShape(w: number, h: number, r: number) {
-  const x = -w / 2;
-  const y = -h / 2;
-  const shape = new THREE.Shape();
-  shape.moveTo(x + r, y);
-  shape.lineTo(x + w - r, y);
-  shape.quadraticCurveTo(x + w, y, x + w, y + r);
-  shape.lineTo(x + w, y + h - r);
-  shape.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  shape.lineTo(x + r, y + h);
-  shape.quadraticCurveTo(x, y + h, x, y + h - r);
-  shape.lineTo(x, y + r);
-  shape.quadraticCurveTo(x, y, x + r, y);
-  return shape;
-}
-
-function roundedRectHole(w: number, h: number, r: number) {
-  const x = -w / 2;
-  const y = -h / 2;
-  const hole = new THREE.Path();
-  hole.moveTo(x + r, y);
-  hole.lineTo(x + w - r, y);
-  hole.quadraticCurveTo(x + w, y, x + w, y + r);
-  hole.lineTo(x + w, y + h - r);
-  hole.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  hole.lineTo(x + r, y + h);
-  hole.quadraticCurveTo(x, y + h, x, y + h - r);
-  hole.lineTo(x, y + r);
-  hole.quadraticCurveTo(x, y, x + r, y);
-  return hole;
-}
-
-const smooth = (p: number, a: number, b: number) => THREE.MathUtils.smoothstep(p, a, b);
 
 function DeviceModel({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
   const groupRef = useRef<THREE.Group>(null);

@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar';
 import NotFound from '../components/NotFound';
 import FadeIn from '../components/FadeIn';
 import ProductShowcase from '../components/ProductShowcase';
+import ProductStage from '../components/product/ProductStage';
 import Seo from '../components/Seo';
 
 export default function Product() {
@@ -24,32 +25,30 @@ export default function Product() {
     : [{ src: product.image, caption: product.strategicBenefit }];
 
   return (
-    <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white overflow-hidden relative">
+    // Kein overflow-hidden auf dem Wrapper: das würde das position:sticky der
+    // Scroll-Bühne aushebeln (siehe SystemDetail.tsx, dort ebenfalls offen).
+    <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white relative">
       <Seo title={`${product.name} – Victronic GmbH`} description={product.strategicBenefit} />
       {/* Navigation */}
       <Navbar backTo="/" backLabel="Zurück zur Übersicht" />
 
-      <main className="pt-32 pb-24 px-6 relative z-10">
-        {/* Überblick */}
-        <div className="max-w-3xl mx-auto mb-20 md:mb-28">
-          <FadeIn delay={0.2}>
-            <div className="inline-flex items-center gap-2 text-brand-700 text-xs font-semibold uppercase tracking-widest mb-5">
-              <product.icon className="w-4 h-4" />
-              {product.name}
-            </div>
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tighter leading-[1.1] text-gray-900 mb-5">
-              {product.headline}
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
-              {product.strategicBenefit}
-            </p>
-          </FadeIn>
-        </div>
+      {/* Scroll-Bühne: Produkt in der Mitte, Fakten links und rechts */}
+      <ProductStage product={product} />
 
+      <main className="pt-4 pb-24 px-6 relative z-10">
         {/* Alternierende Bild/Text-Galerie */}
-        <div className="max-w-6xl mx-auto mb-20 md:mb-28">
-          <ProductShowcase images={galleryImages} productName={product.name} />
-        </div>
+        {galleryImages.length > 0 && (
+          <div className="max-w-6xl mx-auto mb-20 md:mb-28">
+            <FadeIn inView>
+              <div className="max-w-3xl mx-auto mb-14 md:mb-20 text-center">
+                <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
+                  Im Detail.<span className="text-gray-400"> Echte Aufnahmen aus der Fertigung.</span>
+                </h2>
+              </div>
+            </FadeIn>
+            <ProductShowcase images={galleryImages} productName={product.name} />
+          </div>
+        )}
 
         {/* Spezifikationen, Synergie & CTA */}
         <div className="max-w-3xl mx-auto space-y-10 md:space-y-12">

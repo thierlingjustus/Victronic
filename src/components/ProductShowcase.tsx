@@ -20,12 +20,18 @@ export default function ProductShowcase({ images, productName }: ProductShowcase
           <div key={i} className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             <div className={imageFirst ? 'md:order-1' : 'md:order-2'}>
               <FadeIn inView direction={imageFirst ? 'left' : 'right'}>
-                <div className="bg-gray-100 rounded-3xl p-6 md:p-10 aspect-[4/3] flex items-center justify-center overflow-hidden">
+                {/* Bewusst ohne festes Seitenverhältnis: Die Studioaufnahmen
+                    haben unterschiedliche Formate und Hintergrundtöne. Würde
+                    man sie in einen 4:3-Rahmen setzen, entstünden oben und
+                    unten Füllflächen, deren Grau nie exakt zum Foto passt –
+                    das Bild wirkte dann wie hineinkopiert. So füllt jedes Foto
+                    seine Kachel randlos aus. */}
+                <div className="rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-sm">
                   <img
                     src={img.src}
                     alt={`${productName}: ${img.caption}`}
                     loading="lazy"
-                    className="w-full h-full object-contain"
+                    className="block w-full h-auto"
                   />
                 </div>
               </FadeIn>
