@@ -1,19 +1,25 @@
-import { useRef, useState, type ReactNode } from 'react';
+import { Suspense, useRef, useState, type ReactNode } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import type { MotionValue } from 'motion/react';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { stageProgress } from './useScrollStyle';
+import GlbModel from './models/GlbModel';
 import DisplayPanel from './models/DisplayPanel';
-import LcdModule from './models/LcdModule';
 import TouchGlass from './models/TouchGlass';
-import PowerSupply from './models/PowerSupply';
-import PlasticHousing from './models/PlasticHousing';
-import CoverGlass from './models/CoverGlass';
 import BoxBuildDevice from './models/BoxBuildDevice';
 import AxialFan from './models/AxialFan';
 import type { ModelProps } from './models/types';
+
+// Von Victronic gelieferte CAD-Modelle. Der Import liefert nur die URL; die
+// Datei selbst holt der Browser erst, wenn die Produktseite das Modell
+// tatsächlich rendert. Das `?url`-Suffix ist nötig, weil Vite .glb sonst als
+// JavaScript zu parsen versucht – so bleibt die vite.config unangetastet.
+import netzteilUrl from '../../assets/products/stromversorgungen/netzteil.glb?url';
+import lcmModuleUrl from '../../assets/products/lcm-lcd-module/lcm-module-128x64.glb?url';
+import gehaeuseUrl from '../../assets/products/kunststoffkomponenten/gehaeuse-unterschale-pa66gf30.glb?url';
+import coverGlassUrl from '../../assets/products/glasloesungen/cover-glass-printed.glb?url';
 
 /**
  * 3D-Bühne der Produktseiten: lädt three.js nur über diesen (lazy geladenen)
@@ -22,13 +28,28 @@ import type { ModelProps } from './models/types';
  * weiterhin die Seite scrollt (gleiche Regel wie in HousingAssembly3D).
  */
 
+type GlbEntry = { url: string; targetSize?: number; rotation?: [number, number, number] };
+
+/** Aufrichten von Modellen, die liegend exportiert wurden. */
+const UPRIGHT: [number, number, number] = [-Math.PI / 2, 0, 0];
+
+/**
+ * Kategorien mit geliefertem GLB – haben Vorrang vor den nachgebauten Modellen.
+ * `targetSize` ist die größte Kante in Szeneneinheiten; beim Netzteil ist sie
+ * höher angesetzt, weil das Anschlusskabel die Bounding-Box in die Breite
+ * zieht und das Gehäuse selbst sonst zu klein im Bild steht.
+ */
+const GLB_MODELS: Record<string, GlbEntry> = {
+  power: { url: netzteilUrl, targetSize: 4.1 },
+  lcd: { url: lcmModuleUrl, rotation: UPRIGHT, targetSize: 3.4 },
+  plastic: { url: gehaeuseUrl, targetSize: 3.5 },
+  glass: { url: coverGlassUrl, rotation: UPRIGHT },
+};
+
+/** Nachgebaute Modelle für die Kategorien ohne gelieferte Datei. */
 const MODELS: Record<string, (props: ModelProps) => ReactNode> = {
   display: DisplayPanel,
-  lcd: LcdModule,
   touch: TouchGlass,
-  power: PowerSupply,
-  plastic: PlasticHousing,
-  glass: CoverGlass,
   assembly: BoxBuildDevice,
   fan: AxialFan,
 };
@@ -97,6 +118,7 @@ export default function ProductModel3D({
   fallbackSrc: string;
   fallbackAlt: string;
 }) {
+  const glb = GLB_MODELS[modelType];
   const Model = MODELS[modelType] ?? BoxBuildDevice;
 
   // Nur mit Maus drehbar; auf Touch-Geräten bleibt der Canvas
@@ -128,11 +150,19 @@ export default function ProductModel3D({
           <directionalLight position={[-6, 4, -6]} intensity={0.55} color="#7dd0f2" />
           <pointLight position={[0, 1, 5]} intensity={0.35} />
 
-          <RotationRig progress={progress} reducedMotion={reducedMotion}>
-            <Model progress={progress} />
-          </RotationRig>
+          {/* useGLTF lädt asynchron und suspendiert – der Fallback muss
+              innerhalb des Canvas liegen und ein 3D-Element (bzw. null) sein. */}
+          <Suspense fallback={null}>
+            <RotationRig progress={progress} reducedMotion={reducedMotion}>
+              {glb ? (
+                <GlbModel url={glb.url} targetSize={glb.targetSize} rotation={glb.rotation} />
+              ) : (
+                <Model progress={progress} />
+              )}
+            </RotationRig>
+          </Suspense>
 
-          <ContactShadows position={[0, -1.85, 0]} opacity={0.24} scale={9} blur={2.6} far={4} color="#0f172a" />
+          <ContactShadows position={[0, -1.9, 0]} opacity={0.24} scale={13} blur={3} far={4.5} color="#0f172a" />
 
           {interactive && (
             <OrbitControls
