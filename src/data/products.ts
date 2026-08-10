@@ -9,7 +9,11 @@ import kunststoffkomponentenImg from '../assets/products/kunststoffkomponenten.s
 import glasloesungenImg from '../assets/products/glasloesungen.svg';
 import montageGehaeuseImg from '../assets/products/montage-gehaeuse.svg';
 
-// Echte Produktfotos für die alternierende Bild/Text-Galerie auf den Produktseiten
+// Produktabbildungen für die alternierende Bild/Text-Galerie auf den Produktseiten.
+// ACHTUNG: Das sind KI-gestützt erstellte Visualisierungen, keine Fotografien.
+// Entsprechend ist auf den Produktseiten ein Transparenzhinweis ausgespielt
+// (Product.tsx) und ein Abschnitt auf der Rechtsseite hinterlegt (InhaltRecht.tsx).
+// Werden diese Dateien durch echte Fotos ersetzt, beides mit anpassen.
 import tftCtpExploded from '../assets/products/tft-displays/tft-ctp-exploded.jpg';
 import tftPanelFront from '../assets/products/tft-displays/tft-panel-front.jpg';
 import cogBonding from '../assets/products/lcm-lcd-module/cog-bonding.jpg';

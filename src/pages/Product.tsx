@@ -19,7 +19,7 @@ export default function Product() {
   }
 
   // Fällt auf das bestehende Platzhalter-SVG zurück, solange für eine Kategorie
-  // (aktuell Stromversorgungen) noch keine echten Produktfotos vorliegen.
+  // (aktuell Stromversorgungen) noch keine Abbildungen vorliegen.
   const galleryImages = product.images.length > 0
     ? product.images
     : [{ src: product.image, caption: product.strategicBenefit }];
@@ -42,11 +42,21 @@ export default function Product() {
             <FadeIn inView>
               <div className="max-w-3xl mx-auto mb-14 md:mb-20 text-center">
                 <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
-                  Im Detail.<span className="text-gray-400"> Echte Aufnahmen aus der Fertigung.</span>
+                  Im Detail.<span className="text-gray-400"> Aufbau und Technologie.</span>
                 </h2>
               </div>
             </FadeIn>
             <ProductShowcase images={galleryImages} productName={product.name} />
+            {/* Transparenzhinweis zu den Abbildungen (Art. 50 KI-VO / UWG).
+                Bewusst einmal pro Seite statt an jedem einzelnen Bild: gleiche
+                rechtliche Wirkung, ohne die technische Darstellung zu entwerten. */}
+            <FadeIn inView>
+              <p className="mt-14 md:mt-20 text-xs text-gray-400 text-center max-w-3xl mx-auto leading-relaxed">
+                Abbildungen: exemplarische Darstellungen technischer Lösungen und Fertigungsverfahren,
+                teilweise KI-gestützt erstellt. Sie bilden keinen konkreten Liefergegenstand ab –
+                die Ausführung erfolgt projektspezifisch nach Ihren Anforderungen.
+              </p>
+            </FadeIn>
           </div>
         )}
 

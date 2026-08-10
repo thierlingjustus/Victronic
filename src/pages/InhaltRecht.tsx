@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scale, BookOpen, Copyright } from 'lucide-react';
+import { Scale, BookOpen, Copyright, Image as ImageIcon } from 'lucide-react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Seo from '../components/Seo';
@@ -41,6 +41,24 @@ export default function InhaltRecht() {
               </p>
               <p>
                 Die Dokumente/Informationen können durch aktuelle Entwicklungen überholt sein, ohne dass die bereitgestellten Dokumente/Informationen geändert wurden. Alle Angebote sind freibleibend und unverbindlich.
+              </p>
+            </div>
+          </section>
+
+          {/* Section: Abbildungen & KI-Transparenz (Art. 50 KI-VO) */}
+          <section className="space-y-4 pt-4">
+            <h2 className="text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-2 border-b border-gray-100 pb-2">
+              <ImageIcon className="w-5 h-5 text-brand-700" /> Abbildungen und Produktdarstellungen
+            </h2>
+            <div className="text-gray-600 leading-relaxed space-y-4">
+              <p>
+                Die auf dieser Website gezeigten Produktabbildungen, Explosionsansichten und 3D-Darstellungen sind exemplarische Visualisierungen technischer Lösungen und Fertigungsverfahren. Sie dienen der Veranschaulichung von Aufbau, Technologie und Leistungsumfang und bilden keinen konkreten Liefergegenstand ab.
+              </p>
+              <p>
+                Ein Teil dieser Abbildungen wurde KI-gestützt erstellt. Als Anbieter kundenspezifischer Lösungen fertigen wir nicht nach festem Katalogsortiment: Die konkrete Ausführung – Abmessungen, Materialien, Schnittstellen und Bauform – wird projektspezifisch nach den Anforderungen unserer Kunden spezifiziert. Maßgeblich sind ausschließlich die im jeweiligen Angebot und in der technischen Spezifikation vereinbarten Eigenschaften.
+              </p>
+              <p>
+                Die in den Bildunterschriften und Spezifikationstabellen genannten technischen Angaben beschreiben unser tatsächliches Leistungs- und Lieferspektrum. Für die Richtigkeit im Einzelfall gelten die Hinweise unter „Inhalt des Onlineangebotes“.
               </p>
             </div>
           </section>
