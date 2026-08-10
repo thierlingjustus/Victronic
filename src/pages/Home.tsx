@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import {
@@ -12,6 +12,14 @@ import {
 // über den Aktivierungslink von formsubmit.co bestätigen.
 const CONTACT_ENDPOINT = 'https://formsubmit.co/ajax/justus.thierling@victronic-gmbh.de';
 
+// FormSubmits echtes reCAPTCHA setzt einen klassischen Seiten-Redirect voraus
+// und funktioniert nicht mit der AJAX-Variante (Formular bleibt auf der Seite).
+// Deshalb hier stattdessen: Honeypot (serverseitig bei FormSubmit) + Blacklist
+// für typische Spam-Begriffe + ein clientseitiger Zeit-Check (Bots füllen
+// Formulare i.d.R. in Sekundenbruchteilen aus).
+const SPAM_BLACKLIST = 'viagra, crypto, bitcoin, seo services, backlink, casino, loan, forex';
+const MIN_FILL_SECONDS = 2.5;
+
 type ContactStatus = 'idle' | 'sending' | 'success' | 'error';
 import { products } from '../data/products';
 import werSindWirImg from '../assets/about/Wer-sind-wir5.png';
@@ -23,11 +31,24 @@ import Seo from '../components/Seo';
 
 export default function Home() {
   const [contactStatus, setContactStatus] = useState<ContactStatus>('idle');
+  const formMountedAt = useRef(Date.now());
 
   async function handleContactSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     const data = new FormData(form);
+
+    // Honeypot-Feld ausgefüllt oder Formular verdächtig schnell abgeschickt
+    // -> stiller Abbruch ohne Request an FormSubmit (spart Kontingent, kein
+    // Fehler für echte Nutzer sichtbar, da das nur Bots betrifft).
+    const honey = String(data.get('_honey') || '');
+    const filledInSeconds = (Date.now() - formMountedAt.current) / 1000;
+    if (honey !== '' || filledInSeconds < MIN_FILL_SECONDS) {
+      form.reset();
+      setContactStatus('success');
+      return;
+    }
+
     setContactStatus('sending');
     try {
       const res = await fetch(CONTACT_ENDPOINT, {
@@ -37,10 +58,11 @@ export default function Home() {
           name: data.get('name'),
           email: data.get('email'),
           message: data.get('message'),
-          _honey: data.get('_honey'), // Honeypot: von Bots ausgefüllt -> FormSubmit verwirft
+          _honey: honey, // Honeypot: von Bots ausgefüllt -> FormSubmit verwirft
           _subject: 'Neue Anfrage über victronic-gmbh.de',
           _template: 'table',
           _captcha: 'false',
+          _blacklist: SPAM_BLACKLIST,
         }),
       });
       if (!res.ok) throw new Error(`FormSubmit antwortete mit Status ${res.status}`);
