@@ -28,6 +28,17 @@ export function stageProgress(v: number): number {
   return Math.min(1, Math.max(0, (v - a) / (b - a)));
 }
 
+/**
+ * Weiche 0..1-Rampe zwischen a und b (Smoothstep). Lag früher als `smooth` in
+ * models/geometry.ts und war dort nur eine Hülle um THREE.MathUtils.smoothstep –
+ * mit dem Wegfall von three.js steht die reine Rechnung jetzt hier.
+ */
+export function smoothstep(p: number, a: number, b: number): number {
+  if (b === a) return p < a ? 0 : 1;
+  const t = Math.min(1, Math.max(0, (p - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+}
+
 /** Geklammerte, stückweise lineare Interpolation – gleiche Semantik wie useTransform. */
 export function interpolate(p: number, input: number[], output: number[]): number {
   if (p <= input[0]) return output[0];
@@ -51,11 +62,17 @@ type ScrollStyleSpec = {
   /** Verschiebung in Pixeln, wird zu translate3d zusammengefasst. */
   x?: number[];
   y?: number[];
+  /** Skalierung (1 = Originalgröße), wird an dieselbe transform-Kette gehängt. */
+  scale?: number[];
+  /** Drehung in Grad, ebenfalls Teil der transform-Kette. */
+  rotate?: number[];
   /** Ab diesem Fortschritt wird das Element für Klicks transparent. */
   pointerEventsOffAfter?: number;
 };
 
-export function useScrollStyle<T extends HTMLElement>(
+// SVG-Knoten haben ebenfalls `.style`, sind aber kein HTMLElement – beide
+// zulassen, damit dieselbe Mechanik in Inline-SVGs funktioniert.
+export function useScrollStyle<T extends HTMLElement | SVGElement>(
   progress: MotionValue<number>,
   spec: ScrollStyleSpec,
   /** true: Styles einmalig auf den Endzustand setzen (prefers-reduced-motion). */
@@ -73,10 +90,13 @@ export function useScrollStyle<T extends HTMLElement>(
       if (!el) return;
       const s = specRef.current;
       if (s.opacity) el.style.opacity = String(interpolate(p, s.input, s.opacity));
-      if (s.x || s.y) {
+      if (s.x || s.y || s.scale || s.rotate) {
         const tx = s.x ? interpolate(p, s.input, s.x) : 0;
         const ty = s.y ? interpolate(p, s.input, s.y) : 0;
-        el.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+        let t = `translate3d(${tx}px, ${ty}px, 0)`;
+        if (s.rotate) t += ` rotate(${interpolate(p, s.input, s.rotate)}deg)`;
+        if (s.scale) t += ` scale(${interpolate(p, s.input, s.scale)})`;
+        el.style.transform = t;
       }
       if (s.pointerEventsOffAfter !== undefined) {
         el.style.pointerEvents = p > s.pointerEventsOffAfter ? 'none' : 'auto';

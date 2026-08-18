@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ChevronDown, ShieldCheck, CheckCircle2 } from 'lucide-react';
@@ -7,12 +7,11 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import NotFound from '../components/NotFound';
 import Seo from '../components/Seo';
+import { useScrollStyle } from '../components/product/useScrollStyle';
 import TftExplosion from '../components/systemVisuals/TftExplosion';
 import LcmAssembly from '../components/systemVisuals/LcmAssembly';
 import GlassBondingStack from '../components/systemVisuals/GlassBondingStack';
-
-// three/react-three-fiber nur laden, wenn die Housing-Route besucht wird
-const HousingAssembly3D = lazy(() => import('../components/systemVisuals/HousingAssembly3D'));
+import HousingAssembly from '../components/systemVisuals/HousingAssembly';
 
 const PROJECT_STEPS = [
   "Anfrage & Beratung",
@@ -77,10 +76,17 @@ export default function SystemDetail() {
     offset: ["start start", "end end"]
   });
 
-  // Intro animations
-  const introOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0]);
-  const introY = useTransform(scrollYProgress, [0, 0.15], [0, -50]);
-  const introPointerEvents = useTransform(scrollYProgress, (v) => v > 0.15 ? "none" : "auto");
+  // Intro: über useScrollStyle statt motion.div. Mit motion blieb der Block auf
+  // allen vier Systemseiten dauerhaft bei voller Deckkraft stehen und lag als
+  // Geisterbild über der Visualisierung – motion gibt opacity an die Web
+  // Animations API ab und führt den scrollgebundenen Wert danach nicht mehr
+  // nach (ausführlich in useScrollStyle.ts).
+  const introRef = useScrollStyle<HTMLDivElement>(scrollYProgress, {
+    input: [0, 0.15],
+    opacity: [1, 0],
+    y: [0, -50],
+    pointerEventsOffAfter: 0.15,
+  });
 
   // Fortschritt des mittleren Visual-Fensters – identische Keyframes wie die
   // frühere tooltipsOpacity, damit der Qualifizierungs-Block auf allen
@@ -110,8 +116,8 @@ export default function SystemDetail() {
         <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
           
           {/* Intro Section */}
-          <motion.div 
-            style={{ opacity: introOpacity, y: introY, pointerEvents: introPointerEvents as any }}
+          <div
+            ref={introRef}
             className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 z-30"
           >
             <div className="inline-flex items-center gap-2 text-brand-700 text-xs font-semibold uppercase tracking-widest mb-6">
@@ -127,17 +133,13 @@ export default function SystemDetail() {
               <span className="text-sm uppercase tracking-widest">Weiter scrollen</span>
               <ChevronDown className="w-6 h-6" />
             </div>
-          </motion.div>
+          </div>
 
           {/* System-spezifische Visualisierung (mittlerer Hauptteil) */}
           {system.id === 'tft-touch' && <TftExplosion scrollYProgress={scrollYProgress} />}
           {system.id === 'lcm-touch' && <LcmAssembly scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} />}
           {system.id === 'glass-touch' && <GlassBondingStack scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} />}
-          {system.id === 'housing-assembling' && (
-            <Suspense fallback={null}>
-              <HousingAssembly3D scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} />
-            </Suspense>
-          )}
+          {system.id === 'housing-assembling' && <HousingAssembly scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} />}
 
           {/* Kundenspezifische Qualifizierung Block (Bottom Right) */}
           <motion.div
