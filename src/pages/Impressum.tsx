@@ -48,7 +48,7 @@ export default function Impressum() {
                 <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400 mb-3">Registereintrag</h2>
                 <div className="text-gray-600 text-sm space-y-1">
                   <p>Registergericht: Amtsgericht Lübeck</p>
-                  <p>Registernummer: HRB 4410 OD</p>
+                  <p>Registernummer: HRB 8403 HL</p>
                 </div>
               </div>
             </div>
@@ -86,7 +86,7 @@ export default function Impressum() {
 
                 <div className="pt-4 border-t border-gray-200">
                   <div className="text-gray-400 text-xs">Umsatzsteuer-Identifikationsnummer</div>
-                  <p className="font-semibold text-gray-800">DE 189 625 210</p>
+                  <p className="font-semibold text-gray-800">DE81 49947 56</p>
                   <p className="text-gray-400 text-[11px] mt-1">(gemäß § 27 a Umsatzsteuergesetz)</p>
                 </div>
               </div>
