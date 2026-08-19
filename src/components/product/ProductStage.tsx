@@ -1,13 +1,11 @@
-import { Suspense, lazy, useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
+import { useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
 import { Link } from 'react-router-dom';
 import { useScroll, type MotionValue } from 'motion/react';
-import { ChevronDown, ChevronRight, MousePointer2, Sparkles } from 'lucide-react';
+import { ChevronDown, ChevronRight, Sparkles } from 'lucide-react';
 import type { InfoSlot } from '../../data/types';
 import ProductFactCard from './ProductFactCard';
+import ProductVisual from './ProductVisual';
 import { useScrollStyle } from './useScrollStyle';
-
-// three.js erst laden, wenn eine Produktseite tatsächlich offen ist
-const ProductModel3D = lazy(() => import('./ProductModel3D'));
 
 type StageProduct = {
   name: string;
@@ -133,11 +131,6 @@ export default function ProductStage({ product }: { product: StageProduct }) {
     { input: [0, 0.1], opacity: [1, 0] },
     reducedMotion
   );
-  const dragHintRef = useScrollStyle<HTMLDivElement>(
-    scrollYProgress,
-    { input: [0.22, 0.3, 0.75, 0.85], opacity: [0, 1, 1, 0] },
-    reducedMotion
-  );
   const synergyRef = useScrollStyle<HTMLDivElement>(
     scrollYProgress,
     { input: [0.78, 0.88], opacity: [0, 1], y: [24, 0] },
@@ -165,21 +158,13 @@ export default function ProductStage({ product }: { product: StageProduct }) {
   }, [scrollYProgress, facts.length, reducedMotion]);
 
   const visual = (
-    <Suspense
-      fallback={
-        <div className="absolute inset-0 flex items-center justify-center p-12">
-          <img src={product.image} alt="" aria-hidden="true" className="max-w-full max-h-full object-contain opacity-40" />
-        </div>
-      }
-    >
-      <ProductModel3D
-        modelType={product.modelType}
-        progress={scrollYProgress}
-        reducedMotion={reducedMotion}
-        fallbackSrc={product.image}
-        fallbackAlt={`${product.name} – Produktansicht`}
-      />
-    </Suspense>
+    <ProductVisual
+      modelType={product.modelType}
+      progress={scrollYProgress}
+      reducedMotion={reducedMotion}
+      fallbackSrc={product.image}
+      fallbackAlt={`${product.name} – Produktansicht`}
+    />
   );
 
   const introBlock = (
@@ -341,16 +326,6 @@ export default function ProductStage({ product }: { product: StageProduct }) {
         >
           <span className="text-[10px] uppercase tracking-widest">Weiter scrollen</span>
           <ChevronDown className="w-5 h-5 animate-bounce" />
-        </div>
-
-        {/* Drag-Hinweis (nur Maus) */}
-        <div
-          ref={dragHintRef}
-          style={{ opacity: 0 }}
-          className="absolute right-8 bottom-10 z-[70] hidden lg:flex items-center gap-1.5 text-[10px] text-gray-500 bg-white/95 px-2.5 py-1.5 rounded-full shadow-sm border border-gray-200 pointer-events-none"
-        >
-          <MousePointer2 className="w-3 h-3 text-brand-600" />
-          Ziehen zum Drehen
         </div>
       </div>
     </div>

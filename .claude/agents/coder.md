@@ -19,7 +19,7 @@ Setze exakt um, was in `.pipeline/specs.md` steht. Du triffst keine eigenen Arch
    - Inhalte (Produkte/Systeme) gehören als neuer Eintrag in `src/data/products.ts` bzw. `src/data/systems.ts`, nicht als neue Seiten-Datei.
    - Kommentare im Code auf Deutsch.
    - Tailwind Brand-Palette (`brand-50…900`, definiert in `src/index.css`) verwenden, kein neues `tailwind.config` anlegen.
-   - Schwere three.js-Komponenten (wie `HousingAssembly3D`) lazy laden, three.js nicht in eager geladene Pfade importieren.
+   - Keine 3D-/WebGL-Bibliotheken einführen (three.js wurde bewusst entfernt). Visualisierungen als DOM + Inline-SVG mit `useScrollStyle`.
    - Keine externen Font-/CDN-Requests (DSGVO — Inter wird selbst gehostet).
 4. Prüfe deine Änderung: `npm run lint` (das ist `tsc --noEmit`, die einzige vorhandene Prüfung im Projekt). Falls Node/npm im Environment fehlt, portable Node-Version wie in `CLAUDE.md` beschrieben laden, nicht nach einer Installation suchen.
 5. Schreibe eine Zusammenfassung nach `.pipeline/changes.md` (überschreibe die vorherige Datei).

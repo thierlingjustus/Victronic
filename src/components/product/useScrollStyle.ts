@@ -104,13 +104,13 @@ export function useScrollStyle<T extends HTMLElement | SVGElement>(
     };
 
     if (staticEnd) {
+      // Endzustand einmalig setzen. Bewusst über apply() mit der letzten
+      // Stützstelle statt transform zu leeren: Ebenen, die am Ende versetzt
+      // stehen (Explosionsdarstellungen), lägen sonst alle übereinander.
+      const s = specRef.current;
+      apply(s.input[s.input.length - 1]);
       const el = ref.current;
-      if (el) {
-        const s = specRef.current;
-        if (s.opacity) el.style.opacity = String(s.opacity[s.opacity.length - 1]);
-        el.style.transform = '';
-        if (s.pointerEventsOffAfter !== undefined) el.style.pointerEvents = 'auto';
-      }
+      if (el && s.pointerEventsOffAfter !== undefined) el.style.pointerEvents = 'auto';
       return;
     }
 

@@ -32,7 +32,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <AlertTriangle className="w-12 h-12 text-red-500 mb-4" />
           <h2 className="text-xl font-bold mb-2">Ein Fehler ist aufgetreten</h2>
           <p className="text-gray-400 text-sm max-w-md">
-            Der 3D-Viewer konnte nicht geladen werden. Bitte laden Sie die Seite neu oder überprüfen Sie Ihre WebGL-Einstellungen.
+            Die Darstellung konnte nicht geladen werden. Bitte laden Sie die Seite neu.
           </p>
           <button 
             onClick={() => this.setState({ hasError: false, error: null })}

@@ -30,7 +30,7 @@ export default function SystemsHub() {
                 <span className="text-brand-700">einfach integriert.</span>
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-                Entdecken Sie unsere 4 Hauptsysteme. Klicken Sie auf ein Modul, um die innere Technik in einer interaktiven 3D-Explosion zu erleben.
+                Entdecken Sie unsere 4 Hauptsysteme. Klicken Sie auf ein Modul, um den inneren Aufbau Schicht für Schicht zu erleben.
               </p>
             </div>
           </FadeIn>

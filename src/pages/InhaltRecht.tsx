@@ -52,7 +52,7 @@ export default function InhaltRecht() {
             </h2>
             <div className="text-gray-600 leading-relaxed space-y-4">
               <p>
-                Die auf dieser Website gezeigten Produktabbildungen, Explosionsansichten und 3D-Darstellungen sind exemplarische Visualisierungen technischer Lösungen und Fertigungsverfahren. Sie dienen der Veranschaulichung von Aufbau, Technologie und Leistungsumfang und bilden keinen konkreten Liefergegenstand ab.
+                Die auf dieser Website gezeigten Produktabbildungen, Explosions- und Schnittdarstellungen sowie schematischen Aufbauzeichnungen sind exemplarische Visualisierungen technischer Lösungen und Fertigungsverfahren. Sie dienen der Veranschaulichung von Aufbau, Technologie und Leistungsumfang und bilden keinen konkreten Liefergegenstand ab.
               </p>
               <p>
                 Ein Teil dieser Abbildungen wurde KI-gestützt erstellt. Als Anbieter kundenspezifischer Lösungen fertigen wir nicht nach festem Katalogsortiment: Die konkrete Ausführung – Abmessungen, Materialien, Schnittstellen und Bauform – wird projektspezifisch nach den Anforderungen unserer Kunden spezifiziert. Maßgeblich sind ausschließlich die im jeweiligen Angebot und in der technischen Spezifikation vereinbarten Eigenschaften.

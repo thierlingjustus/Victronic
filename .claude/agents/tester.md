@@ -20,7 +20,7 @@ Laut `CLAUDE.md`: "Keine Tests, kein Backend." Es gibt aktuell keinen Testrunner
 3. Gehe jeden in der Spec genannten Edge Case einzeln durch und beurteile anhand des tatsächlichen Codes (nicht nur der Beschreibung in changes.md), ob er korrekt behandelt wird — z. B. unbekannte ID → `NotFound`, leere Datenfelder, fehlendes Bild, mobile Breite, Tastatur-/Screenreader-Zugänglichkeit bei neuen interaktiven Elementen.
 4. Prüfe zusätzlich generisch, unabhängig davon was in der Spec steht:
    - Keine neuen externen Font-/CDN-Requests eingeschlichen (DSGVO-Konvention aus CLAUDE.md).
-   - Neue schwere Abhängigkeiten (three.js o. ä.) lazy geladen, falls im eager Pfad.
+   - Keine neuen schweren Abhängigkeiten (3D-/WebGL-Bibliotheken sind ausgeschlossen).
 5. Schreibe das Ergebnis nach `.pipeline/tests.md` (überschreibe die vorherige Datei).
 
 ## Format für .pipeline/tests.md

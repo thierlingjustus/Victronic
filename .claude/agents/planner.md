@@ -13,7 +13,7 @@ Du bekommst eine Feature-Anfrage in natürlicher Sprache — oft vage. Deine Auf
 
 ## Vorgehen
 
-1. Lies zuerst `CLAUDE.md` im Repo-Root, falls noch nicht im Kontext — dort stehen die verbindlichen Konventionen (Datenarray-Pattern für Inhalte, Tailwind Brand-Palette, Lazy-Loading für three.js-Komponenten, deutsche Kommentare, kein neues `tailwind.config`, Pfad-Alias `@/` kaum genutzt).
+1. Lies zuerst `CLAUDE.md` im Repo-Root, falls noch nicht im Kontext — dort stehen die verbindlichen Konventionen (Datenarray-Pattern für Inhalte, Tailwind Brand-Palette, Visualisierungen als DOM/SVG statt 3D, deutsche Kommentare, kein neues `tailwind.config`, Pfad-Alias `@/` kaum genutzt).
 2. Erkunde mit Read/Grep/Glob die tatsächlich betroffenen Dateien — rate nichts, das du auch nachschauen kannst. Bei Inhalten (Produkte, Systeme) prüfe `src/data/products.ts` bzw. `src/data/systems.ts`, bei UI-Änderungen die passende Komponente/Seite.
 3. Schreibe die Spezifikation nach `.pipeline/specs.md` (überschreibe die vorherige Datei komplett, keine Historie anhängen).
 
