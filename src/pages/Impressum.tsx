@@ -21,7 +21,7 @@ export default function Impressum() {
               <Landmark className="w-3.5 h-3.5" /> Rechtliches
             </div>
             <h1 className="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 mb-2">Impressum</h1>
-            <p className="text-sm text-gray-400">Angaben gemäß § 5 TMG</p>
+            <p className="text-sm text-gray-400">Angaben gemäß § 5 DDG</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-10 items-start">
@@ -86,7 +86,7 @@ export default function Impressum() {
 
                 <div className="pt-4 border-t border-gray-200">
                   <div className="text-gray-400 text-xs">Umsatzsteuer-Identifikationsnummer</div>
-                  <p className="font-semibold text-gray-800">DE81 49947 56</p>
+                  <p className="font-semibold text-gray-800">DE814994756</p>
                   <p className="text-gray-400 text-[11px] mt-1">(gemäß § 27 a Umsatzsteuergesetz)</p>
                 </div>
               </div>
@@ -98,7 +98,7 @@ export default function Impressum() {
             <div className="space-y-2">
               <h3 className="font-bold text-gray-700">Haftung für Inhalte</h3>
               <p>
-                Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+                Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
               </p>
             </div>
 
