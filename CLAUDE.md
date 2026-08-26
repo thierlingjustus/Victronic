@@ -8,7 +8,7 @@ Firmenwebsite der Victronic GmbH (B2B-Elektronik-Zulieferer, Displays/Touch/GehÃ
 
 ## Umgebung & Befehle
 
-**Auf diesem Mac ist kein Node/npm installiert** (kein Homebrew/nvm). Vor Build/Lint eine portable Node-Version (arm64-Tarball von nodejs.org) ins Scratchpad laden und via PATH nutzen â€” nicht nach Installationen suchen.
+Node und npm liegen unter `/usr/local/bin` (Node 24). Falls `node` nicht im PATH ist: `export PATH=/usr/local/bin:$PATH`.
 
 ```bash
 npm run dev      # Vite-Dev-Server auf Port 3000 (host 0.0.0.0)
