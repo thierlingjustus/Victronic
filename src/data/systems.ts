@@ -19,7 +19,7 @@ export const systems = [
       },
       { 
         title: "Inklusive Touch-Controller", 
-        desc: "Perfekt abgestimmte Industrie-Controller (EETI, Ilitek) für reibungslose Funktion auch mit Handschuhen.",
+        desc: "Perfekt abgestimmte Industrie-Controller (EETI, Ilitek) für eine reibungslose Funktion im Dauerbetrieb.",
         align: "right"
       },
       { 
@@ -38,7 +38,7 @@ export const systems = [
     infoSlots: [
       { 
         title: "Anpassbare Glasdicke & Härte", 
-        desc: "Chemisch gehärtetes Glas (bis IK10) für maximale Vandalismus- und Bruchsicherheit.",
+        desc: "Chemisch gehärtetes Glas für maximale Vandalismus- und Bruchsicherheit.",
         align: "right"
       },
       { 
@@ -67,7 +67,7 @@ export const systems = [
       },
       { 
         title: "Kratzfeste Vollglas-Bedienfront", 
-        desc: "Keine mechanischen Verschleißteile. Resistent gegen Chemikalien, Reinigungsmittel und UV-Strahlung.",
+        desc: "Keine mechanischen Verschleißteile. Resistent gegen UV-Strahlung.",
         align: "right"
       },
       { 
@@ -91,12 +91,12 @@ export const systems = [
       },
       { 
         title: "Weiterverarbeitungsfertige Baugruppen", 
-        desc: "100% End-of-Line getestete Systeme (AOI, ICT, Funktionstest) direkt an Ihr Montageband geliefert.",
+        desc: "Fertig montierte Systeme, direkt an Ihr Montageband geliefert.",
         align: "left"
       },
       { 
-        title: "Voller Werkzeugbesitz nach Projektabschluss", 
-        desc: "Die Spritzgusswerkzeuge gehen nach Abschluss zu 100% in Ihr Eigentum über. Maximale Investitionssicherheit.",
+        title: "Werkzeuge und Daten nach Projektabschluss", 
+        desc: "Sämtliche Daten und Werkzeuge werden Ihnen nach Abschluss des Projektes zur Verfügung gestellt. Kunden- und Applikationsschutz garantiert.",
         align: "right"
       }
     ]

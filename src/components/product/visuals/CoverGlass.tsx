@@ -108,21 +108,15 @@ export default function CoverGlass({ progress, reducedMotion }: ProductVisualPro
             </g>
           ))}
 
-          {/* Splitterschutzfolie auf der Rückseite */}
-          <path d="M54 146 h192" stroke={C.inkFaint} strokeWidth="3" strokeDasharray="5 4" />
-          <text x="150" y="170" fill={C.inkSoft} fontSize="12" textAnchor="middle" fontFamily="inherit">
-            Splitterschutzfolie (Shatter-Proof)
-          </text>
-          <text x="150" y="190" fill={C.inkFaint} fontSize="11.5" textAnchor="middle" fontFamily="inherit">
+          <text x="150" y="172" fill={C.inkSoft} fontSize="12" textAnchor="middle" fontFamily="inherit">
             gefaste, polierte Kante
           </text>
         </g>
       </FadeIn>
 
       <FadeIn {...common} from={0.62} to={0.8}>
-        <Chip x={70} y={452} label="chemisch gehärtet" />
-        <Chip x={228} y={452} label="AG · AR · AF" />
-        <Chip x={346} y={452} label="EN 50155" />
+        <Chip x={182} y={452} label="chemisch gehärtet" />
+        <Chip x={353} y={452} label="AG · AR · AF" />
       </FadeIn>
     </svg>
   );

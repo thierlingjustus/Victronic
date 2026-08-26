@@ -49,7 +49,7 @@ export default function TftStack({ progress, reducedMotion }: ProductVisualProps
             fill={C.metal}
           />
         </IsoPlate>
-        <LayerLabel x={LABEL_X} y={CY + 46} text="Treiber-PCB" sub="LVDS · RGB · MIPI · eDP" length={44} />
+        <LayerLabel x={LABEL_X} y={CY + 46} text="Treiber-PCB" sub="LVDS · RGB · MIPI" length={44} />
       </Layer>
 
       {/* 6. FPC-Flachband zwischen Panel und PCB */}
@@ -69,7 +69,7 @@ export default function TftStack({ progress, reducedMotion }: ProductVisualProps
             ))}
           </g>
         </IsoPlate>
-        <LayerLabel x={LABEL_X} y={CY + 18} text="LED-Backlight" sub="bis 1500 cd/m²" length={44} />
+        <LayerLabel x={LABEL_X} y={CY + 18} text="LED-Backlight" sub="LED-Leiste" length={44} />
       </Layer>
 
       {/* 4. Diffusor-Stack */}

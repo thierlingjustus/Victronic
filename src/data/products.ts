@@ -25,7 +25,6 @@ import touchControllerBoard from '../assets/products/touchscreens/touch-controll
 import axialFan from '../assets/products/luefter/axial-fan.jpg';
 import explodedPwm from '../assets/products/luefter/exploded-pwm.jpg';
 import explodedDualBearing from '../assets/products/luefter/exploded-dual-bearing.jpg';
-import housingProfile2k from '../assets/products/kunststoffkomponenten/2k-housing-profile.jpg';
 import magnesiumDiecast from '../assets/products/kunststoffkomponenten/magnesium-diecast.jpg';
 import housingInterior from '../assets/products/kunststoffkomponenten/housing-interior.jpg';
 import coverGlassEdge from '../assets/products/glasloesungen/cover-glass-edge.jpg';
@@ -43,9 +42,8 @@ export const products = [
     strategicBenefit: "Maximale Ablesbarkeit und Langlebigkeit unter extremen Bedingungen. Unsere TFT-Displays garantieren eine fehlerfreie Informationsübermittlung in kritischen Anwendungen.",
     specs: [
       { label: "Technologie", value: "IPS (In-Plane Switching) für weite Blickwinkel" },
-      { label: "Lesbarkeit", value: "Sonnenlichtlesbarkeit (High Brightness bis 1500 cd/m²)" },
       { label: "Größen", value: "3 Zoll bis 24 Zoll" },
-      { label: "Schnittstellen", value: "LVDS, RGB, MIPI, eDP" }
+      { label: "Schnittstellen", value: "LVDS, RGB, MIPI" }
     ],
     synergy: "Perfekt kombinierbar mit unseren OGS-Touchscreens und AG/AR-Glaslösungen für komplette HMI-Einheiten. Erfüllt Industriestandards für erweiterte Temperaturbereiche.",
     modelType: "display",
@@ -53,11 +51,11 @@ export const products = [
     images: [
       {
         src: tftCtpExploded,
-        caption: "Der vollständige TFT+CTP-Schichtaufbau in der Explosionsansicht: Deckglas, kapazitiver Touch-Sensor, Farbfilter- und TFT-Glas mit den RGB-Subpixeln, Backlight-Diffusor-Stack, LED-Leiste und Treiber-PCB mit FPC-Anschluss – die Basis für unsere Schnittstellen LVDS, RGB, MIPI und eDP."
+        caption: "Der vollständige TFT+CTP-Schichtaufbau in der Explosionsansicht: Deckglas, kapazitiver Touch-Sensor, Farbfilter- und TFT-Glas mit den RGB-Subpixeln, Backlight-Diffusor-Stack, LED-Leiste und Treiber-PCB mit FPC-Anschluss – die Basis für unsere Schnittstellen LVDS, RGB und MIPI."
       },
       {
         src: tftPanelFront,
-        caption: "Ein fertig montiertes IPS-TFT-Panel in Frontalansicht. Die IPS-Technologie sorgt für weite Blickwinkel, kombiniert mit Sonnenlichtlesbarkeit bis 1500 cd/m² bleibt die Darstellung auch unter harten Lichtbedingungen ablesbar."
+        caption: "Ein fertig montiertes IPS-TFT-Panel in Frontalansicht. Die IPS-Technologie sorgt für weite Blickwinkel und damit für eine stabile Darstellung auch bei seitlicher Betrachtung."
       }
     ]
   },
@@ -96,14 +94,14 @@ export const products = [
     name: "Touchscreens",
     icon: Box,
     headline: "Intuitive Bedienung unter allen Bedingungen",
-    strategicBenefit: "Präzise und robuste Touch-Lösungen, die auch in rauen Industrieumgebungen, mit Handschuhen oder bei Nässe zuverlässig funktionieren.",
+    strategicBenefit: "Präzise und robuste Touch-Lösungen, die auch in rauen Industrieumgebungen und bei Nässe zuverlässig funktionieren.",
     specs: [
       { label: "Technologie", value: "OGS (One Glass Solution), PCAP (Projected Capacitive), Resistiv" },
-      { label: "Bedienung", value: "Multi-Touch, Bedienung mit dicken Arbeitshandschuhen möglich" },
+      { label: "Bedienung", value: "Single- und Multi-Touch, Wet Touch (Bedienung bei Nässe)" },
       { label: "Umwelteinflüsse", value: "Water-Rejection (Funktion bei Nässe)" },
       { label: "Controller", value: "EETI, Ilitek, Goodix (Industrie-Standard)" }
     ],
-    synergy: "Optisches Bonding (Optical Bonding) mit unseren TFT-Displays und Cover-Gläsern für maximale Robustheit (IK08/IK10) und optische Klarheit.",
+    synergy: "Optisches Bonding (Optical Bonding) mit unseren TFT-Displays und Cover-Gläsern für maximale Robustheit und optische Klarheit.",
     modelType: "touch",
     image: touchscreensImg,
     images: [
@@ -129,11 +127,11 @@ export const products = [
     strategicBenefit: "Ausfallsichere Stromversorgungen mit höchsten Wirkungsgraden für den 24/7-Dauerbetrieb in industriellen und medizinischen Anlagen.",
     specs: [
       { label: "Bauformen", value: "DIN-Rail (Hutschiene), Open Frame, Enclosed" },
-      { label: "Effizienz", value: "Level VI Energieeffizienz, extrem geringer Standby-Verbrauch" },
-      { label: "Zuverlässigkeit", value: "Hohe MTBF-Daten (Mean Time Between Failures) > 500.000h" },
-      { label: "Schutz", value: "OVP, OCP, SCP, OTP (Umfassende Schutzschaltungen)" }
+      { label: "Effizienz", value: "Effizienzlevel VI (externe Netzteile)" },
+      { label: "Zuverlässigkeit", value: "MTBF > 200.000 h (Hutschiene)" },
+      { label: "Schutz", value: "Überspannung (OVP), Kurzschluss (SCP), Ausgangsspannungsüberwachung" }
     ],
-    synergy: "Zertifiziert nach ITE (EN 62368-1) und Medical (EN 60601-1). Perfekt abgestimmt auf den Energiebedarf unserer Display- und Embedded-Systeme.",
+    synergy: "Perfekt abgestimmt auf den Energiebedarf unserer Display- und Embedded-Systeme.",
     modelType: "power",
     image: stromversorgungenImg,
     images: []
@@ -147,8 +145,7 @@ export const products = [
     specs: [
       { label: "Lagerung", value: "Kugellager (Dual Ball Bearing) vs. Gleitlager (Sleeve) je nach Anforderung" },
       { label: "Leistung", value: "Optimierter Volumenstrom bei minimaler Geräuschentwicklung" },
-      { label: "Steuerung", value: "PWM-Steuerung und Tachosignal für präzise Überwachung" },
-      { label: "Schutzart", value: "IP55 bis IP68 für raue Umgebungen" }
+      { label: "Steuerung", value: "PWM-Steuerung und Tachosignal für präzise Überwachung" }
     ],
     synergy: "Zentraler Bestandteil unseres Thermomanagement-Konzepts bei der Modulmontage. Verhindert Derating bei Hochleistungs-Stromversorgungen.",
     modelType: "fan",
@@ -176,25 +173,20 @@ export const products = [
     strategicBenefit: "Maßgeschneiderte Gehäuse und mechanische Bauteile aus Hochleistungskunststoffen für optimale Passgenauigkeit und Stabilität.",
     specs: [
       { label: "Materialien", value: "PA66+GF (Glasfaserverstärkt), PC, LCP, ABS" },
-      { label: "Sondermaterialien", value: "Magnesium-Spritzguss (Thixomolding) für EMV-Schutz und Leichtbau" },
-      { label: "Verfahren", value: "2K-Spritzguss (z.B. Hart-Weich-Verbindungen für Dichtungen)" },
-      { label: "Toleranzen", value: "Höchste Präzision im Mikrometerbereich" }
+      { label: "Sondermaterialien", value: "Magnesiumgehäuse und Aluminiumspritzguss, Materialverbundgehäuse (z. B. Aluminium mit Kunststoff)" },
+      { label: "Verfahren", value: "IML (In-Mold Labeling) und IMR (In-Mold Roller) für Dekoration und Farbvarianten" }
     ],
-    synergy: "IATF 16949 zertifizierte Fertigung. Nahtlose Integration mit unseren Glaslösungen und Elektronikbaugruppen für schlüsselfertige Systeme.",
+    synergy: "Nahtlose Integration mit unseren Glaslösungen und Elektronikbaugruppen für schlüsselfertige Systeme.",
     modelType: "plastic",
     image: kunststoffkomponentenImg,
     images: [
       {
-        src: housingProfile2k,
-        caption: "Seitenprofil eines Präzisions-Spritzgussteils mit weicher, strukturierter Griffzone neben dem harten Gehäusekörper – ein typisches Ergebnis des 2K-Spritzgusses für Hart-Weich-Verbindungen."
-      },
-      {
         src: magnesiumDiecast,
-        caption: "Ein Gehäuseteil aus Magnesium-Druckguss (Thixomolding) mit filigranen Verstärkungsrippen und Gewindedomen – leichtbauend und mit dem EMV-Schutz metallischer Bauteile."
+        caption: "Ein Gehäuseteil aus Magnesium-Druckguss mit filigranen Verstärkungsrippen und Gewindedomen – leichtbauend und mit dem EMV-Schutz metallischer Bauteile."
       },
       {
         src: housingInterior,
-        caption: "Innenansicht einer glasfaserverstärkten Kunststoff-Gehäuseschale (PA66+GF) mit präzisen Schraubdomen und Rastclips im Mikrometerbereich."
+        caption: "Innenansicht einer glasfaserverstärkten Kunststoff-Gehäuseschale (PA66+GF) mit präzisen Schraubdomen und Rastclips."
       }
     ]
   },
@@ -210,7 +202,7 @@ export const products = [
       { label: "Design", value: "Individueller Siebdruck (Passepartout, Logos, Buttons)" },
       { label: "Bearbeitung", value: "CNC-Fräsen für 2.5D/3D-Kanten, Bohrungen und Aussparungen" }
     ],
-    synergy: "Die perfekte Ergänzung zu unseren TFTs und Touchscreens. Erfüllt Normen wie EN 50155 (Bahn) durch Splitterschutzfolien (Shatter-Proof).",
+    synergy: "Die perfekte Ergänzung zu unseren TFTs und Touchscreens.",
     modelType: "glass",
     image: glasloesungenImg,
     images: [
@@ -237,8 +229,7 @@ export const products = [
     specs: [
       { label: "Elektronik", value: "SMT-Bestückung (Surface-Mount Technology) und THT" },
       { label: "Montage", value: "Modulmontage (Box-Build), Kabelkonfektionierung" },
-      { label: "Testing", value: "100% AOI (Automatische Optische Inspektion), ICT, Funktionstests" },
-      { label: "Verguss", value: "Potting und Conformal Coating für extremen Umweltschutz" }
+      { label: "Werkzeug- & Musterbau", value: "Keine Mehrkosten für Korrekturschritte oder Änderungswünsche über die freigegebenen Toolingkosten hinaus" }
     ],
     synergy: "Wir vereinen Displays, Touch, Stromversorgung, Kunststoff und Glas zu einem geprüften, zertifizierten Gesamtsystem (Plug & Play).",
     modelType: "assembly",

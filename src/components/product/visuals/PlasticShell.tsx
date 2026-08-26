@@ -6,7 +6,9 @@ import { C, Chip, FadeIn, IsoPlate, Layer, LayerLabel, VIEWBOX, type ProductVisu
  * gelieferten CAD-Teil gehaeuse-unterschale-pa66gf30 – Boden mit Rippenraster,
  * Eckdome mit Verstärkungsstegen und Stahl-Gewindeeinsatz, Platinenauflage,
  * Führungsstifte, Schnapphaken, Steckeraufnahme mit Kragen, Typenschildrahmen
- * und die umlaufende TPE-Dichtlippe auf der Wandoberkante (2K-Verbindung).
+ * und die umlaufende Dichtungsnut auf der Wandoberkante. Als Detail die
+ * IMR-Dekorschicht (In-Mold Roller) im Schnitt – das in [PRÄS] S. 19 belegte
+ * Dekorverfahren. 2K-Spritzguss ist in keiner Quelle belegt und deshalb raus.
  */
 
 const CX = 286;
@@ -157,36 +159,44 @@ export default function PlasticShell({ progress, reducedMotion }: ProductVisualP
         <LayerLabel x={LABEL_X} y={CY - 44} text="Schnapphaken" sub="schraubenlose Montage" length={44} />
       </Layer>
 
-      {/* 5. Umlaufende TPE-Dichtlippe auf der Wandoberkante – die 2K-Zone */}
+      {/* 5. Umlaufende Dichtungsnut auf der Wandoberkante */}
       <Layer {...common} from={0.4} to={0.6} spread={0}>
+        {/* Nut als schmales Doppelprofil statt als aufgespritzte Lippe */}
         <polygon
           points={`${CX - A},${CY - WALL} ${CX},${CY - B - WALL} ${CX + A},${CY - WALL} ${CX},${CY + B - WALL}`}
           fill="none"
-          stroke={C.tpe}
-          strokeWidth="8"
+          stroke="#4a515a"
+          strokeWidth="7"
           strokeLinejoin="round"
         />
-        <LayerLabel x={LABEL_X} y={CY - 84} text="TPE-Dichtlippe" sub="2K Hart-Weich" length={44} />
+        <polygon
+          points={`${CX - A + 10},${CY - WALL} ${CX},${CY - B - WALL + 5.5} ${CX + A - 10},${CY - WALL} ${CX},${CY + B - WALL - 5.5}`}
+          fill="none"
+          stroke="#15181c"
+          strokeWidth="3"
+          strokeLinejoin="round"
+        />
+        <LayerLabel x={LABEL_X} y={CY - 84} text="Dichtungsnut" sub="umlaufend, Wandoberkante" length={44} />
       </Layer>
 
-      {/* 6. Detailausschnitt: Hart- und Weichkomponente im Schnitt */}
+      {/* 6. Detailausschnitt: IMR-Dekorschicht auf dem Grundkörper im Schnitt */}
       <FadeIn {...common} from={0.56} to={0.74}>
         <g transform="translate(660 468)">
           <circle r="62" fill={C.white} stroke={C.line} strokeWidth="1.5" />
-          <path d="M-42 20 h84 v-16 h-84 Z" fill={C.plasticDark} />
-          <path d="M-42 4 q0 -22 20 -22 h44 q20 0 20 22 Z" fill={C.tpe} />
-          <path d="M-42 4 h84" stroke={C.metal} strokeWidth="1.5" strokeDasharray="4 3" />
+          {/* Grundkörper */}
+          <path d="M-42 22 h84 v-20 h-84 Z" fill={C.plasticDark} />
+          {/* Dekorschicht, im Werkzeug übertragen – bewusst hauchdünn */}
+          <path d="M-42 2 h84 v-6 h-84 Z" fill={C.brand500} />
+          <path d="M-42 -4 h84 v-3 h-84 Z" fill={C.brand200} />
           <text x="0" y="46" fill={C.inkSoft} fontSize="12" textAnchor="middle" fontFamily="inherit">
-            2K-Verbund
+            IMR-Dekorschicht
           </text>
         </g>
         <path d={`M${CX + A - 30} ${CY - WALL + 16} L604 452`} stroke={C.line} strokeWidth="1.5" fill="none" />
       </FadeIn>
 
       <FadeIn {...common} from={0.62} to={0.8}>
-        <Chip x={44} y={512} label="PA66+GF · PC · LCP" />
-        <Chip x={230} y={512} label="IATF 16949" />
-        <Chip x={366} y={512} label="Toleranzen im µm-Bereich" />
+        <Chip x={276} y={512} label="PA66+GF · PC · LCP · POM · ABS" />
       </FadeIn>
     </svg>
   );

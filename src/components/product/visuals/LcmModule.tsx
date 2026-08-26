@@ -161,8 +161,8 @@ export default function LcmModule({ progress, reducedMotion }: ProductVisualProp
 
       {/* Fakten aus den Spezifikationen */}
       <FadeIn {...common} from={0.6} to={0.76}>
-        <Chip x={44} y={512} label="-30 °C bis +85 °C" />
-        <Chip x={214} y={512} label="FSC · DFSTN · FSTN" />
+        <Chip x={159} y={512} label="-40 °C bis +90 °C je nach Technologie" />
+        <Chip x={484} y={512} label="FSC · DFSTN · FSTN" />
       </FadeIn>
     </svg>
   );

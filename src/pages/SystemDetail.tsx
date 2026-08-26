@@ -177,8 +177,8 @@ export default function SystemDetail() {
                   <div className="text-sm text-gray-600">Einmalige Investition, keine Nachforderungen bei Iterationen.</div>
                 </div>
                 <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                  <div className="text-brand-700 font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 02. Voller Datenbesitz</div>
-                  <div className="text-sm text-gray-600">Alle Werkzeuge und Konstruktionsdaten gehen in Ihr Eigentum über.</div>
+                  <div className="text-brand-700 font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 02. Werkzeuge und Daten</div>
+                  <div className="text-sm text-gray-600">Sämtliche Daten und Werkzeuge werden Ihnen nach Projektabschluss zur Verfügung gestellt.</div>
                 </div>
                 <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
                   <div className="text-brand-700 font-bold mb-2 flex items-center gap-2"><CheckCircle2 className="w-4 h-4" /> 03. Risikofreie Serie</div>

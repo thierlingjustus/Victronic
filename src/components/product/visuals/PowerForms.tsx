@@ -174,12 +174,10 @@ export default function PowerForms({ progress, reducedMotion }: ProductVisualPro
 
       {/* Schutzschaltungen und Kennwerte */}
       <FadeIn {...common} from={0.5} to={0.68}>
-        <Chip x={120} y={488} label="OVP" />
-        <Chip x={196} y={488} label="OCP" />
-        <Chip x={272} y={488} label="SCP" />
-        <Chip x={348} y={488} label="OTP" />
-        <Chip x={430} y={488} label="Level VI" />
-        <Chip x={546} y={488} label="MTBF > 500.000 h" />
+        <Chip x={213} y={488} label="OVP" />
+        <Chip x={278} y={488} label="SCP" />
+        <Chip x={343} y={488} label="Level VI" />
+        <Chip x={446} y={488} label="MTBF > 200.000 h" />
       </FadeIn>
     </svg>
   );

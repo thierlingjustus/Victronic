@@ -168,8 +168,7 @@ export default function AxialFan({ progress, reducedMotion }: ProductVisualProps
       </Layer>
 
       <FadeIn {...common} from={0.62} to={0.78}>
-        <Chip x={556} y={422} label="PWM + Tachosignal" />
-        <Chip x={556} y={458} label="IP55 bis IP68" />
+        <Chip x={556} y={440} label="PWM + Tachosignal" />
       </FadeIn>
     </svg>
   );

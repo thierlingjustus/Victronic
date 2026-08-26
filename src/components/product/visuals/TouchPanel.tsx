@@ -138,9 +138,9 @@ export default function TouchPanel({ progress, reducedMotion }: ProductVisualPro
       </FadeIn>
 
       <FadeIn {...common} from={0.62} to={0.78}>
-        <Chip x={44} y={520} label="Multi-Touch" />
-        <Chip x={168} y={520} label="mit Handschuh" />
-        <Chip x={318} y={520} label="Water-Rejection" />
+        <Chip x={190} y={520} label="Multi-Touch" />
+        <Chip x={318} y={520} label="Wet Touch" />
+        <Chip x={430} y={520} label="OGS · PCAP · Resistiv" />
       </FadeIn>
     </svg>
   );

@@ -4,9 +4,9 @@ import { C, Chip, FadeIn, IsoPlate, Layer, LayerLabel, VIEWBOX, type ProductVisu
  * Montage & Gehäuse (modelType "assembly"): das Box-Build-Endgerät als
  * Explosionsdarstellung – Rückschale mit HDMI-, Ethernet- und Stromanschluss
  * samt Kabelkonfektion, SMT-bestückte Leiterplatte, Displaymodul und
- * Frontblende mit Bedientasten. Zum Schluss das Prüfsiegel der
- * End-of-Line-Tests. Inhaltlich nach den Captions zu smt-pcb.jpg und
- * box-build-module.jpg in products.ts.
+ * Frontblende mit Bedientasten. Zum Schluss der belegte Kostenvorteil aus
+ * dem Werkzeug- und Musterbau. Inhaltlich nach den Captions zu smt-pcb.jpg
+ * und box-build-module.jpg in products.ts.
  *
  * Dient zugleich als Rückfall für unbekannte modelType-Werte.
  */
@@ -136,33 +136,23 @@ export default function BoxBuild({ progress, reducedMotion }: ProductVisualProps
         <LayerLabel x={LABEL_X} y={CY - 20} text="Frontblende" sub="Bedientasten" length={44} />
       </Layer>
 
-      {/* Prüfsiegel der End-of-Line-Tests */}
+      {/* Werkzeug- und Musterbau ohne Mehrkosten – wörtlich aus [ALT /housing/] */}
       <FadeIn {...common} from={0.64} to={0.8}>
-        <g transform="translate(596 52)">
-          <rect x="0" y="0" width="168" height="98" rx="10" fill={C.white} stroke={C.brand100} strokeWidth="1.5" />
-          <text x="14" y="26" fill={C.brand700} fontSize="12.5" fontWeight="700" fontFamily="inherit">
-            100 % geprüft
+        <g transform="translate(578 52)">
+          <rect x="0" y="0" width="190" height="86" rx="10" fill={C.white} stroke={C.brand100} strokeWidth="1.5" />
+          <text x="16" y="28" fill={C.brand700} fontSize="12.5" fontWeight="700" fontFamily="inherit">
+            Werkzeug- &amp; Musterbau
           </text>
-          {['AOI', 'ICT', 'Funktionstest'].map((t, i) => (
-            <g key={t}>
-              <path
-                d={`M16 ${42 + i * 18} l5 5 l9 -10`}
-                stroke={C.brand600}
-                strokeWidth="2.5"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <text x="38" y={47 + i * 18} fill={C.inkSoft} fontSize="12" fontFamily="inherit">
-                {t}
-              </text>
-            </g>
+          {['keine Mehrkosten für', 'Korrekturschritte und', 'Änderungswünsche'].map((t, i) => (
+            <text key={t} x="16" y={50 + i * 16} fill={C.inkSoft} fontSize="11.5" fontFamily="inherit">
+              {t}
+            </text>
           ))}
         </g>
       </FadeIn>
 
       <FadeIn {...common} from={0.66} to={0.82}>
-        <Chip x={44} y={512} label="Potting & Conformal Coating" />
+        <Chip x={242} y={512} label="SMT · THT · Box-Build · Kabelkonfektion" />
       </FadeIn>
     </svg>
   );

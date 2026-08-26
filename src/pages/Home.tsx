@@ -77,7 +77,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-brand-600 selection:text-white overflow-hidden">
       <Seo
         title="Victronic GmbH – Elektronische Komponenten und Baugruppen für die Industrie"
-        description="Victronic GmbH aus Bargteheide: Displays, elektronische Komponenten und kundenspezifische Baugruppen für Industriekunden – seit 2008 mit direkten Herstellerbeziehungen und transparenten Lieferketten."
+        description="Victronic GmbH aus Bargteheide: Displays, elektronische Komponenten und kundenspezifische Baugruppen für Industriekunden – mit direkten Herstellerbeziehungen und transparenten Lieferketten."
       />
       {/* Navigation */}
       <Navbar />
@@ -125,7 +125,7 @@ export default function Home() {
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">Über Victronic</h2>
                 <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                  Die Victronic GmbH steht für ein modernes Lieferantenkonzept: klein, flexibel und hocheffizient. Seit 2008 bieten wir intelligente elektronische Lösungen mit engen Herstellerbeziehungen und voller Transparenz über die gesamte Lieferkette.
+                  Die Victronic GmbH steht für ein modernes Lieferantenkonzept: klein, flexibel und hocheffizient. Wir bieten intelligente elektronische Lösungen mit engen Herstellerbeziehungen und voller Transparenz über die gesamte Lieferkette.
                 </p>
                 <p className="text-gray-600 text-lg leading-relaxed">
                   Unser Ziel ist es, die technische Beschaffung zu vereinfachen und eine schnelle, zuverlässige Projektabwicklung zu gewährleisten – unterstützt durch ISO-zertifizierte Partner.
@@ -159,7 +159,7 @@ export default function Home() {
             {[
               { title: "Produkte", desc: "Standardkomponenten und maßgeschneiderte Lösungen vom Prototyp bis zur Serienproduktion.", icon: Box, link: "#products" },
               { title: "Systeme", desc: "Module und vollständig angepasste Baugruppen, zugeschnitten auf Ihre spezifische Anwendung.", icon: Layers, link: "/systems" },
-              { title: "Beratung", desc: "Schneller und direkter technischer und kaufmännischer Support für Ihre Projekte.", icon: Lightbulb, link: "#contact" }
+              { title: "Beratung", desc: "Schneller, direkter Support für Ihre Projekte — technisch wie kaufmännisch.", icon: Lightbulb, link: "#contact" }
             ].map((service, i) => (
               <FadeIn inView key={i} delay={i * 0.1}>
                 {service.link.startsWith('/') ? (
@@ -263,7 +263,7 @@ export default function Home() {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">Direkter Zugang zum Hersteller</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Seit 2008 pflegen wir enge, langjährige Beziehungen zu unseren Herstellern.
+                    Seit vielen Jahren pflegen wir enge Beziehungen zu unseren Herstellern.
                     Für Sie heißt das: kurze Wege, verlässliche Auskünfte und volle Transparenz
                     über die gesamte Lieferkette – von der Anfrage bis zur Serienlieferung.
                   </p>
@@ -288,13 +288,18 @@ export default function Home() {
             </FadeIn>
             <FadeIn inView delay={0.2}>
               <div className="bg-white p-8 md:p-12 rounded-xl border border-gray-200 shadow-sm">
-                <h3 className="text-2xl font-bold mb-4">Zertifizierte Qualität</h3>
+                <h3 className="text-2xl font-bold mb-4">Zertifizierte Hersteller</h3>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  Wir arbeiten ausschließlich mit Herstellern zusammen, die nach internationalen Standards zertifiziert sind.
+                  Wir bieten ausschließlich Produkte von Herstellern an, die wir persönlich auditieren. Durch
+                  direkten Einblick in die Einkaufs-, Produktions- und Engineeringprozesse vor Ort überzeugen
+                  wir uns laufend von Produktqualität und Liefersicherheit. Alle Hersteller sind
+                  ISO 9001-zertifiziert, im Produktbereich Displays zusätzlich nach ISO/TS 16949.
                 </p>
-                <div className="flex gap-4">
-                  <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-semibold text-gray-600 border border-gray-200">ISO 9001</span>
-                  <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-semibold text-gray-600 border border-gray-200">ISO/TS16949</span>
+                {/* Geltungsbereich gehört an die Badges – ein nacktes ISO-Siegel liest
+                    sich sonst als Zertifizierung der Victronic GmbH selbst. */}
+                <div className="flex flex-wrap gap-4">
+                  <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-semibold text-gray-600 border border-gray-200">ISO 9001 · alle Hersteller</span>
+                  <span className="px-3 py-1 bg-gray-100 rounded-md text-sm font-semibold text-gray-600 border border-gray-200">ISO/TS 16949 · Displays</span>
                 </div>
               </div>
             </FadeIn>
