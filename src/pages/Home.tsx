@@ -88,16 +88,24 @@ export default function Home() {
       >
         <HeroSlideshow />
 
-        {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-black/45 pointer-events-none" />
+        {/* Grundschleier über der Slideshow. Bewusst moderat – die eigentliche
+            Lesbarkeit stellt die abgedunkelte Fläche hinter dem Text her. */}
+        <div className="absolute inset-0 bg-black/30 pointer-events-none" />
         
         {/* Main Hero Content */}
         <div className="max-w-4xl mx-auto text-center relative z-20 px-6 flex flex-col items-center">
+          {/*
+            Der Text steht auf vier wechselnden Slides, darunter ein fast weißes
+            Motiv. Der frühere flache Schleier (45 %) brachte weiße Schrift dort
+            nur auf rund 2,8:1. Schleier (30 %) und diese Fläche (60 %) ergeben
+            zusammen 72 % Schwarz: selbst über reinem Weiß bleiben rund 8,8:1 –
+            deutlich über der WCAG-AA-Schwelle von 4,5:1 für Fließtext.
+          */}
           <motion.div
             initial={{ opacity: 0, y: -25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col items-center"
+            className="flex flex-col items-center rounded-3xl bg-black/60 px-8 py-10 md:px-16 md:py-12"
           >
             <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-5 drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
               Victronic
@@ -228,8 +236,8 @@ export default function Home() {
           </FadeIn>
 
           <div className="relative">
-            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-gray-200 -translate-y-1/2" />
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-8 relative z-10">
+            <div className="hidden lg:block absolute top-6 left-0 right-0 h-px bg-gray-200 -translate-y-1/2" />
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-8 items-start relative z-10">
               {[
                 { step: "01", name: "Produktplanung und -entwicklung", icon: Lightbulb },
                 { step: "02", name: "Zeichnungsfreigabe", icon: PenTool },

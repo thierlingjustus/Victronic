@@ -17,7 +17,7 @@ const ProductFactCard = forwardRef<
     <div
       ref={ref}
       style={{ opacity: 0 }}
-      className={`absolute z-[60] w-52 lg:w-64 ${isLeft ? 'text-right' : ''} ${className}`}
+      className={`absolute z-[60] w-52 lg:w-56 xl:w-64 ${isLeft ? 'text-right' : ''} ${className}`}
     >
       {/* Verbindungsstrich zum Produkt in der Mitte */}
       <div

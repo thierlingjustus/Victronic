@@ -33,12 +33,15 @@ export default function ProductVisual({
   modelType,
   progress,
   reducedMotion = false,
+  activeFact = -1,
   fallbackSrc,
   fallbackAlt,
 }: {
   modelType: string;
   progress: MotionValue<number>;
   reducedMotion?: boolean;
+  /** Aktive Faktenkarte – hebt die zugehörige Schicht im Visual hervor. */
+  activeFact?: number;
   fallbackSrc: string;
   fallbackAlt: string;
 }) {
@@ -58,7 +61,7 @@ export default function ProductVisual({
         nie blockiert wird.
       */}
       <div className="absolute inset-0 pointer-events-none" role="img" aria-label={fallbackAlt}>
-        <Visual progress={progress} reducedMotion={reducedMotion} />
+        <Visual progress={progress} reducedMotion={reducedMotion} activeFact={activeFact} />
       </div>
     </ErrorBoundary>
   );

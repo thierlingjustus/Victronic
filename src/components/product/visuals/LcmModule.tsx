@@ -1,4 +1,4 @@
-import { C, Chip, FadeIn, IsoPlate, Layer, LayerLabel, VIEWBOX, type ProductVisualProps } from './stage';
+import { C, Chip, FadeIn, IsoPlate, StackLayer, VIEWBOX, type ProductVisualProps } from './stage';
 
 /**
  * LCM / LCD Module (modelType "lcd"): der Schichtaufbau eines monochromen
@@ -28,13 +28,29 @@ const iso = (n: number) => {
   return `matrix(${kx} ${ky} ${-kx} ${ky} ${CX} ${CY})`;
 };
 
-export default function LcmModule({ progress, reducedMotion }: ProductVisualProps) {
+/** Zahl der Schichten – bestimmt die Staffelung über LAYER_BAND. */
+const N = 6;
+
+/**
+ * Faktenkarte → Schicht. specs in products.ts:
+ * 0 Technologien · 1 Aufbau · 2 Darstellung · 3 Temperaturbereich
+ */
+const SPEC_LAYERS = [3, 2, 3, -1];
+
+export default function LcmModule({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
   const common = { progress, reducedMotion };
+  const active = activeFact >= 0 ? SPEC_LAYERS[activeFact] ?? -1 : -1;
+  const layer = { ...common, n: N, activeIndex: active };
 
   return (
     <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/* 1. Treiber-PCB – Goldpads, COB-Vergusstropfen, Quarz, Pfostenstecker */}
-      <Layer {...common} from={0.04} to={0.3} spread={148}>
+      <StackLayer
+        {...layer}
+        i={0}
+        spread={120}
+        label={{ x: LABEL_X, y: CY + 46, text: 'Treiber-PCB', sub: 'COB · Pfostenstecker', length: 44 }}
+      >
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={11} fill={C.pcb} side="#0d3a20">
           <g stroke={C.pcbTrace} strokeWidth="2" fill="none">
             <path d={`M${CX - 110} ${CY + 4} L${CX - 30} ${CY - 40} L${CX + 70} ${CY + 14}`} />
@@ -71,16 +87,20 @@ export default function LcmModule({ progress, reducedMotion }: ProductVisualProp
             fill={C.ic}
           />
         </IsoPlate>
-        <LayerLabel x={LABEL_X} y={CY + 46} text="Treiber-PCB" sub="COB · Pfostenstecker" length={44} />
-      </Layer>
+      </StackLayer>
 
       {/* 2. Backlight-Panel */}
-      <Layer {...common} from={0.07} to={0.33} spread={96}>
+      <StackLayer {...layer} i={1} spread={78}>
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={7} fill="#f8fafc" side={C.lineSoft} />
-      </Layer>
+      </StackLayer>
 
       {/* 3. Unteres LCD-Glas mit Chip-on-Glass-Treiber am Rand */}
-      <Layer {...common} from={0.1} to={0.36} spread={44}>
+      <StackLayer
+        {...layer}
+        i={2}
+        spread={36}
+        label={{ x: LABEL_X, y: CY + 18, text: 'COG-Bonding', sub: 'Chip-on-Glass', length: 44 }}
+      >
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={6} fill="#cdd6c4" side="#aab39f" opacity={0.9}>
           {/* COG-Treiber: schmaler dunkler Balken direkt auf dem Substrat */}
           <polygon
@@ -94,17 +114,21 @@ export default function LcmModule({ progress, reducedMotion }: ProductVisualProp
             ))}
           </g>
         </IsoPlate>
-        <LayerLabel x={LABEL_X} y={CY + 18} text="COG-Bonding" sub="Chip-on-Glass" length={44} />
-      </Layer>
+      </StackLayer>
 
       {/* 4. Oberes LCD-Glas mit Punktmatrix */}
-      <Layer {...common} from={0.13} to={0.39} spread={-8}>
+      <StackLayer
+        {...layer}
+        i={3}
+        spread={-6}
+        label={{ x: LABEL_X, y: CY - 8, text: 'FSTN-Glaszelle', sub: 'Punktmatrix 128 × 64', length: 44 }}
+      >
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={6} fill="#c3cdb8" side="#a2ac96" opacity={0.95}>
           {/*
             128x64 echte Punkte wären unlesbar – ein repräsentatives Raster
             zeigt die Struktur. Die Matrix legt es auf die Rautenfläche.
           */}
-          <FadeIn {...common} from={0.46} to={0.7} toOpacity={0.9}>
+          <FadeIn {...common} from={0.58} to={0.74} toOpacity={0.9}>
             <g transform={iso(26)} fill={C.slate}>
               {Array.from({ length: 25 }).map((_, ri) =>
                 Array.from({ length: 25 }).map((_, ci) => {
@@ -130,16 +154,25 @@ export default function LcmModule({ progress, reducedMotion }: ProductVisualProp
             </g>
           </FadeIn>
         </IsoPlate>
-        <LayerLabel x={LABEL_X} y={CY - 8} text="FSTN-Glaszelle" sub="Punktmatrix 128 × 64" length={44} />
-      </Layer>
+      </StackLayer>
 
       {/* 5. Polarisator */}
-      <Layer {...common} from={0.16} to={0.42} spread={-58}>
+      <StackLayer
+        {...layer}
+        i={4}
+        spread={-50}
+        label={{ x: LABEL_X, y: CY - 10, text: 'Polarisator', sub: 'Positiv-/Negativ-Modus', length: 44 }}
+      >
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={4} fill={C.slate} side="#0f172a" opacity={0.4} />
-      </Layer>
+      </StackLayer>
 
       {/* 6. Bezel-Rahmen aus schwarzem Stahl */}
-      <Layer {...common} from={0.19} to={0.45} spread={-116}>
+      <StackLayer
+        {...layer}
+        i={5}
+        spread={-104}
+        label={{ x: LABEL_X, y: CY - 4, text: 'Bezel-Rahmen', sub: 'Stahl, schwarz', length: 44 }}
+      >
         <g>
           {/* Rahmen als Raute mit Ausschnitt – zwei Konturen, evenodd stanzt */}
           <path
@@ -156,13 +189,12 @@ export default function LcmModule({ progress, reducedMotion }: ProductVisualProp
             opacity="0.5"
           />
         </g>
-        <LayerLabel x={LABEL_X} y={CY - 4} text="Bezel-Rahmen" sub="Stahl, schwarz" length={44} />
-      </Layer>
+      </StackLayer>
 
       {/* Fakten aus den Spezifikationen */}
-      <FadeIn {...common} from={0.6} to={0.76}>
-        <Chip x={159} y={512} label="-40 °C bis +90 °C je nach Technologie" />
-        <Chip x={484} y={512} label="FSC · DFSTN · FSTN" />
+      <FadeIn {...common} from={0.78} to={0.92}>
+        <Chip x={159} y={548} label="-40 °C bis +90 °C je nach Technologie" />
+        <Chip x={484} y={548} label="FSC · DFSTN · FSTN" />
       </FadeIn>
     </svg>
   );

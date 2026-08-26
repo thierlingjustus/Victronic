@@ -18,6 +18,17 @@ type StageProduct = {
   icon: ComponentType<{ className?: string }>;
 };
 
+/**
+ * Gemeinsame Spaltengeometrie der Bühne ab lg: Karten links | Visual | Karten
+ * rechts. Beide Ebenen – die Kartenspalten und der Visual-Container – benutzen
+ * dieselbe Konstante. Vorher standen die Karten absolut bei ±15,5 rem, während
+ * das Visual max-w-3xl (±24 rem) breit war; das ergab 136 px Überlappung je
+ * Seite. Über ein echtes Grid kann das konstruktiv nicht mehr passieren.
+ */
+const STAGE_GRID =
+  'mx-auto h-full w-full max-w-6xl xl:max-w-7xl px-6 lg:grid lg:gap-6 ' +
+  'lg:grid-cols-[14rem_minmax(0,1fr)_14rem] xl:grid-cols-[17rem_minmax(0,1fr)_17rem]';
+
 /** Erstes Fakten-Fenster und Abstand der folgenden – ergibt die Staffelung. */
 const FACT_WINDOW_START = 0.2;
 const FACT_WINDOW_SPAN = 0.52;
@@ -51,12 +62,10 @@ function StageFact({
     reducedMotion
   );
 
-  // Vertikale Staffelung: Karten wandern paarweise nach unten
+  // Vertikale Staffelung: Karten wandern paarweise nach unten. Die Seite
+  // ergibt sich jetzt aus der Grid-Spalte, nicht mehr aus einem Randabstand.
   const row = Math.floor(index / 2);
   const top = ['top-[24%]', 'top-[46%]', 'top-[66%]'][Math.min(row, 2)];
-  const side = isLeft
-    ? 'right-1/2 mr-[15.5rem] xl:mr-[19rem]'
-    : 'left-1/2 ml-[15.5rem] xl:ml-[19rem]';
 
   return (
     <ProductFactCard
@@ -64,7 +73,7 @@ function StageFact({
       title={fact.title}
       desc={fact.desc}
       align={isLeft ? 'left' : 'right'}
-      className={`hidden lg:block ${side} ${top}`}
+      className={`hidden lg:block ${isLeft ? 'right-0' : 'left-0'} ${top}`}
     />
   );
 }
@@ -74,6 +83,9 @@ export default function ProductStage({ product }: { product: StageProduct }) {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [activeFact, setActiveFact] = useState(-1);
+  // Um wie viele Pixel das Visual nach oben rückt, sobald die Synergie-Karte
+  // kommt – rund 12 % der Bühnenhöhe (lg: top-[8%] bis bottom-[12%] ≈ 80 vh).
+  const [synergyLift, setSynergyLift] = useState(0);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return;
@@ -85,11 +97,15 @@ export default function ProductStage({ product }: { product: StageProduct }) {
     setIsDesktop(widthMq.matches);
     const onMotion = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
     const onWidth = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    const onResize = () => setSynergyLift(-Math.round(window.innerHeight * 0.8 * 0.12));
+    onResize();
     motionMq.addEventListener('change', onMotion);
     widthMq.addEventListener('change', onWidth);
+    window.addEventListener('resize', onResize);
     return () => {
       motionMq.removeEventListener('change', onMotion);
       widthMq.removeEventListener('change', onWidth);
+      window.removeEventListener('resize', onResize);
     };
   }, []);
 
@@ -115,10 +131,15 @@ export default function ProductStage({ product }: { product: StageProduct }) {
     reducedMotion
   );
   // Solange das Intro links steht, rückt das Produkt nach rechts aus dem Text
-  // heraus und wandert danach in die Bildmitte zurück.
+  // heraus und wandert danach in die Bildmitte zurück. Zum Schluss steigt es
+  // nach oben, statt sich von der Synergie-Karte überdecken zu lassen.
   const visualRef = useScrollStyle<HTMLDivElement>(
     scrollYProgress,
-    { input: [0, 0.2], x: isDesktop ? [140, 0] : [0, 0] },
+    {
+      input: [0, 0.2, 0.78, 0.88],
+      x: isDesktop ? [140, 0, 0, 0] : [0, 0, 0, 0],
+      y: isDesktop ? [0, 0, 0, synergyLift] : [0, 0, 0, 0],
+    },
     reducedMotion
   );
   const badgeRef = useScrollStyle<HTMLDivElement>(
@@ -162,6 +183,7 @@ export default function ProductStage({ product }: { product: StageProduct }) {
       modelType={product.modelType}
       progress={scrollYProgress}
       reducedMotion={reducedMotion}
+      activeFact={activeFact}
       fallbackSrc={product.image}
       fallbackAlt={`${product.name} – Produktansicht`}
     />
@@ -218,7 +240,7 @@ export default function ProductStage({ product }: { product: StageProduct }) {
   }
 
   return (
-    <div ref={containerRef} className="relative h-[260vh] lg:h-[340vh] w-full">
+    <div ref={containerRef} className="relative h-[260vh] lg:h-[280vh] w-full">
       <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
         {/* Weicher Studio-Verlauf als Bühnenhintergrund */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,#ffffff_0%,#f2f5f8_45%,#e6ebf0_100%)]" />
@@ -226,9 +248,15 @@ export default function ProductStage({ product }: { product: StageProduct }) {
 
         {/* Produkt in der Mitte – oben bleibt Platz für die fixe Navbar,
             unten für die kompakte Faktenkarte auf kleinen Displays. */}
-        <div className="absolute inset-x-0 top-20 bottom-44 lg:top-[8%] lg:bottom-[12%] flex items-center justify-center">
-          <div ref={visualRef} className="relative w-full h-full max-w-3xl">
-            {visual}
+        <div className="absolute inset-x-0 top-20 bottom-44 lg:top-[8%] lg:bottom-[12%]">
+          <div className={STAGE_GRID}>
+            {/* Die beiden Randspalten bleiben hier leer – sie gehören den
+                Faktenkarten, und das Visual darf sie nie betreten. */}
+            <div className="hidden lg:block" />
+            <div ref={visualRef} className="relative mx-auto h-full w-full max-w-3xl lg:max-w-none">
+              {visual}
+            </div>
+            <div className="hidden lg:block" />
           </div>
         </div>
 
@@ -261,17 +289,36 @@ export default function ProductStage({ product }: { product: StageProduct }) {
 
         {/* Fakten links und rechts (ab lg) */}
         <div className="absolute inset-0 z-[60] pointer-events-none hidden lg:block">
-          <div className="relative w-full max-w-6xl h-full mx-auto">
-            {facts.map((fact, i) => (
-              <StageFact
-                key={`${fact.title}-${i}`}
-                fact={fact}
-                index={i}
-                total={facts.length}
-                progress={scrollYProgress}
-                reducedMotion={reducedMotion}
-              />
-            ))}
+          <div className={STAGE_GRID}>
+            <div className="relative h-full">
+              {facts.map((fact, i) =>
+                fact.align === 'left' ? (
+                  <StageFact
+                    key={`${fact.title}-${i}`}
+                    fact={fact}
+                    index={i}
+                    total={facts.length}
+                    progress={scrollYProgress}
+                    reducedMotion={reducedMotion}
+                  />
+                ) : null
+              )}
+            </div>
+            <div />
+            <div className="relative h-full">
+              {facts.map((fact, i) =>
+                fact.align === 'left' ? null : (
+                  <StageFact
+                    key={`${fact.title}-${i}`}
+                    fact={fact}
+                    index={i}
+                    total={facts.length}
+                    progress={scrollYProgress}
+                    reducedMotion={reducedMotion}
+                  />
+                )
+              )}
+            </div>
           </div>
         </div>
 

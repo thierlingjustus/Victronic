@@ -25,20 +25,31 @@ function FormLabel({ cx, title, sub }: { cx: number; title: string; sub: string 
   );
 }
 
-export default function PowerForms({ progress, reducedMotion }: ProductVisualProps) {
+/**
+ * Faktenkarte → Bauform. specs in products.ts:
+ * 0 Bauformen · 1 Weitere Produkte · 2 Prüfung & Garantie ·
+ * 3 Zuverlässigkeit · 4 Schutz · 5 Effizienz
+ * Die ersten drei Zeilen gelten für alle Bauformen – dort wird bewusst nichts
+ * hervorgehoben, statt willkürlich eine der drei auszuwählen.
+ */
+const SPEC_LAYERS = [-1, -1, -1, 0, 1, 2];
+
+export default function PowerForms({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
   const common = { progress, reducedMotion };
+  const active = activeFact >= 0 ? SPEC_LAYERS[activeFact] ?? -1 : -1;
+  const box = { ...common, activeIndex: active, spread: 0 };
 
   return (
     <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/* Gemeinsame Standlinie, auf der die drei Bauformen sitzen */}
-      <FadeIn {...common} from={0.04} to={0.16}>
+      <FadeIn {...common} from={0.03} to={0.12}>
         <path d={`M60 ${BASE + 14} H740`} stroke={C.lineSoft} strokeWidth="2" />
       </FadeIn>
 
       {/* ---------------------------------------------------------------- */}
       {/* 1. Hutschiene – schmales Gehäuse auf dem TS35-Profil             */}
       {/* ---------------------------------------------------------------- */}
-      <Layer {...common} from={0.06} to={0.26} spread={0}>
+      <Layer {...box} index={0} from={0.05} to={0.31}>
         {/* Hutschienen-Profil im Schnitt (TS35) */}
         <path
           d="M78 372 h124 v-9 h-16 v-22 h16 v-9 h-124 v9 h16 v22 h-16 Z"
@@ -72,7 +83,7 @@ export default function PowerForms({ progress, reducedMotion }: ProductVisualPro
       {/* ---------------------------------------------------------------- */}
       {/* 2. Open Frame – offene Platine, das Herzstück                     */}
       {/* ---------------------------------------------------------------- */}
-      <Layer {...common} from={0.14} to={0.36} spread={0}>
+      <Layer {...box} index={1} from={0.255} to={0.515}>
         {/* Platine */}
         <rect x="284" y="240" width="232" height="122" rx="4" fill={C.pcb} />
         <rect x="284" y="240" width="232" height="122" rx="4" fill="none" stroke="#0d3a20" strokeWidth="2" />
@@ -143,7 +154,7 @@ export default function PowerForms({ progress, reducedMotion }: ProductVisualPro
       {/* ---------------------------------------------------------------- */}
       {/* 3. Steckernetzteil – kompaktes Gehäuse mit AC-Steckerstiften      */}
       {/* ---------------------------------------------------------------- */}
-      <Layer {...common} from={0.22} to={0.44} spread={0}>
+      <Layer {...box} index={2} from={0.46} to={0.72}>
         {/* Die beiden AC-Kontaktstifte stehen aus der Oberseite heraus */}
         <g fill={C.metal} stroke={C.metalDark} strokeWidth="1.5">
           <rect x="628" y="216" width="11" height="38" rx="5.5" />
@@ -170,11 +181,11 @@ export default function PowerForms({ progress, reducedMotion }: ProductVisualPro
       </Layer>
 
       {/* Schutzschaltungen und Kennwerte */}
-      <FadeIn {...common} from={0.5} to={0.68}>
-        <Chip x={213} y={488} label="OVP" />
-        <Chip x={278} y={488} label="SCP" />
-        <Chip x={343} y={488} label="Level VI" />
-        <Chip x={446} y={488} label="MTBF > 200.000 h" />
+      <FadeIn {...common} from={0.76} to={0.9}>
+        <Chip x={213} y={520} label="OVP" />
+        <Chip x={278} y={520} label="SCP" />
+        <Chip x={343} y={520} label="Level VI" />
+        <Chip x={446} y={520} label="MTBF > 200.000 h" />
       </FadeIn>
     </svg>
   );

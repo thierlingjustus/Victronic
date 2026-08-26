@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { createContext, useContext, type ReactNode } from 'react';
 import type { MotionValue } from 'motion/react';
 import { MODEL_WINDOW, useScrollStyle } from '../useScrollStyle';
 
@@ -14,6 +14,12 @@ import { MODEL_WINDOW, useScrollStyle } from '../useScrollStyle';
 export type ProductVisualProps = {
   progress: MotionValue<number>;
   reducedMotion: boolean;
+  /**
+   * Index der gerade aktiven Faktenkarte, -1 wenn keine aktiv ist. Jedes Visual
+   * bildet ihn über eine eigene SPEC_LAYERS-Tabelle auf eine seiner Schichten
+   * ab und hebt sie hervor.
+   */
+  activeFact?: number;
 };
 
 export const VIEWBOX = '0 0 800 600';
@@ -25,6 +31,21 @@ export const VIEWBOX = '0 0 800 600';
  */
 export const at = (local: number) =>
   MODEL_WINDOW[0] + local * (MODEL_WINDOW[1] - MODEL_WINDOW[0]);
+
+/**
+ * Band, über das sich die Schichten einer Explosionsdarstellung verteilen.
+ * Vorher waren alle Schichten bei 0.44 fertig, die Synergie-Karte kam erst bei
+ * 0.78 – dazwischen lagen gut 1,2 Bildschirmhöhen ohne sichtbare Veränderung.
+ */
+export const LAYER_BAND: [number, number] = [0.05, 0.72];
+
+/** Gleichmäßig gestaffeltes Fenster für Schicht i von n innerhalb LAYER_BAND. */
+export function layerWindow(i: number, n: number, width = 0.26): [number, number] {
+  const [a, b] = LAYER_BAND;
+  const step = n > 1 ? (b - a - width) / (n - 1) : 0;
+  const from = a + i * step;
+  return [from, from + width];
+}
 
 /**
  * Farben – ausschließlich die Markenpalette aus index.css plus die Neutral- und
@@ -71,9 +92,23 @@ export const C = {
 };
 
 /**
+ * Hervorhebung der aktiven Schicht. Läuft über einen Context, damit die
+ * Aufrufer den Zustand nicht durch jede Zeichnung durchfädeln müssen –
+ * IsoPlate liest ihn direkt und zieht seine Kontur in der Markenfarbe nach.
+ */
+const HighlightContext = createContext(false);
+
+/** Übergangsdauer der Hervorhebung, einheitlich für Kontur und Abdunklung. */
+const HIGHLIGHT_MS = 300;
+
+/**
  * Eine Ebene der Explosions-/Stapeldarstellung: blendet ein und fährt aus der
  * Ruhelage in ihre Endposition. `spread` ist der vertikale Endversatz in
  * viewBox-Einheiten – deshalb sitzt das hier auf einem <g>, nicht auf einem div.
+ *
+ * Die Abdunklung nicht-aktiver Schichten liegt bewusst auf einem inneren <g>:
+ * useScrollStyle schreibt auf dem äußeren pro Frame die Deckkraft, beide würden
+ * sich sonst gegenseitig überschreiben. So multiplizieren sie sich stattdessen.
  */
 export function Layer({
   progress,
@@ -81,6 +116,8 @@ export function Layer({
   from,
   to,
   spread,
+  index,
+  activeIndex,
   children,
 }: {
   progress: MotionValue<number>;
@@ -90,6 +127,10 @@ export function Layer({
   to: number;
   /** Endversatz in Pixeln (negativ = nach oben). */
   spread: number;
+  /** Eigener Schichtindex – nur nötig, wenn die Kopplung an die Karten greift. */
+  index?: number;
+  /** Hervorzuhebende Schicht, -1 = keine. */
+  activeIndex?: number;
   children: ReactNode;
 }) {
   const start = at(from);
@@ -99,9 +140,24 @@ export function Layer({
     { input: [start, end], opacity: [0, 1], y: [0, spread] },
     reducedMotion
   );
+
+  // Bei prefers-reduced-motion bleibt alles wie bisher: keine Hervorhebung.
+  const coupled =
+    !reducedMotion && index !== undefined && activeIndex !== undefined && activeIndex >= 0;
+  const isActive = coupled && index === activeIndex;
+
   return (
     <g ref={ref} style={{ opacity: 0 }}>
-      {children}
+      <HighlightContext.Provider value={isActive}>
+        <g
+          style={{
+            opacity: coupled && !isActive ? 0.35 : 1,
+            transition: `opacity ${HIGHLIGHT_MS}ms ease`,
+          }}
+        >
+          {children}
+        </g>
+      </HighlightContext.Provider>
     </g>
   );
 }
@@ -170,12 +226,19 @@ export function IsoPlate({
   const left = `${cx - a},${cy} ${cx},${cy + b} ${cx},${cy + b + t} ${cx - a},${cy + t}`;
   const right = `${cx + a},${cy} ${cx},${cy + b} ${cx},${cy + b + t} ${cx + a},${cy + t}`;
   const sideFill = side ?? fill;
+  const highlighted = useContext(HighlightContext);
 
   return (
     <g opacity={opacity}>
       <polygon points={left} fill={sideFill} />
       <polygon points={right} fill={sideFill} opacity="0.75" />
-      <polygon points={top} fill={fill} stroke={stroke} strokeWidth={stroke ? 1.5 : 0} />
+      <polygon
+        points={top}
+        fill={fill}
+        stroke={highlighted ? C.brand500 : stroke}
+        strokeWidth={highlighted ? 2.5 : stroke ? 1.5 : 0}
+        style={{ transition: `stroke ${HIGHLIGHT_MS}ms ease, stroke-width ${HIGHLIGHT_MS}ms ease` }}
+      />
       {children}
     </g>
   );
@@ -185,21 +248,16 @@ export function IsoPlate({
  * Beschriftung einer Ebene: Führungslinie nach rechts plus Text.
  * `side` steuert, auf welcher Seite die Linie herausgeführt wird.
  */
-export function LayerLabel({
-  x,
-  y,
-  text,
-  sub,
-  side = 'right',
-  length = 90,
-}: {
+export type LayerLabelProps = {
   x: number;
   y: number;
   text: string;
   sub?: string;
   side?: 'left' | 'right';
   length?: number;
-}) {
+};
+
+export function LayerLabel({ x, y, text, sub, side = 'right', length = 90 }: LayerLabelProps) {
   const dir = side === 'right' ? 1 : -1;
   const endX = x + dir * length;
   return (
@@ -230,6 +288,80 @@ export function LayerLabel({
         </text>
       )}
     </g>
+  );
+}
+
+/**
+ * Beschriftung einer Schicht, aus dem <Layer>-<g> herausgelöst.
+ *
+ * Lag das Label mit im Layer, stapelten sich die Bezeichnungen während des
+ * Ausfahrens übereinander. Hier startet es erst bei 70 % des Layer-Fensters und
+ * fährt nur noch das letzte Stück mit – erst bewegt sich die Geometrie, danach
+ * kommen die Namen.
+ */
+export function LayerCaption({
+  progress,
+  reducedMotion,
+  from,
+  to,
+  spread,
+  ...label
+}: {
+  progress: MotionValue<number>;
+  reducedMotion: boolean;
+  from: number;
+  to: number;
+  spread: number;
+} & LayerLabelProps) {
+  const start = from + (to - from) * 0.7;
+  const ref = useScrollStyle<SVGGElement>(
+    progress,
+    { input: [at(start), at(to)], opacity: [0, 1], y: [spread * 0.7, spread] },
+    reducedMotion
+  );
+  return (
+    <g ref={ref} style={{ opacity: 0 }}>
+      <LayerLabel {...label} />
+    </g>
+  );
+}
+
+/**
+ * Eine Schicht samt Beschriftung, gestaffelt über LAYER_BAND. Nimmt den
+ * Visuals die Fensterrechnerei ab und hält die Staffelung überall gleich.
+ */
+export function StackLayer({
+  progress,
+  reducedMotion,
+  i,
+  n,
+  spread,
+  activeIndex,
+  width,
+  label,
+  children,
+}: {
+  progress: MotionValue<number>;
+  reducedMotion: boolean;
+  /** Index dieser Schicht und Gesamtzahl – daraus folgt das Zeitfenster. */
+  i: number;
+  n: number;
+  spread: number;
+  activeIndex?: number;
+  /** Fensterbreite, nur bei sehr wenigen Schichten anzupassen. */
+  width?: number;
+  label?: LayerLabelProps;
+  children: ReactNode;
+}) {
+  const [from, to] = layerWindow(i, n, width);
+  const common = { progress, reducedMotion };
+  return (
+    <>
+      <Layer {...common} from={from} to={to} spread={spread} index={i} activeIndex={activeIndex}>
+        {children}
+      </Layer>
+      {label && <LayerCaption {...common} from={from} to={to} spread={spread} {...label} />}
+    </>
   );
 }
 
