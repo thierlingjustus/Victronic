@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import {
   Box, Layers,
-  Lightbulb, CheckCircle, PenTool, Factory, ShieldCheck, Package,
+  Lightbulb, CheckCircle, PenTool, Wrench, Factory, ShieldCheck, Package,
   ArrowRight, Mail, Phone, MapPin, ChevronRight
 } from 'lucide-react';
 
@@ -228,15 +228,16 @@ export default function Home() {
           </FadeIn>
 
           <div className="relative">
-            <div className="hidden md:block absolute top-1/2 left-0 right-0 h-px bg-gray-200 -translate-y-1/2" />
-            <div className="grid md:grid-cols-6 gap-8 relative z-10">
+            <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-px bg-gray-200 -translate-y-1/2" />
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-8 relative z-10">
               {[
-                { step: "01", name: "Planung & Entwicklung", icon: Lightbulb },
-                { step: "02", name: "Designfreigabe", icon: CheckCircle },
-                { step: "03", name: "Werkzeugbau", icon: PenTool },
-                { step: "04", name: "Prototypenfertigung", icon: Factory },
-                { step: "05", name: "Prüfung & Freigabe", icon: ShieldCheck },
-                { step: "06", name: "Serienproduktion", icon: Package }
+                { step: "01", name: "Produktplanung und -entwicklung", icon: Lightbulb },
+                { step: "02", name: "Zeichnungsfreigabe", icon: PenTool },
+                { step: "03", name: "Werkzeugbau", icon: Wrench },
+                { step: "04", name: "Werkzeugfreigabe", icon: CheckCircle },
+                { step: "05", name: "Prototypen-Herstellung", icon: Factory },
+                { step: "06", name: "Freigabe der Prototypen", icon: ShieldCheck },
+                { step: "07", name: "Serienproduktion", icon: Package }
               ].map((item, i) => (
                 <FadeIn inView key={i} delay={i * 0.1}>
                   <div className="flex flex-col items-center text-center group">

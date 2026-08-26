@@ -449,6 +449,18 @@ export default function HousingAssembly({
           reducedMotion={reducedMotion}
           className="left-1/2 ml-[11rem] md:ml-[13rem] lg:ml-[16rem] top-[48%]"
         />
+        {/* Vierter Slot: der belegte Toolingkosten-Vorteil. Bewusst links und
+            tiefer, damit er die Qualifizierungs-Karte unten rechts nicht trifft. */}
+        {infoSlots[3] && (
+          <Callout
+            slot={infoSlots[3]}
+            progress={scrollYProgress}
+            from={0.78}
+            to={0.86}
+            reducedMotion={reducedMotion}
+            className="right-1/2 mr-[11rem] md:mr-[13rem] lg:mr-[16rem] top-[60%]"
+          />
+        )}
       </div>
 
       {/* "+"-Logik aus den Key Facts */}

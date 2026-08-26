@@ -93,9 +93,10 @@ export default function CoverGlass({ progress, reducedMotion }: ProductVisualPro
 
           {/* Beschichtungen als feine Lagen auf der Oberseite */}
           {([
-            ['AG', 96, C.brand400, 'Anti-Glare'],
-            ['AR', 84, C.brand500, 'Anti-Reflective'],
-            ['AF', 72, C.brand700, 'Anti-Fingerprint'],
+            ['AG', 100, C.brand400, 'Anti-Glare'],
+            ['AR', 88, C.brand500, 'Anti-Reflective'],
+            ['AF', 76, C.brand700, 'Anti-Fingerprint'],
+            ['AM', 64, C.brand900, 'Anti-Microbial (Ag+)'],
           ] as [string, number, string, string][]).map(([tag, y, col, name]) => (
             <g key={tag}>
               <path d={`M78 ${y} h100`} stroke={col} strokeWidth="3.5" />
@@ -115,8 +116,9 @@ export default function CoverGlass({ progress, reducedMotion }: ProductVisualPro
       </FadeIn>
 
       <FadeIn {...common} from={0.62} to={0.8}>
-        <Chip x={182} y={452} label="chemisch gehärtet" />
-        <Chip x={353} y={452} label="AG · AR · AF" />
+        <Chip x={147} y={452} label="chemisch gehärtet" />
+        <Chip x={318} y={452} label="AG · AR · AF · AS" />
+        <Chip x={489} y={452} label="AM · Anti-Microbial" />
       </FadeIn>
     </svg>
   );

@@ -1,8 +1,9 @@
 import { C, Chip, FadeIn, Layer, VIEWBOX, type ProductVisualProps } from './stage';
 
 /**
- * Stromversorgungen (modelType "power"): die drei Bauformen aus der Spec-Zeile
- * "DIN-Rail (Hutschiene), Open Frame, Enclosed" nebeneinander. Bewusst kein
+ * Stromversorgungen (modelType "power"): drei der in [ALT /netzteile/]
+ * genannten Bauformen nebeneinander – Hutschiene (TS35), Open Frame und
+ * Steckernetzteil. "Enclosed" ist kein Begriff der alten Website. Bewusst kein
  * Schichtstapel – diese Produktseite hat keine Galeriebilder, das Visual trägt
  * die Kategorie allein. Schutzschaltungen und Effizienzklasse stehen als
  * Beschriftung darunter.
@@ -35,7 +36,7 @@ export default function PowerForms({ progress, reducedMotion }: ProductVisualPro
       </FadeIn>
 
       {/* ---------------------------------------------------------------- */}
-      {/* 1. DIN-Rail – schmales Gehäuse auf dem Hutschienen-Profil        */}
+      {/* 1. Hutschiene – schmales Gehäuse auf dem TS35-Profil             */}
       {/* ---------------------------------------------------------------- */}
       <Layer {...common} from={0.06} to={0.26} spread={0}>
         {/* Hutschienen-Profil im Schnitt (TS35) */}
@@ -65,7 +66,7 @@ export default function PowerForms({ progress, reducedMotion }: ProductVisualPro
         ))}
         {/* Status-LED */}
         <circle cx="140" cy="216" r="5" fill="#16a34a" />
-        <FormLabel cx={140} title="DIN-Rail" sub="Hutschiene TS35" />
+        <FormLabel cx={140} title="Hutschiene" sub="TS35, 10–30 W" />
       </Layer>
 
       {/* ---------------------------------------------------------------- */}
@@ -136,40 +137,36 @@ export default function PowerForms({ progress, reducedMotion }: ProductVisualPro
             <circle key={j} cx={456 + j * 20} cy={342} r="6" fill={C.steel} />
           ))}
         </g>
-        <FormLabel cx={400} title="Open Frame" sub="offene Baugruppe" />
+        <FormLabel cx={400} title="Open Frame" sub="offene Baugruppe, 1–150 W" />
       </Layer>
 
       {/* ---------------------------------------------------------------- */}
-      {/* 3. Enclosed – geschlossenes Metallgehäuse                         */}
+      {/* 3. Steckernetzteil – kompaktes Gehäuse mit AC-Steckerstiften      */}
       {/* ---------------------------------------------------------------- */}
       <Layer {...common} from={0.22} to={0.44} spread={0}>
-        <rect x="576" y="238" width="164" height="124" rx="6" fill={C.metal} />
-        <rect x="576" y="238" width="164" height="124" rx="6" fill="none" stroke={C.metalDark} strokeWidth="2" />
-        {/* Deckelkante */}
-        <path d="M576 262 H740" stroke={C.metalDark} strokeWidth="1.5" />
-        {/* Lüftungsschlitze */}
-        <g fill={C.metalDark} opacity="0.55">
-          {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-            <rect key={i} x={592 + i * 15} y="276" width="7" height="44" rx="3.5" />
-          ))}
+        {/* Die beiden AC-Kontaktstifte stehen aus der Oberseite heraus */}
+        <g fill={C.metal} stroke={C.metalDark} strokeWidth="1.5">
+          <rect x="628" y="216" width="11" height="38" rx="5.5" />
+          <rect x="677" y="216" width="11" height="38" rx="5.5" />
         </g>
+        {/* Gehäusekörper */}
+        <rect x="596" y="248" width="124" height="100" rx="12" fill={C.plasticDark} />
+        <rect x="596" y="248" width="124" height="100" rx="12" fill="none" stroke={C.plasticRib} strokeWidth="2" />
+        {/* Trennfuge der beiden Gehäusehälften */}
+        <path d="M596 300 H720" stroke={C.plasticRib} strokeWidth="1.5" />
         {/* Typenschild mit Druckzeilen */}
         <g>
-          <rect x="592" y="326" width="76" height="28" rx="2" fill="#f5f7f9" />
+          <rect x="612" y="262" width="92" height="30" rx="2" fill="#f5f7f9" />
           {[0, 1, 2].map((i) => (
-            <rect key={i} x="597" y={331 + i * 7} width={62 - i * 12} height="3" rx="1.5" fill={C.inkFaint} />
-          ))}
-        </g>
-        {/* Klemmenblock hinter Abdeckung */}
-        <g>
-          <rect x="684" y="326" width="48" height="28" rx="3" fill={C.plasticDark} />
-          {[0, 1].map((j) => (
-            <circle key={j} cx={698 + j * 20} cy={340} r="6" fill={C.steel} />
+            <rect key={i} x="618" y={268 + i * 7} width={78 - i * 16} height="3" rx="1.5" fill={C.inkFaint} />
           ))}
         </g>
         {/* Status-LED */}
-        <circle cx="722" cy="252" r="5" fill="#16a34a" />
-        <FormLabel cx={658} title="Enclosed" sub="geschlossenes Gehäuse" />
+        <circle cx="614" cy="336" r="5" fill="#16a34a" />
+        {/* DC-Leitung mit Hohlstecker */}
+        <path d="M666 348 q4 26 -26 34" stroke={C.ink} strokeWidth="6" fill="none" strokeLinecap="round" />
+        <rect x="606" y="374" width="30" height="14" rx="4" fill={C.metalDark} />
+        <FormLabel cx={658} title="Steckernetzteil" sub="1–36 W" />
       </Layer>
 
       {/* Schutzschaltungen und Kennwerte */}

@@ -13,14 +13,16 @@ import LcmAssembly from '../components/systemVisuals/LcmAssembly';
 import GlassBondingStack from '../components/systemVisuals/GlassBondingStack';
 import HousingAssembly from '../components/systemVisuals/HousingAssembly';
 
+// Wortlaut aus [ALT /produkte/] und [ALT /housing/] – dieselben sieben
+// Schritte wie im Prozess-Abschnitt der Startseite.
 const PROJECT_STEPS = [
-  "Anfrage & Beratung",
-  "Konzept & Design",
-  "Prototyping",
-  "Testing & Freigabe",
-  "Tooling & Nullserie",
-  "Serienproduktion",
-  "Logistik & After-Sales"
+  "Produktplanung und -entwicklung",
+  "Zeichnungsfreigabe",
+  "Werkzeugbau",
+  "Werkzeugfreigabe",
+  "Prototypen-Herstellung",
+  "Freigabe der Prototypen",
+  "Serienproduktion"
 ];
 
 const ProcessIndicator = ({ scrollYProgress }: { scrollYProgress: any }) => {

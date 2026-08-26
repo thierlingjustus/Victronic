@@ -98,6 +98,11 @@ export const systems = [
         title: "Werkzeuge und Daten nach Projektabschluss", 
         desc: "Sämtliche Daten und Werkzeuge werden Ihnen nach Abschluss des Projektes zur Verfügung gestellt. Kunden- und Applikationsschutz garantiert.",
         align: "right"
+      },
+      { 
+        title: "Keine Mehrkosten im Entwicklungsprozess", 
+        desc: "Unsere Agreements mit den Herstellern garantieren für Werkzeug- und Musterbau keine Mehrkosten für Korrekturschritte oder Änderungswünsche über die freigegebenen Toolingkosten hinaus.",
+        align: "left"
       }
     ]
   }
