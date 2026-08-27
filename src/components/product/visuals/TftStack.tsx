@@ -1,14 +1,19 @@
-import { C, FadeIn, IsoPlate, StackLayer, VIEWBOX, type ProductVisualProps } from './stage';
+import type { ReactNode } from 'react';
+import { useScrollStyle } from '../useScrollStyle';
+import { at, C, FadeIn, IsoPlate, StackLayer, VIEWBOX, type ProductVisualProps } from './stage';
 
 /**
  * TFT Displays (modelType "display"): der vollständige Schichtaufbau als
  * Explosionsdarstellung – Treiber-PCB mit FPC, LED-Leiste, Diffusor-Stack,
  * Rear-Polarisator, TFT-Glas mit RGB-Subpixeln, Farbfilterglas,
- * Front-Polarisator, kapazitiver Touch-Sensor und Deckglas.
+ * Front-Polarisator und Deckglas.
  *
- * Die beiden Polarisatoren waren bisher nur auf der Systemseite zu sehen,
+ * Die beiden Polarisatoren waren zeitweise nur auf der Systemseite zu sehen,
  * gehören aber zwingend dazu: ohne sie schaltet eine LCD-Zelle kein Licht.
- * Inhaltlich nach der Caption zu tft-ctp-exploded.jpg in products.ts.
+ *
+ * Bewusst OHNE Touch-Sensor: hier geht es um das TFT-Display als Komponente.
+ * Touch ist eine eigene Produktkategorie (/products/touchscreens) und ein
+ * eigenes System (/systems/tft-touch).
  */
 
 const CX = 360;
@@ -23,8 +28,46 @@ const LABEL_L = CX - A;
 const LEN_R = 44;
 const LEN_L = 16;
 
+/**
+ * Fenster, in dem der Stapel von "durchscheinend" auf sein Endaussehen läuft.
+ * Vorher waren die Deckkraft-Werte statisch; der Aufbau wirkte dadurch auch
+ * am Ende der Animation blass und man schaute durch die Schichten hindurch.
+ */
+const SOLID: [number, number] = [0.3, 0.55];
+
+/**
+ * Deckkraft-Rampe für eine Schicht. Liegt bewusst hier statt in stage.tsx –
+ * nur der TFT-Stapel braucht das. Das umschlossene IsoPlate bekommt dann
+ * opacity={1}, die Steuerung übernimmt dieses <g>.
+ */
+function Solidify({
+  progress,
+  reducedMotion,
+  from,
+  to,
+  children,
+}: {
+  progress: ProductVisualProps['progress'];
+  reducedMotion: boolean;
+  /** Deckkraft am Anfang und am Ende der Rampe. */
+  from: number;
+  to: number;
+  children: ReactNode;
+}) {
+  const ref = useScrollStyle<SVGGElement>(
+    progress,
+    { input: [at(SOLID[0]), at(SOLID[1])], opacity: [from, to] },
+    reducedMotion
+  );
+  return (
+    <g ref={ref} style={{ opacity: from }}>
+      {children}
+    </g>
+  );
+}
+
 /** Zahl der Schichten – bestimmt die Staffelung über LAYER_BAND. */
-const N = 10;
+const N = 9;
 
 /**
  * Faktenkarte → Schicht. -1 heißt: keine Entsprechung, dann bleibt die
@@ -32,7 +75,7 @@ const N = 10;
  * Reihenfolge der specs in products.ts:
  * 0 Technologie · 1 Größen · 2 Format & Temperatur · 3 Schnittstellen
  */
-const SPEC_LAYERS = [5, 9, -1, 0];
+const SPEC_LAYERS = [5, 8, -1, 0];
 
 export default function TftStack({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
   const common = { progress, reducedMotion };
@@ -76,7 +119,7 @@ export default function TftStack({ progress, reducedMotion, activeFact = -1 }: P
       </StackLayer>
 
       {/* 1. FPC-Flachband zwischen Panel und PCB */}
-      <StackLayer {...layer} i={1} spread={132}>
+      <StackLayer {...layer} i={1} spread={125}>
         <polygon
           points={`${CX - 151},${CY + 7} ${CX - 102},${CY - 20} ${CX - 71},${CY - 4} ${CX - 121},${CY + 23}`}
           fill={C.fpc}
@@ -87,7 +130,7 @@ export default function TftStack({ progress, reducedMotion, activeFact = -1 }: P
       <StackLayer
         {...layer}
         i={2}
-        spread={96}
+        spread={83}
         label={{ x: LABEL_R, y: CY + 14, text: 'LED-Backlight', sub: 'LED-Leiste', length: LEN_R }}
       >
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={6} fill="#e9edf1" side={C.line}>
@@ -103,39 +146,43 @@ export default function TftStack({ progress, reducedMotion, activeFact = -1 }: P
       <StackLayer
         {...layer}
         i={3}
-        spread={60}
+        spread={40}
         label={{ x: LABEL_L, y: CY + 8, text: 'Diffusor-Stack', sub: 'Streufolien & Prismen', side: 'left', length: LEN_L }}
       >
-        <IsoPlate cx={CX} cy={CY} a={A} b={B} t={8} fill="#f8fafc" side={C.lineSoft} opacity={0.95} />
+        <Solidify {...common} from={0.95} to={1}>
+          <IsoPlate cx={CX} cy={CY} a={A} b={B} t={8} fill="#f8fafc" side={C.lineSoft} opacity={1} />
+        </Solidify>
       </StackLayer>
 
       {/* 4. Rear-Polarisator */}
       <StackLayer
         {...layer}
         i={4}
-        spread={24}
+        spread={-2}
         label={{ x: LABEL_L, y: CY - 8, text: 'Rear-Polarisator', sub: 'polarisiert das Licht', side: 'left', length: LEN_L }}
       >
-        <IsoPlate cx={CX} cy={CY} a={A} b={B} t={4} fill={C.slate} side="#0f172a" opacity={0.45}>
-          {/* Vorzugsrichtung als feine Schraffur */}
-          <g stroke={C.white} strokeWidth="1" opacity="0.4">
-            {[-4, -2, 0, 2, 4].map((k) => (
-              <path key={k} d={`M${CX - A + 30 + k * 22} ${CY + (k * 22) / (A / B)} L${CX + k * 22} ${CY - B + 18 + (k * 22) / (A / B)}`} />
-            ))}
-          </g>
-        </IsoPlate>
+        <Solidify {...common} from={0.45} to={0.85}>
+          <IsoPlate cx={CX} cy={CY} a={A} b={B} t={4} fill={C.slate} side="#0f172a" opacity={1}>
+            {/* Vorzugsrichtung als feine Schraffur */}
+            <g stroke={C.white} strokeWidth="1" opacity="0.4">
+              {[-4, -2, 0, 2, 4].map((k) => (
+                <path key={k} d={`M${CX - A + 30 + k * 22} ${CY + (k * 22) / (A / B)} L${CX + k * 22} ${CY - B + 18 + (k * 22) / (A / B)}`} />
+              ))}
+            </g>
+          </IsoPlate>
+        </Solidify>
       </StackLayer>
 
       {/* 5. TFT-Glas mit RGB-Subpixeln */}
       <StackLayer
         {...layer}
         i={5}
-        spread={-12}
+        spread={-45}
         label={{ x: LABEL_R, y: CY - 8, text: 'TFT-Glas', sub: 'IPS, RGB-Subpixel', length: LEN_R }}
       >
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={7} fill={C.screenDark} side="#060c14">
           {/* Beleuchtete Bildfläche, blendet mit dem Backlight auf */}
-          <FadeIn {...common} from={0.62} to={0.8} toOpacity={0.92}>
+          <FadeIn {...common} from={0.38} to={0.58} toOpacity={1}>
             <polygon
               points={`${CX - A + 12},${CY} ${CX},${CY - B + 7} ${CX + A - 12},${CY} ${CX},${CY + B - 7}`}
               fill="url(#tft-lit)"
@@ -164,84 +211,64 @@ export default function TftStack({ progress, reducedMotion, activeFact = -1 }: P
       <StackLayer
         {...layer}
         i={6}
-        spread={-50}
+        spread={-87}
         label={{ x: LABEL_L, y: CY + 8, text: 'Farbfilterglas', sub: 'erzeugt die Subpixel', side: 'left', length: LEN_L }}
       >
-        <IsoPlate cx={CX} cy={CY} a={A} b={B} t={6} fill={C.glass} side={C.brand200} opacity={0.75}>
-          <g opacity="0.55">
-            {[-2, -1, 0, 1, 2].map((k) => (
-              <g key={k}>
-                <path d={`M${CX - 110 + k * 44} ${CY + 62 - (k * 44) / (A / B) - 62} l88 48`} stroke="#ef4444" strokeWidth="2" fill="none" />
-              </g>
-            ))}
-          </g>
-        </IsoPlate>
+        <Solidify {...common} from={0.75} to={0.92}>
+          <IsoPlate cx={CX} cy={CY} a={A} b={B} t={6} fill={C.glass} side={C.brand200} opacity={1}>
+            <g opacity="0.55">
+              {[-2, -1, 0, 1, 2].map((k) => (
+                <g key={k}>
+                  <path d={`M${CX - 110 + k * 44} ${CY + 62 - (k * 44) / (A / B) - 62} l88 48`} stroke="#ef4444" strokeWidth="2" fill="none" />
+                </g>
+              ))}
+            </g>
+          </IsoPlate>
+        </Solidify>
       </StackLayer>
 
       {/* 7. Front-Polarisator */}
       <StackLayer
         {...layer}
         i={7}
-        spread={-88}
+        spread={-130}
         label={{ x: LABEL_L, y: CY - 8, text: 'Front-Polarisator', sub: 'Analysator', side: 'left', length: LEN_L }}
       >
-        <IsoPlate cx={CX} cy={CY} a={A} b={B} t={4} fill={C.slate} side="#0f172a" opacity={0.35}>
-          {/* Um 90° gedrehte Vorzugsrichtung gegenüber dem Rear-Polarisator */}
-          <g stroke={C.white} strokeWidth="1" opacity="0.45">
-            {[-4, -2, 0, 2, 4].map((k) => (
-              <path key={k} d={`M${CX + A - 30 - k * 22} ${CY + (k * 22) / (A / B)} L${CX - k * 22} ${CY - B + 18 + (k * 22) / (A / B)}`} />
-            ))}
-          </g>
-        </IsoPlate>
-      </StackLayer>
-
-      {/* 8. Kapazitiver Touch-Sensor */}
-      <StackLayer
-        {...layer}
-        i={8}
-        spread={-128}
-        label={{ x: LABEL_R, y: CY - 6, text: 'Touch-Sensor', sub: 'kapazitiv (CTP)', length: LEN_R }}
-      >
-        <IsoPlate cx={CX} cy={CY} a={A} b={B} t={5} fill={C.brand100} side={C.brand200} opacity={0.7}>
-          {/* Rautenförmiges ITO-Elektrodenraster */}
-          <g stroke={C.brand500} strokeWidth="1.5" fill="none" opacity="0.75">
-            {[-2, -1, 0, 1, 2].map((r) =>
-              [-2, -1, 0, 1, 2].map((c2) => {
-                const px = CX + (c2 - r) * 36;
-                const py = CY + (c2 + r) * 20;
-                return (
-                  <polygon
-                    key={`${r}-${c2}`}
-                    points={`${px - 15},${py} ${px},${py - 8.5} ${px + 15},${py} ${px},${py + 8.5}`}
-                  />
-                );
-              })
-            )}
-          </g>
-        </IsoPlate>
+        <Solidify {...common} from={0.35} to={0.85}>
+          <IsoPlate cx={CX} cy={CY} a={A} b={B} t={4} fill={C.slate} side="#0f172a" opacity={1}>
+            {/* Um 90° gedrehte Vorzugsrichtung gegenüber dem Rear-Polarisator */}
+            <g stroke={C.white} strokeWidth="1" opacity="0.45">
+              {[-4, -2, 0, 2, 4].map((k) => (
+                <path key={k} d={`M${CX + A - 30 - k * 22} ${CY + (k * 22) / (A / B)} L${CX - k * 22} ${CY - B + 18 + (k * 22) / (A / B)}`} />
+              ))}
+            </g>
+          </IsoPlate>
+        </Solidify>
       </StackLayer>
 
       {/* 9. Deckglas – oberste Ebene */}
       <StackLayer
         {...layer}
-        i={9}
+        i={8}
         spread={-172}
         label={{ x: LABEL_R, y: CY - 4, text: 'Deckglas', sub: 'AG / AR / AF veredelt', length: LEN_R }}
       >
-        <IsoPlate cx={CX} cy={CY} a={A} b={B} t={9} fill={C.white} side={C.line} opacity={0.6}>
-          <polygon
-            points={`${CX - A},${CY} ${CX},${CY - B} ${CX + A},${CY} ${CX},${CY + B}`}
-            fill="none"
-            stroke={C.brand200}
-            strokeWidth="2"
-          />
-          {/* Glanzstreifen */}
-          <polygon
-            points={`${CX - 110},${CY - 29} ${CX - 34},${CY - 72} ${CX - 8},${CY - 58} ${CX - 85},${CY - 15}`}
-            fill={C.white}
-            opacity="0.65"
-          />
-        </IsoPlate>
+        <Solidify {...common} from={0.6} to={0.92}>
+          <IsoPlate cx={CX} cy={CY} a={A} b={B} t={9} fill={C.white} side={C.line} opacity={1}>
+            <polygon
+              points={`${CX - A},${CY} ${CX},${CY - B} ${CX + A},${CY} ${CX},${CY + B}`}
+              fill="none"
+              stroke={C.brand200}
+              strokeWidth="2"
+            />
+            {/* Glanzstreifen */}
+            <polygon
+              points={`${CX - 110},${CY - 29} ${CX - 34},${CY - 72} ${CX - 8},${CY - 58} ${CX - 85},${CY - 15}`}
+              fill={C.white}
+              opacity="0.65"
+            />
+          </IsoPlate>
+        </Solidify>
       </StackLayer>
     </svg>
   );

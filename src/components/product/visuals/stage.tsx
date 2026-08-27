@@ -118,6 +118,7 @@ export function Layer({
   spread,
   index,
   activeIndex,
+  collapse,
   children,
 }: {
   progress: MotionValue<number>;
@@ -131,13 +132,24 @@ export function Layer({
   index?: number;
   /** Hervorzuhebende Schicht, -1 = keine. */
   activeIndex?: number;
+  /**
+   * Fenster, in dem der Versatz wieder auf 0 zurückläuft – die Explosion
+   * setzt sich also am Ende wieder zusammen. Ohne Angabe bleibt sie offen.
+   */
+  collapse?: [number, number];
   children: ReactNode;
 }) {
   const start = at(from);
   const end = at(to);
   const ref = useScrollStyle<SVGGElement>(
     progress,
-    { input: [start, end], opacity: [0, 1], y: [0, spread] },
+    collapse
+      ? {
+          input: [start, end, at(collapse[0]), at(collapse[1])],
+          opacity: [0, 1, 1, 1],
+          y: [0, spread, spread, 0],
+        }
+      : { input: [start, end], opacity: [0, 1], y: [0, spread] },
     reducedMotion
   );
 
@@ -305,6 +317,7 @@ export function LayerCaption({
   from,
   to,
   spread,
+  collapse,
   ...label
 }: {
   progress: MotionValue<number>;
@@ -312,11 +325,19 @@ export function LayerCaption({
   from: number;
   to: number;
   spread: number;
+  /** Fährt die Schicht zusammen, verschwindet die Beschriftung mit ihr. */
+  collapse?: [number, number];
 } & LayerLabelProps) {
   const start = from + (to - from) * 0.7;
   const ref = useScrollStyle<SVGGElement>(
     progress,
-    { input: [at(start), at(to)], opacity: [0, 1], y: [spread * 0.7, spread] },
+    collapse
+      ? {
+          input: [at(start), at(to), at(collapse[0]), at(collapse[1])],
+          opacity: [0, 1, 1, 0],
+          y: [spread * 0.7, spread, spread, 0],
+        }
+      : { input: [at(start), at(to)], opacity: [0, 1], y: [spread * 0.7, spread] },
     reducedMotion
   );
   return (
@@ -338,6 +359,7 @@ export function StackLayer({
   spread,
   activeIndex,
   width,
+  collapse,
   label,
   children,
 }: {
@@ -350,6 +372,8 @@ export function StackLayer({
   activeIndex?: number;
   /** Fensterbreite, nur bei sehr wenigen Schichten anzupassen. */
   width?: number;
+  /** Fenster, in dem sich die Darstellung wieder zusammensetzt. */
+  collapse?: [number, number];
   label?: LayerLabelProps;
   children: ReactNode;
 }) {
@@ -357,10 +381,20 @@ export function StackLayer({
   const common = { progress, reducedMotion };
   return (
     <>
-      <Layer {...common} from={from} to={to} spread={spread} index={i} activeIndex={activeIndex}>
+      <Layer
+        {...common}
+        from={from}
+        to={to}
+        spread={spread}
+        index={i}
+        activeIndex={activeIndex}
+        collapse={collapse}
+      >
         {children}
       </Layer>
-      {label && <LayerCaption {...common} from={from} to={to} spread={spread} {...label} />}
+      {label && (
+        <LayerCaption {...common} from={from} to={to} spread={spread} collapse={collapse} {...label} />
+      )}
     </>
   );
 }
