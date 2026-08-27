@@ -1,4 +1,4 @@
-import { C, Chip, FadeIn, IsoPlate, StackLayer, VIEWBOX, type ProductVisualProps } from './stage';
+import { C, Chip, FadeIn, IsoPlate, Layer, LayerLabel, VIEWBOX, type ProductVisualProps } from './stage';
 
 /**
  * Touchscreens (modelType "touch"): OGS-Panel – Sensor und Deckglas bilden eine
@@ -16,29 +16,13 @@ const B = 108;
 /** Alle Beschriftungen stehen rechts – links wäre in der viewBox kein Platz. */
 const LABEL_X = CX + A;
 
-/** Zahl der Schichten – bestimmt die Staffelung über LAYER_BAND. */
-const N = 3;
-
-/**
- * Faktenkarte → Schicht. specs in products.ts:
- * 0 PCAP · 1 OGS · 2 Resistiv · 3 Controller & Treiber
- */
-const SPEC_LAYERS = [2, 2, -1, 0];
-
-export default function TouchPanel({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
+export default function TouchPanel({ progress, reducedMotion }: ProductVisualProps) {
   const common = { progress, reducedMotion };
-  const active = activeFact >= 0 ? SPEC_LAYERS[activeFact] ?? -1 : -1;
-  const layer = { ...common, n: N, activeIndex: active };
 
   return (
     <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/* 1. Controller-Platine mit QFP-IC und ZIF-Steckverbinder */}
-      <StackLayer
-        {...layer}
-        i={0}
-        spread={150}
-        label={{ x: LABEL_X, y: CY + 52, text: 'Controller-IC', sub: 'EETI · Ilitek · Goodix', length: 44 }}
-      >
+      <Layer {...common} from={0.04} to={0.3} spread={150}>
         <IsoPlate cx={CX} cy={CY} a={A * 0.62} b={B * 0.62} t={9} fill={C.pcb} side="#0d3a20">
           {/* QFP-IC mit Pins an allen vier Kanten */}
           <polygon
@@ -64,10 +48,11 @@ export default function TouchPanel({ progress, reducedMotion, activeFact = -1 }:
             fill="#e8ebee"
           />
         </IsoPlate>
-      </StackLayer>
+        <LayerLabel x={LABEL_X} y={CY + 52} text="Controller-IC" sub="EETI · Ilitek · Goodix" length={44} />
+      </Layer>
 
       {/* 2. FPC-Band von der Platine zur Scheibe */}
-      <StackLayer {...layer} i={1} spread={96}>
+      <Layer {...common} from={0.08} to={0.32} spread={96}>
         <path
           d={`M${CX - 78} ${CY - 8} L${CX - 40} ${CY - 30} L${CX - 24} ${CY - 92} L${CX - 58} ${CY - 76} Z`}
           fill={C.fpc}
@@ -77,15 +62,10 @@ export default function TouchPanel({ progress, reducedMotion, activeFact = -1 }:
             <path key={i} d={`M${CX - 68 + i * 12} ${CY - 16 + i * 3} L${CX - 48 + i * 10} ${CY - 78}`} />
           ))}
         </g>
-      </StackLayer>
+      </Layer>
 
       {/* 3. OGS-Scheibe: Sensor und Deckglas in einem Stück Glas */}
-      <StackLayer
-        {...layer}
-        i={2}
-        spread={-30}
-        label={{ x: LABEL_X, y: CY - 34, text: 'OGS-Deckglas', sub: 'Sensor + Glas in einem', length: 44 }}
-      >
+      <Layer {...common} from={0.12} to={0.38} spread={-30}>
         {/* Das Glas selbst – transparent */}
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={9} fill={C.glass} side={C.brand200} opacity={0.5} />
 
@@ -102,7 +82,7 @@ export default function TouchPanel({ progress, reducedMotion, activeFact = -1 }:
         />
 
         {/* Rautenförmiges ITO-Elektrodenraster, wird beim Scrollen sichtbar */}
-        <FadeIn {...common} from={0.6} to={0.76} toOpacity={0.85}>
+        <FadeIn {...common} from={0.3} to={0.54} toOpacity={0.85}>
           <g stroke={C.brand500} strokeWidth="1.6" fill="none">
             {[-3, -2, -1, 0, 1, 2, 3].map((r) =>
               [-3, -2, -1, 0, 1, 2, 3].map((c2) => {
@@ -127,10 +107,12 @@ export default function TouchPanel({ progress, reducedMotion, activeFact = -1 }:
           opacity="0.4"
         />
 
-      </StackLayer>
+        <LayerLabel x={LABEL_X} y={CY - 34} text="OGS-Deckglas" sub="Sensor + Glas in einem" length={44} />
+        <LayerLabel x={LABEL_X} y={CY + 12} text="ITO-Raster" sub="projiziert-kapazitiv" length={44} />
+      </Layer>
 
       {/* Zwei Berührpunkte mit Feldlinien – Multi-Touch */}
-      <FadeIn {...common} from={0.76} to={0.88}>
+      <FadeIn {...common} from={0.56} to={0.74}>
         {([
           [CX - 66, CY - 96],
           [CX + 68, CY - 58],
@@ -155,10 +137,10 @@ export default function TouchPanel({ progress, reducedMotion, activeFact = -1 }:
         ))}
       </FadeIn>
 
-      <FadeIn {...common} from={0.8} to={0.92}>
-        <Chip x={190} y={548} label="Multi-Touch" />
-        <Chip x={318} y={548} label="Wet Touch" />
-        <Chip x={430} y={548} label="OGS · PCAP · Resistiv" />
+      <FadeIn {...common} from={0.62} to={0.78}>
+        <Chip x={190} y={520} label="Multi-Touch" />
+        <Chip x={318} y={520} label="Wet Touch" />
+        <Chip x={430} y={520} label="OGS · PCAP · Resistiv" />
       </FadeIn>
     </svg>
   );

@@ -1,4 +1,4 @@
-import { C, Chip, FadeIn, IsoPlate, StackLayer, VIEWBOX, type ProductVisualProps } from './stage';
+import { C, Chip, FadeIn, IsoPlate, Layer, LayerLabel, VIEWBOX, type ProductVisualProps } from './stage';
 
 /**
  * Montage & Gehäuse (modelType "assembly"): das Box-Build-Endgerät als
@@ -19,19 +19,8 @@ const B = 108;
 /** Alle Beschriftungen stehen rechts – links wäre in der viewBox kein Platz. */
 const LABEL_X = CX + A;
 
-/** Zahl der Schichten – bestimmt die Staffelung über LAYER_BAND. */
-const N = 4;
-
-/**
- * Faktenkarte → Schicht. specs in products.ts:
- * 0 Elektronik · 1 Montage · 2 Werkzeug- & Musterbau
- */
-const SPEC_LAYERS = [1, 0, -1];
-
-export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
+export default function BoxBuild({ progress, reducedMotion }: ProductVisualProps) {
   const common = { progress, reducedMotion };
-  const active = activeFact >= 0 ? SPEC_LAYERS[activeFact] ?? -1 : -1;
-  const layer = { ...common, n: N, activeIndex: active };
 
   return (
     <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
@@ -44,12 +33,7 @@ export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: P
       </defs>
 
       {/* 1. Rückschale mit den Anschlüssen und der Kabelkonfektion */}
-      <StackLayer
-        {...layer}
-        i={0}
-        spread={130}
-        label={{ x: LABEL_X, y: CY + 56, text: 'HDMI · Ethernet', sub: 'Kabelkonfektionierung', length: 44 }}
-      >
+      <Layer {...common} from={0.04} to={0.3} spread={158}>
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={26} fill={C.plasticMid} side="#a2a9b2">
           {/* HDMI – breiter flacher Metallschacht */}
           <polygon
@@ -73,15 +57,11 @@ export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: P
         <g stroke={C.ink} strokeWidth="4" fill="none" strokeLinecap="round">
           <path d={`M${CX + 78} ${CY + 52} q58 26 78 76`} />
         </g>
-      </StackLayer>
+        <LayerLabel x={LABEL_X} y={CY + 56} text="HDMI · Ethernet" sub="Kabelkonfektionierung" length={44} />
+      </Layer>
 
       {/* 2. SMT-bestückte Leiterplatte */}
-      <StackLayer
-        {...layer}
-        i={1}
-        spread={66}
-        label={{ x: LABEL_X, y: CY + 16, text: 'SMT-Bestückung', sub: 'und THT', length: 44 }}
-      >
+      <Layer {...common} from={0.09} to={0.35} spread={78}>
         <IsoPlate cx={CX} cy={CY} a={A * 0.93} b={B * 0.93} t={9} fill={C.pcb} side="#0d3a20">
           {/* Leiterbahnen */}
           <g stroke={C.pcbTrace} strokeWidth="2" fill="none">
@@ -105,32 +85,28 @@ export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: P
           {/* Steckverbinder zum Display */}
           <polygon points={`${CX - 16},${CY - 52} ${CX + 30},${CY - 78} ${CX + 44},${CY - 70} ${CX - 2},${CY - 44}`} fill={C.fpc} />
         </IsoPlate>
-      </StackLayer>
+        <LayerLabel x={LABEL_X} y={CY + 16} text="SMT-Bestückung" sub="und THT" length={44} />
+      </Layer>
 
       {/* 3. Displaymodul */}
-      <StackLayer {...layer} i={2} spread={2}>
+      <Layer {...common} from={0.15} to={0.41} spread={6}>
         <IsoPlate cx={CX} cy={CY} a={A * 0.86} b={B * 0.86} t={12} fill={C.slate} side="#0f172a">
           <polygon
             points={`${CX - A * 0.72},${CY} ${CX},${CY - B * 0.72} ${CX + A * 0.72},${CY} ${CX},${CY + B * 0.72}`}
             fill={C.screenDark}
           />
           {/* Schaltet sich ein – wie beim End-of-Line-Funktionstest */}
-          <FadeIn {...common} from={0.6} to={0.76} toOpacity={0.92}>
+          <FadeIn {...common} from={0.56} to={0.76} toOpacity={0.92}>
             <polygon
               points={`${CX - A * 0.72},${CY} ${CX},${CY - B * 0.72} ${CX + A * 0.72},${CY} ${CX},${CY + B * 0.72}`}
               fill="url(#bb-lit)"
             />
           </FadeIn>
         </IsoPlate>
-      </StackLayer>
+      </Layer>
 
       {/* 4. Frontblende mit Display-Ausschnitt und Bedientasten */}
-      <StackLayer
-        {...layer}
-        i={3}
-        spread={-80}
-        label={{ x: LABEL_X, y: CY - 20, text: 'Frontblende', sub: 'Bedientasten', length: 44 }}
-      >
+      <Layer {...common} from={0.21} to={0.47} spread={-88}>
         <g>
           <path
             fillRule="evenodd"
@@ -157,10 +133,11 @@ export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: P
             );
           })}
         </g>
-      </StackLayer>
+        <LayerLabel x={LABEL_X} y={CY - 20} text="Frontblende" sub="Bedientasten" length={44} />
+      </Layer>
 
       {/* Werkzeug- und Musterbau ohne Mehrkosten – wörtlich aus [ALT /housing/] */}
-      <FadeIn {...common} from={0.76} to={0.9}>
+      <FadeIn {...common} from={0.64} to={0.8}>
         <g transform="translate(578 52)">
           <rect x="0" y="0" width="190" height="86" rx="10" fill={C.white} stroke={C.brand100} strokeWidth="1.5" />
           <text x="16" y="28" fill={C.brand700} fontSize="12.5" fontWeight="700" fontFamily="inherit">
@@ -174,8 +151,8 @@ export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: P
         </g>
       </FadeIn>
 
-      <FadeIn {...common} from={0.78} to={0.92}>
-        <Chip x={242} y={548} label="SMT · THT · Box-Build · Kabelkonfektion" />
+      <FadeIn {...common} from={0.66} to={0.82}>
+        <Chip x={242} y={512} label="SMT · THT · Box-Build · Kabelkonfektion" />
       </FadeIn>
     </svg>
   );
