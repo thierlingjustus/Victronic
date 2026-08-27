@@ -88,24 +88,29 @@ export default function Home() {
       >
         <HeroSlideshow />
 
-        {/* Grundschleier über der Slideshow. Bewusst moderat – die eigentliche
-            Lesbarkeit stellt die abgedunkelte Fläche hinter dem Text her. */}
-        <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+        {/*
+          Abdunklung über der Slideshow. Bewusst als vollflächiger Verlauf ohne
+          Kante statt als abgesetzte Fläche hinter dem Text: eine Fläche war als
+          Rechteck erkennbar. Am dunkelsten in der Textzone (45 %), zu den
+          Rändern hin heller, damit das Motiv sichtbar bleibt.
+        */}
+        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(to_bottom,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0.62)_45%,rgba(0,0,0,0.35)_100%)]" />
         
         {/* Main Hero Content */}
         <div className="max-w-4xl mx-auto text-center relative z-20 px-6 flex flex-col items-center">
           {/*
             Der Text steht auf vier wechselnden Slides, darunter ein fast weißes
             Motiv. Der frühere flache Schleier (45 %) brachte weiße Schrift dort
-            nur auf rund 2,8:1. Schleier (30 %) und diese Fläche (60 %) ergeben
-            zusammen 72 % Schwarz: selbst über reinem Weiß bleiben rund 8,8:1 –
-            deutlich über der WCAG-AA-Schwelle von 4,5:1 für Fließtext.
+            nur auf rund 3,4:1. Der Verlauf oben liegt in der Textzone bei 62 %:
+            selbst über reinem Weiß bleiben rund 6,2:1 – über der WCAG-AA-
+            Schwelle von 4,5:1 für Fließtext. Die drop-shadow-Werte an h1 und p
+            tragen zusätzlich.
           */}
           <motion.div
             initial={{ opacity: 0, y: -25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col items-center rounded-3xl bg-black/60 px-8 py-10 md:px-16 md:py-12"
+            className="flex flex-col items-center"
           >
             <h1 className="text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight mb-5 drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]">
               Victronic
