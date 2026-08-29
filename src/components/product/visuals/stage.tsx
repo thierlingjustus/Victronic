@@ -203,6 +203,32 @@ export function FadeIn({
 }
 
 /**
+ * Nur ausblenden – Gegenstück zu FadeIn. Für Teile, die nur in einer der beiden
+ * Ansichten Sinn ergeben: die Materialstärke eines Rahmens etwa ist in der
+ * Draufsicht sichtbar, in der Frontalansicht nicht mehr.
+ */
+export function FadeOut({
+  progress,
+  reducedMotion,
+  from,
+  to,
+  children,
+}: {
+  progress: MotionValue<number>;
+  reducedMotion: boolean;
+  from: number;
+  to: number;
+  children: ReactNode;
+}) {
+  const ref = useScrollStyle<SVGGElement>(
+    progress,
+    { input: [at(from), at(to)], opacity: [1, 0] },
+    reducedMotion
+  );
+  return <g ref={ref}>{children}</g>;
+}
+
+/**
  * Isometrische Platte – das Grundelement aller Schichtdarstellungen.
  * Oberseite als Raute, dazu zwei Seitenflächen für die Materialstärke.
  */

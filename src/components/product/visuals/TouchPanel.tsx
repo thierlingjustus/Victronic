@@ -9,7 +9,9 @@ import { C, Chip, FadeIn, IsoPlate, Layer, LayerLabel, VIEWBOX, type ProductVisu
  */
 
 const CX = 300;
-const CY = 310;
+// Etwas höher als die Bühnenmitte: unter der Explosion steht die Chip-Reihe,
+// die vorher auf der Controller-Platine und ihrer Beschriftung lag.
+const CY = 296;
 const A = 196;
 const B = 108;
 
@@ -22,7 +24,7 @@ export default function TouchPanel({ progress, reducedMotion }: ProductVisualPro
   return (
     <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/* 1. Controller-Platine mit QFP-IC und ZIF-Steckverbinder */}
-      <Layer {...common} from={0.04} to={0.3} spread={150}>
+      <Layer {...common} from={0.04} to={0.3} spread={138}>
         <IsoPlate cx={CX} cy={CY} a={A * 0.62} b={B * 0.62} t={9} fill={C.pcb} side="#0d3a20">
           {/* QFP-IC mit Pins an allen vier Kanten */}
           <polygon
@@ -52,7 +54,7 @@ export default function TouchPanel({ progress, reducedMotion }: ProductVisualPro
       </Layer>
 
       {/* 2. FPC-Band von der Platine zur Scheibe */}
-      <Layer {...common} from={0.08} to={0.32} spread={96}>
+      <Layer {...common} from={0.08} to={0.32} spread={88}>
         <path
           d={`M${CX - 78} ${CY - 8} L${CX - 40} ${CY - 30} L${CX - 24} ${CY - 92} L${CX - 58} ${CY - 76} Z`}
           fill={C.fpc}
@@ -137,10 +139,15 @@ export default function TouchPanel({ progress, reducedMotion }: ProductVisualPro
         ))}
       </FadeIn>
 
+      {/*
+        Chip-Reihe unterhalb der ausgefahrenen Platine: deren unterste Spitze
+        liegt bei CY + 138 + B*0.62 + 9 = 510, die Unterzeile der zugehörigen
+        Beschriftung bei 501. Alles darüber überdeckte vorher beides.
+      */}
       <FadeIn {...common} from={0.62} to={0.78}>
-        <Chip x={190} y={520} label="Multi-Touch" />
-        <Chip x={318} y={520} label="Wet Touch" />
-        <Chip x={430} y={520} label="OGS · PCAP · Resistiv" />
+        <Chip x={98} y={548} label="Multi-Touch" />
+        <Chip x={218} y={548} label="Wet Touch" />
+        <Chip x={322} y={548} label="OGS · PCAP · Resistiv" />
       </FadeIn>
     </svg>
   );

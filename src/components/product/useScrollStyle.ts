@@ -64,6 +64,11 @@ type ScrollStyleSpec = {
   y?: number[];
   /** Skalierung (1 = Originalgröße), wird an dieselbe transform-Kette gehängt. */
   scale?: number[];
+  /**
+   * Skalierung nur in der Höhe. Damit lässt sich die isometrische Stauchung
+   * einer Zeichnung zurücknehmen – aus der Draufsicht wird die Frontalansicht.
+   */
+  scaleY?: number[];
   /** Drehung in Grad, ebenfalls Teil der transform-Kette. */
   rotate?: number[];
   /** Ab diesem Fortschritt wird das Element für Klicks transparent. */
@@ -90,11 +95,15 @@ export function useScrollStyle<T extends HTMLElement | SVGElement>(
       if (!el) return;
       const s = specRef.current;
       if (s.opacity) el.style.opacity = String(interpolate(p, s.input, s.opacity));
-      if (s.x || s.y || s.scale || s.rotate) {
+      if (s.x || s.y || s.scale || s.scaleY || s.rotate) {
         const tx = s.x ? interpolate(p, s.input, s.x) : 0;
         const ty = s.y ? interpolate(p, s.input, s.y) : 0;
         let t = `translate3d(${tx}px, ${ty}px, 0)`;
+        // Reihenfolge zählt: transform-Listen wirken von rechts nach links auf
+        // die Kindkoordinaten. scaleY steht deshalb hinter rotate – erst wird
+        // die Stauchung aufgehoben, dann gedreht.
         if (s.rotate) t += ` rotate(${interpolate(p, s.input, s.rotate)}deg)`;
+        if (s.scaleY) t += ` scaleY(${interpolate(p, s.input, s.scaleY)})`;
         if (s.scale) t += ` scale(${interpolate(p, s.input, s.scale)})`;
         el.style.transform = t;
       }

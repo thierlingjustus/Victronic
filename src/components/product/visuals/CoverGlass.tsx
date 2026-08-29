@@ -27,6 +27,15 @@ const HX = PX + PW - 66;
 const HY = PY + 70;
 const HR = 26;
 
+/**
+ * Detailkarte „Kante im Schnitt". Breiter und höher als zuvor, dafür weiter
+ * oben: ihr unterer Rand (DY + 240 = 368) bleibt über der Beschriftung
+ * „Siebdruck-Rand" bei y = 385.
+ */
+const DX = 452;
+const DY = 128;
+const DW = 320;
+
 export default function CoverGlass({ progress, reducedMotion }: ProductVisualProps) {
   const common = { progress, reducedMotion };
 
@@ -79,37 +88,41 @@ export default function CoverGlass({ progress, reducedMotion }: ProductVisualPro
       {/* 4. Kanten-Schnittdetail: Fase, Politur und die Beschichtungen */}
       <FadeIn {...common} from={0.44} to={0.66}>
         {/* Führungslinie von der rechten Scheibenkante zum Detail */}
-        <path d={`M${PX + PW} ${PY + 150} L462 244`} stroke={C.line} strokeWidth="1.5" fill="none" />
+        <path d={`M${PX + PW} ${PY + 150} L${DX} ${DY + 172}`} stroke={C.line} strokeWidth="1.5" fill="none" />
 
-        <g transform="translate(462 150)">
-          <rect x="0" y="0" width="300" height="210" rx="12" fill={C.white} stroke={C.line} strokeWidth="1.5" />
-          <text x="150" y="28" fill={C.ink} fontSize="15" fontWeight="700" textAnchor="middle" fontFamily="inherit">
+        <g transform={`translate(${DX} ${DY})`}>
+          <rect x="0" y="0" width={DW} height="240" rx="12" fill={C.white} stroke={C.line} strokeWidth="1.5" />
+          <text x={DW / 2} y="34" fill={C.ink} fontSize="15" fontWeight="700" textAnchor="middle" fontFamily="inherit">
             Kante im Schnitt
           </text>
 
-          {/* Glasquerschnitt mit beidseitiger Fase */}
-          <path d="M54 122 h192 l-18 -18 h-156 Z" fill={C.glass} stroke={C.brand300} strokeWidth="1.5" />
-          <path d="M54 122 h192 l-18 18 h-156 Z" fill={C.glass} opacity="0.55" stroke={C.brand300} strokeWidth="1.5" />
-
-          {/* Beschichtungen als feine Lagen auf der Oberseite */}
+          {/*
+            Beschichtungen als feine Lagen über dem Glas, von außen nach innen.
+            Zeilenabstand 22 statt 12: bei 12 klebten Kürzel, Linie und Name
+            aneinander und der längste Name lief über den Kartenrand hinaus.
+          */}
           {([
-            ['AG', 100, C.brand400, 'Anti-Glare'],
-            ['AR', 88, C.brand500, 'Anti-Reflective'],
-            ['AF', 76, C.brand700, 'Anti-Fingerprint'],
-            ['AM', 64, C.brand900, 'Anti-Microbial (Ag+)'],
+            ['AM', 62, C.brand900, 'Anti-Microbial (Ag+)'],
+            ['AF', 84, C.brand700, 'Anti-Fingerprint'],
+            ['AR', 106, C.brand500, 'Anti-Reflective'],
+            ['AG', 128, C.brand400, 'Anti-Glare'],
           ] as [string, number, string, string][]).map(([tag, y, col, name]) => (
             <g key={tag}>
-              <path d={`M78 ${y} h100`} stroke={col} strokeWidth="3.5" />
-              <text x="70" y={y + 4} fill={col} fontSize="12" fontWeight="700" textAnchor="end" fontFamily="inherit">
+              <path d={`M70 ${y} h76`} stroke={col} strokeWidth="3.5" />
+              <text x="60" y={y + 4} fill={col} fontSize="12" fontWeight="700" textAnchor="end" fontFamily="inherit">
                 {tag}
               </text>
-              <text x="186" y={y + 4} fill={C.inkSoft} fontSize="11.5" fontFamily="inherit">
+              <text x="156" y={y + 4} fill={C.inkSoft} fontSize="11.5" fontFamily="inherit">
                 {name}
               </text>
             </g>
           ))}
 
-          <text x="150" y="172" fill={C.inkSoft} fontSize="12" textAnchor="middle" fontFamily="inherit">
+          {/* Glasquerschnitt mit beidseitiger Fase */}
+          <path d="M64 172 h192 l-18 -18 h-156 Z" fill={C.glass} stroke={C.brand300} strokeWidth="1.5" />
+          <path d="M64 172 h192 l-18 18 h-156 Z" fill={C.glass} opacity="0.55" stroke={C.brand300} strokeWidth="1.5" />
+
+          <text x={DW / 2} y="214" fill={C.inkSoft} fontSize="12" textAnchor="middle" fontFamily="inherit">
             gefaste, polierte Kante
           </text>
         </g>
