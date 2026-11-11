@@ -1,4 +1,4 @@
-import { Monitor, Smartphone, Zap, Fan, Box, Layers, Wrench } from 'lucide-react';
+import { Monitor, Smartphone, Zap, Fan, Layers, Wrench, Pointer, RectangleHorizontal } from 'lucide-react';
 // Lokale SVG-Platzhalter, bis echte Produktfotos vorliegen (DSGVO: keine externen Requests)
 import tftDisplaysImg from '../assets/products/tft-displays.svg';
 import lcmLcdModuleImg from '../assets/products/lcm-lcd-module.svg';
@@ -33,6 +33,18 @@ import coverGlassCutout from '../assets/products/glasloesungen/cover-glass-cutou
 import smtPcb from '../assets/products/montage-gehaeuse/smt-pcb.jpg';
 import boxBuildModule from '../assets/products/montage-gehaeuse/box-build-module.jpg';
 
+// Kleine quadratische Thumbnails (192 px) für die Icon-Kacheln der Startseite:
+// beim Hover über eine Produktkachel füllt das Foto die Kachel. Zuschnitte der
+// Abbildungen oben; das Netzteil ist ein Rendering des gelieferten 3D-Modells.
+import tftDisplaysThumb from '../assets/products/thumbs/tft-displays.jpg';
+import lcmLcdModuleThumb from '../assets/products/thumbs/lcm-lcd-module.jpg';
+import touchscreensThumb from '../assets/products/thumbs/touchscreens.jpg';
+import stromversorgungenThumb from '../assets/products/thumbs/stromversorgungen.jpg';
+import luefterThumb from '../assets/products/thumbs/luefter.jpg';
+import kunststoffkomponentenThumb from '../assets/products/thumbs/kunststoffkomponenten.jpg';
+import glasloesungenThumb from '../assets/products/thumbs/glasloesungen.jpg';
+import montageGehaeuseThumb from '../assets/products/thumbs/montage-gehaeuse.jpg';
+
 export const products = [
   {
     id: "tft-displays",
@@ -49,6 +61,7 @@ export const products = [
     synergy: "Perfekt kombinierbar mit unseren OGS-Touchscreens und Cover-Gläsern für komplette HMI-Einheiten. Bei Abkündigungen sorgen frühzeitige Information und durchstrukturierte Ablöse-Szenarien unserer Hersteller für einen fließenden Übergang zum Nachfolgeprodukt.",
     modelType: "display",
     image: tftDisplaysImg,
+    thumb: tftDisplaysThumb,
     images: [
       {
         src: tftCtpExploded,
@@ -75,6 +88,7 @@ export const products = [
     synergy: "Ideal für batteriebetriebene Geräte. Nahtlose Integration in unsere Kunststoffgehäuse mit passgenauen Sichtfenstern.",
     modelType: "lcd",
     image: lcmLcdModuleImg,
+    thumb: lcmLcdModuleThumb,
     images: [
       {
         src: cogBonding,
@@ -93,7 +107,7 @@ export const products = [
   {
     id: "touchscreens",
     name: "Touchscreens",
-    icon: Box,
+    icon: Pointer,
     headline: "Intuitive Bedienung unter allen Bedingungen",
     strategicBenefit: "Präzise und robuste Touch-Lösungen, die auch in rauen Industrieumgebungen und bei Nässe zuverlässig funktionieren.",
     specs: [
@@ -105,6 +119,7 @@ export const products = [
     synergy: "Optical Bonding (OCA) oder kostengünstigeres Air Bonding mit unseren TFT-Displays und Cover-Gläsern. Bonding-Bereich 0,96\" bis 15,6\", maximal 32\".",
     modelType: "touch",
     image: touchscreensImg,
+    thumb: touchscreensThumb,
     images: [
       {
         src: ogsPanel,
@@ -137,6 +152,7 @@ export const products = [
     synergy: "Perfekt abgestimmt auf den Energiebedarf unserer Display- und Embedded-Systeme.",
     modelType: "power",
     image: stromversorgungenImg,
+    thumb: stromversorgungenThumb,
     images: []
   },
   {
@@ -154,6 +170,7 @@ export const products = [
     synergy: "Zentraler Bestandteil unseres Thermomanagement-Konzepts bei der Modulmontage. Verhindert Derating bei Hochleistungs-Stromversorgungen.",
     modelType: "fan",
     image: luefterImg,
+    thumb: luefterThumb,
     images: [
       {
         src: axialFan,
@@ -183,6 +200,7 @@ export const products = [
     synergy: "Nahtlose Integration mit unseren Glaslösungen und Elektronikbaugruppen für schlüsselfertige Systeme.",
     modelType: "plastic",
     image: kunststoffkomponentenImg,
+    thumb: kunststoffkomponentenThumb,
     images: [
       {
         src: magnesiumDiecast,
@@ -197,7 +215,7 @@ export const products = [
   {
     id: "glasloesungen",
     name: "Glaslösungen",
-    icon: Box,
+    icon: RectangleHorizontal,
     headline: "Robuste und veredelte Cover-Gläser",
     strategicBenefit: "Schutz und optische Aufwertung Ihrer Displays durch chemisch gehärtete und speziell beschichtete Gläser.",
     specs: [
@@ -209,6 +227,7 @@ export const products = [
     synergy: "Die perfekte Ergänzung zu unseren TFTs und Touchscreens.",
     modelType: "glass",
     image: glasloesungenImg,
+    thumb: glasloesungenThumb,
     images: [
       {
         src: coverGlassEdge,
@@ -238,6 +257,7 @@ export const products = [
     synergy: "Wir vereinen Displays, Touch, Stromversorgung, Kunststoff und Glas zu einem geprüften, zertifizierten Gesamtsystem (Plug & Play).",
     modelType: "assembly",
     image: montageGehaeuseImg,
+    thumb: montageGehaeuseThumb,
     images: [
       {
         src: smtPcb,

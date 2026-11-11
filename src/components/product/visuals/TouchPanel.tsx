@@ -1,4 +1,13 @@
-import { C, Chip, FadeIn, IsoPlate, Layer, LayerLabel, VIEWBOX, type ProductVisualProps } from './stage';
+import {
+  C,
+  Chip,
+  FadeIn,
+  IsoPlate,
+  Layer,
+  LayerLabel,
+  useStageViewBox,
+  type ProductVisualProps,
+} from './stage';
 
 /**
  * Touchscreens (modelType "touch"): OGS-Panel – Sensor und Deckglas bilden eine
@@ -18,11 +27,18 @@ const B = 108;
 /** Alle Beschriftungen stehen rechts – links wäre in der viewBox kein Platz. */
 const LABEL_X = CX + A;
 
+/**
+ * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:
+ * gemessene Ausdehnung der Zeichnung über den ganzen Scrollverlauf plus Rand.
+ */
+const COMPACT_VIEWBOX = '90 140 428 388';
+
 export default function TouchPanel({ progress, reducedMotion }: ProductVisualProps) {
   const common = { progress, reducedMotion };
+  const viewBox = useStageViewBox(COMPACT_VIEWBOX);
 
   return (
-    <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
+    <svg viewBox={viewBox} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/* 1. Controller-Platine mit QFP-IC und ZIF-Steckverbinder */}
       <Layer {...common} from={0.04} to={0.3} spread={138}>
         <IsoPlate cx={CX} cy={CY} a={A * 0.62} b={B * 0.62} t={9} fill={C.pcb} side="#0d3a20">

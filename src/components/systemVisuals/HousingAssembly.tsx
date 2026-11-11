@@ -1,8 +1,8 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { MotionValue } from 'motion/react';
-import type { InfoSlot } from '../../data/systems';
 import { useScrollStyle } from '../product/useScrollStyle';
-import VisualCallout from './VisualCallout';
+import StageCaptions, { useActiveCaption, type StageCaption } from './StageCaptions';
+import { at, Callout, QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN, type SystemVisualProps } from './shared';
 
 /**
  * Scroll-Visualisierung für "Housing & Assembling": die Montage nach der
@@ -16,14 +16,6 @@ import VisualCallout from './VisualCallout';
  * motion scrollgebundene Werte an die Web Animations API abgibt und sie dann
  * nicht mehr pro Frame nachführt (siehe Kommentar in useScrollStyle.ts).
  */
-
-// Sichtbarkeitsfenster des Visuals – identisch zu den anderen Detailseiten,
-// damit Intro/Outro überall gleich getaktet bleiben.
-const VISUAL_START = 0.15;
-const VISUAL_END = 0.8;
-
-/** Rechnet ein lesbares lokales 0..1-Fenster in scrollYProgress-Koordinaten um. */
-const at = (local: number) => VISUAL_START + local * (VISUAL_END - VISUAL_START);
 
 // ---------------------------------------------------------------------------
 // Baugruppen-Ebene: blendet ein, fährt in die Endlage und wächst dabei leicht.
@@ -312,36 +304,7 @@ function PlusStep({
 
 // ---------------------------------------------------------------------------
 
-function Callout({
-  slot,
-  progress,
-  from,
-  to,
-  className,
-  reducedMotion,
-}: {
-  slot: InfoSlot;
-  progress: MotionValue<number>;
-  from: number;
-  to: number;
-  className: string;
-  reducedMotion: boolean;
-}) {
-  const ref = useScrollStyle<HTMLDivElement>(
-    progress,
-    { input: [at(from), at(to)], opacity: [0, 1] },
-    reducedMotion
-  );
-  return <VisualCallout ref={ref} slot={slot} className={className} />;
-}
-
-export default function HousingAssembly({
-  scrollYProgress,
-  infoSlots,
-}: {
-  scrollYProgress: MotionValue<number>;
-  infoSlots: InfoSlot[];
-}) {
+export default function HousingAssembly({ scrollYProgress, infoSlots, compact }: SystemVisualProps) {
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -360,20 +323,42 @@ export default function HousingAssembly({
    */
   const rootRef = useScrollStyle<HTMLDivElement>(
     scrollYProgress,
+    reducedMotion ? { input: [0, 1], opacity: [1, 1] } : VISUAL_FADE_IN,
     reducedMotion
-      ? { input: [0, 1], opacity: [1, 1] }
-      : { input: [0, 0.05, 0.8, 0.9], opacity: [0, 1, 1, 0] },
+  );
+
+  // Kompakt: die Info-Karten nacheinander in der Reihenfolge der Montage –
+  // Gehäuse, fertige Baugruppe, dann die beiden Projektzusagen.
+  const captions: StageCaption[] = useMemo(
+    () => [
+      { ...infoSlots[0], at: 0.18 },
+      { ...infoSlots[1], at: 0.34 },
+      { ...infoSlots[2], at: 0.5 },
+      ...(infoSlots[3] ? [{ ...infoSlots[3], at: 0.62 }] : []),
+      { ...QUALIFICATION, at: QUALIFICATION_AT },
+    ],
+    [infoSlots]
+  );
+  const active = useActiveCaption(scrollYProgress, captions, compact);
+
+  // Die Zeile selbst blendet mit ihrem ersten Eintrag ein – kompakt hat sie
+  // einen eigenen Hintergrund, der sonst schon vorher leer im Bild stünde.
+  const plusBarRef = useScrollStyle<HTMLDivElement>(
+    scrollYProgress,
+    { input: [at(PLUS_STEPS[0].window[0]), at(PLUS_STEPS[0].window[1])], opacity: [0, 1] },
     reducedMotion
   );
 
   const partBase = 'absolute w-72 md:w-[26rem] aspect-[4/3]';
 
   return (
-    <div
-      ref={rootRef}
-      style={{ opacity: 0 }}
-      className="absolute inset-0 flex items-center justify-center pointer-events-none"
-    >
+    <div ref={rootRef} style={{ opacity: 0 }} className="absolute inset-0 pointer-events-none">
+      {/* Kompakt: zentriert im Raum zwischen Navbar und Textkarte */}
+      <div
+        className={`absolute inset-x-0 flex items-center justify-center ${
+          compact ? 'top-16 bottom-[14.5rem]' : 'inset-y-0'
+        }`}
+      >
       <div className="relative w-full max-w-4xl h-full flex items-center justify-center">
 
         {/* 1. Gehäuseunterschale – von unten */}
@@ -424,51 +409,68 @@ export default function HousingAssembly({
           <FrontBezel />
         </AssemblyLayer>
 
-        {/* infoSlots als Callouts an den passenden Bauteilen */}
-        <Callout
-          slot={infoSlots[0]}
-          progress={scrollYProgress}
-          from={0.58}
-          to={0.66}
-          reducedMotion={reducedMotion}
-          className="left-1/2 ml-[11rem] md:ml-[13rem] lg:ml-[16rem] top-[24%]"
-        />
-        <Callout
-          slot={infoSlots[1]}
-          progress={scrollYProgress}
-          from={0.44}
-          to={0.52}
-          reducedMotion={reducedMotion}
-          className="right-1/2 mr-[11rem] md:mr-[13rem] lg:mr-[16rem] top-[38%]"
-        />
-        <Callout
-          slot={infoSlots[2]}
-          progress={scrollYProgress}
-          from={0.72}
-          to={0.8}
-          reducedMotion={reducedMotion}
-          className="left-1/2 ml-[11rem] md:ml-[13rem] lg:ml-[16rem] top-[48%]"
-        />
-        {/* Vierter Slot: der belegte Toolingkosten-Vorteil. Bewusst links und
-            tiefer, damit er die Qualifizierungs-Karte unten rechts nicht trifft. */}
-        {infoSlots[3] && (
-          <Callout
-            slot={infoSlots[3]}
-            progress={scrollYProgress}
-            from={0.78}
-            to={0.86}
-            reducedMotion={reducedMotion}
-            className="right-1/2 mr-[11rem] md:mr-[13rem] lg:mr-[16rem] top-[60%]"
-          />
+        {/* infoSlots als Callouts an den passenden Bauteilen (nur breit) */}
+        {!compact && (
+          <>
+            <Callout
+              slot={infoSlots[0]}
+              progress={scrollYProgress}
+              from={0.58}
+              to={0.66}
+              reducedMotion={reducedMotion}
+              className="left-1/2 ml-[16rem] top-[24%]"
+            />
+            <Callout
+              slot={infoSlots[1]}
+              progress={scrollYProgress}
+              from={0.44}
+              to={0.52}
+              reducedMotion={reducedMotion}
+              className="right-1/2 mr-[16rem] top-[38%]"
+            />
+            <Callout
+              slot={infoSlots[2]}
+              progress={scrollYProgress}
+              from={0.72}
+              to={0.8}
+              reducedMotion={reducedMotion}
+              className="left-1/2 ml-[16rem] top-[48%]"
+            />
+            {/* Vierter Slot: der belegte Toolingkosten-Vorteil. Bewusst links und
+                tiefer, damit er die Qualifizierungs-Karte unten rechts nicht trifft. */}
+            {infoSlots[3] && (
+              <Callout
+                slot={infoSlots[3]}
+                progress={scrollYProgress}
+                from={0.78}
+                to={0.86}
+                reducedMotion={reducedMotion}
+                className="right-1/2 mr-[16rem] top-[60%]"
+              />
+            )}
+          </>
         )}
       </div>
+      </div>
 
-      {/* "+"-Logik aus den Key Facts */}
-      <div className="absolute bottom-24 md:bottom-32 left-1/2 -translate-x-1/2 flex items-center gap-2 text-sm md:text-base whitespace-nowrap pointer-events-none">
+      {/* "+"-Logik aus den Key Facts. Kompakt steht sie oben unter der Navbar,
+          weil unten die Textkarte sitzt; breit über der Prozessleiste. */}
+      <div
+        ref={plusBarRef}
+        className={`absolute left-1/2 -translate-x-1/2 flex items-center gap-2 whitespace-nowrap pointer-events-none ${
+          compact
+            ? // Deckend und über den Bauteilen: die von oben einfahrenden Teile
+              // ziehen sonst mitten durch die Zeile.
+              'top-[4.75rem] z-[58] rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-sm'
+            : 'bottom-32 text-base'
+        }`}
+      >
         {PLUS_STEPS.map((step, i) => (
           <PlusStep key={i} step={step} progress={scrollYProgress} reducedMotion={reducedMotion} />
         ))}
       </div>
+
+      {compact && <StageCaptions captions={captions} active={active} />}
     </div>
   );
 }

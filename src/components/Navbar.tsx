@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ChevronDown } from 'lucide-react';
-import logo from '../logo.png';
+// 96 px hoch als WebP – die Navbar zeigt das Logo mit höchstens 40 px Höhe.
+import logo from '../logo.webp';
+import CtaLink from './CtaLink';
 
 type NavbarProps = {
   /** Wenn gesetzt, zeigt die Navbar statt des Menüs einen Zurück-Link auf dieses Ziel. */
@@ -51,9 +53,9 @@ export default function Navbar({ backTo, backLabel = 'Zurück zur Startseite' }:
                 </div>
               </div>
             </div>
-            <a href="#contact" className="text-sm font-medium bg-brand-700 text-white px-5 py-2 rounded-md hover:bg-brand-800 transition-colors shadow-sm">
+            <CtaLink href="#contact" size="sm" arrow={false}>
               Kontakt
-            </a>
+            </CtaLink>
           </>
         )}
       </div>

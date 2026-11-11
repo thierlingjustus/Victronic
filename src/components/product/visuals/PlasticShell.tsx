@@ -1,4 +1,15 @@
-import { C, Chip, FadeIn, IsoPlate, Layer, LayerLabel, VIEWBOX, type ProductVisualProps } from './stage';
+import {
+  C,
+  Chip,
+  CompactNote,
+  FadeIn,
+  IsoPlate,
+  Layer,
+  LayerLabel,
+  StageText,
+  useStageViewBox,
+  type ProductVisualProps,
+} from './stage';
 
 /**
  * Kunststoffkomponenten (modelType "plastic"): Innenansicht einer
@@ -25,11 +36,18 @@ const WALL = 46;
 const px = (s: number, t: number) => CX + (s - t) * A * 0.5;
 const py = (s: number, t: number) => CY + (s + t) * B * 0.5;
 
+/**
+ * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:
+ * gemessene Ausdehnung der Zeichnung über den ganzen Scrollverlauf plus Rand.
+ */
+const COMPACT_VIEWBOX = '75 130 662 415';
+
 export default function PlasticShell({ progress, reducedMotion }: ProductVisualProps) {
   const common = { progress, reducedMotion };
+  const viewBox = useStageViewBox(COMPACT_VIEWBOX);
 
   return (
-    <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
+    <svg viewBox={viewBox} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/* 1. Die Schale: Boden plus vier hochgezogene Wände */}
       <Layer {...common} from={0.04} to={0.28} spread={0}>
         {/* Wände – die beiden vorderen Flächen sind sichtbar */}
@@ -188,9 +206,11 @@ export default function PlasticShell({ progress, reducedMotion }: ProductVisualP
           {/* Dekorschicht, im Werkzeug übertragen – bewusst hauchdünn */}
           <path d="M-42 2 h84 v-6 h-84 Z" fill={C.brand500} />
           <path d="M-42 -4 h84 v-3 h-84 Z" fill={C.brand200} />
-          <text x="0" y="46" fill={C.inkSoft} fontSize="12" textAnchor="middle" fontFamily="inherit">
+          <StageText x="0" y="46" fill={C.inkSoft} fontSize="12" textAnchor="middle">
             IMR-Dekorschicht
-          </text>
+          </StageText>
+          {/* Kompakt: derselbe Text als Zeile unter der Grafik */}
+          <CompactNote text="IMR-Dekorschicht" sub="Detail im Schnitt" />
         </g>
         <path d={`M${CX + A - 30} ${CY - WALL + 16} L604 452`} stroke={C.line} strokeWidth="1.5" fill="none" />
       </FadeIn>

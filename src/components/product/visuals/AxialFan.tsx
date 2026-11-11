@@ -5,9 +5,9 @@ import {
   FadeIn,
   FadeOut,
   IsoPlate,
-  StackLayer,
-  VIEWBOX,
   layerWindow,
+  StackLayer,
+  useStageViewBox,
   type ProductVisualProps,
 } from './stage';
 import { useEffect, useState } from 'react';
@@ -80,8 +80,15 @@ function Blade({ index }: { index: number }) {
   );
 }
 
+/**
+ * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:
+ * gemessene Ausdehnung der Zeichnung über den ganzen Scrollverlauf plus Rand.
+ */
+const COMPACT_VIEWBOX = '45 -10 630 620';
+
 export default function AxialFan({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
   const common = { progress, reducedMotion };
+  const viewBox = useStageViewBox(COMPACT_VIEWBOX);
   const [assembled, setAssembled] = useState(false);
   useEffect(() => {
     const mark = (v: number) => setAssembled(v >= at(COLLAPSE[0]));
@@ -140,7 +147,7 @@ export default function AxialFan({ progress, reducedMotion, activeFact = -1 }: P
   );
 
   return (
-    <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
+    <svg viewBox={viewBox} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/*
         Anschlussleitung der Frontalansicht. Steht bewusst außerhalb der
         Drehgruppe – sie wird in Endkoordinaten gezeichnet und blendet erst

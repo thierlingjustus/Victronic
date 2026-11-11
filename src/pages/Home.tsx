@@ -22,11 +22,12 @@ const MIN_FILL_SECONDS = 2.5;
 
 type ContactStatus = 'idle' | 'sending' | 'success' | 'error';
 import { products } from '../data/products';
-import werSindWirImg from '../assets/about/Wer-sind-wir5.png';
+import werSindWirImg from '../assets/about/wer-sind-wir.webp';
 import Footer from '../components/Footer';
 import HeroSlideshow from '../components/HeroSlideshow';
 import Navbar from '../components/Navbar';
 import FadeIn from '../components/FadeIn';
+import IconTile from '../components/IconTile';
 import Seo from '../components/Seo';
 
 export default function Home() {
@@ -177,16 +178,16 @@ export default function Home() {
               <FadeIn inView key={i} delay={i * 0.1}>
                 {service.link.startsWith('/') ? (
                   <Link to={service.link} className="block bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer transition-all hover:border-brand-300 hover:shadow-sm">
-                    <div className="w-12 h-12 bg-brand-50 text-brand-700 rounded-lg flex items-center justify-center mb-6">
-                      <service.icon className="w-6 h-6" />
+                    <div className="mb-6">
+                      <IconTile icon={service.icon} />
                     </div>
                     <h3 className="text-xl font-bold mb-3">{service.title}</h3>
                     <p className="text-gray-600 leading-relaxed">{service.desc}</p>
                   </Link>
                 ) : (
                   <a href={service.link} className="block bg-white p-8 rounded-xl border border-gray-200 h-full group cursor-pointer transition-all hover:border-brand-300 hover:shadow-sm">
-                    <div className="w-12 h-12 bg-brand-50 text-brand-700 rounded-lg flex items-center justify-center mb-6">
-                      <service.icon className="w-6 h-6" />
+                    <div className="mb-6">
+                      <IconTile icon={service.icon} />
                     </div>
                     <h3 className="text-xl font-bold mb-3">{service.title}</h3>
                     <p className="text-gray-600 leading-relaxed">{service.desc}</p>
@@ -212,8 +213,8 @@ export default function Home() {
             {products.map((product, i) => (
               <FadeIn inView key={product.id} delay={i * 0.05}>
                 <Link to={`/products/${product.id}`} className="block group bg-white border border-gray-200 shadow-sm p-6 rounded-xl hover:border-brand-300 hover:shadow-md transition-all cursor-pointer h-full relative overflow-hidden">
-                  <product.icon className="w-8 h-8 text-gray-400 group-hover:text-brand-700 mb-4 transition-colors" />
-                  <h3 className="font-medium text-sm md:text-base text-gray-800 group-hover:text-brand-700 transition-colors">{product.name}</h3>
+                  <IconTile icon={product.icon} thumb={product.thumb} />
+                  <h3 className="mt-4 font-medium text-sm md:text-base text-gray-800 group-hover:text-brand-700 transition-colors hyphens-auto break-words">{product.name}</h3>
                   <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowRight className="w-4 h-4 text-brand-700" />
                   </div>
@@ -225,6 +226,12 @@ export default function Home() {
           <FadeIn inView delay={0.4}>
             <p className="text-sm text-gray-600 border-l-2 border-brand-500 pl-3">
               Sonderlösungen für alle Produktkategorien verfügbar.
+            </p>
+            {/* Die Hover-Fotos in den Kacheln sind dieselben Abbildungen wie auf
+                den Produktseiten – deshalb auch hier der Transparenzhinweis
+                (Art. 50 KI-VO, siehe Product.tsx und InhaltRecht.tsx). */}
+            <p className="mt-4 text-xs text-gray-400">
+              Abbildungen: exemplarische Darstellungen, teilweise KI-gestützt erstellt.
             </p>
           </FadeIn>
         </div>

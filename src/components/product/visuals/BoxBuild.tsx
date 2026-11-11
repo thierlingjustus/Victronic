@@ -1,4 +1,13 @@
-import { C, Chip, FadeIn, IsoPlate, LayerLabel, StackLayer, VIEWBOX, type ProductVisualProps } from './stage';
+import {
+  C,
+  Chip,
+  FadeIn,
+  IsoPlate,
+  LayerLabel,
+  StackLayer,
+  useStageViewBox,
+  type ProductVisualProps,
+} from './stage';
 
 /**
  * Montage & Gehäuse (modelType "assembly"): das Box-Build-Endgerät als
@@ -85,13 +94,20 @@ function PinHeader({ x, y, n = 6 }: { x: number; y: number; n?: number }) {
   );
 }
 
+/**
+ * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:
+ * gemessene Ausdehnung der Zeichnung über den ganzen Scrollverlauf plus Rand.
+ */
+const COMPACT_VIEWBOX = '165 60 425 508';
+
 export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
   const common = { progress, reducedMotion };
+  const viewBox = useStageViewBox(COMPACT_VIEWBOX);
   const active = activeFact >= 0 ? SPEC_LAYERS[activeFact] ?? -1 : -1;
   const layer = { ...common, n: N, activeIndex: active };
 
   return (
-    <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
+    <svg viewBox={viewBox} className="absolute inset-0 w-full h-full" aria-hidden="true">
       <defs>
         <linearGradient id="bb-lit" x1="0" y1="0" x2="0.5" y2="1">
           <stop offset="0%" stopColor={C.brand300} />

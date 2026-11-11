@@ -1,4 +1,4 @@
-import { C, Chip, FadeIn, Layer, VIEWBOX, type ProductVisualProps } from './stage';
+import { C, Chip, CompactNote, FadeIn, Layer, StageText, useStageCaption, useStageViewBox, type ProductVisualProps } from './stage';
 
 /**
  * Stromversorgungen (modelType "power"): drei der in [ALT /netzteile/]
@@ -11,8 +11,17 @@ import { C, Chip, FadeIn, Layer, VIEWBOX, type ProductVisualProps } from './stag
 
 const BASE = 372;
 
+/**
+ * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:
+ * gemessene Ausdehnung der Zeichnung über den ganzen Scrollverlauf plus Rand.
+ */
+const COMPACT_VIEWBOX = '50 150 700 270';
+
 /** Beschriftung mittig unter einer Bauform. */
 function FormLabel({ cx, title, sub }: { cx: number; title: string; sub: string }) {
+  // Kompakt steht die Bezeichnung als Textzeile unter der Grafik.
+  const { compact } = useStageCaption(title, sub);
+  if (compact) return null;
   return (
     <g>
       <text x={cx} y={BASE + 52} fill={C.ink} fontSize="17" fontWeight="700" textAnchor="middle" fontFamily="inherit">
@@ -38,9 +47,10 @@ export default function PowerForms({ progress, reducedMotion, activeFact = -1 }:
   const common = { progress, reducedMotion };
   const active = activeFact >= 0 ? SPEC_LAYERS[activeFact] ?? -1 : -1;
   const box = { ...common, activeIndex: active, spread: 0 };
+  const viewBox = useStageViewBox(COMPACT_VIEWBOX);
 
   return (
-    <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
+    <svg viewBox={viewBox} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/* Gemeinsame Standlinie, auf der die drei Bauformen sitzen */}
       <FadeIn {...common} from={0.03} to={0.12}>
         <path d={`M60 ${BASE + 14} H740`} stroke={C.lineSoft} strokeWidth="2" />
@@ -95,12 +105,13 @@ export default function PowerForms({ progress, reducedMotion, activeFact = -1 }:
         </g>
         {/* Trennlinie Primär / Sekundär */}
         <path d="M400 236 V370" stroke={C.inkFaint} strokeWidth="1.5" strokeDasharray="6 5" />
-        <text x={340} y={380} fill={C.inkFaint} fontSize="12" textAnchor="middle" fontFamily="inherit">
+        <StageText x={340} y={380} fill={C.inkFaint} fontSize="12" textAnchor="middle">
           Primär
-        </text>
-        <text x={460} y={380} fill={C.inkFaint} fontSize="12" textAnchor="middle" fontFamily="inherit">
+        </StageText>
+        <StageText x={460} y={380} fill={C.inkFaint} fontSize="12" textAnchor="middle">
           Sekundär
-        </text>
+        </StageText>
+        <CompactNote text="Trennung Primär / Sekundär" />
 
         {/* Netzfilter-Drossel */}
         <g>

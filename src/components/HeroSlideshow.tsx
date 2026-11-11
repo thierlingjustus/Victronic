@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import fertigungImg from '../assets/hero/Victronic_1440px-X-500px_rgb.jpg';
-import leiterplatteImg from '../assets/hero/BG_BLUE.jpg';
-import touchscreenImg from '../assets/hero/Fotolia_30769948_XL_150dpi.jpg';
-import weltkarteImg from '../assets/hero/bg.png';
+// Als WebP: zusammen rund 0,36 MB statt vorher 3,2 MB (Originale liegen in
+// Information/Firma).
+import fertigungImg from '../assets/hero/fertigung.webp';
+import leiterplatteImg from '../assets/hero/leiterplatte.webp';
+import touchscreenImg from '../assets/hero/touchscreen.webp';
+import weltkarteImg from '../assets/hero/weltkarte.webp';
 
 const SLIDES = [
   { src: fertigungImg, alt: 'Fertigung bei Victronic' },
@@ -21,12 +23,12 @@ export default function HeroSlideshow() {
   // Zählt manuelle Navigationen, damit der Autoplay-Timer danach neu startet
   const [timerKey, setTimerKey] = useState(0);
 
+  // Nur das jeweils nächste Bild vorladen statt gleich alle vier – so teilt
+  // sich das erste Bild die Leitung beim Seitenaufruf nicht mit drei weiteren.
   useEffect(() => {
-    SLIDES.forEach(({ src }) => {
-      const img = new Image();
-      img.src = src;
-    });
-  }, []);
+    const img = new Image();
+    img.src = SLIDES[(index + 1) % SLIDES.length].src;
+  }, [index]);
 
   useEffect(() => {
     const interval = setInterval(() => {

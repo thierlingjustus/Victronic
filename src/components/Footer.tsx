@@ -16,7 +16,8 @@ function AnalogClock({ timezone }: { timezone: string }) {
         hour12: false,
       });
       
-      const dateFormatter = new Intl.DateTimeFormat('en-US', {
+      // Deutsche Schreibweise ("10. November 2026") – die Seite ist auf Deutsch.
+      const dateFormatter = new Intl.DateTimeFormat('de-DE', {
         timeZone: timezone,
         month: 'long',
         day: 'numeric',

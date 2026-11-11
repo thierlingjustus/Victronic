@@ -1,4 +1,4 @@
-import { createContext, useContext, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useId, type ReactNode, type SVGProps } from 'react';
 import type { MotionValue } from 'motion/react';
 import { MODEL_WINDOW, useScrollStyle } from '../useScrollStyle';
 
@@ -45,6 +45,90 @@ export function layerWindow(i: number, n: number, width = 0.26): [number, number
   const step = n > 1 ? (b - a - width) / (n - 1) : 0;
   const from = a + i * step;
   return [from, from + width];
+}
+
+/* -------------------------------------------------------------------------- */
+/* Kompakte Beschriftung (Handy)                                              */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Auf dem Handy wird die 800 Einheiten breite Zeichnung auf rund 340 px
+ * gestaucht – eine Beschriftung mit Schriftgröße 15 ist dann gut 6 px hoch und
+ * nicht mehr lesbar. In der kompakten Darstellung schreiben LayerLabel, Chip
+ * und CompactNote ihren Text deshalb nicht in die Zeichnung, sondern melden ihn
+ * hier an. ProductVisual zeigt die jeweils aktuelle Beschriftung als normale
+ * Textzeile unter der Grafik, und die Zeichnung selbst darf den frei
+ * gewordenen Platz nutzen (useStageViewBox).
+ *
+ * Quelle der Texte bleibt damit die Zeichnung – es gibt keine zweite Liste,
+ * die man parallel pflegen müsste.
+ */
+export type CaptionEntry = {
+  /** scrollYProgress, ab dem der Text gilt. */
+  start: number;
+  text: string;
+  sub?: string;
+  /** Chips mit gleichem Startpunkt werden zu einer Zeile zusammengezogen. */
+  kind: 'label' | 'chip';
+};
+
+export type CaptionRegistry = {
+  register: (id: string, entry: CaptionEntry) => void;
+  unregister: (id: string) => void;
+};
+
+/** null = normale Darstellung mit Beschriftung in der Zeichnung. */
+export const CaptionRegistryContext = createContext<CaptionRegistry | null>(null);
+
+const NO_ACTIVE: ReadonlySet<string> = new Set();
+/** IDs der Beschriftungen, die gerade in der Textzeile stehen. */
+export const ActiveCaptionContext = createContext<ReadonlySet<string>>(NO_ACTIVE);
+
+/** Fortschritt, ab dem der umgebende Block (Layer, FadeIn) als sichtbar gilt. */
+const AppearContext = createContext(0);
+
+/**
+ * Meldet einen Text für die kompakte Darstellung an. `compact` sagt dem
+ * Aufrufer, dass er ihn nicht selbst zeichnen soll; `active`, dass er gerade
+ * in der Textzeile steht.
+ */
+export function useStageCaption(text: string, sub?: string, kind: CaptionEntry['kind'] = 'label') {
+  const registry = useContext(CaptionRegistryContext);
+  const activeIds = useContext(ActiveCaptionContext);
+  const start = useContext(AppearContext);
+  const id = useId();
+
+  useEffect(() => {
+    if (!registry) return;
+    registry.register(id, { start, text, sub, kind });
+    return () => registry.unregister(id);
+  }, [registry, id, start, text, sub, kind]);
+
+  return { compact: registry !== null, active: registry !== null && activeIds.has(id) };
+}
+
+/**
+ * viewBox der Zeichnung. Kompakt ein engerer Ausschnitt ohne die Ränder, die
+ * sonst die Beschriftungen brauchen – das Produkt wird dadurch größer.
+ */
+export function useStageViewBox(compactViewBox: string) {
+  return useContext(CaptionRegistryContext) ? compactViewBox : VIEWBOX;
+}
+
+/** Freier Text in der Zeichnung – kompakt ausgeblendet, weil dort unlesbar klein. */
+export function StageText(props: SVGProps<SVGTextElement>) {
+  const compact = useContext(CaptionRegistryContext) !== null;
+  if (compact) return null;
+  return <text fontFamily="inherit" {...props} />;
+}
+
+/**
+ * Text, der nur in der kompakten Darstellung erscheint: der Ersatz für mit
+ * StageText ausgeblendete Beschriftungen. Zeichnet selbst nichts.
+ */
+export function CompactNote({ text, sub }: { text: string; sub?: string }) {
+  useStageCaption(text, sub);
+  return null;
 }
 
 /**
@@ -161,14 +245,17 @@ export function Layer({
   return (
     <g ref={ref} style={{ opacity: 0 }}>
       <HighlightContext.Provider value={isActive}>
-        <g
-          style={{
-            opacity: coupled && !isActive ? 0.35 : 1,
-            transition: `opacity ${HIGHLIGHT_MS}ms ease`,
-          }}
-        >
-          {children}
-        </g>
+        {/* Beschriftungen in dieser Ebene gelten, sobald sie gut zu sehen ist. */}
+        <AppearContext.Provider value={at(from + (to - from) * 0.7)}>
+          <g
+            style={{
+              opacity: coupled && !isActive ? 0.35 : 1,
+              transition: `opacity ${HIGHLIGHT_MS}ms ease`,
+            }}
+          >
+            {children}
+          </g>
+        </AppearContext.Provider>
       </HighlightContext.Provider>
     </g>
   );
@@ -197,7 +284,7 @@ export function FadeIn({
   );
   return (
     <g ref={ref} style={{ opacity: 0 }}>
-      {children}
+      <AppearContext.Provider value={at(from + (to - from) * 0.35)}>{children}</AppearContext.Provider>
     </g>
   );
 }
@@ -296,8 +383,27 @@ export type LayerLabelProps = {
 };
 
 export function LayerLabel({ x, y, text, sub, side = 'right', length = 90 }: LayerLabelProps) {
+  const { compact, active } = useStageCaption(text, sub);
   const dir = side === 'right' ? 1 : -1;
   const endX = x + dir * length;
+
+  // Kompakt steht der Text lesbar unter der Grafik. In der Zeichnung bleibt nur
+  // ein Punkt an der Stelle, auf die die Führungslinie gezeigt hätte – sichtbar,
+  // solange genau dieser Text in der Zeile steht.
+  if (compact) {
+    return (
+      <circle
+        cx={x}
+        cy={y}
+        r="8"
+        fill={C.brand500}
+        stroke={C.white}
+        strokeWidth="3"
+        style={{ opacity: active ? 1 : 0, transition: `opacity ${HIGHLIGHT_MS}ms ease` }}
+      />
+    );
+  }
+
   return (
     <g>
       <path d={`M${x} ${y} H${endX}`} stroke={C.line} strokeWidth="1.5" fill="none" />
@@ -368,7 +474,9 @@ export function LayerCaption({
   );
   return (
     <g ref={ref} style={{ opacity: 0 }}>
-      <LayerLabel {...label} />
+      <AppearContext.Provider value={at(start + (to - start) * 0.5)}>
+        <LayerLabel {...label} />
+      </AppearContext.Provider>
     </g>
   );
 }
@@ -427,7 +535,10 @@ export function StackLayer({
 
 /** Kleiner Fakten-Chip, z.B. für Normen und Schutzschaltungen. */
 export function Chip({ x, y, label }: { x: number; y: number; label: string }) {
+  const { compact } = useStageCaption(label, undefined, 'chip');
   const w = label.length * 7.6 + 20;
+  // Kompakt wandert der Chip-Text in die Zeile unter der Grafik.
+  if (compact) return null;
   return (
     <g>
       <rect x={x} y={y} width={w} height="26" rx="13" fill={C.brand50} stroke={C.brand100} strokeWidth="1.5" />

@@ -29,3 +29,74 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/*
+ * Text-CTA: die Haupt-Aktion als reine Schrift in der Logofarbe mit feiner
+ * Unterlinie und Pfeil – kein gefüllter Kasten. Das weiche Leuchten kommt über
+ * text-shadow und wird beim Hover kräftiger. Markup: components/CtaLink.tsx.
+ *
+ * Hinweis Kontrast: brand-500 auf Weiß liegt bei rund 2,9:1 und damit unter
+ * WCAG-AA für Fließtext. Das ist hier eine bewusste Gestaltungsentscheidung;
+ * Halbfett, Unterlinie und Pfeil machen die Aktion zusätzlich erkennbar.
+ */
+@layer components {
+  .cta-link {
+    display: inline-flex;
+    align-items: center;
+    /* 44 px Tippfläche, auch wenn die Schrift selbst kleiner ist */
+    min-height: 2.75rem;
+    color: var(--color-brand-500);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    text-shadow: 0 0 12px rgb(0 160 232 / 0.3);
+    transition: text-shadow 0.25s ease;
+  }
+
+  .cta-link--sm {
+    font-size: 0.875rem;
+  }
+
+  .cta-link__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid rgb(0 160 232 / 0.35);
+    transition: border-color 0.25s ease;
+  }
+
+  .cta-link__arrow {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
+
+  .cta-link:focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+
+  .cta-link:focus-visible,
+  .cta-link:active {
+    text-shadow: 0 0 16px rgb(0 160 232 / 0.65);
+  }
+
+  /* Nur auf Geräten mit echtem Hover – sonst bliebe der Zustand nach dem
+     Antippen auf dem Handy hängen. */
+  @media (hover: hover) {
+    .cta-link:hover {
+      text-shadow: 0 0 16px rgb(0 160 232 / 0.65);
+    }
+
+    .cta-link:hover .cta-link__label {
+      border-bottom-color: var(--color-brand-500);
+    }
+
+    .cta-link:hover .cta-link__arrow {
+      transform: translateX(3px);
+    }
+  }
+}
+

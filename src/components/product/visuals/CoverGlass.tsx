@@ -1,4 +1,14 @@
-import { C, Chip, FadeIn, Layer, LayerLabel, VIEWBOX, type ProductVisualProps } from './stage';
+import {
+  C,
+  Chip,
+  CompactNote,
+  FadeIn,
+  Layer,
+  LayerLabel,
+  StageText,
+  useStageViewBox,
+  type ProductVisualProps,
+} from './stage';
 
 /**
  * Glaslösungen (modelType "glass"): ein veredeltes Deckglas im Format 3:2 mit
@@ -36,11 +46,18 @@ const DX = 452;
 const DY = 128;
 const DW = 320;
 
+/**
+ * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:
+ * gemessene Ausdehnung der Zeichnung über den ganzen Scrollverlauf plus Rand.
+ */
+const COMPACT_VIEWBOX = '55 112 732 304';
+
 export default function CoverGlass({ progress, reducedMotion }: ProductVisualProps) {
   const common = { progress, reducedMotion };
+  const viewBox = useStageViewBox(COMPACT_VIEWBOX);
 
   return (
-    <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
+    <svg viewBox={viewBox} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/* 1. Die Glasscheibe mit CNC-Ausschnitt */}
       <Layer {...common} from={0.04} to={0.26} spread={0}>
         {/* Echtes Loch: äußere Kontur und Kreis in einem Pfad, evenodd stanzt */}
@@ -92,9 +109,14 @@ export default function CoverGlass({ progress, reducedMotion }: ProductVisualPro
 
         <g transform={`translate(${DX} ${DY})`}>
           <rect x="0" y="0" width={DW} height="240" rx="12" fill={C.white} stroke={C.line} strokeWidth="1.5" />
-          <text x={DW / 2} y="34" fill={C.ink} fontSize="15" fontWeight="700" textAnchor="middle" fontFamily="inherit">
+          <StageText x={DW / 2} y="34" fill={C.ink} fontSize="15" fontWeight="700" textAnchor="middle">
             Kante im Schnitt
-          </text>
+          </StageText>
+          {/* Kompakt: derselbe Inhalt als Textzeile unter der Grafik */}
+          <CompactNote
+            text="Kante im Schnitt"
+            sub="gefast und poliert, Beschichtungen AM, AF, AR, AG"
+          />
 
           {/*
             Beschichtungen als feine Lagen über dem Glas, von außen nach innen.
@@ -109,12 +131,12 @@ export default function CoverGlass({ progress, reducedMotion }: ProductVisualPro
           ] as [string, number, string, string][]).map(([tag, y, col, name]) => (
             <g key={tag}>
               <path d={`M70 ${y} h76`} stroke={col} strokeWidth="3.5" />
-              <text x="60" y={y + 4} fill={col} fontSize="12" fontWeight="700" textAnchor="end" fontFamily="inherit">
+              <StageText x="60" y={y + 4} fill={col} fontSize="12" fontWeight="700" textAnchor="end">
                 {tag}
-              </text>
-              <text x="156" y={y + 4} fill={C.inkSoft} fontSize="11.5" fontFamily="inherit">
+              </StageText>
+              <StageText x="156" y={y + 4} fill={C.inkSoft} fontSize="11.5">
                 {name}
-              </text>
+              </StageText>
             </g>
           ))}
 
@@ -122,9 +144,9 @@ export default function CoverGlass({ progress, reducedMotion }: ProductVisualPro
           <path d="M64 172 h192 l-18 -18 h-156 Z" fill={C.glass} stroke={C.brand300} strokeWidth="1.5" />
           <path d="M64 172 h192 l-18 18 h-156 Z" fill={C.glass} opacity="0.55" stroke={C.brand300} strokeWidth="1.5" />
 
-          <text x={DW / 2} y="214" fill={C.inkSoft} fontSize="12" textAnchor="middle" fontFamily="inherit">
+          <StageText x={DW / 2} y="214" fill={C.inkSoft} fontSize="12" textAnchor="middle">
             gefaste, polierte Kante
-          </text>
+          </StageText>
         </g>
       </FadeIn>
 

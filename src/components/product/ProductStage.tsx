@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
-import { Link } from 'react-router-dom';
 import { useScroll, type MotionValue } from 'motion/react';
-import { ChevronDown, ChevronRight, Sparkles } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import type { InfoSlot } from '../../data/types';
+import CtaLink from '../CtaLink';
+import { useMediaQuery } from '../useMediaQuery';
 import ProductFactCard from './ProductFactCard';
 import ProductVisual from './ProductVisual';
 import { useScrollStyle } from './useScrollStyle';
@@ -86,6 +87,9 @@ export default function ProductStage({ product }: { product: StageProduct }) {
   // Um wie viele Pixel das Visual nach oben rückt, sobald die Synergie-Karte
   // kommt – rund 12 % der Bühnenhöhe (lg: top-[8%] bis bottom-[12%] ≈ 80 vh).
   const [synergyLift, setSynergyLift] = useState(0);
+  // Handy-Breite: dort wäre die Beschriftung in der Zeichnung nur gut 6 px
+  // hoch – sie erscheint stattdessen als Textzeile unter der Grafik.
+  const narrow = useMediaQuery('(max-width: 639px)');
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return;
@@ -184,6 +188,7 @@ export default function ProductStage({ product }: { product: StageProduct }) {
       progress={scrollYProgress}
       reducedMotion={reducedMotion}
       activeFact={activeFact}
+      compactLabels={narrow && !reducedMotion}
       fallbackSrc={product.image}
       fallbackAlt={`${product.name} – Produktansicht`}
     />
@@ -195,19 +200,15 @@ export default function ProductStage({ product }: { product: StageProduct }) {
         <product.icon className="w-4 h-4" />
         {product.name}
       </div>
-      <h1 className="text-4xl md:text-5xl lg:text-[3.1rem] font-bold tracking-tighter leading-[1.05] text-gray-900 mb-5">
+      {/* hyphens-auto: lange Wörter wie „Thermomanagement" liefen auf schmalen
+          Handys rechts aus der Karte. */}
+      <h1 className="text-4xl md:text-5xl lg:text-[3.1rem] font-bold tracking-tighter leading-[1.05] text-gray-900 mb-5 hyphens-auto [overflow-wrap:anywhere]">
         {product.headline}
       </h1>
       <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8 max-w-md">
         {product.strategicBenefit}
       </p>
-      <Link
-        to="/#contact"
-        className="inline-flex items-center justify-center gap-2 bg-brand-600 text-white px-6 py-3.5 rounded-md font-medium hover:bg-brand-700 transition-colors group"
-      >
-        Technische Beratung anfordern
-        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-      </Link>
+      <CtaLink to="/#contact">Technische Beratung anfordern</CtaLink>
     </>
   );
 
@@ -241,14 +242,17 @@ export default function ProductStage({ product }: { product: StageProduct }) {
 
   return (
     <div ref={containerRef} className="relative h-[260vh] lg:h-[280vh] w-full">
-      <div className="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center">
+      {/* Höhe in svh statt vh, wo der Browser es kann: 100vh rechnet auf dem
+          Handy die ein- und ausfahrende Adressleiste mit ein, und die Karten am
+          unteren Rand der Bühne lägen dann dahinter. */}
+      <div className="sticky top-0 h-[100vh] supports-[height:100svh]:h-[100svh] w-full overflow-hidden flex items-center justify-center">
         {/* Weicher Studio-Verlauf als Bühnenhintergrund */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,#ffffff_0%,#f2f5f8_45%,#e6ebf0_100%)]" />
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white to-transparent" />
 
         {/* Produkt in der Mitte – oben bleibt Platz für die fixe Navbar,
             unten für die kompakte Faktenkarte auf kleinen Displays. */}
-        <div className="absolute inset-x-0 top-20 bottom-44 lg:top-[8%] lg:bottom-[12%]">
+        <div className="absolute inset-x-0 top-20 bottom-52 lg:top-[8%] lg:bottom-[12%]">
           <div className={STAGE_GRID}>
             {/* Die beiden Randspalten bleiben hier leer – sie gehören den
                 Faktenkarten, und das Visual darf sie nie betreten. */}
@@ -264,12 +268,10 @@ export default function ProductStage({ product }: { product: StageProduct }) {
         <div ref={introRef} className="absolute inset-x-0 top-24 lg:top-1/2 lg:-translate-y-1/2 px-6 z-40">
           <div className="max-w-6xl mx-auto">
             {/* Unter lg liegt der Text über dem Modell und braucht eine
-                abgesetzte Karte. Ab lg steht er daneben – dort darf gar kein
-                backdrop-filter gesetzt sein, sonst legt sich ein unscharfer
-                Kasten über das Modell. Deshalb max-lg: statt eines lg-Resets:
-                backdrop-blur-0 existiert in Tailwind 4 nicht und würde den
-                Blur wirkungslos „zurücksetzen". */}
-            <div className="lg:max-w-md text-center lg:text-left max-lg:bg-white/70 max-lg:backdrop-blur-sm max-lg:rounded-2xl max-lg:p-5">
+                abgesetzte, deckende Karte. Ab lg steht er daneben und bleibt
+                ohne Hintergrund. Bewusst kein backdrop-blur: der Weichzeichner
+                wird beim Scrollen in jedem Frame neu berechnet. */}
+            <div className="lg:max-w-md text-center lg:text-left max-lg:bg-white/90 max-lg:rounded-2xl max-lg:p-5">
               {introBlock}
             </div>
           </div>
@@ -281,7 +283,7 @@ export default function ProductStage({ product }: { product: StageProduct }) {
           style={{ opacity: 0 }}
           className="absolute top-24 left-1/2 -translate-x-1/2 lg:left-8 lg:translate-x-0 z-40 pointer-events-none"
         >
-          <div className="inline-flex items-center gap-2 bg-white/95 backdrop-blur-xl border border-gray-200 shadow-sm rounded-full px-4 py-2">
+          <div className="inline-flex items-center gap-2 bg-white border border-gray-200 shadow-sm rounded-full px-4 py-2">
             <product.icon className="w-4 h-4 text-brand-700" />
             <span className="text-xs font-semibold uppercase tracking-widest text-gray-700">{product.name}</span>
           </div>
@@ -328,7 +330,7 @@ export default function ProductStage({ product }: { product: StageProduct }) {
             {facts.map((fact, i) => (
               <div
                 key={`${fact.title}-mobile-${i}`}
-                className={`bg-white/95 backdrop-blur-xl px-4 py-3.5 rounded-xl border border-gray-200 shadow-xl transition-opacity duration-300 ${
+                className={`bg-white px-4 py-3.5 rounded-xl border border-gray-200 shadow-sm transition-opacity duration-300 ${
                   activeFact === i ? 'opacity-100 relative' : 'opacity-0 absolute inset-x-0 top-0'
                 }`}
               >
@@ -345,11 +347,8 @@ export default function ProductStage({ product }: { product: StageProduct }) {
           style={{ opacity: 0 }}
           className="absolute inset-x-0 bottom-24 lg:bottom-28 px-6 z-[65] pointer-events-none"
         >
-          <div className="max-w-xl mx-auto bg-white/95 backdrop-blur-xl border border-brand-100 shadow-xl rounded-2xl px-6 py-5">
-            <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-4 h-4 text-brand-700" />
-              <h3 className="text-brand-700 font-bold text-[11px] uppercase tracking-wider">Synergie im System</h3>
-            </div>
+          <div className="max-w-xl mx-auto bg-white border border-gray-200 shadow-sm rounded-xl px-6 py-5">
+            <h3 className="text-brand-700 font-bold text-[11px] uppercase tracking-wider mb-2">Synergie im System</h3>
             <p className="text-gray-600 text-sm leading-relaxed">{product.synergy}</p>
           </div>
         </div>
@@ -372,7 +371,7 @@ export default function ProductStage({ product }: { product: StageProduct }) {
           className="absolute bottom-16 left-1/2 -translate-x-1/2 z-[70] flex flex-col items-center gap-1.5 text-gray-400 pointer-events-none"
         >
           <span className="text-[10px] uppercase tracking-widest">Weiter scrollen</span>
-          <ChevronDown className="w-5 h-5 animate-bounce" />
+          <ChevronDown className="w-5 h-5" />
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { useScrollStyle } from '../useScrollStyle';
-import { at, C, FadeIn, IsoPlate, StackLayer, VIEWBOX, type ProductVisualProps } from './stage';
+import { at, C, FadeIn, IsoPlate, StackLayer, useStageViewBox, type ProductVisualProps } from './stage';
 
 /**
  * TFT Displays (modelType "display"): der vollständige Schichtaufbau als
@@ -77,13 +77,20 @@ const N = 9;
  */
 const SPEC_LAYERS = [5, 8, -1, 0];
 
+/**
+ * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:
+ * gemessene Ausdehnung der Zeichnung über den ganzen Scrollverlauf plus Rand.
+ */
+const COMPACT_VIEWBOX = '120 20 480 570';
+
 export default function TftStack({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
   const common = { progress, reducedMotion };
+  const viewBox = useStageViewBox(COMPACT_VIEWBOX);
   const active = activeFact >= 0 ? SPEC_LAYERS[activeFact] ?? -1 : -1;
   const layer = { ...common, n: N, activeIndex: active };
 
   return (
-    <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
+    <svg viewBox={viewBox} className="absolute inset-0 w-full h-full" aria-hidden="true">
       <defs>
         {/* Leuchtende Bildfläche, sobald das Backlight anläuft */}
         <linearGradient id="tft-lit" x1="0" y1="0" x2="0.6" y2="1">

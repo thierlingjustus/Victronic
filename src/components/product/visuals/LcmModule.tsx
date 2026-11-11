@@ -1,4 +1,4 @@
-import { C, Chip, FadeIn, IsoPlate, StackLayer, VIEWBOX, type ProductVisualProps } from './stage';
+import { C, Chip, FadeIn, IsoPlate, StackLayer, useStageViewBox, type ProductVisualProps } from './stage';
 
 /**
  * LCM / LCD Module (modelType "lcd"): der Schichtaufbau eines monochromen
@@ -37,13 +37,20 @@ const N = 6;
  */
 const SPEC_LAYERS = [3, 2, 3, -1];
 
+/**
+ * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:
+ * gemessene Ausdehnung der Zeichnung über den ganzen Scrollverlauf plus Rand.
+ */
+const COMPACT_VIEWBOX = '85 70 430 485';
+
 export default function LcmModule({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
   const common = { progress, reducedMotion };
+  const viewBox = useStageViewBox(COMPACT_VIEWBOX);
   const active = activeFact >= 0 ? SPEC_LAYERS[activeFact] ?? -1 : -1;
   const layer = { ...common, n: N, activeIndex: active };
 
   return (
-    <svg viewBox={VIEWBOX} className="absolute inset-0 w-full h-full" aria-hidden="true">
+    <svg viewBox={viewBox} className="absolute inset-0 w-full h-full" aria-hidden="true">
       {/* 1. Treiber-PCB – Goldpads, COB-Vergusstropfen, Quarz, Pfostenstecker */}
       <StackLayer
         {...layer}

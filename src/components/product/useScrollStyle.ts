@@ -71,6 +71,11 @@ type ScrollStyleSpec = {
   scaleY?: number[];
   /** Drehung in Grad, ebenfalls Teil der transform-Kette. */
   rotate?: number[];
+  /**
+   * Zeichnet einen SVG-Pfad nach: 1 = unsichtbar, 0 = vollständig gezogen.
+   * Der Pfad braucht dafür `pathLength={1}` und `strokeDasharray={1}`.
+   */
+  dashOffset?: number[];
   /** Ab diesem Fortschritt wird das Element für Klicks transparent. */
   pointerEventsOffAfter?: number;
 };
@@ -88,6 +93,10 @@ export function useScrollStyle<T extends HTMLElement | SVGElement>(
   // ohne bei jedem Render neu zu abonnieren.
   const specRef = useRef(spec);
   specRef.current = spec;
+  // Ändert sich die Spec (z.B. beim Wechsel zwischen Handy- und Desktop-
+  // Geometrie), wird sofort neu geschrieben – sonst stünde das Element bis zum
+  // nächsten Scroll-Ereignis noch an der alten Stelle.
+  const specKey = JSON.stringify(spec);
 
   useEffect(() => {
     const apply = (p: number) => {
@@ -107,6 +116,7 @@ export function useScrollStyle<T extends HTMLElement | SVGElement>(
         if (s.scale) t += ` scale(${interpolate(p, s.input, s.scale)})`;
         el.style.transform = t;
       }
+      if (s.dashOffset) el.style.strokeDashoffset = String(interpolate(p, s.input, s.dashOffset));
       if (s.pointerEventsOffAfter !== undefined) {
         el.style.pointerEvents = p > s.pointerEventsOffAfter ? 'none' : 'auto';
       }
@@ -125,7 +135,7 @@ export function useScrollStyle<T extends HTMLElement | SVGElement>(
 
     apply(progress.get());
     return progress.on('change', apply);
-  }, [progress, staticEnd]);
+  }, [progress, staticEnd, specKey]);
 
   return ref;
 }

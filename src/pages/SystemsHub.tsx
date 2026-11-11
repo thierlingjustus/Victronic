@@ -5,6 +5,7 @@ import { systems } from '../data/systems';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import FadeIn from '../components/FadeIn';
+import IconTile from '../components/IconTile';
 import Seo from '../components/Seo';
 
 export default function SystemsHub() {
@@ -27,7 +28,7 @@ export default function SystemsHub() {
               </div>
               <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-[1.1] text-gray-900 mb-6">
                 Komplexe Lösungen, <br className="hidden md:block" />
-                <span className="text-brand-700">einfach integriert.</span>
+                einfach integriert.
               </h1>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
                 Entdecken Sie unsere 4 Hauptsysteme. Klicken Sie auf ein Modul, um den inneren Aufbau Schicht für Schicht zu erleben.
@@ -44,8 +45,8 @@ export default function SystemsHub() {
                   className="group block bg-white border border-gray-200 rounded-xl p-8 md:p-12 hover:border-brand-300 hover:shadow-md transition-all relative overflow-hidden h-full shadow-sm"
                 >
                   <div className="relative z-10 flex flex-col h-full">
-                    <div className="w-16 h-16 bg-gray-50 border border-gray-200 rounded-lg flex items-center justify-center mb-8 group-hover:border-brand-300 transition-colors">
-                      <system.icon className="w-8 h-8 text-gray-400 group-hover:text-brand-700 transition-colors" />
+                    <div className="mb-8">
+                      <IconTile icon={system.icon} thumb={system.thumb} size="lg" />
                     </div>
                     
                     <h2 className="text-3xl font-bold text-gray-900 mb-2 group-hover:text-brand-700 transition-colors">{system.name}</h2>
@@ -64,6 +65,13 @@ export default function SystemsHub() {
               </FadeIn>
             ))}
           </div>
+
+          {/* Die Hover-Fotos in den Kacheln sind dieselben Abbildungen wie auf
+              den Produktseiten – deshalb auch hier der Transparenzhinweis
+              (Art. 50 KI-VO, siehe Product.tsx und InhaltRecht.tsx). */}
+          <p className="mt-8 text-xs text-gray-400">
+            Abbildungen: exemplarische Darstellungen, teilweise KI-gestützt erstellt.
+          </p>
         </div>
       </main>
       <Footer />
