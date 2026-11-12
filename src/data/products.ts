@@ -33,17 +33,18 @@ import coverGlassCutout from '../assets/products/glasloesungen/cover-glass-cutou
 import smtPcb from '../assets/products/montage-gehaeuse/smt-pcb.jpg';
 import boxBuildModule from '../assets/products/montage-gehaeuse/box-build-module.jpg';
 
-// Kleine quadratische Thumbnails (192 px) für die Icon-Kacheln der Startseite:
-// beim Hover über eine Produktkachel füllt das Foto die Kachel. Zuschnitte der
-// Abbildungen oben; das Netzteil ist ein Rendering des gelieferten 3D-Modells.
-import tftDisplaysThumb from '../assets/products/thumbs/tft-displays.jpg';
-import lcmLcdModuleThumb from '../assets/products/thumbs/lcm-lcd-module.jpg';
-import touchscreensThumb from '../assets/products/thumbs/touchscreens.jpg';
-import stromversorgungenThumb from '../assets/products/thumbs/stromversorgungen.jpg';
-import luefterThumb from '../assets/products/thumbs/luefter.jpg';
-import kunststoffkomponentenThumb from '../assets/products/thumbs/kunststoffkomponenten.jpg';
-import glasloesungenThumb from '../assets/products/thumbs/glasloesungen.jpg';
-import montageGehaeuseThumb from '../assets/products/thumbs/montage-gehaeuse.jpg';
+// Hover-Bilder der Produktkarten auf der Startseite (siehe CardPhoto.tsx):
+// freigestellte Ausschnitte der Abbildungen oben, Hintergrund auf den
+// einheitlichen Studio-Ton gebracht, Rand weich transparent. Das Netzteil ist
+// ein Rendering des gelieferten 3D-Modells.
+import tftDisplaysCard from '../assets/products/cards/tft-displays.webp';
+import lcmLcdModuleCard from '../assets/products/cards/lcm-lcd-module.webp';
+import touchscreensCard from '../assets/products/cards/touchscreens.webp';
+import stromversorgungenCard from '../assets/products/cards/stromversorgungen.webp';
+import luefterCard from '../assets/products/cards/luefter.webp';
+import kunststoffkomponentenCard from '../assets/products/cards/kunststoffkomponenten.webp';
+import glasloesungenCard from '../assets/products/cards/glasloesungen.webp';
+import montageGehaeuseCard from '../assets/products/cards/montage-gehaeuse.webp';
 
 export const products = [
   {
@@ -61,7 +62,7 @@ export const products = [
     synergy: "Perfekt kombinierbar mit unseren OGS-Touchscreens und Cover-Gläsern für komplette HMI-Einheiten. Bei Abkündigungen sorgen frühzeitige Information und durchstrukturierte Ablöse-Szenarien unserer Hersteller für einen fließenden Übergang zum Nachfolgeprodukt.",
     modelType: "display",
     image: tftDisplaysImg,
-    thumb: tftDisplaysThumb,
+    cardImage:tftDisplaysCard,
     images: [
       {
         src: tftCtpExploded,
@@ -88,7 +89,7 @@ export const products = [
     synergy: "Ideal für batteriebetriebene Geräte. Nahtlose Integration in unsere Kunststoffgehäuse mit passgenauen Sichtfenstern.",
     modelType: "lcd",
     image: lcmLcdModuleImg,
-    thumb: lcmLcdModuleThumb,
+    cardImage:lcmLcdModuleCard,
     images: [
       {
         src: cogBonding,
@@ -119,7 +120,7 @@ export const products = [
     synergy: "Optical Bonding (OCA) oder kostengünstigeres Air Bonding mit unseren TFT-Displays und Cover-Gläsern. Bonding-Bereich 0,96\" bis 15,6\", maximal 32\".",
     modelType: "touch",
     image: touchscreensImg,
-    thumb: touchscreensThumb,
+    cardImage:touchscreensCard,
     images: [
       {
         src: ogsPanel,
@@ -152,7 +153,7 @@ export const products = [
     synergy: "Perfekt abgestimmt auf den Energiebedarf unserer Display- und Embedded-Systeme.",
     modelType: "power",
     image: stromversorgungenImg,
-    thumb: stromversorgungenThumb,
+    cardImage:stromversorgungenCard,
     images: []
   },
   {
@@ -170,7 +171,7 @@ export const products = [
     synergy: "Zentraler Bestandteil unseres Thermomanagement-Konzepts bei der Modulmontage. Verhindert Derating bei Hochleistungs-Stromversorgungen.",
     modelType: "fan",
     image: luefterImg,
-    thumb: luefterThumb,
+    cardImage:luefterCard,
     images: [
       {
         src: axialFan,
@@ -200,7 +201,7 @@ export const products = [
     synergy: "Nahtlose Integration mit unseren Glaslösungen und Elektronikbaugruppen für schlüsselfertige Systeme.",
     modelType: "plastic",
     image: kunststoffkomponentenImg,
-    thumb: kunststoffkomponentenThumb,
+    cardImage:kunststoffkomponentenCard,
     images: [
       {
         src: magnesiumDiecast,
@@ -227,7 +228,7 @@ export const products = [
     synergy: "Die perfekte Ergänzung zu unseren TFTs und Touchscreens.",
     modelType: "glass",
     image: glasloesungenImg,
-    thumb: glasloesungenThumb,
+    cardImage:glasloesungenCard,
     images: [
       {
         src: coverGlassEdge,
@@ -257,7 +258,7 @@ export const products = [
     synergy: "Wir vereinen Displays, Touch, Stromversorgung, Kunststoff und Glas zu einem geprüften, zertifizierten Gesamtsystem (Plug & Play).",
     modelType: "assembly",
     image: montageGehaeuseImg,
-    thumb: montageGehaeuseThumb,
+    cardImage:montageGehaeuseCard,
     images: [
       {
         src: smtPcb,

@@ -20,6 +20,14 @@
   --color-brand-700: #006da3;
   --color-brand-800: #005580;
   --color-brand-900: #054059;
+
+  /*
+   * Studio-Ton der Produktfotos. Die Hover-Bilder der Karten
+   * (src/assets/products/cards) sind auf diesen Grauton geeicht: Ihr weißer
+   * Grund wird per Multiplizieren zu genau diesem Ton (siehe CardPhoto.tsx).
+   * Bei Änderung die Bilder neu erzeugen, sonst stimmen die Helligkeiten nicht.
+   */
+  --color-studio: #e2e3e5;
 }
 
 body {

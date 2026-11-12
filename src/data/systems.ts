@@ -1,9 +1,9 @@
 import { MonitorSmartphone, AppWindow, Layers, Cpu } from 'lucide-react';
-// Thumbnails für die Hover-Kacheln im System-Hub (siehe products.ts).
-import tftTouchThumb from '../assets/products/thumbs/system-tft-touch.jpg';
-import lcmTouchThumb from '../assets/products/thumbs/lcm-lcd-module.jpg';
-import glassTouchThumb from '../assets/products/thumbs/glasloesungen.jpg';
-import housingThumb from '../assets/products/thumbs/montage-gehaeuse.jpg';
+// Hover-Bilder der Karten im System-Hub (siehe products.ts und CardPhoto.tsx).
+import tftTouchCard from '../assets/products/cards/system-tft-touch.webp';
+import lcmTouchCard from '../assets/products/cards/lcm-lcd-module.webp';
+import glassTouchCard from '../assets/products/cards/glasloesungen.webp';
+import housingCard from '../assets/products/cards/montage-gehaeuse.webp';
 
 // InfoSlot liegt jetzt in types.ts (auch von den Produktseiten genutzt) und
 // wird hier weiter re-exportiert, damit die systemVisuals-Imports bleiben.
@@ -15,7 +15,7 @@ export const systems = [
     name: "TFT mit Touch",
     subtitle: "3\" bis 24\" Komplettmodule",
     icon: MonitorSmartphone,
-    thumb: tftTouchThumb,
+    cardImage:tftTouchCard,
     description: "Hochauflösende TFT-Displays kombiniert mit präzisen kapazitiven Touchscreens als einbaufertige Einheit.",
     infoSlots: [
       { 
@@ -40,7 +40,7 @@ export const systems = [
     name: "LCM/LCD mit Touch",
     subtitle: "Robuste monochrome Systeme",
     icon: AppWindow,
-    thumb: lcmTouchThumb,
+    cardImage:lcmTouchCard,
     description: "Kosteneffiziente, extrem stromsparende und kontrastreiche Anzeigen mit integrierter Touch-Bedienung.",
     infoSlots: [
       { 
@@ -65,7 +65,7 @@ export const systems = [
     name: "Glastouch-Blenden",
     subtitle: "OGS-Technologie",
     icon: Layers,
-    thumb: glassTouchThumb,
+    cardImage:glassTouchCard,
     description: "Komplett flache, nahtlose Glasfronten mit unsichtbaren kapazitiven Tasten und Durchbrüchen.",
     infoSlots: [
       { 
@@ -90,7 +90,7 @@ export const systems = [
     name: "Housing & Assembling",
     subtitle: "Schlüsselfertige Endgeräte",
     icon: Cpu,
-    thumb: housingThumb,
+    cardImage:housingCard,
     description: "Komplette Gerätemontage inklusive Gehäuse, Elektronik, Display und Verkabelung aus einer Hand.",
     infoSlots: [
       { 

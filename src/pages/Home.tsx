@@ -28,6 +28,7 @@ import HeroSlideshow from '../components/HeroSlideshow';
 import Navbar from '../components/Navbar';
 import FadeIn from '../components/FadeIn';
 import IconTile from '../components/IconTile';
+import CardPhoto from '../components/CardPhoto';
 import Seo from '../components/Seo';
 
 export default function Home() {
@@ -213,8 +214,16 @@ export default function Home() {
             {products.map((product, i) => (
               <FadeIn inView key={product.id} delay={i * 0.05}>
                 <Link to={`/products/${product.id}`} className="block group bg-white border border-gray-200 shadow-sm p-6 rounded-xl hover:border-brand-300 hover:shadow-md transition-all cursor-pointer h-full relative overflow-hidden">
-                  <IconTile icon={product.icon} thumb={product.thumb} />
-                  <h3 className="mt-4 font-medium text-sm md:text-base text-gray-800 group-hover:text-brand-700 transition-colors hyphens-auto break-words">{product.name}</h3>
+                  {/* Beim Hover füllt das Produktfoto die Karte. Das Produkt
+                      steht linksbündig über dem Namen, wo sonst die
+                      Icon-Kachel sitzt – der Name beginnt immer bei derselben
+                      Höhe. Die Breite muss explizit sein: Ein <img> mit
+                      left/right und width:auto nimmt sonst seine Eigenbreite. */}
+                  <CardPhoto src={product.cardImage} className="left-3 top-3 h-[5.25rem] w-[calc(100%-1.5rem)] object-left" />
+                  <IconTile icon={product.icon} fadeOnHover />
+                  {/* brand-800 statt 700: auf dem grauen Studio-Ton reicht 700
+                      knapp nicht für den AA-Kontrast. */}
+                  <h3 className="relative mt-4 font-medium text-sm md:text-base text-gray-800 group-hover:text-brand-800 transition-colors hyphens-auto break-words">{product.name}</h3>
                   <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowRight className="w-4 h-4 text-brand-700" />
                   </div>
