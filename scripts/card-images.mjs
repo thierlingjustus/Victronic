@@ -9,28 +9,23 @@
  *
  * Aufruf aus dem Repo-Stamm (sharp ist keine Projekt-Abhängigkeit):
  *   npm i --no-save sharp
- *   node scripts/card-images.mjs [Pfad/zum/netzteil-rendering.png]
- *
- * Das Netzteil hat kein Foto: Quelle ist ein three.js-Rendering von
- * Information/Stromversorgungen/netzteil.glb auf flachem #e2e3e5 (Kamera
- * Azimut 35°, Elevation 24°). Ohne Pfad wird es übersprungen.
+ *   node scripts/card-images.mjs
  */
 import sharp from 'sharp';
 const P = 'src/assets/products';
 const OUT = `${P}/cards`;
-const NETZTEIL = process.argv[2];
 const TONE = [226, 227, 229]; // --color-studio in src/index.css
 const ITEMS = [
   ['tft-displays', `${P}/tft-displays/tft-panel-front.jpg`],
   ['lcm-lcd-module', `${P}/lcm-lcd-module/cob-module.jpg`],
   ['touchscreens', `${P}/touchscreens/pcap-sensor.jpg`],
-  ['stromversorgungen', NETZTEIL],
+  ['stromversorgungen', `${P}/stromversorgungen/desktop-brick.jpg`],
   ['luefter', `${P}/luefter/axial-fan.jpg`],
   ['kunststoffkomponenten', `${P}/kunststoffkomponenten/housing-interior.jpg`],
   ['glasloesungen', `${P}/glasloesungen/cover-glass-cutout.jpg`],
   ['montage-gehaeuse', `${P}/montage-gehaeuse/box-build-module.jpg`],
   ['system-tft-touch', `${P}/touchscreens/ogs-panel.jpg`],
-].filter(([, file]) => file);
+];
 
 // Quadratischer Hintergrund-Fit je Kanal (kleinste Quadrate, 6 Koeffizienten).
 function fit(samples) {

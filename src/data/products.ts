@@ -32,11 +32,13 @@ import coverGlassBorder from '../assets/products/glasloesungen/cover-glass-borde
 import coverGlassCutout from '../assets/products/glasloesungen/cover-glass-cutout.jpg';
 import smtPcb from '../assets/products/montage-gehaeuse/smt-pcb.jpg';
 import boxBuildModule from '../assets/products/montage-gehaeuse/box-build-module.jpg';
+import desktopBrick from '../assets/products/stromversorgungen/desktop-brick.jpg';
+import dinRail from '../assets/products/stromversorgungen/din-rail.jpg';
+import openFrame from '../assets/products/stromversorgungen/open-frame.jpg';
 
 // Hover-Bilder der Produktkarten auf der Startseite (siehe CardPhoto.tsx):
 // freigestellte Ausschnitte der Abbildungen oben, Hintergrund auf den
-// einheitlichen Studio-Ton gebracht, Rand weich transparent. Das Netzteil ist
-// ein Rendering des gelieferten 3D-Modells.
+// einheitlichen Studio-Ton gebracht, Rand weich transparent.
 import tftDisplaysCard from '../assets/products/cards/tft-displays.webp';
 import lcmLcdModuleCard from '../assets/products/cards/lcm-lcd-module.webp';
 import touchscreensCard from '../assets/products/cards/touchscreens.webp';
@@ -154,7 +156,20 @@ export const products = [
     modelType: "power",
     image: stromversorgungenImg,
     cardImage:stromversorgungenCard,
-    images: []
+    images: [
+      {
+        src: desktopBrick,
+        caption: "Ein Tischnetzteil mit Kaltgerätebuchse und DC-Ausgangskabel mit Hohlstecker – als externes Netzteil von 6 bis 200 W und nach Effizienzlevel VI."
+      },
+      {
+        src: dinRail,
+        caption: "Ein schmales Hutschienen-Netzteil mit Schraubklemmen oben und unten, Status-LED und Trimmpoti zum Einstellen der Ausgangsspannung – 10 bis 30 W bei einer MTBF von über 200.000 Stunden."
+      },
+      {
+        src: openFrame,
+        caption: "Ein Open-Frame-Netzteil als offene Platine mit Elkos, Ringkerndrossel, Übertrager, Sicherungen und Kühlkörper, AC-Eingang links, DC-Ausgang rechts – für den Einbau direkt ins Gerät, von 1 bis 150 W."
+      }
+    ]
   },
   {
     id: "luefter",
