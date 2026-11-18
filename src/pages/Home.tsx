@@ -69,6 +69,13 @@ export default function Home() {
         }),
       });
       if (!res.ok) throw new Error(`FormSubmit antwortete mit Status ${res.status}`);
+      // FormSubmit antwortet auch dann mit 200, wenn es NICHT zustellt – z. B.
+      // solange die Empfängeradresse nicht aktiviert ist ("This form needs
+      // Activation"). Maßgeblich ist erst das Feld success im JSON.
+      const result: { success?: string | boolean; message?: string } = await res.json().catch(() => ({}));
+      if (String(result.success) !== 'true') {
+        throw new Error(`FormSubmit hat nicht zugestellt: ${result.message ?? 'unbekannte Antwort'}`);
+      }
       form.reset();
       setContactStatus('success');
     } catch {
