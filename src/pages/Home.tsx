@@ -10,7 +10,7 @@ import {
 // Kontaktanfragen werden per FormSubmit an das Victronic-Postfach zugestellt.
 // Hinweis: Der Empfänger muss die Adresse beim allerersten Versand einmalig
 // über den Aktivierungslink von formsubmit.co bestätigen.
-const CONTACT_ENDPOINT = 'https://formsubmit.co/ajax/justus.thierling@victronic-gmbh.de';
+const CONTACT_ENDPOINT = 'https://formsubmit.co/ajax/info@victronic-gmbh.de';
 
 // FormSubmits echtes reCAPTCHA setzt einen klassischen Seiten-Redirect voraus
 // und funktioniert nicht mit der AJAX-Variante (Formular bleibt auf der Seite).
