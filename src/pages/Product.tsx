@@ -9,6 +9,7 @@ import FadeIn from '../components/FadeIn';
 import ProductShowcase from '../components/ProductShowcase';
 import ProductStage from '../components/product/ProductStage';
 import Seo from '../components/Seo';
+import { productSeo } from '../data/seo';
 import CtaLink from '../components/CtaLink';
 
 export default function Product() {
@@ -29,7 +30,7 @@ export default function Product() {
     // Kein overflow-hidden auf dem Wrapper: das würde das position:sticky der
     // Scroll-Bühne aushebeln (siehe SystemDetail.tsx, dort ebenfalls offen).
     <div className="min-h-screen bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white relative">
-      <Seo title={`${product.name} – Victronic GmbH`} description={product.strategicBenefit} />
+      <Seo {...productSeo(product)} />
       {/* Navigation */}
       <Navbar backTo="/" backLabel="Zurück zur Übersicht" />
 

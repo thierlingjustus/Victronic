@@ -3,6 +3,7 @@ import { Scale, FileText, Landmark } from 'lucide-react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Seo from '../components/Seo';
+import { pageSeo } from '../data/seo';
 
 export default function AGB() {
   const sections = [
@@ -19,12 +20,12 @@ export default function AGB() {
     {
       num: "3",
       title: "Lieferzeit",
-      text: "Die Victronic GmbH is nicht Hersteller der angebotenen Ware. Die angegebenen Liefertermine werden nach Möglichkeit eingehalten, sind jedoch unverbindlich. Der Vertragsschluss erfolgt unter dem Vorbehalt der richtigen und rechtzeitigen Selbstbelieferung. Insbesondere ist die Victronic GmbH zu Teillieferungen berechtigt, wenn ihre eigenen Lieferanten und Hersteller nachweislich in Lieferverzug sind. Bei Lagerware behalten wir uns den Zwischenverkauf vor. Im Falle eines von uns nicht zu vertretenden Lieferterminverzugs bei Eintritt unvorhersehbarer Ereignisse verlängert sich die Lieferfrist angemessen. Haftung und Schadensersatz wegen Lieferverzug sind ausdrücklich ausgeschlossen."
+      text: "Die Victronic GmbH ist nicht Hersteller der angebotenen Ware. Die angegebenen Liefertermine werden nach Möglichkeit eingehalten, sind jedoch unverbindlich. Der Vertragsschluss erfolgt unter dem Vorbehalt der richtigen und rechtzeitigen Selbstbelieferung. Insbesondere ist die Victronic GmbH zu Teillieferungen berechtigt, wenn ihre eigenen Lieferanten und Hersteller nachweislich in Lieferverzug sind. Bei Lagerware behalten wir uns den Zwischenverkauf vor. Im Falle eines von uns nicht zu vertretenden Lieferterminverzugs bei Eintritt unvorhersehbarer Ereignisse verlängert sich die Lieferfrist angemessen. Haftung und Schadensersatz wegen Lieferverzug sind ausdrücklich ausgeschlossen."
     },
     {
       num: "4",
-      title: "Lieferung- und Gefahrenübergang",
-      text: "Lieferung und Versand erfolgen auf Rechnung und Gefahr des Käufers. Die Gefahr geht auf den Käufer über, sobald die Ware unser Lager verlassen hat. Die Versand- und Verpackungskosten werden nach Aufwand berechnet und dem Käufer in Rechnung gestellt. Bei elektronischen und elektromechanischen Bauteilen sind wir berechtigt Mehr- oder Mindermengen zu liefern, sofern aus Gründen der Qualitäts- oder Transportsicherheit nur ganze Verpackungseinheiten geliefert werden. Wir nehmen Transport- und alle sonstigen Verpackungen nach Maßgabe der Verpackungsverordnung nicht zurück; ausgenommen sind Paletten. Der Besteller hat für die Entsorgung der Verpackung auf eigene Kosten zu sorgen."
+      title: "Lieferung und Gefahrenübergang",
+      text: "Lieferung und Versand erfolgen auf Rechnung und Gefahr des Käufers. Die Gefahr geht auf den Käufer über, sobald die Ware unser Lager verlassen hat. Die Versand- und Verpackungskosten werden nach Aufwand berechnet und dem Käufer in Rechnung gestellt. Bei elektronischen und elektromechanischen Bauteilen sind wir berechtigt, Mehr- oder Mindermengen zu liefern, sofern aus Gründen der Qualitäts- oder Transportsicherheit nur ganze Verpackungseinheiten geliefert werden. Wir nehmen Transport- und alle sonstigen Verpackungen nach Maßgabe der Verpackungsverordnung nicht zurück; ausgenommen sind Paletten. Der Besteller hat für die Entsorgung der Verpackung auf eigene Kosten zu sorgen."
     },
     {
       num: "5",
@@ -49,12 +50,12 @@ export default function AGB() {
     {
       num: "9",
       title: "Eigentumsvorbehalt",
-      text: "Die Ware bleibt Eigentum der Victronic GmbH bis zur vollständigen Bezahlung des Kaufpreises einschließlich aller Mahnkosten, Verzugszinsen und Rechtsverfolgungskosten. Bis zur vollständigen Bezahlung darf der Käufer die Vorbehaltsware weder verpfänden noch Dritte sicherheitsübereignen. Falls dem Käufer bekannt wird, dass die von uns gelieferte Vorbehaltsware gepfändet oder beschlagnahmt werden soll, ist der Käufer verpflichtet uns umgehend zu benachrichtigen. Der Käufer kann die Ware im normalen Geschäftsvertrieb verkaufen. Er tritt jedoch schon jetzt sämtliche Forderung an uns zur Sicherung unserer Gesamtforderung ab, ohne dass es dazu einer besonderen Erklärung bedarf. Wird die Vorbehaltsware weiterverarbeitet, erwerben wir Miteigentum an der neu entstandenen Sache, im Verhältnis des von uns gelieferten Teilwertes."
+      text: "Die Ware bleibt Eigentum der Victronic GmbH bis zur vollständigen Bezahlung des Kaufpreises einschließlich aller Mahnkosten, Verzugszinsen und Rechtsverfolgungskosten. Bis zur vollständigen Bezahlung darf der Käufer die Vorbehaltsware weder verpfänden noch Dritte sicherheitsübereignen. Falls dem Käufer bekannt wird, dass die von uns gelieferte Vorbehaltsware gepfändet oder beschlagnahmt werden soll, ist der Käufer verpflichtet, uns umgehend zu benachrichtigen. Der Käufer kann die Ware im normalen Geschäftsvertrieb verkaufen. Er tritt jedoch schon jetzt sämtliche Forderungen an uns zur Sicherung unserer Gesamtforderung ab, ohne dass es dazu einer besonderen Erklärung bedarf. Wird die Vorbehaltsware weiterverarbeitet, erwerben wir Miteigentum an der neu entstandenen Sache, im Verhältnis des von uns gelieferten Teilwertes."
     },
     {
       num: "10",
       title: "Beanstandungen",
-      text: "Der Käufer ist verpflichtet, Ware unverzüglich nach Erhalt zu prüfen, Beanstandungen sind innerhalb von 10 Tagen nach Rechnungsdatum schriftlich anzumelden. Falls nicht ausdrücklich anders vereinbart, sind geringe handelsübliche Abweichungen in Ausführungen sowie Alternativfabrikat kein Grund zur Beanstandung. Rücksendungen bedürfen unserer vorherigen Zustimmung. Die Rücksendung wird nur mit einer Victronic- RMA- Nummer akzeptiert."
+      text: "Der Käufer ist verpflichtet, Ware unverzüglich nach Erhalt zu prüfen, Beanstandungen sind innerhalb von 10 Tagen nach Rechnungsdatum schriftlich anzumelden. Falls nicht ausdrücklich anders vereinbart, sind geringe handelsübliche Abweichungen in Ausführungen sowie Alternativfabrikate kein Grund zur Beanstandung. Rücksendungen bedürfen unserer vorherigen Zustimmung. Die Rücksendung wird nur mit einer Victronic-RMA-Nummer akzeptiert."
     },
     {
       num: "11",
@@ -70,7 +71,7 @@ export default function AGB() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
-      <Seo title="Allgemeine Geschäftsbedingungen – Victronic GmbH" />
+      <Seo {...pageSeo.agb} />
       {/* Navigation */}
       <Navbar backTo="/" />
 

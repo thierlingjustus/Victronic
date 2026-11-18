@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import NotFound from './components/NotFound';
 
 // Scrollt bei Routenwechsel nach oben; Anker-Links (z.B. /#contact) springen zum Ziel.
 function ScrollToTop() {
@@ -46,6 +47,8 @@ export default function App() {
           <Route path="/impressum" element={<Impressum />} />
           <Route path="/inhalt-recht" element={<InhaltRecht />} />
           <Route path="/agb" element={<AGB />} />
+          {/* Unbekannte Adressen: Hinweis statt leerer Seite (alte WordPress-Adressen leitet vercel.json um) */}
+          <Route path="*" element={<NotFound title="Seite nicht gefunden" backTo="/" backLabel="Zur Startseite" />} />
         </Routes>
       </Suspense>
     </Router>

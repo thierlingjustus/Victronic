@@ -1,4 +1,30 @@
 {
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "{/en}?/:old(tft|project/tft|project/tft-en){/}?", "destination": "/products/tft-displays", "permanent": true },
+    { "source": "{/en}?/:old(lcmlcd|project/lcmlcd|project/en-lcdlcm){/}?", "destination": "/products/lcm-lcd-module", "permanent": true },
+    { "source": "{/en}?/:old(touches|project/touch|project/touches-en){/}?", "destination": "/products/touchscreens", "permanent": true },
+    { "source": "{/en}?/:old(netzteile|project/netzteile|project/power-supply-units){/}?", "destination": "/products/stromversorgungen", "permanent": true },
+    { "source": "{/en}?/:old(luefter|project/luefter-2|project/fans){/}?", "destination": "/products/luefter", "permanent": true },
+    { "source": "{/en}?/:old(kunststoff|project/kunststoff|project/kunststoff-2|project/synthetic-materials){/}?", "destination": "/products/kunststoffkomponenten", "permanent": true },
+    { "source": "{/en}?/:old(glas-4|glas-glasrahmen|glass|project/glas|project/glass){/}?", "destination": "/products/glasloesungen", "permanent": true },
+    { "source": "{/en}?/:old(assembling|project/assembling|project/assembly){/}?", "destination": "/products/montage-gehaeuse", "permanent": true },
+    { "source": "{/en}?/:old(tft-mit-touch|project/tft-mit-touch-2|project/tft-with-touchscreen-function){/}?", "destination": "/systems/tft-touch", "permanent": true },
+    { "source": "{/en}?/:old(lcmlcd-mit-touch|project/lcmlcd-mit-touch|project/en-lcmlcd-touchscreen){/}?", "destination": "/systems/lcm-touch", "permanent": true },
+    { "source": "{/en}?/:old(glass-touchscreen-faceplates|project/glastouch-blenden|project/glass-touch-faceplates){/}?", "destination": "/systems/glass-touch", "permanent": true },
+    { "source": "{/en}?/:old(housing|project/housing|project/housing-2){/}?", "destination": "/systems/housing-assembling", "permanent": true },
+    { "source": "{/en}?/systeme{/}?", "destination": "/systems", "permanent": true },
+    { "source": "{/en}?/produkte{/}?", "destination": "/#products", "permanent": true },
+    { "source": "{/en}?/beratung{/}?", "destination": "/#services", "permanent": true },
+    { "source": "{/en}?/kontakt{/}?", "destination": "/#contact", "permanent": true },
+    { "source": "{/en}?/protection-of-your-personal-data{/}?", "destination": "/datenschutz", "permanent": true },
+    { "source": "/:page(impressum|agb|inhalt-recht)/", "destination": "/:page", "permanent": true },
+    { "source": "/en/:page(impressum|agb|inhalt-recht){/}?", "destination": "/:page", "permanent": true },
+    { "source": "/wp-sitemap:rest(.*)", "destination": "/sitemap.xml", "permanent": true },
+    { "source": "{/en}?/:old(hersteller|cmi|apex|yingjao|scem|hongfei|yeebo-2|htdisplay-co-ltd-2|blog|sample-page|feed|pricetable/.*|cat-portifolio/.*|author/.*){/}?", "destination": "/", "permanent": true },
+    { "source": "/en{/}?", "destination": "/", "permanent": true },
+    { "source": "/en/:rest(.*)", "destination": "/", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],

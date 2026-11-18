@@ -2,6 +2,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
+import seoPages from './scripts/vite-seo-pages';
 
 // Hinweis: Es gibt bewusst keinen `define`-Block mehr fuer Env-Variablen.
 // Alles unter `define` landet 1:1 im oeffentlichen Client-Bundle. Diese Seite
@@ -10,7 +11,7 @@ import {defineConfig} from 'vite';
 // sondern in eine serverseitige Function/Proxy.
 export default defineConfig(() => {
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [react(), tailwindcss(), seoPages()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

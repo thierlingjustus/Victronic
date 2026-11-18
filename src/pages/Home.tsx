@@ -30,6 +30,7 @@ import FadeIn from '../components/FadeIn';
 import IconTile from '../components/IconTile';
 import CardPhoto from '../components/CardPhoto';
 import Seo from '../components/Seo';
+import { pageSeo } from '../data/seo';
 
 export default function Home() {
   const [contactStatus, setContactStatus] = useState<ContactStatus>('idle');
@@ -77,10 +78,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-[#111] font-sans selection:bg-brand-600 selection:text-white overflow-hidden">
-      <Seo
-        title="Victronic GmbH – Elektronische Komponenten und Baugruppen für die Industrie"
-        description="Victronic GmbH aus Bargteheide: Displays, elektronische Komponenten und kundenspezifische Baugruppen für Industriekunden – mit direkten Herstellerbeziehungen und transparenten Lieferketten."
-      />
+      <Seo {...pageSeo.home} />
       {/* Navigation */}
       <Navbar />
 

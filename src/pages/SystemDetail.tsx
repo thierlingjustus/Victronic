@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import NotFound from '../components/NotFound';
 import Seo from '../components/Seo';
+import { systemSeo } from '../data/seo';
 import CtaLink from '../components/CtaLink';
 import FadeIn from '../components/FadeIn';
 import { useMediaQuery } from '../components/useMediaQuery';
@@ -143,7 +144,7 @@ export default function SystemDetail() {
 
   return (
     <div className="bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
-      <Seo title={`${system.name} – Victronic GmbH`} description={system.description} />
+      <Seo {...systemSeo(system)} />
       {/* Navigation */}
       <Navbar backTo="/systems" backLabel="Zurück zum Hub" />
 

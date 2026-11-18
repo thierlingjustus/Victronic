@@ -3,11 +3,12 @@ import { Landmark, Mail, Phone, MapPin, Scale } from 'lucide-react';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Seo from '../components/Seo';
+import { pageSeo } from '../data/seo';
 
 export default function Impressum() {
   return (
     <div className="min-h-screen bg-[#fafafa] text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
-      <Seo title="Impressum – Victronic GmbH" />
+      <Seo {...pageSeo.impressum} />
       {/* Navigation */}
       <Navbar backTo="/" />
 
