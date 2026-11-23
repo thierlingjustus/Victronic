@@ -17,7 +17,25 @@ type StageProduct = {
   modelType: string;
   image: string;
   icon: ComponentType<{ className?: string }>;
+  /** true: Technische Daten als Legende rechts neben dem Produkt statt Faktenkarten links und rechts. */
+  specsLegend?: boolean;
 };
+
+/**
+ * Bühnengeometrie mit Legende: Visual | Legende. Die Legende braucht mehr
+ * Breite als eine Faktenkarte, dafür entfällt die linke Kartenspalte.
+ */
+const LEGEND_GRID =
+  'mx-auto h-full w-full max-w-6xl xl:max-w-7xl px-6 lg:grid lg:gap-10 ' +
+  'lg:grid-cols-[minmax(0,1fr)_22rem]';
+/**
+ * Die Visual-Spalte sitzt mit Legende um (22rem + 2,5rem) / 2 links der
+ * Bildmitte. Um diesen Betrag rückt das Produkt im Intro zusätzlich nach
+ * rechts, damit es dort steht wie auf den Seiten ohne Legende.
+ */
+const LEGEND_SHIFT = 196;
+/** Ab hier kommt die Synergie-Karte; die Hervorhebung in der Legende endet. */
+const SYNERGY_START = 0.78;
 
 /**
  * Gemeinsame Spaltengeometrie der Bühne ab lg: Karten links | Visual | Karten
@@ -84,6 +102,9 @@ export default function ProductStage({ product }: { product: StageProduct }) {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [activeFact, setActiveFact] = useState(-1);
+  // Legende: Zeile, deren Bauteil die Animation gerade hervorhebt
+  const [legendActive, setLegendActive] = useState(-1);
+  const legend = !!product.specsLegend;
   // Um wie viele Pixel das Visual nach oben rückt, sobald die Synergie-Karte
   // kommt – rund 12 % der Bühnenhöhe (lg: top-[8%] bis bottom-[12%] ≈ 80 vh).
   const [synergyLift, setSynergyLift] = useState(0);
@@ -137,13 +158,22 @@ export default function ProductStage({ product }: { product: StageProduct }) {
   // Solange das Intro links steht, rückt das Produkt nach rechts aus dem Text
   // heraus und wandert danach in die Bildmitte zurück. Zum Schluss steigt es
   // nach oben, statt sich von der Synergie-Karte überdecken zu lassen.
+  // Mit Legende ist der Weg nach links länger. Das Produkt wartet deshalb
+  // rechts, bis das Intro fast ausgeblendet ist – sonst schöbe es sich noch
+  // über den Text.
   const visualRef = useScrollStyle<HTMLDivElement>(
     scrollYProgress,
-    {
-      input: [0, 0.2, 0.78, 0.88],
-      x: isDesktop ? [140, 0, 0, 0] : [0, 0, 0, 0],
-      y: isDesktop ? [0, 0, 0, synergyLift] : [0, 0, 0, 0],
-    },
+    legend
+      ? {
+          input: [0, 0.14, 0.26, 0.78, 0.88],
+          x: isDesktop ? [140 + LEGEND_SHIFT, 120 + LEGEND_SHIFT, 0, 0, 0] : [0, 0, 0, 0, 0],
+          y: isDesktop ? [0, 0, 0, 0, synergyLift] : [0, 0, 0, 0, 0],
+        }
+      : {
+          input: [0, 0.2, 0.78, 0.88],
+          x: isDesktop ? [140, 0, 0, 0] : [0, 0, 0, 0],
+          y: isDesktop ? [0, 0, 0, synergyLift] : [0, 0, 0, 0],
+        },
     reducedMotion
   );
   const badgeRef = useScrollStyle<HTMLDivElement>(
@@ -158,7 +188,13 @@ export default function ProductStage({ product }: { product: StageProduct }) {
   );
   const synergyRef = useScrollStyle<HTMLDivElement>(
     scrollYProgress,
-    { input: [0.78, 0.88], opacity: [0, 1], y: [24, 0] },
+    { input: [SYNERGY_START, 0.88], opacity: [0, 1], y: [24, 0] },
+    reducedMotion
+  );
+  // Legende kommt, während das Intro geht, und bleibt bis zum Schluss stehen
+  const legendRef = useScrollStyle<HTMLDivElement>(
+    scrollYProgress,
+    { input: [0.14, 0.24], opacity: [0, 1], x: [24, 0] },
     reducedMotion
   );
   // Unter lg teilen sich Fakten- und Synergie-Karte denselben Platz am unteren
@@ -179,8 +215,31 @@ export default function ProductStage({ product }: { product: StageProduct }) {
         if (latest >= factWindow(i, total)[0]) next = i;
       }
       setActiveFact((prev) => (prev === next ? prev : next));
+      const row = latest >= SYNERGY_START ? -1 : next;
+      setLegendActive((prev) => (prev === row ? prev : row));
     });
   }, [scrollYProgress, facts.length, reducedMotion]);
+
+  // Technische Daten als Legende – ohne Karte und ohne Verbindungsstriche
+  const specLegend = (
+    <div>
+      <h2 className="text-lg font-semibold tracking-tight text-gray-900 mb-3">Technische Daten</h2>
+      <dl className="border-t border-gray-200">
+        {facts.map((fact, i) => (
+          <div key={fact.title} className="py-3.5 border-b border-gray-200">
+            <dt
+              className={`text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${
+                legendActive === i ? 'text-brand-700' : 'text-gray-500'
+              }`}
+            >
+              {fact.title}
+            </dt>
+            <dd className="mt-1 text-sm text-gray-700 leading-snug">{fact.desc}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
 
   const visual = (
     <ProductVisual
@@ -223,14 +282,19 @@ export default function ProductStage({ product }: { product: StageProduct }) {
               {visual}
             </div>
           </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {facts.map((fact, i) => (
-              <div key={i} className="bg-white border border-gray-200 rounded-xl px-4 py-3.5 shadow-sm">
-                <h3 className="text-brand-700 font-bold text-[11px] uppercase tracking-wider">{fact.title}</h3>
-                <p className="text-gray-600 text-xs mt-1.5 leading-snug">{fact.desc}</p>
-              </div>
-            ))}
-          </div>
+          {legend ? (
+            // Unter lg zeigt Product.tsx die Technischen Daten direkt unter der Bühne
+            <div className="hidden lg:block max-w-3xl">{specLegend}</div>
+          ) : (
+            <div className="grid sm:grid-cols-2 gap-4">
+              {facts.map((fact, i) => (
+                <div key={i} className="bg-white border border-gray-200 rounded-xl px-4 py-3.5 shadow-sm">
+                  <h3 className="text-brand-700 font-bold text-[11px] uppercase tracking-wider">{fact.title}</h3>
+                  <p className="text-gray-600 text-xs mt-1.5 leading-snug">{fact.desc}</p>
+                </div>
+              ))}
+            </div>
+          )}
           <div className="mt-4 bg-brand-50 border border-brand-100 rounded-xl px-5 py-4">
             <h3 className="text-brand-700 font-bold text-[11px] uppercase tracking-wider mb-1.5">Synergie im System</h3>
             <p className="text-gray-600 text-sm leading-relaxed">{product.synergy}</p>
@@ -253,15 +317,25 @@ export default function ProductStage({ product }: { product: StageProduct }) {
         {/* Produkt in der Mitte – oben bleibt Platz für die fixe Navbar,
             unten für die kompakte Faktenkarte auf kleinen Displays. */}
         <div className="absolute inset-x-0 top-20 bottom-52 lg:top-[8%] lg:bottom-[12%]">
-          <div className={STAGE_GRID}>
-            {/* Die beiden Randspalten bleiben hier leer – sie gehören den
-                Faktenkarten, und das Visual darf sie nie betreten. */}
-            <div className="hidden lg:block" />
-            <div ref={visualRef} className="relative mx-auto h-full w-full max-w-3xl lg:max-w-none">
-              {visual}
+          {legend ? (
+            <div className={LEGEND_GRID}>
+              <div ref={visualRef} className="relative mx-auto h-full w-full max-w-3xl lg:max-w-none">
+                {visual}
+              </div>
+              {/* Rechte Spalte gehört der Legende */}
+              <div className="hidden lg:block" />
             </div>
-            <div className="hidden lg:block" />
-          </div>
+          ) : (
+            <div className={STAGE_GRID}>
+              {/* Die beiden Randspalten bleiben hier leer – sie gehören den
+                  Faktenkarten, und das Visual darf sie nie betreten. */}
+              <div className="hidden lg:block" />
+              <div ref={visualRef} className="relative mx-auto h-full w-full max-w-3xl lg:max-w-none">
+                {visual}
+              </div>
+              <div className="hidden lg:block" />
+            </div>
+          )}
         </div>
 
         {/* Intro links – blendet beim Weiterscrollen aus */}
@@ -289,7 +363,24 @@ export default function ProductStage({ product }: { product: StageProduct }) {
           </div>
         </div>
 
+        {/* Legende rechts neben dem Produkt (ab lg) */}
+        {legend && (
+          // pointer-events-none: die Ebene liegt über dem Intro und würde sonst
+          // dessen Link „Technische Beratung anfordern" abfangen.
+          <div className="absolute inset-x-0 top-[8%] bottom-[12%] z-[60] hidden lg:block pointer-events-none">
+            <div className={LEGEND_GRID}>
+              <div />
+              <div className="flex h-full items-center">
+                <div ref={legendRef} style={{ opacity: 0 }} className="w-full">
+                  {specLegend}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Fakten links und rechts (ab lg) */}
+        {!legend && (
         <div className="absolute inset-0 z-[60] pointer-events-none hidden lg:block">
           <div className={STAGE_GRID}>
             <div className="relative h-full">
@@ -323,8 +414,11 @@ export default function ProductStage({ product }: { product: StageProduct }) {
             </div>
           </div>
         </div>
+        )}
 
-        {/* Fakten kompakt: unter lg immer nur die aktuelle Karte */}
+        {/* Fakten kompakt: unter lg immer nur die aktuelle Karte. Mit Legende
+            entfällt sie – die Daten stehen dann direkt unter der Bühne. */}
+        {!legend && (
         <div ref={compactFactsRef} className="absolute inset-x-0 bottom-24 px-6 z-[60] lg:hidden pointer-events-none">
           <div className="relative max-w-sm mx-auto min-h-[96px]">
             {facts.map((fact, i) => (
@@ -340,16 +434,21 @@ export default function ProductStage({ product }: { product: StageProduct }) {
             ))}
           </div>
         </div>
+        )}
 
-        {/* Synergie-Karte zum Abschluss der Bühne */}
+        {/* Synergie-Karte zum Abschluss der Bühne – mit Legende mittig unter
+            dem Produkt statt unter der ganzen Breite, sonst läge sie auf
+            schmaleren Desktops über der Legende. */}
         <div
           ref={synergyRef}
           style={{ opacity: 0 }}
           className="absolute inset-x-0 bottom-24 lg:bottom-28 px-6 z-[65] pointer-events-none"
         >
-          <div className="max-w-xl mx-auto bg-white border border-gray-200 shadow-sm rounded-xl px-6 py-5">
-            <h3 className="text-brand-700 font-bold text-[11px] uppercase tracking-wider mb-2">Synergie im System</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">{product.synergy}</p>
+          <div className={legend ? 'max-w-6xl xl:max-w-7xl mx-auto lg:pr-[24.5rem]' : ''}>
+            <div className="max-w-xl mx-auto bg-white border border-gray-200 shadow-sm rounded-xl px-6 py-5">
+              <h3 className="text-brand-700 font-bold text-[11px] uppercase tracking-wider mb-2">Synergie im System</h3>
+              <p className="text-gray-600 text-sm leading-relaxed">{product.synergy}</p>
+            </div>
           </div>
         </div>
 

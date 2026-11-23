@@ -187,13 +187,16 @@ export const products = [
     headline: "Intelligentes Thermomanagement",
     strategicBenefit: "Leistungsstarke und flüsterleise Kühlkonzepte zur Verlängerung der Lebensdauer Ihrer elektronischen Baugruppen.",
     specs: [
-      { label: "Bauarten", value: "DC Brushless Axial (2–220 V, 25×07 bis 120×38, max. 170×150×51), DC Blower/Radial (5–48 V, 40×20 bis 120×32, max. 134×144×40), AC Axial (100–480 V, 60×30 bis 254×89), EC Fan, DC Cross Flow" },
+      // Kurz gehalten: Spannungen und Baugrößen stehen je Modell unter „Lüfter-Arten".
+      { label: "Bauarten", value: "Axial (DC und AC), Radial, Querstrom und EC – Eckdaten je Modell unter „Lüfter-Arten“" },
       { label: "Lagerung", value: "Gleitlager (Sleeve), Kugellager (Ball) oder doppelt kugelgelagert (Double Ball) mit entsprechend höherer Lebensdauer" },
       { label: "Varianten", value: "Jedes Modell in drei Speed-/Airflow-Versionen: High, Mid, Low" },
       { label: "Steuerung & Zubehör", value: "Optional Tachosignal und PWM-Steuerung, Metal Finger Guards als Standardzubehör" }
     ],
     synergy: "Zentraler Bestandteil unseres Thermomanagement-Konzepts bei der Modulmontage. Verhindert Derating bei Hochleistungs-Stromversorgungen.",
     modelType: "fan",
+    // Technische Daten als Legende neben der Animation statt Faktenkarten
+    specsLegend: true,
     image: luefterImg,
     cardImage:luefterCard,
     images: [

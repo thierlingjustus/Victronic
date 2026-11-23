@@ -13,6 +13,29 @@ import Seo from '../components/Seo';
 import { productSeo } from '../data/seo';
 import CtaLink from '../components/CtaLink';
 
+function TechSpecs({ specs }: { specs: { label: string; value: string }[] }) {
+  return (
+    <div className="border-t border-gray-100 pt-8 md:pt-10">
+      <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 mb-6">
+        Technische Daten
+      </h2>
+      <dl>
+        {specs.map((spec, i) => (
+          <div
+            key={i}
+            className="flex flex-col sm:flex-row sm:justify-between sm:gap-8 py-4 border-b border-gray-100 last:border-0"
+          >
+            <dt className="text-sm text-gray-500">{spec.label}</dt>
+            <dd className="text-sm md:text-base font-medium text-gray-900 sm:text-right">
+              {spec.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
 export default function Product() {
   const { id } = useParams();
   const product = products.find(p => p.id === id);
@@ -43,6 +66,14 @@ export default function Product() {
           waagerecht scrollbar. clip statt hidden, damit kein Scroll-Container
           entsteht. */}
       <main className="pt-4 pb-24 px-6 relative z-10 overflow-x-clip">
+        {/* Handy/Tablet: die Legende der Bühne (Technische Daten) steht hier,
+            direkt unter der Animation. Ab lg steht sie rechts neben dem Produkt. */}
+        {product.specsLegend && (
+          <div className="lg:hidden max-w-3xl mx-auto mb-16">
+            <TechSpecs specs={product.specs} />
+          </div>
+        )}
+
         {/* Modellübersicht – nur Kategorien mit `models` (aktuell Lüfter) */}
         {product.models && product.models.length > 0 && (
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">
@@ -95,26 +126,13 @@ export default function Product() {
 
         {/* Spezifikationen, Synergie & CTA */}
         <div className="max-w-3xl mx-auto space-y-10 md:space-y-12">
-          <FadeIn inView>
-            <div className="border-t border-gray-100 pt-8 md:pt-10">
-              <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900 mb-6">
-                Technische Daten
-              </h2>
-              <dl>
-                {product.specs.map((spec, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col sm:flex-row sm:justify-between sm:gap-8 py-4 border-b border-gray-100 last:border-0"
-                  >
-                    <dt className="text-sm text-gray-500">{spec.label}</dt>
-                    <dd className="text-sm md:text-base font-medium text-gray-900 sm:text-right">
-                      {spec.value}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </FadeIn>
+          {/* Mit Legende stehen die Technischen Daten schon in der Bühne bzw.
+              auf dem Handy direkt darunter – hier nicht noch einmal. */}
+          {!product.specsLegend && (
+            <FadeIn inView>
+              <TechSpecs specs={product.specs} />
+            </FadeIn>
+          )}
 
           {/* Synergie (dezent aufklappbar) */}
           <FadeIn inView>
