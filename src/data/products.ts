@@ -23,8 +23,6 @@ import ogsPanel from '../assets/products/touchscreens/ogs-panel.jpg';
 import pcapSensor from '../assets/products/touchscreens/pcap-sensor.jpg';
 import touchControllerBoard from '../assets/products/touchscreens/touch-controller-board.jpg';
 import axialFan from '../assets/products/luefter/axial-fan.jpg';
-import explodedPwm from '../assets/products/luefter/exploded-pwm.jpg';
-import explodedDualBearing from '../assets/products/luefter/exploded-dual-bearing.jpg';
 // Lüfter-Modelle: echte Produktfotos von der bisherigen Website (wp-content/uploads/2015/09,
 // Originale unter Victronic/Information/Luefter/Modelle). Auf Weiß eng zugeschnitten,
 // quadratisch, 640 px als WebP. Der Gitterschutz liegt nur in 224 × 120 px vor.
@@ -34,6 +32,10 @@ import acAxialModel from '../assets/products/luefter/modelle/ac-axial.webp';
 import ecFanModel from '../assets/products/luefter/modelle/ec-fan.webp';
 import dcCrossFlowModel from '../assets/products/luefter/modelle/dc-cross-flow.webp';
 import fingerGuard from '../assets/products/luefter/modelle/finger-guard.webp';
+// Vergleich der Lagerungen: Zuschnitte von exploded-pwm.jpg / exploded-dual-bearing.jpg
+// ohne die Nummernzeile (die war im Doppellager-Bild fehlerhaft, „4.“ doppelt).
+import lagerEinfach from '../assets/products/luefter/lager-einfach.webp';
+import lagerDoppelt from '../assets/products/luefter/lager-doppelt.webp';
 import magnesiumDiecast from '../assets/products/kunststoffkomponenten/magnesium-diecast.jpg';
 import housingInterior from '../assets/products/kunststoffkomponenten/housing-interior.jpg';
 import coverGlassEdge from '../assets/products/glasloesungen/cover-glass-edge.jpg';
@@ -204,15 +206,77 @@ export const products = [
         src: axialFan,
         caption: "Ein montierter Axiallüfter mit Kunststoffrahmen und Anschlusskabel – die kompakte Einheit für unsere flüsterleisen Kühlkonzepte."
       },
-      {
-        src: explodedPwm,
-        caption: "Explosionsansicht mit Rahmen, Flügelrad, Kugellager-Rotor, bewickeltem Stator samt Ansteuerungs-PCB und 4-adriger Anschlussleitung – Basis für PWM-Steuerung und Tachosignal-Überwachung."
-      },
-      {
-        src: explodedDualBearing,
-        caption: "Der Rotoraufbau mit zwei separat sichtbaren Kugellagern beidseitig der Welle – die Dual-Ball-Bearing-Lagerung im Vergleich zum einfachen Gleitlager (Sleeve)."
-      }
     ],
+    // Die beiden Explosionsansichten stehen nicht mehr einzeln in der Galerie,
+    // sondern als Vergleich nebeneinander (ProductComparison.tsx).
+    //
+    // NUR BELEGTE AUSSAGEN – Quellen je Aussage (recherchiert 2026-11-23):
+    // [HS]  hardwaresecrets.com/anatomy-of-computer-fans/5/ – Aufbau 1B1S/2BB, Kosten
+    //       („two ball bearings are more expensive than fans with one ball bearing"),
+    //       Kugellager-Lüfter „can be mounted vertically or horizontally, since the
+    //       lubricating material is locked inside the bearing"
+    // [QT]  digikey.com, Qualtek-Tutorial „AC and DC Axial Fans", Folie 12 – 1 Ball/1 Sleeve:
+    //       „smooth operation and inexpensive to produce", „shorter life in high
+    //       temperature applications and weak shock protection"
+    // [DK]  forum.digikey.com/t/fan-bearings-basic-overview/39865 – Single Ball statt
+    //       Dual Ball „to cut costs", „shorter life expectancy"; Dual Ball „most robust and
+    //       better sealed"; Sleeve/Single Ball „susceptibility to impact damage"
+    // [NMB] nmbtc.com/white-papers/ball-vs-sleeve-a-comparison-in-bearing-performance –
+    //       „can be mounted in any position because preloading of the bearings is
+    //       built-in"; über 70 °C liefen Kugellager-Lüfter 45.000 h, Gleitlager fielen aus
+    // [DFB] nmbtc.com/featured-products/new-dual-fusion-bearing-fans/ – Lüfter mit zwei
+    //       Kugellagern; Anwendungen: Telecom, Data Storage, Data Centers, Servers,
+    //       Routers, Networking, UPS, Power Supplies
+    // [PAT] US 8,057,173 B2 – „for a super slim-type fan, there would not be sufficient
+    //       space for two ball bearings"
+    // [ALT] alte Website victronic-gmbh.de/luefter/ – Sleeve → Ball → Double Ball
+    //       „mit entsprechend höheren Lebensdauern"
+    comparison: {
+      title: "Einfach oder doppelt kugelgelagert?",
+      intro: "Alle Lüfter gibt es wahlweise mit Gleitlager, mit einem oder mit zwei Kugellagern. Wie die Welle gelagert ist, bestimmt Lebensdauer, Einbaulage und Einsatzbereich – die beiden Kugellager-Varianten im Vergleich.",
+      columns: [
+        {
+          title: "Einfach kugelgelagert",
+          tag: "Ball · 1 Kugellager + 1 Gleitlager",
+          image: lagerEinfach,
+          imageAlt: "Explosionsansicht eines Axiallüfters mit einem Kugellager auf der Welle",
+          highlight: { label: "1 Kugellager", x: 45.5, y: 48, w: 8, h: 25 },
+          rows: [
+            { label: "Aufbau", text: "Auf einer Seite des Stators sitzt ein Kugellager, auf der anderen hält ein Gleitlager die Welle." }, // [HS] [QT]
+            { label: "Stärken", items: [
+              "Günstiger als zwei Kugellager", // [HS] [QT] [DK]
+              "Höhere Lebensdauer als ein reines Gleitlager", // [ALT]
+              "Passt auch in sehr flache Lüfter, in denen für zwei Kugellager kein Platz ist" // [PAT]
+            ] },
+            { label: "Grenzen", items: [
+              "Kürzere Lebensdauer bei hohen Temperaturen", // [QT]
+              "Empfindlicher gegen Stöße", // [QT] [DK]
+              "Geringere Lebensdauer als die doppelte Kugellagerung" // [DK] [ALT]
+            ] },
+            { label: "Typischer Einsatz", text: "Kostensensible Geräte ohne hohe Temperatur- oder Stoßbelastung sowie besonders flache Bauformen." } // aus [QT] [DK] [PAT]
+          ]
+        },
+        {
+          title: "Doppelt kugelgelagert",
+          tag: "Double Ball · 2 Kugellager",
+          image: lagerDoppelt,
+          imageAlt: "Explosionsansicht eines Axiallüfters mit zwei Kugellagern auf der Welle",
+          highlight: { label: "2 Kugellager", x: 41.5, y: 48, w: 13, h: 25 },
+          rows: [
+            { label: "Aufbau", text: "Auf beiden Seiten des Stators führt je ein Kugellager die Welle." }, // [HS]
+            { label: "Stärken", items: [
+              "Höchste Lebensdauer der drei Lagerarten", // [ALT] [DK]
+              "Einbaulage beliebig – die Lager sind vorgespannt, der Schmierstoff bleibt im Lager", // [NMB] [HS]
+              "Für hohe Temperaturen geeignet, robust und gut abgedichtet" // [NMB] [DK]
+            ] },
+            { label: "Grenzen", items: [
+              "Teurer als die einfache Kugellagerung" // [HS]
+            ] },
+            { label: "Typischer Einsatz", text: "Dauerbetrieb und hohe Temperaturen, zum Beispiel in Servern und Rechenzentren, Telekommunikation und Netzwerktechnik, USV-Anlagen und Stromversorgungen." } // [DFB] [NMB]
+          ]
+        }
+      ]
+    },
     // Modellübersicht direkt unter der Scroll-Bühne. Eckdaten wie auf der
     // bisherigen Seite victronic-gmbh.de/luefter/ („Lüfter-Arten").
     modelsTitle: "Lüfter-Arten",

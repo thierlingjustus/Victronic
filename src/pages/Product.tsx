@@ -9,6 +9,7 @@ import FadeIn from '../components/FadeIn';
 import ProductShowcase from '../components/ProductShowcase';
 import ProductStage from '../components/product/ProductStage';
 import ProductModels from '../components/product/ProductModels';
+import ProductComparison from '../components/product/ProductComparison';
 import Seo from '../components/Seo';
 import { productSeo } from '../data/seo';
 import CtaLink from '../components/CtaLink';
@@ -111,6 +112,7 @@ export default function Product() {
               </div>
             </FadeIn>
             <ProductShowcase images={galleryImages} productName={product.name} />
+            {product.comparison && <ProductComparison {...product.comparison} />}
             {/* Transparenzhinweis zu den Abbildungen (Art. 50 KI-VO / UWG).
                 Bewusst einmal pro Seite statt an jedem einzelnen Bild: gleiche
                 rechtliche Wirkung, ohne die technische Darstellung zu entwerten. */}

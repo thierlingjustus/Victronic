@@ -38,9 +38,12 @@ export default function ProductShowcase({ images, productName }: ProductShowcase
             </div>
             <div className={imageFirst ? 'md:order-2' : 'md:order-1'}>
               <FadeIn inView direction={imageFirst ? 'right' : 'left'} delay={0.1}>
-                <div className="text-brand-700 font-bold text-sm mb-3 tracking-wide">
-                  {String(i + 1).padStart(2, '0')}
-                </div>
+                {/* Nummer nur, wenn es etwas zu zählen gibt */}
+                {images.length > 1 && (
+                  <div className="text-brand-700 font-bold text-sm mb-3 tracking-wide">
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                )}
                 <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
                   {img.caption}
                 </p>

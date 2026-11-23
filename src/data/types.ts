@@ -31,3 +31,26 @@ export interface ProductAccessory {
   detail: string;
   image: string;
 }
+
+/**
+ * Gegenüberstellung zweier Varianten mit Bild (z. B. Lüfter: einfach vs.
+ * doppelt kugelgelagert). Steht in der Galerie „Aufbau und Technologie"
+ * (components/product/ProductComparison.tsx). Alle Spalten nutzen dieselben
+ * Zeilen-Labels, damit die Zeilen am Desktop nebeneinander auf einer Höhe stehen.
+ */
+export interface ComparisonColumn {
+  title: string;
+  /** Kurzbezeichnung, wie sie in Datenblättern steht (z. B. „Ball“). */
+  tag: string;
+  image: string;
+  imageAlt: string;
+  /** Markierung im Bild, Angaben in Prozent der Bildbreite/-höhe. */
+  highlight?: { label: string; x: number; y: number; w: number; h: number };
+  rows: { label: string; text?: string; items?: string[] }[];
+}
+
+export interface ProductComparison {
+  title: string;
+  intro?: string;
+  columns: ComparisonColumn[];
+}

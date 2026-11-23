@@ -18,7 +18,7 @@ import { useScrollStyle } from '../useScrollStyle';
  * seitlich-isometrischen Ansicht wie TftStack. Reihenfolge von hinten nach
  * vorn – Rahmen mit vier Schraubpunkten, bewickelter Stator mit Ansteuer-PCB,
  * Rotorwelle mit zwei Kugellagern, Flügelrad, vieradrige Anschlussleitung.
- * Genau die Reihenfolge der Caption zu exploded-pwm.jpg in products.ts.
+ * Genau die Reihenfolge der Explosionsansicht exploded-pwm.jpg (Lagerungs-Vergleich).
  *
  * Vorher war das Visual frontal, alle Schichten hatten spread={0} – es fuhr
  * also gar nicht auseinander – und die Lagergruppe saß bei x=740 in einer
