@@ -25,6 +25,15 @@ import touchControllerBoard from '../assets/products/touchscreens/touch-controll
 import axialFan from '../assets/products/luefter/axial-fan.jpg';
 import explodedPwm from '../assets/products/luefter/exploded-pwm.jpg';
 import explodedDualBearing from '../assets/products/luefter/exploded-dual-bearing.jpg';
+// Lüfter-Modelle: echte Produktfotos von der bisherigen Website (wp-content/uploads/2015/09,
+// Originale unter Victronic/Information/Luefter/Modelle). Auf Weiß eng zugeschnitten,
+// quadratisch, 640 px als WebP. Der Gitterschutz liegt nur in 224 × 120 px vor.
+import dcBlowerModel from '../assets/products/luefter/modelle/dc-blower.webp';
+import dcAxialModel from '../assets/products/luefter/modelle/dc-axial.webp';
+import acAxialModel from '../assets/products/luefter/modelle/ac-axial.webp';
+import ecFanModel from '../assets/products/luefter/modelle/ec-fan.webp';
+import dcCrossFlowModel from '../assets/products/luefter/modelle/dc-cross-flow.webp';
+import fingerGuard from '../assets/products/luefter/modelle/finger-guard.webp';
 import magnesiumDiecast from '../assets/products/kunststoffkomponenten/magnesium-diecast.jpg';
 import housingInterior from '../assets/products/kunststoffkomponenten/housing-interior.jpg';
 import coverGlassEdge from '../assets/products/glasloesungen/cover-glass-edge.jpg';
@@ -200,7 +209,65 @@ export const products = [
         src: explodedDualBearing,
         caption: "Der Rotoraufbau mit zwei separat sichtbaren Kugellagern beidseitig der Welle – die Dual-Ball-Bearing-Lagerung im Vergleich zum einfachen Gleitlager (Sleeve)."
       }
-    ]
+    ],
+    // Modellübersicht direkt unter der Scroll-Bühne. Eckdaten wie auf der
+    // bisherigen Seite victronic-gmbh.de/luefter/ („Lüfter-Arten").
+    modelsTitle: "Lüfter-Arten",
+    modelsIntro: "Axial-, Radial- und Querstromlüfter als DC-, AC- und EC-Ausführung – zur Kühlung von Akku-Ladegeräten und Industrierechnern oder als Abluftförderer. Auf Basis der Standardmodelle passen wir Lüfter an (Sub-Customizing) oder fertigen sie nach Ihrer Spezifikation (Full-Customizing).",
+    models: [
+      {
+        name: "DC Blower",
+        kind: "Radiallüfter · DC",
+        image: dcBlowerModel,
+        summary: "Saugt in Achsrichtung an und bläst um 90° versetzt seitlich aus. Erzeugt bei flacher Bauform hohen Druck – für dicht gepackte Geräte und die Luftführung über Kanäle.",
+        specs: [
+          { label: "Spannung", value: "5–48 V DC" },
+          { label: "Baugrößen", value: "40 × 20 / 50 × 15 bis 120 × 32 mm" },
+          { label: "Maximal", value: "134 × 144 × 40 mm" }
+        ]
+      },
+      {
+        name: "DC Brushless Fan",
+        kind: "Axiallüfter · DC",
+        image: dcAxialModel,
+        summary: "Fördert die Luft in Achsrichtung durch den Rahmen: viel Luftmenge bei geringem Gegendruck. Die übliche Wahl für die Kühlung von Geräten und Gehäusen.",
+        specs: [
+          { label: "Spannung", value: "2–220 V DC" },
+          { label: "Baugrößen", value: "25 × 7 bis 120 × 38 mm" },
+          { label: "Maximal", value: "170 × 150 × 51 mm" }
+        ]
+      },
+      {
+        name: "AC Fan",
+        kind: "Axiallüfter · AC",
+        image: acAxialModel,
+        summary: "Läuft direkt an Netzspannung, ohne eigenes Netzteil – für Schaltschränke, Industrieanlagen und größere Gehäuse.",
+        specs: [
+          { label: "Spannung", value: "100–480 V AC" },
+          { label: "Baugrößen", value: "60 × 30 / 80 × 25 bis 254 × 89 mm" }
+        ]
+      },
+      {
+        name: "EC Fan",
+        kind: "AC/DC",
+        image: ecFanModel,
+        summary: "Elektronisch kommutierter Motor mit integrierter Ansteuerung, betrieben an AC- oder DC-Versorgung. Braucht weniger Energie als ein AC-Lüfter und lässt sich in der Drehzahl regeln.",
+        specs: []
+      },
+      {
+        name: "DC Cross Flow Fan",
+        kind: "Querstromlüfter · DC",
+        image: dcCrossFlowModel,
+        summary: "Walzenförmiges Laufrad über die ganze Breite: bläst einen flachen, gleichmäßigen Luftstrom aus – für flache, breite Gehäuse.",
+        specs: []
+      }
+    ],
+    accessories: [
+      { name: "Fingerschutzgitter aus Metall", detail: "Fittings (Metal Finger Guards)", image: fingerGuard }
+    ],
+    // Platz für die Erklär-Grafik zwischen Modellübersicht und Galerie.
+    // Live bleibt die Stelle leer, im Dev-Server ist sie markiert (Product.tsx).
+    comparisonSlot: "Axial- vs. Radiallüfter: visualisierte Erklärung der Unterschiede"
   },
   {
     id: "kunststoffkomponenten",

@@ -8,6 +8,7 @@ import NotFound from '../components/NotFound';
 import FadeIn from '../components/FadeIn';
 import ProductShowcase from '../components/ProductShowcase';
 import ProductStage from '../components/product/ProductStage';
+import ProductModels from '../components/product/ProductModels';
 import Seo from '../components/Seo';
 import { productSeo } from '../data/seo';
 import CtaLink from '../components/CtaLink';
@@ -42,6 +43,32 @@ export default function Product() {
           waagerecht scrollbar. clip statt hidden, damit kein Scroll-Container
           entsteht. */}
       <main className="pt-4 pb-24 px-6 relative z-10 overflow-x-clip">
+        {/* Modellübersicht – nur Kategorien mit `models` (aktuell Lüfter) */}
+        {product.models && product.models.length > 0 && (
+          <div className="max-w-6xl mx-auto mb-20 md:mb-28">
+            <ProductModels
+              title={product.modelsTitle ?? 'Modelle'}
+              intro={product.modelsIntro}
+              models={product.models}
+              accessories={product.accessories}
+            />
+          </div>
+        )}
+
+        {/* Reservierter Platz für eine Erklär-Grafik (Lüfter: Axial vs. Radial).
+            Bis sie gebaut ist, bleibt die Stelle live leer; im Dev-Server
+            markiert ein gestrichelter Rahmen, wo sie hinkommt. */}
+        {product.comparisonSlot && import.meta.env.DEV && (
+          <div
+            id="vergleich"
+            className="max-w-6xl mx-auto mb-20 md:mb-28 h-72 rounded-3xl border-2 border-dashed border-gray-200 flex items-center justify-center px-6 text-center"
+          >
+            <p className="text-sm text-gray-400">
+              Platzhalter, nur lokal sichtbar: {product.comparisonSlot}
+            </p>
+          </div>
+        )}
+
         {/* Alternierende Bild/Text-Galerie */}
         {galleryImages.length > 0 && (
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">

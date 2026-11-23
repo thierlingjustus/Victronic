@@ -8,3 +8,26 @@ export interface InfoSlot {
   desc: string;
   align: string;
 }
+
+/**
+ * Ein Modell bzw. eine Bauart innerhalb einer Produktkategorie (z. B. die
+ * Lüfter-Arten). Hat eine Kategorie `models`, zeigt die Produktseite direkt
+ * unter der Scroll-Bühne eine Modellübersicht (components/product/ProductModels.tsx).
+ */
+export interface ProductModel {
+  name: string;
+  /** Bauart in Kurzform, steht als Kennzeile über dem Namen. */
+  kind: string;
+  /** Produktfoto auf reinem Weiß – wird per mix-blend-multiply auf den Kachelton gelegt. */
+  image: string;
+  summary: string;
+  /** Leer lassen, wenn es (noch) keine Eckdaten gibt – dann steht dort „Details auf Anfrage". */
+  specs: { label: string; value: string }[];
+}
+
+/** Standard-Zubehör, das klein unter der Modellübersicht steht. */
+export interface ProductAccessory {
+  name: string;
+  detail: string;
+  image: string;
+}
