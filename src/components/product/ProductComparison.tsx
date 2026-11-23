@@ -15,12 +15,13 @@ export default function ProductComparison({ title, intro, columns }: Comparison)
   const rowCount = 2 + Math.max(...columns.map((c) => c.rows.length));
 
   return (
-    <section aria-labelledby="vergleich-titel" className="mt-20 md:mt-28">
+    // Abstand nach oben setzt Product.tsx – je nachdem, ob eine Galerie davor steht
+    <section aria-labelledby="vergleich-titel">
       <FadeIn inView>
         <div className="max-w-3xl mx-auto mb-10 md:mb-14 text-center">
-          <h3 id="vergleich-titel" className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
+          <h2 id="vergleich-titel" className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
             {title}
-          </h3>
+          </h2>
           {intro && <p className="mt-4 text-gray-600 leading-relaxed">{intro}</p>}
         </div>
       </FadeIn>

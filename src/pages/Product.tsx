@@ -46,10 +46,13 @@ export default function Product() {
   }
 
   // Fällt auf das bestehende Platzhalter-SVG zurück, solange für eine Kategorie
-  // (aktuell Stromversorgungen) noch keine Abbildungen vorliegen.
+  // noch keine Abbildungen vorliegen – außer sie hat stattdessen einen
+  // Bild-Vergleich (Lüfter), dann bleibt die Galerie bewusst leer.
   const galleryImages = product.images.length > 0
     ? product.images
-    : [{ src: product.image, caption: product.strategicBenefit }];
+    : product.comparison
+      ? []
+      : [{ src: product.image, caption: product.strategicBenefit }];
 
   return (
     // Kein overflow-hidden auf dem Wrapper: das würde das position:sticky der
@@ -101,18 +104,26 @@ export default function Product() {
           </div>
         )}
 
-        {/* Alternierende Bild/Text-Galerie */}
-        {galleryImages.length > 0 && (
+        {/* Alternierende Bild/Text-Galerie und/oder Bild-Vergleich */}
+        {(galleryImages.length > 0 || product.comparison) && (
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">
-            <FadeIn inView>
-              <div className="max-w-3xl mx-auto mb-14 md:mb-20 text-center">
-                <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
-                  Aufbau und Technologie
-                </h2>
+            {galleryImages.length > 0 && (
+              <>
+                <FadeIn inView>
+                  <div className="max-w-3xl mx-auto mb-14 md:mb-20 text-center">
+                    <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
+                      Aufbau und Technologie
+                    </h2>
+                  </div>
+                </FadeIn>
+                <ProductShowcase images={galleryImages} productName={product.name} />
+              </>
+            )}
+            {product.comparison && (
+              <div className={galleryImages.length > 0 ? 'mt-20 md:mt-28' : ''}>
+                <ProductComparison {...product.comparison} />
               </div>
-            </FadeIn>
-            <ProductShowcase images={galleryImages} productName={product.name} />
-            {product.comparison && <ProductComparison {...product.comparison} />}
+            )}
             {/* Transparenzhinweis zu den Abbildungen (Art. 50 KI-VO / UWG).
                 Bewusst einmal pro Seite statt an jedem einzelnen Bild: gleiche
                 rechtliche Wirkung, ohne die technische Darstellung zu entwerten. */}

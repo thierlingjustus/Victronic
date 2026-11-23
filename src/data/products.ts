@@ -22,7 +22,6 @@ import cobModule from '../assets/products/lcm-lcd-module/cob-module.jpg';
 import ogsPanel from '../assets/products/touchscreens/ogs-panel.jpg';
 import pcapSensor from '../assets/products/touchscreens/pcap-sensor.jpg';
 import touchControllerBoard from '../assets/products/touchscreens/touch-controller-board.jpg';
-import axialFan from '../assets/products/luefter/axial-fan.jpg';
 // Lüfter-Modelle: echte Produktfotos von der bisherigen Website (wp-content/uploads/2015/09,
 // Originale unter Victronic/Information/Luefter/Modelle). Auf Weiß eng zugeschnitten,
 // quadratisch, 640 px als WebP. Der Gitterschutz liegt nur in 224 × 120 px vor.
@@ -201,14 +200,11 @@ export const products = [
     specsLegend: true,
     image: luefterImg,
     cardImage:luefterCard,
-    images: [
-      {
-        src: axialFan,
-        caption: "Ein montierter Axiallüfter mit Kunststoffrahmen und Anschlusskabel – die kompakte Einheit für unsere flüsterleisen Kühlkonzepte."
-      },
-    ],
-    // Die beiden Explosionsansichten stehen nicht mehr einzeln in der Galerie,
-    // sondern als Vergleich nebeneinander (ProductComparison.tsx).
+    // Keine Galerie mehr: Den montierten Lüfter (axial-fan.jpg) wollte das Team
+    // nicht, die beiden Explosionsansichten stehen als Vergleich nebeneinander
+    // (ProductComparison.tsx). axial-fan.jpg bleibt Quelle der Hover-Karte
+    // (scripts/card-images.mjs).
+    images: [],
     //
     // NUR BELEGTE AUSSAGEN – Quellen je Aussage (recherchiert 2026-11-23):
     // [HS]  hardwaresecrets.com/anatomy-of-computer-fans/5/ – Aufbau 1B1S/2BB, Kosten
