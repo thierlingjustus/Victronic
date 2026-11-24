@@ -9,6 +9,7 @@ import FadeIn from '../components/FadeIn';
 import ProductShowcase from '../components/ProductShowcase';
 import ProductStage from '../components/product/ProductStage';
 import ProductModels from '../components/product/ProductModels';
+import ProductExamples from '../components/product/ProductExamples';
 import ProductComparison from '../components/product/ProductComparison';
 import AirflowComparison from '../components/product/AirflowComparison';
 import Seo from '../components/Seo';
@@ -79,7 +80,7 @@ export default function Product() {
           </div>
         )}
 
-        {/* Modellübersicht – nur Kategorien mit `models` (Lüfter, Stromversorgungen) */}
+        {/* Modellübersicht – nur Kategorien mit `models` (Lüfter, Stromversorgungen, Touchscreens) */}
         {product.models && product.models.length > 0 && (
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">
             <ProductModels
@@ -89,6 +90,13 @@ export default function Product() {
               accessoriesLabel={product.accessoriesLabel}
               certifications={product.certifications}
             />
+          </div>
+        )}
+
+        {/* Anwendungsbeispiele (Touchscreens: Glastouch-Blenden) */}
+        {product.examples && (
+          <div className="max-w-6xl mx-auto mb-20 md:mb-28">
+            <ProductExamples {...product.examples} />
           </div>
         )}
 

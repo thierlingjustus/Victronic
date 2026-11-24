@@ -38,6 +38,18 @@ export interface ProductAccessory {
  * Zeichen darin nur gut 15 px hoch. Dort stehen deshalb zwei Hälften
  * untereinander (`mobileImages`).
  */
+/**
+ * Bildergalerie mit Anwendungsbeispielen unter der Modellübersicht
+ * (components/product/ProductExamples.tsx), z. B. die Glastouch-Blenden auf
+ * der Touchscreen-Seite. Der Alt-Text ergibt sich aus „<title>: <caption>".
+ */
+export interface ProductExampleGallery {
+  title: string;
+  intro?: string;
+  link?: { to: string; label: string };
+  items: { image: string; caption: string }[];
+}
+
 export interface ProductCertifications {
   title: string;
   image: string;

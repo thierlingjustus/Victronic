@@ -22,6 +22,21 @@ import cobModule from '../assets/products/lcm-lcd-module/cob-module.jpg';
 import ogsPanel from '../assets/products/touchscreens/ogs-panel.jpg';
 import pcapSensor from '../assets/products/touchscreens/pcap-sensor.jpg';
 import touchControllerBoard from '../assets/products/touchscreens/touch-controller-board.jpg';
+// Touch-Arten: Fotos der alten Seite (wp-content/uploads/2015/09, Originale unter
+// Victronic/Information/Touchscreens/Modelle). PCAP und Resistiv gibt es dort nur in
+// 150 × 150 px – größere Vorlagen würden die Kacheln schärfer machen.
+import pcapModel from '../assets/products/touchscreens/modelle/pcap.webp';
+import ogsModel from '../assets/products/touchscreens/modelle/ogs.webp';
+import resistivModel from '../assets/products/touchscreens/modelle/resistiv.webp';
+// Glastouch-Blenden: Zeichnungen der alten Seiten /touches/ und
+// /glass-touchscreen-faceplates/ (Originale unter Victronic/Information/Touchscreens/Glastouchblenden)
+import blendeHmi from '../assets/products/touchscreens/glastouchblenden/hmi.webp';
+import blendeHandheld from '../assets/products/touchscreens/glastouchblenden/handheld.webp';
+import blendeSportgeraet from '../assets/products/touchscreens/glastouchblenden/sportgeraet.webp';
+import blendeNaehmaschine from '../assets/products/touchscreens/glastouchblenden/naehmaschine.webp';
+import blendeSteuergeraet1 from '../assets/products/touchscreens/glastouchblenden/steuergeraet-1.webp';
+import blendeSteuergeraet2 from '../assets/products/touchscreens/glastouchblenden/steuergeraet-2.webp';
+import blendeKuechengeraet from '../assets/products/touchscreens/glastouchblenden/kuechengeraet.webp';
 // Lüfter-Modelle: echte Produktfotos von der bisherigen Website (wp-content/uploads/2015/09,
 // Originale unter Victronic/Information/Luefter/Modelle). Auf Weiß eng zugeschnitten,
 // quadratisch, 640 px als WebP. Der Gitterschutz liegt nur in 224 × 120 px vor.
@@ -142,14 +157,27 @@ export const products = [
     icon: Pointer,
     headline: "Intuitive Bedienung unter allen Bedingungen",
     strategicBenefit: "Präzise und robuste Touch-Lösungen, die auch in rauen Industrieumgebungen und bei Nässe zuverlässig funktionieren.",
+    // QUELLEN:
+    // [ALT]  victronic-gmbh.de/touches/ (Touch-Arten mit Eckdaten, Einleitung)
+    // [GTB]  victronic-gmbh.de/glass-touchscreen-faceplates/ (Glastouch-Blenden)
+    // [PRÄS] Information/Firma/Victronic_Präsentation_Displaytechnologien_.pdf,
+    //        S. 10 „CTP Technologien" (Features, Touch ICs), S. 11 (Wet finger touch)
+    // [KF]   Information/Firma/Victronic GmbH_Key Facts TFT-CTP_2024.pdf, S. 4 (Bonding)
+    // Die Betriebssysteme nennt [ALT] nur bei den resistiven Touches – sie
+    // stehen deshalb dort und nicht mehr pauschal bei den Controllern.
     specs: [
-      { label: "PCAP (projiziert-kapazitiv)", value: "3,5 Zoll bis 32 Zoll, 1- bis 5-Layer, Typ G/G und G/F/F, Single- oder Multi-Touch" },
-      { label: "OGS (One Glass Solution)", value: "2 Zoll bis 16 Zoll, Touch direkt ins Frontglas geätzt – inkl. Bedruckung, Durchbrüchen und kapazitiven Einzeltastern" },
-      { label: "Resistiv", value: "4-, 5- und 8-Draht bis 24 Zoll, gehärtete Deck-/Trägergläser (NSG, Corning), FPC-Länge und -Position anpassbar" },
-      { label: "Controller & Treiber", value: "Atmel, Cypress, EETI, Sitronix, Ilitek, Goodix, FocalTech, ITE – Windows 7/8/10, Linux, Android" }
+      // Kurz gehalten: Größen und Aufbau stehen je Technik unter „Touch-Arten".
+      { label: "Technologien", value: "Projiziert-kapazitiv (auch als OGS) und resistiv – Eckdaten je Technik unter „Touch-Arten“" }, // [ALT]
+      { label: "Lieferform", value: "Als Einzelkomponente oder montiert mit LCD/LCM- und TFT-Displays" }, // [ALT]
+      { label: "Merkmale (kapazitiv)", value: "Multi-Finger, Bedienung bei Wasser und mit nassen Fingern, UV-beständig, Oberflächen AG, AS, AF, AR" }, // [PRÄS] S. 10–11
+      { label: "Touch-Controller (kapazitiv)", value: "Atmel, Cypress, EETI, Sitronix, Ilitek, Goodix, FocalTech, ITE" }, // [PRÄS] S. 10
+      // legendOnly: nur in den Technischen Daten, nicht im Takt der Animation. Immer ans Ende.
+      { label: "Anpassungen", value: "Kundenspezifische Lösungen über unsere Herstellerpartner", legendOnly: true } // [ALT]
     ],
-    synergy: "Optical Bonding (OCA) oder kostengünstigeres Air Bonding mit unseren TFT-Displays und Cover-Gläsern. Bonding-Bereich 0,96\" bis 15,6\", maximal 32\".",
+    synergy: "Optical Bonding (OCA) oder kostengünstigeres Air Bonding mit unseren TFT-Displays und Cover-Gläsern. Bonding-Bereich 0,96\" bis 15,6\", maximal 32\".", // [KF] S. 4
     modelType: "touch",
+    // Technische Daten als Legende neben der Animation statt Faktenkarten
+    specsLegend: true,
     image: touchscreensImg,
     cardImage:touchscreensCard,
     images: [
@@ -165,7 +193,65 @@ export const products = [
         src: touchControllerBoard,
         caption: "Eine Touch-Controller-Platine mit QFP-IC und ZIF-Steckverbinder für den Sensor-FPC – stellvertretend für die eingesetzten Controller-ICs von EETI, Ilitek und Goodix."
       }
-    ]
+    ],
+    // Touch-Arten direkt unter der Scroll-Bühne – die drei Techniken der alten
+    // Seite /touches/ mit ihren Eckdaten.
+    modelsTitle: "Touch-Arten",
+    models: [
+      {
+        name: "Projiziert-kapazitive Touchpanels",
+        kind: "Projected Capacitive · PCAP",
+        image: pcapModel,
+        summary: "Kundenspezifische Lösungen, auch mit passender Cover Lens: Sie wird mitgefertigt und der Sensor direkt darauf gebondet. Für Sonderfälle gibt es Ausführungen mit verschiedenen Bufferfolien.",
+        specs: [
+          { label: "Größen", value: "3,5–32 Zoll" },
+          { label: "Aufbau", value: "1 bis 5 Layer, Typ G/G oder G/F/F" },
+          { label: "Bedienung", value: "Single- oder Multi-Touch" },
+          { label: "Cover Lens", value: "Glas oder PMMA, Sensor direkt gebondet" }
+        ]
+      },
+      {
+        name: "OGS (One Glass Solution)",
+        kind: "One Glass Solution · kapazitiv",
+        image: ogsModel,
+        summary: "Die kostengünstige Variante des projiziert-kapazitiven Touch: Der Touch wird direkt ins Frontglas geätzt. Das Frontglas kann nahezu jede Form annehmen.",
+        specs: [
+          { label: "Größen", value: "2–16 Zoll" },
+          { label: "Bedienung", value: "Single- oder Multi-Touch" },
+          { label: "Frontglas", value: "Bedruckung, Durchbrüche und kapazitive Single-Taster möglich" },
+          { label: "Oberfläche", value: "nach Kundenvorgabe" }
+        ]
+      },
+      {
+        name: "Resistive Touchpanels",
+        kind: "Resistive Touchscreens",
+        image: resistivModel,
+        summary: "In 4-, 5- oder 8-Draht-Technik. Abmessungen sowie Länge und Lage von FPC und Interface werden direkt an Ihr Gerät angepasst.",
+        specs: [
+          { label: "Größen", value: "bis 24 Zoll" },
+          { label: "Technik", value: "4-, 5- und 8-Draht" },
+          { label: "Bedienung", value: "Single- oder Multi-Touch" },
+          { label: "Gläser", value: "Speziell gehärtete Deck- oder Trägergläser (NSG, Corning u. a.)" },
+          { label: "Betriebssysteme", value: "Windows 7, 8 und 10, Linux, Android" }
+        ]
+      }
+    ],
+    // Glastouch-Blenden als Anwendungsbeispiele unter den Touch-Arten [GTB].
+    // Bezeichnungen aus den Bildnamen der alten Seite (dort ohne Bildunterschrift).
+    examples: {
+      title: "Glastouch-Blenden",
+      intro: "Vollglas-Bedienfronten auf Basis der OGS-Technologie – entspiegelt, kratzfest und nach Ihrer Vorgabe bedruckt. Taster lassen sich kapazitiv ins Glas legen; für mechanische Bedienelemente und USB-Buchsen sind Durchbrüche möglich.",
+      link: { to: "/systems/glass-touch", label: "Mehr zu Glastouch-Blenden" },
+      items: [
+        { image: blendeHmi, caption: "HMI" },
+        { image: blendeHandheld, caption: "Handgerät" },
+        { image: blendeSteuergeraet2, caption: "Steuergerät" },
+        { image: blendeSportgeraet, caption: "Sportgerät" },
+        { image: blendeSteuergeraet1, caption: "Steuergerät" },
+        { image: blendeNaehmaschine, caption: "Nähmaschine" },
+        { image: blendeKuechengeraet, caption: "Küchengerät" }
+      ]
+    }
   },
   {
     id: "stromversorgungen",
