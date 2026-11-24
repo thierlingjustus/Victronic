@@ -19,7 +19,9 @@ export interface ProductModel {
   /** Bauart in Kurzform, steht als Kennzeile über dem Namen. */
   kind: string;
   /** Produktfoto auf reinem Weiß – wird per mix-blend-multiply auf den Kachelton gelegt. */
-  image: string;
+  image?: string;
+  /** Kürzel auf der Kachel, solange kein Foto vorliegt (z. B. „Al · Mg"). */
+  badge?: string;
   summary: string;
   /** Leer lassen, wenn es (noch) keine Eckdaten gibt – dann steht dort „Details auf Anfrage". */
   specs: { label: string; value: string }[];
@@ -48,6 +50,33 @@ export interface ProductExampleGallery {
   intro?: string;
   link?: { to: string; label: string };
   items: { image: string; caption: string }[];
+  /**
+   * Für sehr kleine Originale (Kunststoff: 150 px): kleinere Kacheln, und die
+   * Bilder werden nie über ihre echte Größe hinaus gezogen – sonst unscharf.
+   */
+  compact?: boolean;
+}
+
+/**
+ * Werkstoff-Übersicht als Tabelle (components/product/ProductMaterials.tsx),
+ * z. B. „Welcher Kunststoff wofür?". Allgemeine Eigenschaften der
+ * Werkstoffgruppe mit Quelle je Aussage in products.ts.
+ */
+export interface ProductMaterialOverview {
+  title: string;
+  intro?: string;
+  /** Kleingedrucktes unter der Tabelle. */
+  note?: string;
+  items: {
+    /** Kurzzeichen, z. B. „PA66+GF". */
+    code: string;
+    name: string;
+    /** Markiert die Standardmaterialien. */
+    standard?: boolean;
+    properties: string;
+    uses: string;
+    caveats?: string;
+  }[];
 }
 
 export interface ProductCertifications {

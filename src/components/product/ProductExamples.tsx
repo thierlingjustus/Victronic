@@ -9,7 +9,12 @@ import FadeIn from '../FadeIn';
  * Die Zeichnungen haben sehr unterschiedliche Formate (bis 3,5 : 1) –
  * object-contain in gleich großen 4:3-Kacheln hält die Reihen trotzdem ruhig.
  */
-export default function ProductExamples({ title, intro, link, items }: ProductExampleGallery) {
+export default function ProductExamples({ title, intro, link, items, compact }: ProductExampleGallery) {
+  // compact: kleine Originale – fünf statt vier Kacheln je Reihe, und das Bild
+  // bleibt höchstens so groß wie die Datei (kein Hochskalieren, keine Unschärfe).
+  const tileWidth = compact
+    ? 'w-[calc(50%-0.5rem)] sm:w-[calc((100%-2rem)/3)] md:w-[calc((100%-4.5rem)/4)] lg:w-[calc((100%-6rem)/5)]'
+    : 'w-[calc(50%-0.5rem)] md:w-[calc((100%-3rem)/3)] lg:w-[calc((100%-4.5rem)/4)]';
   return (
     <section aria-labelledby="beispiele-titel">
       <FadeIn inView>
@@ -24,18 +29,21 @@ export default function ProductExamples({ title, intro, link, items }: ProductEx
       <FadeIn inView>
         <ul className="flex flex-wrap justify-center gap-x-4 gap-y-6 md:gap-x-6 md:gap-y-8">
           {items.map((item) => (
-            <li
-              key={item.image}
-              className="w-[calc(50%-0.5rem)] md:w-[calc((100%-3rem)/3)] lg:w-[calc((100%-4.5rem)/4)]"
-            >
+            <li key={item.image} className={tileWidth}>
               <figure>
-                <div className="aspect-[4/3] rounded-2xl md:rounded-3xl overflow-hidden ring-1 ring-black/5 bg-[radial-gradient(ellipse_at_50%_35%,#ffffff_0%,#f2f5f8_55%,#e6ebf0_100%)]">
+                <div
+                  className={`${compact ? 'aspect-square flex items-center justify-center p-3 md:p-4' : 'aspect-[4/3]'} rounded-2xl md:rounded-3xl overflow-hidden ring-1 ring-black/5 bg-[radial-gradient(ellipse_at_50%_35%,#ffffff_0%,#f2f5f8_55%,#e6ebf0_100%)]`}
+                >
                   <img
                     src={item.image}
                     alt={`${title}: ${item.caption}`}
                     loading="lazy"
                     decoding="async"
-                    className="block w-full h-full object-contain p-4 md:p-6 mix-blend-multiply"
+                    className={
+                      compact
+                        ? 'block max-w-full max-h-full w-auto h-auto mix-blend-multiply'
+                        : 'block w-full h-full object-contain p-4 md:p-6 mix-blend-multiply'
+                    }
                   />
                 </div>
                 <figcaption className="mt-3 text-sm text-gray-600 text-center">{item.caption}</figcaption>

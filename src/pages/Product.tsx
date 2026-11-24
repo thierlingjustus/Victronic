@@ -12,6 +12,7 @@ import ProductModels from '../components/product/ProductModels';
 import ProductExamples from '../components/product/ProductExamples';
 import ProductComparison from '../components/product/ProductComparison';
 import AirflowComparison from '../components/product/AirflowComparison';
+import ProductMaterials from '../components/product/ProductMaterials';
 import Seo from '../components/Seo';
 import { productSeo } from '../data/seo';
 import CtaLink from '../components/CtaLink';
@@ -50,9 +51,10 @@ export default function Product() {
   // Fällt auf das bestehende Platzhalter-SVG zurück, solange für eine Kategorie
   // noch keine Abbildungen vorliegen – außer sie hat stattdessen einen
   // Bild-Vergleich (Lüfter), dann bleibt die Galerie bewusst leer.
+  const explains = !!(product.comparison || product.explainer || product.materials);
   const galleryImages = product.images.length > 0
     ? product.images
-    : product.comparison || product.explainer
+    : explains
       ? []
       : [{ src: product.image, caption: product.strategicBenefit }];
 
@@ -80,7 +82,7 @@ export default function Product() {
           </div>
         )}
 
-        {/* Modellübersicht – nur Kategorien mit `models` (Lüfter, Stromversorgungen, Touchscreens) */}
+        {/* Modellübersicht – nur Kategorien mit `models` (Lüfter, Netzteile, Touch, Glas, Kunststoff) */}
         {product.models && product.models.length > 0 && (
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">
             <ProductModels
@@ -101,7 +103,7 @@ export default function Product() {
         )}
 
         {/* Alternierende Bild/Text-Galerie, Bild-Vergleich und Erklär-Grafik */}
-        {(galleryImages.length > 0 || product.comparison || product.explainer) && (
+        {(galleryImages.length > 0 || explains) && (
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">
             {galleryImages.length > 0 && (
               <>
@@ -124,6 +126,12 @@ export default function Product() {
             {product.explainer === 'airflow' && (
               <div className={galleryImages.length > 0 || product.comparison ? 'mt-20 md:mt-28' : ''}>
                 <AirflowComparison />
+              </div>
+            )}
+            {/* Kunststoffkomponenten: Welcher Kunststoff wofür? */}
+            {product.materials && (
+              <div className={galleryImages.length > 0 || product.comparison || product.explainer ? 'mt-20 md:mt-28' : ''}>
+                <ProductMaterials {...product.materials} />
               </div>
             )}
             {/* Transparenzhinweis zu den Abbildungen (Art. 50 KI-VO / UWG).

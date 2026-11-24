@@ -46,15 +46,24 @@ export default function ProductModels({
             <FadeIn inView>
               <div className="grid sm:grid-cols-[12rem_minmax(0,1fr)] md:grid-cols-[15rem_minmax(0,1fr)] lg:grid-cols-[17rem_minmax(0,1fr)] gap-6 sm:gap-10 lg:gap-14 items-center">
                 <div className="aspect-square w-40 sm:w-full rounded-3xl overflow-hidden ring-1 ring-black/5 bg-[radial-gradient(ellipse_at_50%_35%,#ffffff_0%,#f2f5f8_55%,#e6ebf0_100%)]">
-                  <img
-                    src={model.image}
-                    alt={`${model.name} – ${model.kind}`}
-                    width={640}
-                    height={640}
-                    loading="lazy"
-                    decoding="async"
-                    className="block w-full h-full object-contain p-5 md:p-6 mix-blend-multiply"
-                  />
+                  {model.image ? (
+                    <img
+                      src={model.image}
+                      alt={`${model.name} – ${model.kind}`}
+                      width={640}
+                      height={640}
+                      loading="lazy"
+                      decoding="async"
+                      className="block w-full h-full object-contain p-5 md:p-6 mix-blend-multiply"
+                    />
+                  ) : (
+                    // Noch kein Foto: schlichtes Kürzel statt eines Platzhalterbilds
+                    <div className="flex h-full w-full items-center justify-center" aria-hidden="true">
+                      <span className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-400">
+                        {model.badge}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="min-w-0">

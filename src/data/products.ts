@@ -47,8 +47,20 @@ import fingerGuard from '../assets/products/luefter/modelle/finger-guard.webp';
 // ohne die Nummernzeile (die war im Doppellager-Bild fehlerhaft, „4.“ doppelt).
 import lagerEinfach from '../assets/products/luefter/lager-einfach.webp';
 import lagerDoppelt from '../assets/products/luefter/lager-doppelt.webp';
-import magnesiumDiecast from '../assets/products/kunststoffkomponenten/magnesium-diecast.jpg';
-import housingInterior from '../assets/products/kunststoffkomponenten/housing-interior.jpg';
+// Kunststoff: Fotos der alten Seite /kunststoff/ (nur 150 px, Originale unter
+// Victronic/Information/Kunststoffkomponenten/Beispiele). Bildtexte nach den
+// Dateinamen der alten Seite bzw. dem, was auf dem Foto zu sehen ist.
+import spritzgussModel from '../assets/products/kunststoffkomponenten/modelle/spritzguss.webp';
+import kunstDoubleMolding from '../assets/products/kunststoffkomponenten/beispiele/double-molding.webp';
+import kunstGehaeuseAussen from '../assets/products/kunststoffkomponenten/beispiele/gehaeuse-aussen.webp';
+import kunstGehaeuseInnen from '../assets/products/kunststoffkomponenten/beispiele/gehaeuse-innen.webp';
+import kunstGeraetegehaeuse from '../assets/products/kunststoffkomponenten/beispiele/geraetegehaeuse.webp';
+import kunstStaubsauger1 from '../assets/products/kunststoffkomponenten/beispiele/staubsauger-1.webp';
+import kunstStaubsauger2 from '../assets/products/kunststoffkomponenten/beispiele/staubsauger-2.webp';
+import kunstTelefongehaeuse from '../assets/products/kunststoffkomponenten/beispiele/telefongehaeuse.webp';
+import kunstMuster1 from '../assets/products/kunststoffkomponenten/beispiele/muster-1.webp';
+import kunstMuster2 from '../assets/products/kunststoffkomponenten/beispiele/muster-2.webp';
+import kunstMuster3 from '../assets/products/kunststoffkomponenten/beispiele/muster-3.webp';
 // Fotos der alten Seite /glas-4/ (Originale unter Victronic/Information/Glasloesungen/Modelle);
 // glasrahmen.webp setzt die Fotos „Glasrahmen Weiss" und „Glasrahmen Rot" zusammen.
 import frontglasModel from '../assets/products/glasloesungen/modelle/frontglas.webp';
@@ -665,25 +677,159 @@ export const products = [
     icon: Layers,
     headline: "Präzisions-Spritzguss für höchste Ansprüche",
     strategicBenefit: "Maßgeschneiderte Gehäuse und mechanische Bauteile aus Hochleistungskunststoffen für optimale Passgenauigkeit und Stabilität.",
+    // QUELLEN:
+    // [ALT]  victronic-gmbh.de/kunststoff/ – Erfahrung der Hersteller in Werkzeugbau,
+    //        Kunststoffspritzguss, Aluminiumspritzguss und Magnesiumgehäusen;
+    //        Standardmaterialien ABS und Makrolon®, dazu PC, PA66+GF, PET+GF/PBT+GF,
+    //        POM, LCP; Magnesium- und Materialverbundgehäuse (z. B. Aluminium mit
+    //        Kunststoff); zehn Fotos ohne Bildtext; Hersteller SCEM
+    // [PRÄS] Information/Firma/Victronic_Präsentation_Displaytechnologien_.pdf,
+    //        S. 2 und 19 (IML, IMR), S. 20 (IMR-Gehäuse „for versatile color options")
+    // [KF]   Information/Firma/Victronic GmbH_Key Facts TFT-CTP_2024.pdf, S. 2
+    //        (Smart-Meter-Bedienteil, Kunststoffgehäuse mit Tastenfeld,
+    //        Akku-Einheit für Elektrowerkzeuge)
     specs: [
-      { label: "Materialien", value: "ABS, Makrolon®, PC, PA66+GF (glasfaserverstärkt), PET+GF/PBT+GF, POM, LCP" },
-      { label: "Sondermaterialien", value: "Magnesiumgehäuse und Aluminiumspritzguss, Materialverbundgehäuse (z. B. Aluminium mit Kunststoff)" },
-      { label: "Verfahren", value: "IML (In-Mold Labeling) und IMR (In-Mold Roller) für Dekoration und Farbvarianten" }
+      { label: "Kunststoffe", value: "ABS und Makrolon® als Standard, dazu PC, PA66+GF, PET+GF/PBT+GF, POM und LCP" }, // [ALT]
+      { label: "Verfahren", value: "Kunststoffspritzguss mit Werkzeugbau, Aluminiumspritzguss" }, // [ALT]
+      { label: "Metall & Verbund", value: "Magnesiumgehäuse, Materialverbund – z. B. Aluminium mit Kunststoff" }, // [ALT]
+      { label: "Dekor", value: "IML (In-Mold Labeling) und IMR (In-Mold Roller) für Dekor und Farbvarianten" }, // [PRÄS] S. 2, 19, 20
+      // legendOnly: nur in den Technischen Daten, nicht im Takt der Animation. Immer ans Ende.
+      { label: "Beispiele", value: "Smart-Meter-Bedienteil, Gehäuse mit Tastenfeld, Akku-Einheit für Elektrowerkzeuge", legendOnly: true } // [KF] S. 2
     ],
     synergy: "Nahtlose Integration mit unseren Glaslösungen und Elektronikbaugruppen für schlüsselfertige Systeme.",
     modelType: "plastic",
+    // Technische Daten als Legende neben der Animation statt Faktenkarten
+    specsLegend: true,
     image: kunststoffkomponentenImg,
     cardImage:kunststoffkomponentenCard,
-    images: [
+    // Keine Galerie mehr: Die KI-Bilder (magnesium-diecast.jpg, housing-interior.jpg –
+    // letzteres nutzt noch scripts/card-images.mjs) ersetzt die Werkstoff-Übersicht unten.
+    images: [],
+    // Die alte Seite beschreibt keine Einzelprodukte, sondern Verfahren – die
+    // stehen hier als Produktarten. Für Metall und Verbund gibt es (noch) kein Foto.
+    modelsTitle: "Produktarten",
+    models: [
       {
-        src: magnesiumDiecast,
-        caption: "Ein Gehäuseteil aus Magnesium-Druckguss mit filigranen Verstärkungsrippen und Gewindedomen – leichtbauend und mit dem EMV-Schutz metallischer Bauteile."
+        name: "Kunststoffspritzguss",
+        kind: "Gehäuse und Komponenten",
+        image: spritzgussModel,
+        summary: "Gehäuse und Bauteile aus Standard- und technischen Kunststoffen. Unsere Hersteller bringen langjährige Erfahrung im Werkzeugbau und im Spritzguss mit.", // [ALT]
+        specs: [
+          { label: "Standardmaterialien", value: "ABS, Makrolon®" }, // [ALT]
+          { label: "Weitere Kunststoffe", value: "PC, PA66+GF, PET+GF/PBT+GF, POM, LCP" }, // [ALT]
+          { label: "Werkzeuge", value: "Werkzeugbau bei unseren Herstellern" }, // [ALT]
+          { label: "Dekor", value: "IML und IMR, auch für Farbvarianten" } // [PRÄS] S. 2, 19, 20
+        ]
       },
       {
-        src: housingInterior,
-        caption: "Innenansicht einer glasfaserverstärkten Kunststoff-Gehäuseschale (PA66+GF) mit präzisen Schraubdomen und Rastclips."
+        name: "Metall- und Verbundgehäuse",
+        kind: "Aluminium · Magnesium · Materialverbund",
+        badge: "Al · Mg",
+        summary: "Neben Kunststoff fertigen unsere Hersteller auch Gehäuse und Bauteile aus Metall – oder kombinieren beides.", // [ALT]
+        specs: [
+          { label: "Aluminium", value: "Aluminiumspritzguss" }, // [ALT]
+          { label: "Magnesium", value: "Magnesiumgehäuse" }, // [ALT]
+          { label: "Materialverbund", value: "z. B. Aluminium mit Kunststoff" } // [ALT]
+        ]
       }
-    ]
+    ],
+    // Die zehn Fotos der alten Seite als Musterteile (kompakt, weil nur 150 px groß)
+    examples: {
+      title: "Musterteile",
+      intro: "Eine Auswahl an Gehäusen und Bauteilen.",
+      compact: true,
+      items: [
+        { image: kunstGehaeuseAussen, caption: "Gehäuse, außen" },
+        { image: kunstGehaeuseInnen, caption: "Gehäuse, innen" },
+        { image: kunstGeraetegehaeuse, caption: "Gerätegehäuse" },
+        { image: kunstTelefongehaeuse, caption: "Telefongehäuse" },
+        { image: kunstMuster2, caption: "Gehäuseunterteil mit Kontakten" },
+        { image: kunstDoubleMolding, caption: "Double-Molding-Teil" },
+        { image: kunstStaubsauger1, caption: "Staubsauger-Bauteile" },
+        { image: kunstStaubsauger2, caption: "Staubsauger-Bauteil" },
+        { image: kunstMuster1, caption: "Rundes Gehäuse" },
+        { image: kunstMuster3, caption: "Kleinteile" }
+      ]
+    },
+    // Welcher Kunststoff wofür? Die alte Seite nennt nur die Kürzel. Allgemeine
+    // Eigenschaften der Werkstoffgruppen, je Aussage belegt:
+    // [WABS] en.wikipedia.org/wiki/Acrylonitrile_butadiene_styrene – schlagzäh, steif;
+    //        glänzende Oberfläche; −20 bis 80 °C; Gehäuse für Elektronik, Küchenkleingeräte,
+    //        Fahrzeug-Zierteile; vergilbt unter UV und Hitze
+    // [WPC]  en.wikipedia.org/wiki/Polycarbonate – hohe Schlagfestigkeit, geringe
+    //        Kratzfestigkeit; lichtdurchlässiger als viele Gläser; bis 115–130 °C;
+    //        guter Isolator; Energie-/Telekommunikationstechnik, Blenden, Gehäuse;
+    //        ohne Schutz nicht für dauerhafte UV-Belastung; Makrolon® = Markenname (Bayer)
+    // [WPA]  en.wikipedia.org/wiki/Nylon_66 – hohe Festigkeit, Steifigkeit, Wärme- und
+    //        Chemikalienbeständigkeit; glasfaserverstärkt halogenfrei flammgeschützt;
+    //        Hauptanwendung Elektro/Elektronik, Isolierteile, Teile im Motorraum
+    // [WFRP] en.wikipedia.org/wiki/Fiber-reinforced_plastic – Kurzglasfasern im Spritzguss
+    //        erhöhen Festigkeit, Steifigkeit und Wärmebeständigkeit
+    // [WPBT] en.wikipedia.org/wiki/Polybutylene_terephthalate – Isolator für Elektro/
+    //        Elektronik; bis 150 °C, glasfaserverstärkt 200 °C; schwindet kaum;
+    //        flammgeschützt möglich; Gehäuse, Steckverbinder; empfindlich gegen heißes
+    //        Wasser über 60 °C, im Freien UV-Schutz nötig
+    // [WPET] en.wikipedia.org/wiki/Polyethylene_terephthalate – mit Glasfaser zu
+    //        Gehäusen, Abdeckungen und Teilen für Elektrogeräte gespritzt
+    // [WPOM] en.wikipedia.org/wiki/Polyoxymethylene – steif, reibungsarm, sehr maßhaltig
+    //        (0,17 % Schwindung); dauerhaft bis 80 °C; Zahnräder, Gleit- und Führungs-
+    //        elemente, Befestigungsteile, Steckverbinder; schwer zu verkleben, empfindlich
+    //        gegen Säuren und Chlor
+    // [WLCP] en.wikipedia.org/wiki/Liquid-crystal_polymer – hohe Festigkeit bei hohen
+    //        Temperaturen, von Natur aus flammwidrig, sehr chemikalienbeständig, bildet
+    //        Formdetails exakt ab; elektrische und mechanische Teile, Steckverbinder,
+    //        Sensoren, Lüfter; deutlich teurer
+    materials: {
+      title: "Welcher Kunststoff wofür?",
+      intro: "Neben den Standardmaterialien ABS und Makrolon® fertigen unsere Hersteller Gehäuse und Bauteile auch aus technischen Kunststoffen. Was die Werkstoffe auszeichnet:", // [ALT]
+      note: "Allgemeine Eigenschaften der Werkstoffgruppen laut Fachliteratur. Genaue Werte hängen vom jeweiligen Typ und Füllgrad ab – wir beraten Sie bei der Auswahl.",
+      items: [
+        {
+          code: "ABS",
+          name: "Acrylnitril-Butadien-Styrol",
+          standard: true,
+          properties: "Schlagzäh und steif, mit glänzender Oberfläche; einsetzbar von etwa −20 bis 80 °C.", // [WABS] ( : Zahl und Einheit nicht trennen)
+          uses: "Gehäuse für Elektronik, Küchenkleingeräte, Zierteile im Fahrzeug", // [WABS]
+          caveats: "Vergilbt unter UV-Licht und Hitze." // [WABS]
+        },
+        {
+          // [ALT] nennt Makrolon® als Standard und PC zusätzlich – Makrolon® ist ein PC.
+          code: "PC",
+          name: "Polycarbonat (Makrolon®)",
+          standard: true,
+          properties: "Sehr schlagfest, glasklar und bis etwa 115–130 °C einsetzbar; guter elektrischer Isolator.", // [WPC]
+          uses: "Gehäuse, Blenden, Bauteile für Energie- und Telekommunikationstechnik", // [WPC]
+          caveats: "Kratzempfindlich; ohne Schutz nicht für dauerhafte UV-Belastung." // [WPC]
+        },
+        {
+          code: "PA66+GF",
+          name: "Polyamid 66, glasfaserverstärkt",
+          properties: "Fest, steif, wärme- und chemikalienbeständig; die Glasfasern steigern Festigkeit, Steifigkeit und Wärmebeständigkeit weiter. Halogenfrei flammgeschützt möglich.", // [WPA] [WFRP]
+          uses: "Elektro- und Elektronikteile, Isolierteile, Bauteile im Motorraum" // [WPA]
+        },
+        {
+          code: "PBT+GF / PET+GF",
+          name: "Polyester, glasfaserverstärkt",
+          properties: "Elektrisch isolierend, schwindet beim Formen kaum; PBT mit Glasfasern bis etwa 200 °C wärmebeständig, flammgeschützt möglich.", // [WPBT]
+          uses: "Gehäuse und Steckverbinder in der Elektrotechnik, Abdeckungen, Teile für Elektrogeräte", // [WPBT] [WPET]
+          caveats: "Empfindlich gegen heißes Wasser über 60 °C; im Freien UV-Schutz nötig." // [WPBT]
+        },
+        {
+          code: "POM",
+          name: "Polyoxymethylen (Acetal)",
+          properties: "Steif, reibungsarm und sehr maßhaltig – schwindet beim Abkühlen nur um 0,17 %; dauerhaft bis 80 °C.", // [WPOM]
+          uses: "Zahnräder, Gleit- und Führungselemente, Befestigungsteile, Steckverbinder", // [WPOM]
+          caveats: "Schwer zu verkleben; empfindlich gegen Säuren und Chlor." // [WPOM]
+        },
+        {
+          code: "LCP",
+          name: "Flüssigkristallpolymer",
+          properties: "Hohe Festigkeit auch bei hohen Temperaturen, von Natur aus flammwidrig, sehr chemikalienbeständig; bildet feine Formdetails exakt ab.", // [WLCP]
+          uses: "Elektrische und mechanische Bauteile, Steckverbinder, Sensoren, Lüfter", // [WLCP]
+          caveats: "Deutlich teurer als Standardkunststoffe." // [WLCP]
+        }
+      ]
+    }
   },
   {
     id: "glasloesungen",
