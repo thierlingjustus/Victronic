@@ -26,6 +26,11 @@ import tftRundModel from '../assets/products/tft-displays/modelle/rund.webp';
 import tftMiniModel from '../assets/products/tft-displays/modelle/mini.webp';
 import tftSmartModel from '../assets/products/tft-displays/modelle/smart-tft.webp';
 import tftVaModel from '../assets/products/tft-displays/modelle/va.webp';
+// KI-generiert (Information/TFT-Displays/TFT-CTP_display_exploded.jpeg bzw.
+// „TFT-Display Victornic.jpeg"), Studio-Hintergrund auf Weiß gerechnet – der
+// Transparenzhinweis in Product.tsx deckt sie mit ab.
+import tftHdmiModel from '../assets/products/tft-displays/modelle/hdmi.webp';
+import tftKundenspezifischModel from '../assets/products/tft-displays/modelle/kundenspezifisch.webp';
 import cogBonding from '../assets/products/lcm-lcd-module/cog-bonding.jpg';
 import fstnPanel from '../assets/products/lcm-lcd-module/fstn-panel.jpg';
 import cobModule from '../assets/products/lcm-lcd-module/cob-module.jpg';
@@ -252,8 +257,9 @@ export const products = [
       {
         name: "HDMI-Panels",
         kind: "TFT + Touch + HDMI-Board",
-        // Foto in [KF] S. 5 steht auf grünem Grund – bis ein Freisteller vorliegt, Kürzel
-        badge: "HDMI",
+        // KI-Explosionsansicht: Deckglas, Touch-Sensor, TFT-Schichten und Platine.
+        // Das Foto in [KF] S. 5 steht auf grünem Grund und passte nicht in die Kachel.
+        image: tftHdmiModel,
         summary: "Komplettlösung aus TFT, kapazitivem Touch und HDMI-Wandlerplatine.", // [KF] S. 1, 5
         specs: [
           { label: "Größen", value: "7,0 bis 15,6 Zoll" }, // [KF] S. 5
@@ -263,7 +269,7 @@ export const products = [
       {
         name: "Kundenspezifische TFT",
         kind: "Semi- und full-customized",
-        badge: "2,8–5″",
+        image: tftKundenspezifischModel, // KI-Bild
         summary: "TFT nach Ihren Vorgaben – vom angepassten Interface bis zum komplett kundenspezifischen Display.", // [ALT]
         specs: [
           { label: "Größen", value: "2,8 bis 5 Zoll, andere auf Anfrage" }, // [ALT]
