@@ -30,10 +30,10 @@ const TILE_Y = 200;
 const TILE_XS = [154, 292, 430];
 /** Berührpunkt: etwas unter der Mitte der mittleren Kachel. */
 const TOUCH = { x: 350, y: 268 };
-/** Neigung der Hand: sie kommt von rechts unten. */
+/** Neigung des Fingers: er kommt von rechts unten. */
 const HAND_ANGLE = -28;
 
-/** Engerer Ausschnitt für das Handy (Display plus Hand, ohne Beschriftungsrand). */
+/** Engerer Ausschnitt für das Handy (Display plus Finger, ohne Beschriftungsrand). */
 const COMPACT_VIEWBOX = '92 84 516 452';
 
 /**
@@ -84,31 +84,30 @@ function TileIcon({ kind, cx, cy, color }: { kind: 'list' | 'power' | 'sun'; cx:
 }
 
 /**
- * Hand als schlichtes Piktogramm (weiß mit Kontur, keine Hautfarbe): Zeigefinger
- * nach oben, Fingerkuppe im Ursprung. Gezeichnet von hinten nach vorn – Ärmel,
- * Handballen, Daumen, eingerollte Finger, Zeigefinger.
+ * Zeigefinger als schlichtes Piktogramm (keine Hautfarbe), Fingerkuppe im
+ * Ursprung, der Finger zeigt nach oben. Ohne Hand: Er läuft nach hinten über
+ * eine Maske weich aus, als käme er von außerhalb ins Bild – so endet er
+ * nirgends abrupt. Leichter Verlauf zur rechten Kante gibt ihm Volumen.
+ *
+ * Die Maske hängt am inneren <g> ohne transform, damit ihre Koordinaten die
+ * lokalen (gedrehten) Fingerkoordinaten sind.
  */
-function Hand() {
-  const line = { stroke: C.ink, strokeWidth: 2.5, strokeLinejoin: 'round' as const };
+function Finger() {
+  // Leicht konisch: an der Kuppe 46 breit, nach hinten 52. Der Auslauf beginnt
+  // erst bei 200 – das liegt in jeder Stellung unterhalb des Displayrahmens.
+  // Über dem dunklen Rahmen wirkte ein halbtransparenter Finger wie ein Glasstab.
+  const outline = 'M-23 4 A23 23 0 0 1 23 4 L26 330 L-26 330 Z';
   return (
-    <g>
-      {/* Ärmel */}
-      <rect x="-30" y="262" width="136" height="220" rx="14" fill={C.slate} />
-      {/* Handballen */}
-      <rect x="-26" y="112" width="124" height="166" rx="40" fill={C.white} {...line} />
-      {/* Daumen, seitlich angelegt */}
-      <rect x="-54" y="150" width="40" height="98" rx="20" fill={C.white} transform="rotate(16 -34 199)" {...line} />
-      {/* Eingerollte Finger */}
-      {[118, 154, 190].map((y) => (
-        <rect key={y} x="12" y={y} width="86" height="40" rx="20" fill={C.white} {...line} />
-      ))}
-      {/* Zeigefinger */}
-      <rect x="-20" y="-8" width="40" height="156" rx="20" fill={C.white} {...line} />
-      {/* Fingernagel und Knöchelfalten */}
-      <rect x="-11" y="-1" width="22" height="26" rx="9" fill={C.lineSoft} stroke={C.inkFaint} strokeWidth="1.5" />
-      <g stroke={C.inkFaint} strokeWidth="2" fill="none" strokeLinecap="round">
-        <path d="M-10 62 q10 5 20 0" />
-        <path d="M-10 102 q10 5 20 0" />
+    <g mask="url(#touch-finger-fade)">
+      <path d={outline} fill="url(#touch-finger-shade)" stroke={C.inkSoft} strokeWidth="2" strokeLinejoin="round" />
+      {/* Nagel mit Nagelhaut */}
+      <rect x="-13" y="-9" width="26" height="35" rx="12" fill={C.brand50} stroke={C.inkFaint} strokeWidth="1.5" />
+      <path d="M-10 33 q10 4 20 0" stroke={C.lineSoft} strokeWidth="2" fill="none" strokeLinecap="round" />
+      {/* Gelenkfalten: vorderes Gelenk einfach, mittleres doppelt */}
+      <g stroke={C.inkFaint} strokeWidth="1.8" fill="none" strokeLinecap="round">
+        <path d="M-12 84 q12 5 24 0" />
+        <path d="M-14 152 q14 6 28 0" />
+        <path d="M-10 160 q10 4 20 0" />
       </g>
     </g>
   );
@@ -170,6 +169,19 @@ export default function TouchPanel({ progress, reducedMotion }: ProductVisualPro
           <stop offset="0%" stopColor={C.slate} stopOpacity="0.35" />
           <stop offset="100%" stopColor={C.slate} stopOpacity="0" />
         </radialGradient>
+        {/* Finger: Volumen über die Breite, Auslauf nach hinten (lokale Koordinaten) */}
+        <linearGradient id="touch-finger-shade" gradientUnits="userSpaceOnUse" x1="-26" y1="0" x2="26" y2="0">
+          <stop offset="0%" stopColor={C.white} />
+          <stop offset="55%" stopColor={C.white} />
+          <stop offset="100%" stopColor={C.lineSoft} />
+        </linearGradient>
+        <linearGradient id="touch-finger-fade-grad" gradientUnits="userSpaceOnUse" x1="0" y1="200" x2="0" y2="320">
+          <stop offset="0%" stopColor={C.white} />
+          <stop offset="100%" stopColor="#000000" />
+        </linearGradient>
+        <mask id="touch-finger-fade" maskUnits="userSpaceOnUse" x="-40" y="-40" width="80" height="400">
+          <rect x="-40" y="-40" width="80" height="400" fill="url(#touch-finger-fade-grad)" />
+        </mask>
       </defs>
 
       {/* Display: Rahmen, Glasfläche, Oberfläche mit drei Kacheln */}
@@ -241,17 +253,17 @@ export default function TouchPanel({ progress, reducedMotion }: ProductVisualPro
       {/* Schatten des Fingers auf dem Glas – zeigt, wie nah er ist */}
       <g ref={shadowRef} style={{ opacity: 0 }}>
         <g transform={`translate(${TOUCH.x} ${TOUCH.y}) rotate(${HAND_ANGLE})`}>
-          <ellipse cx="6" cy="70" rx="30" ry="96" fill="url(#touch-shadow-grad)" />
+          <ellipse cx="4" cy="72" rx="30" ry="94" fill="url(#touch-shadow-grad)" />
         </g>
       </g>
 
-      {/* Hand */}
+      {/* Finger */}
       <g
         ref={fingerRef}
         style={{ opacity: 0, transformBox: 'view-box', transformOrigin: `${TOUCH.x}px ${TOUCH.y}px` }}
       >
         <g transform={`translate(${TOUCH.x} ${TOUCH.y}) rotate(${HAND_ANGLE})`}>
-          <Hand />
+          <Finger />
         </g>
       </g>
     </svg>
