@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react';
-import type { ProductComparison as Comparison } from '../../data/types';
+import type { ComparisonColumn, ProductComparison as Comparison } from '../../data/types';
 import FadeIn from '../FadeIn';
 import { COMPARISON_DIAGRAMS } from './ComparisonDiagrams';
 
@@ -11,8 +11,47 @@ import { COMPARISON_DIAGRAMS } from './ComparisonDiagrams';
  * Ab md (bei drei und mehr Spalten ab lg) liegen die Zeilen per CSS-Subgrid
  * auf gleicher Höhe – so lässt sich Zeile für Zeile vergleichen, auch wenn ein
  * Text länger ist. Darunter stehen die Spalten einfach untereinander.
+ *
+ * Mit `groups` stehen mehrere solcher Vergleiche mit Zwischenüberschrift
+ * untereinander (Glaslösungen: je ein Paar für Härtung, Spiegelung, Hygiene).
  */
-export default function ProductComparison({ title, intro, columns }: Comparison) {
+export default function ProductComparison({ title, intro, columns, groups }: Comparison) {
+  return (
+    // Abstand nach oben setzt Product.tsx – je nachdem, ob eine Galerie davor steht
+    <section aria-labelledby="vergleich-titel">
+      <FadeIn inView>
+        <div className="max-w-3xl mx-auto mb-10 md:mb-14 text-center">
+          <h2 id="vergleich-titel" className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
+            {title}
+          </h2>
+          {intro && <p className="mt-4 text-gray-600 leading-relaxed">{intro}</p>}
+        </div>
+      </FadeIn>
+
+      {columns && (
+        <FadeIn inView>
+          <ColumnGrid columns={columns} />
+        </FadeIn>
+      )}
+
+      {groups?.map((group, i) => (
+        <div key={group.title} className={i > 0 ? 'mt-16 md:mt-24' : ''}>
+          <FadeIn inView>
+            <div className="mb-8 md:mb-10 border-t border-gray-200 pt-8 md:pt-10">
+              <h3 className="text-[13px] font-bold uppercase tracking-wider text-brand-700">{group.title}</h3>
+              {group.intro && <p className="mt-2 max-w-3xl text-gray-600 leading-relaxed">{group.intro}</p>}
+            </div>
+          </FadeIn>
+          <FadeIn inView>
+            <ColumnGrid columns={group.columns} />
+          </FadeIn>
+        </div>
+      ))}
+    </section>
+  );
+}
+
+function ColumnGrid({ columns }: { columns: ComparisonColumn[] }) {
   // Bild + Titel + Zeilen; alle Spalten haben dieselben Zeilen-Labels
   const rowCount = 2 + Math.max(...columns.map((c) => c.rows.length));
   // Drei Spalten wären bei md nur gut 200 px breit – zu schmal für Text und
@@ -26,32 +65,17 @@ export default function ProductComparison({ title, intro, columns }: Comparison)
     : 'flex flex-col gap-6 md:grid md:grid-rows-subgrid md:[grid-row:span_var(--rows)]';
 
   return (
-    // Abstand nach oben setzt Product.tsx – je nachdem, ob eine Galerie davor steht
-    <section aria-labelledby="vergleich-titel">
-      <FadeIn inView>
-        <div className="max-w-3xl mx-auto mb-10 md:mb-14 text-center">
-          <h2 id="vergleich-titel" className="text-2xl md:text-3xl font-semibold tracking-tight text-gray-900">
-            {title}
-          </h2>
-          {intro && <p className="mt-4 text-gray-600 leading-relaxed">{intro}</p>}
-        </div>
-      </FadeIn>
-
-      <FadeIn inView>
-        <div
-          className={gridClass}
-          style={{ '--cols': columns.length, '--rows': rowCount } as CSSProperties}
-        >
-          {columns.map((col) => {
-            const Diagram = col.diagram ? COMPARISON_DIAGRAMS[col.diagram] : undefined;
-            return (
-            <div key={col.title} className={columnClass}>
-              {Diagram ? (
-                // Schematische Zeichnung auf dem Kachelverlauf der Modellfotos
-                <div className="rounded-3xl ring-1 ring-black/5 bg-[radial-gradient(ellipse_at_50%_35%,#ffffff_0%,#f2f5f8_55%,#e6ebf0_100%)] px-4 py-5 md:px-5 self-start w-full">
-                  <Diagram />
-                </div>
-              ) : (
+    <div className={gridClass} style={{ '--cols': columns.length, '--rows': rowCount } as CSSProperties}>
+      {columns.map((col) => {
+        const Diagram = col.diagram ? COMPARISON_DIAGRAMS[col.diagram] : undefined;
+        return (
+          <div key={col.title} className={columnClass}>
+            {Diagram ? (
+              // Schematische Zeichnung auf dem Kachelverlauf der Modellfotos
+              <div className="rounded-3xl ring-1 ring-black/5 bg-[radial-gradient(ellipse_at_50%_35%,#ffffff_0%,#f2f5f8_55%,#e6ebf0_100%)] px-4 py-5 md:px-5 self-start w-full">
+                <Diagram />
+              </div>
+            ) : (
               /* Bild mit Markierung der Stelle, um die es geht */
               <div className="relative rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-sm self-start">
                 <img src={col.image} alt={col.imageAlt ?? ''} loading="lazy" decoding="async" className="block w-full h-auto" />
@@ -72,34 +96,32 @@ export default function ProductComparison({ title, intro, columns }: Comparison)
                   </div>
                 )}
               </div>
-              )}
+            )}
 
-              <div>
-                <h4 className="text-xl md:text-2xl font-semibold tracking-tight text-gray-900">{col.title}</h4>
-                <p className="mt-1 text-sm text-gray-500">{col.tag}</p>
-              </div>
-
-              {col.rows.map((row) => (
-                <div key={row.label} className="border-t border-gray-100 pt-4">
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500">{row.label}</p>
-                  {row.text && <p className="mt-1.5 text-gray-700 leading-relaxed">{row.text}</p>}
-                  {row.items && (
-                    <ul className="mt-1.5 space-y-1.5">
-                      {row.items.map((item) => (
-                        <li key={item} className="flex gap-2.5 text-gray-700 leading-relaxed">
-                          <span aria-hidden="true" className="text-gray-300">–</span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
-              ))}
+            <div>
+              <h4 className="text-xl md:text-2xl font-semibold tracking-tight text-gray-900">{col.title}</h4>
+              <p className="mt-1 text-sm text-gray-500">{col.tag}</p>
             </div>
-            );
-          })}
-        </div>
-      </FadeIn>
-    </section>
+
+            {col.rows.map((row) => (
+              <div key={row.label} className="border-t border-gray-100 pt-4">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500">{row.label}</p>
+                {row.text && <p className="mt-1.5 text-gray-700 leading-relaxed">{row.text}</p>}
+                {row.items && (
+                  <ul className="mt-1.5 space-y-1.5">
+                    {row.items.map((item) => (
+                      <li key={item} className="flex gap-2.5 text-gray-700 leading-relaxed">
+                        <span aria-hidden="true" className="text-gray-300">–</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        );
+      })}
+    </div>
   );
 }

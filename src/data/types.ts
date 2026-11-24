@@ -81,8 +81,18 @@ export interface ComparisonColumn {
   rows: { label: string; text?: string; items?: string[] }[];
 }
 
-export interface ProductComparison {
+/** Ein Paar (oder mehr) Varianten mit eigener Zwischenüberschrift. */
+export interface ComparisonGroup {
   title: string;
   intro?: string;
   columns: ComparisonColumn[];
+}
+
+export interface ProductComparison {
+  title: string;
+  intro?: string;
+  /** Ein einziger Vergleich (Lüfter, Touchscreens) … */
+  columns?: ComparisonColumn[];
+  /** … oder mehrere Paare untereinander (Glaslösungen: Härtung, Spiegelung, Hygiene). */
+  groups?: ComparisonGroup[];
 }

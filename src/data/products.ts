@@ -49,9 +49,6 @@ import lagerEinfach from '../assets/products/luefter/lager-einfach.webp';
 import lagerDoppelt from '../assets/products/luefter/lager-doppelt.webp';
 import magnesiumDiecast from '../assets/products/kunststoffkomponenten/magnesium-diecast.jpg';
 import housingInterior from '../assets/products/kunststoffkomponenten/housing-interior.jpg';
-import coverGlassEdge from '../assets/products/glasloesungen/cover-glass-edge.jpg';
-import coverGlassBorder from '../assets/products/glasloesungen/cover-glass-border.jpg';
-import coverGlassCutout from '../assets/products/glasloesungen/cover-glass-cutout.jpg';
 // Fotos der alten Seite /glas-4/ (Originale unter Victronic/Information/Glasloesungen/Modelle);
 // glasrahmen.webp setzt die Fotos „Glasrahmen Weiss" und „Glasrahmen Rot" zusammen.
 import frontglasModel from '../assets/products/glasloesungen/modelle/frontglas.webp';
@@ -752,20 +749,134 @@ export const products = [
         ]
       }
     ],
-    images: [
-      {
-        src: coverGlassEdge,
-        caption: "Ein chemisch gehärtetes Deckglas mit sauber polierter, gefaster Kante – die Basis für extreme Kratz- und Bruchfestigkeit."
-      },
-      {
-        src: coverGlassBorder,
-        caption: "Ein Deckglas mit umlaufendem, siebgedrucktem Passepartout-Rand in Schwarz – individueller Siebdruck für Logos, Buttons und Designflächen."
-      },
-      {
-        src: coverGlassCutout,
-        caption: "Ein Deckglas mit präzise CNC-gefrästem Rundausschnitt – CNC-Bearbeitung für 2.5D/3D-Kanten, Bohrungen und Aussparungen nach Kundenvorgabe."
-      }
-    ]
+    // Keine Galerie mehr: Die KI-Bilder (cover-glass-*.jpg, eines davon nutzt
+    // noch scripts/card-images.mjs) ersetzt der Vergleich unten mit Querschnitten.
+    images: [],
+    // Härtung und Oberflächen erklärt, je ein Paar, das man leicht verwechselt.
+    // QUELLEN zusätzlich zu [ALT]/[PRÄS]/[KF] oben:
+    // [PRÄS] S. 14 AM (Salzbad + Silberionen; Keime werden geschwächt und sterben ab;
+    //        „Continuous elimination of microbes"; SGS-zertifiziert),
+    //        S. 15 AG (Ätzen; Transmission > 89 % wie unbeschichtetes Glas; Glanz/Haze
+    //        in vier Stufen, Haze 10 ± 3 % bis 4 ± 3 %; Bleistifthärte 6H),
+    //        S. 16 AF/AS (Kontaktwinkel > 110°, nach > 2.000 Reibzyklen mit 500 g > 100°),
+    //        S. 17 AR (Normalglas: Transmission ≥ 89 %, Reflexion ≤ 6 %; AR: ≥ 95 %, ≤ 1,5 %)
+    // [WCS]  en.wikipedia.org/wiki/Chemically_strengthened_glass – Kalisalzbad, K+ ersetzt
+    //        Na+, Oberfläche unter Druck, kratzbeständiger; kaum Verzug/optische
+    //        Verzerrung; bricht in langen Splittern, für Sicherheitsglas laminieren
+    // [WTG]  en.wikipedia.org/wiki/Tempered_glass – rund 620 °C, schnelle Luftkühlung,
+    //        außen Druck/innen Zug; ca. 4× so fest; zerfällt in kleine Stücke; vor dem
+    //        Härten zuschneiden, Kanten und Bohrungen; chemisch: komplexe Formen möglich
+    // [WAR]  en.wikipedia.org/wiki/Anti-reflective_coating – Schichtdicken so gewählt,
+    //        dass sich die Reflexe auslöschen; mehr Kontrast; abhängig von Wellenlänge
+    //        und Einfallswinkel; oft zusätzlich wasser- und fettabweisend beschichtet
+    // [WGD]  en.wikipedia.org/wiki/Glossy_display – glänzend spiegelt, wirkt aber
+    //        schärfer und kontrastreicher als matt; AR als Alternative zu matt
+    // [WLP]  en.wikipedia.org/wiki/Lipophobicity – meist Fluorpolymer, Öl perlt ab,
+    //        leicht ohne Schlieren zu reinigen; Einsatz auf Touchscreens
+    // [WAS]  en.wikipedia.org/wiki/Antimicrobial_surface – Silberionen inaktivieren
+    //        Enzyme der Keime, die dadurch absterben
+    comparison: {
+      title: "Härtung und Oberflächen",
+      intro: "Keine Alternativen, sondern Bausteine: Härtung und Veredelungen lassen sich kombinieren. Welche Kombination zu Ihrem Gerät passt, klären wir gemeinsam.", // [PRÄS] S. 14, 19 [WAR]
+      groups: [
+        {
+          title: "Härtung",
+          intro: "Macht das Glas fester. Beide Verfahren setzen die Oberfläche unter Druckspannung – auf unterschiedlichem Weg.", // [WCS] [WTG]
+          columns: [
+            {
+              title: "Chemisch gehärtet",
+              tag: "Ionenaustausch im Salzbad",
+              diagram: "glas-chemisch",
+              rows: [
+                { label: "So funktioniert’s", text: "Das Glas liegt in einem heißen Kaliumsalz-Bad. An der Oberfläche ersetzen große Kalium-Ionen die kleineren Natrium-Ionen und drücken sie zusammen." }, // [WCS] [WTG]
+                { label: "Stärken", items: [
+                  "Deutlich fester und kratzbeständiger als unbehandeltes Glas", // [WCS]
+                  "Kaum Verzug, keine optischen Verzerrungen – auch für komplexe Formen" // [WCS] [WTG]
+                ] },
+                { label: "Gut zu wissen", text: "Bricht in Splittern wie normales Glas. Wo Sicherheitsglas gefordert ist, wird es zusätzlich laminiert." } // [WCS]
+              ]
+            },
+            {
+              title: "Thermisch gehärtet",
+              tag: "Physikalisch: erhitzt und mit Luft abgeschreckt",
+              diagram: "glas-thermisch",
+              rows: [
+                { label: "So funktioniert’s", text: "Das Glas wird auf rund 620 °C erhitzt und dann mit Luft schnell abgekühlt. Die Oberfläche zieht sich zuerst zusammen und steht danach unter Druck, der Kern unter Zug." }, // [WTG]
+                { label: "Stärken", items: [
+                  "Etwa viermal so fest wie unbehandeltes Glas", // [WTG]
+                  "Zerfällt beim Bruch in kleine Krümel statt scharfer Scherben (Sicherheitsglas)" // [WTG]
+                ] },
+                { label: "Gut zu wissen", text: "Zuschnitt, Kantenbearbeitung und Bohrungen erfolgen vor dem Härten – danach lässt sich das Glas nicht mehr bearbeiten." } // [WTG]
+              ]
+            }
+          ]
+        },
+        {
+          title: "Gegen Spiegelungen",
+          intro: "AG und AR lösen dasselbe Problem auf verschiedene Weise: AG verteilt das gespiegelte Licht, AR verringert es.", // [PRÄS] S. 15, 17 [WGD]
+          columns: [
+            {
+              title: "AG – Anti-Glare",
+              tag: "Geätzte, matte Oberfläche",
+              diagram: "glas-ag",
+              rows: [
+                { label: "So funktioniert’s", text: "Die Oberfläche wird fein geätzt. Ihre mikroskopisch raue Struktur streut das gespiegelte Licht in viele Richtungen – ein scharfes Spiegelbild entsteht nicht." }, // [PRÄS] S. 15
+                { label: "Stärken", items: [
+                  "Lichtdurchlässigkeit über 89 % – wie unbehandeltes Glas", // [PRÄS] S. 15
+                  "In vier Stufen von matter (Haze 10 %) bis nahezu klar (Haze 4 %), Härte 6H" // [PRÄS] S. 15
+                ] },
+                { label: "Gut zu wissen", text: "Gegenüber glänzendem Glas wirkt das Bild etwas weniger scharf und kontrastreich." } // [WGD]
+              ]
+            },
+            {
+              title: "AR – Anti-Reflective",
+              tag: "Entspiegelnde Beschichtung",
+              diagram: "glas-ar",
+              rows: [
+                { label: "So funktioniert’s", text: "Hauchdünne Schichten auf dem Glas sind so aufeinander abgestimmt, dass sich das an ihnen gespiegelte Licht gegenseitig auslöscht." }, // [WAR]
+                { label: "Stärken", items: [
+                  "Spiegelung höchstens 1,5 % statt bis zu 6 %", // [PRÄS] S. 17
+                  "Lichtdurchlässigkeit über 95 % statt 89 % – das Bild wirkt klarer und kontrastreicher" // [PRÄS] S. 17 [WAR]
+                ] },
+                { label: "Gut zu wissen", text: "Die Wirkung hängt von Lichtfarbe und Blickwinkel ab." } // [WAR]
+              ]
+            }
+          ]
+        },
+        {
+          title: "Sauberkeit und Hygiene",
+          intro: "Für Glas, das häufig berührt wird – vom Touch-Bedienteil bis zum öffentlich genutzten Gerät.", // [WLP] [PRÄS] S. 19
+          columns: [
+            {
+              title: "AF / AS – Anti-Fingerprint",
+              tag: "Fett- und wasserabweisende Schicht (Anti-Smudge)",
+              diagram: "glas-af",
+              rows: [
+                { label: "So funktioniert’s", text: "Eine hauchdünne Schicht, meist auf Fluorpolymer-Basis, weist Fett und Wasser ab. Tropfen perlen ab, statt zu zerlaufen – der Kontaktwinkel liegt über 110°." }, // [WLP] [PRÄS] S. 16
+                { label: "Stärken", items: [
+                  "Fingerabdrücke haften kaum und lassen sich ohne Schlieren abwischen", // [WLP] [PRÄS] S. 16
+                  "Auch nach 2.000 Reibzyklen mit 500 g noch über 100° Kontaktwinkel" // [PRÄS] S. 16
+                ] },
+                { label: "Gut zu wissen", text: "Lässt sich mit AR kombinieren – entspiegelte Gläser tragen oft zusätzlich eine fett- und wasserabweisende Schicht." } // [WAR]
+              ]
+            },
+            {
+              title: "AM – Anti-Microbial",
+              tag: "Silberionen in der Glasoberfläche",
+              diagram: "glas-am",
+              rows: [
+                { label: "So funktioniert’s", text: "Im Salzbad werden Silberionen in die Glasoberfläche eingebracht. Sie greifen in die Lebensfunktionen von Keimen ein, die dadurch absterben." }, // [PRÄS] S. 14 [WAS]
+                { label: "Stärken", items: [
+                  "Wirkt dauerhaft, direkt auf dem Glas", // [PRÄS] S. 14
+                  "SGS-zertifiziert" // [PRÄS] S. 14, 19
+                ] },
+                { label: "Gut zu wissen", text: "Gedacht für Medizintechnik und öffentlich genutzte Geräte." } // [PRÄS] S. 19
+              ]
+            }
+          ]
+        }
+      ]
+    }
   },
   {
     id: "montage-gehaeuse",
