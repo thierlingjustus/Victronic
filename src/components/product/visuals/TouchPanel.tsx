@@ -26,12 +26,14 @@ const SCREEN = { x: 136, y: 126, width: 428, height: 278 };
 // Drei Kacheln wie auf einer Bedienoberfläche; die mittlere wird berührt
 const TILE_W = 116;
 const TILE_H = 120;
-const TILE_Y = 200;
+// Kacheln eher im unteren Teil des Bildschirms: Der Finger muss dann nur ein
+// kurzes Stück über den Rahmen und kann danach auslaufen – sonst wird er zu lang.
+const TILE_Y = 226;
 const TILE_XS = [154, 292, 430];
 /** Berührpunkt: etwas unter der Mitte der mittleren Kachel. */
-const TOUCH = { x: 350, y: 268 };
+const TOUCH = { x: 350, y: 296 };
 /** Neigung des Fingers: er kommt von rechts unten. */
-const HAND_ANGLE = -28;
+const HAND_ANGLE = -22;
 
 /** Engerer Ausschnitt für das Handy (Display plus Finger, ohne Beschriftungsrand). */
 const COMPACT_VIEWBOX = '92 84 516 452';
@@ -93,21 +95,33 @@ function TileIcon({ kind, cx, cy, color }: { kind: 'list' | 'power' | 'sun'; cx:
  * lokalen (gedrehten) Fingerkoordinaten sind.
  */
 function Finger() {
-  // Leicht konisch: an der Kuppe 46 breit, nach hinten 52. Der Auslauf beginnt
-  // erst bei 200 – das liegt in jeder Stellung unterhalb des Displayrahmens.
-  // Über dem dunklen Rahmen wirkte ein halbtransparenter Finger wie ein Glasstab.
-  const outline = 'M-23 4 A23 23 0 0 1 23 4 L26 330 L-26 330 Z';
+  // Proportion wie ein echter Zeigefinger: rund 50 breit, bis zum Auslauf gut
+  // 4-mal so lang. Der Umriss ist nicht gerade: Kuppe etwas breiter, hinter dem
+  // vorderen Gelenk leicht schmaler, am Mittelgelenk minimal dicker, nach
+  // hinten breiter. (Eine erste Fassung war 7-mal so lang wie breit und
+  // schnurgerade – sie sah aus wie ein Stift.)
+  // Gezeichnet mit der Kuppe bei y = 0; translate(0 -12) legt die Fingerbeere
+  // auf den Ursprung, also auf den Berührpunkt.
+  const outline =
+    'M-24 28 C-24 9 -13 0 0 0 C13 0 24 9 24 28 ' +
+    'C24.5 44 23 55 23.5 63 C24 86 27 108 26.6 122 C26.3 140 27.5 165 28.5 190 L30 230 ' +
+    'L-30 230 L-28.5 190 C-27.5 165 -26.3 140 -26.6 122 C-27 108 -24 86 -23.5 63 C-23 55 -24.5 44 -24 28 Z';
   return (
     <g mask="url(#touch-finger-fade)">
-      <path d={outline} fill="url(#touch-finger-shade)" stroke={C.inkSoft} strokeWidth="2" strokeLinejoin="round" />
-      {/* Nagel mit Nagelhaut */}
-      <rect x="-13" y="-9" width="26" height="35" rx="12" fill={C.brand50} stroke={C.inkFaint} strokeWidth="1.5" />
-      <path d="M-10 33 q10 4 20 0" stroke={C.lineSoft} strokeWidth="2" fill="none" strokeLinecap="round" />
-      {/* Gelenkfalten: vorderes Gelenk einfach, mittleres doppelt */}
-      <g stroke={C.inkFaint} strokeWidth="1.8" fill="none" strokeLinecap="round">
-        <path d="M-12 84 q12 5 24 0" />
-        <path d="M-14 152 q14 6 28 0" />
-        <path d="M-10 160 q10 4 20 0" />
+      <g transform="translate(0 -12)">
+        <path d={outline} fill="url(#touch-finger-shade)" stroke={C.inkSoft} strokeWidth="2" strokeLinejoin="round" />
+        {/* Nagel mit Glanzlicht und Nagelhaut */}
+        <rect x="-14" y="5" width="28" height="34" rx="12" fill={C.brand50} stroke={C.inkFaint} strokeWidth="1.5" />
+        <ellipse cx="-5" cy="16" rx="4" ry="7" fill={C.white} opacity="0.9" />
+        <path d="M-11 44 q11 4 22 0" stroke={C.lineSoft} strokeWidth="2" fill="none" strokeLinecap="round" />
+        {/* Falten am vorderen und am mittleren Gelenk */}
+        <g stroke={C.inkFaint} strokeWidth="1.5" fill="none" strokeLinecap="round">
+          <path d="M-10 64 q10 4 20 0" />
+          <path d="M-7 70 q7 2.5 14 0" />
+          <path d="M-12 117 q12 5 24 0" />
+          <path d="M-13 124 q13 5 26 0" />
+          <path d="M-9 131 q9 3 18 0" />
+        </g>
       </g>
     </g>
   );
@@ -170,17 +184,19 @@ export default function TouchPanel({ progress, reducedMotion }: ProductVisualPro
           <stop offset="100%" stopColor={C.slate} stopOpacity="0" />
         </radialGradient>
         {/* Finger: Volumen über die Breite, Auslauf nach hinten (lokale Koordinaten) */}
-        <linearGradient id="touch-finger-shade" gradientUnits="userSpaceOnUse" x1="-26" y1="0" x2="26" y2="0">
+        <linearGradient id="touch-finger-shade" gradientUnits="userSpaceOnUse" x1="-30" y1="0" x2="30" y2="0">
           <stop offset="0%" stopColor={C.white} />
-          <stop offset="55%" stopColor={C.white} />
-          <stop offset="100%" stopColor={C.lineSoft} />
+          <stop offset="50%" stopColor={C.white} />
+          <stop offset="85%" stopColor={C.lineSoft} />
+          <stop offset="100%" stopColor={C.line} />
         </linearGradient>
-        <linearGradient id="touch-finger-fade-grad" gradientUnits="userSpaceOnUse" x1="0" y1="200" x2="0" y2="320">
+        {/* Kurzer Auslauf etwa dort, wo der Knöchel säße – erst unterhalb des Rahmens */}
+        <linearGradient id="touch-finger-fade-grad" gradientUnits="userSpaceOnUse" x1="0" y1="160" x2="0" y2="208">
           <stop offset="0%" stopColor={C.white} />
           <stop offset="100%" stopColor="#000000" />
         </linearGradient>
-        <mask id="touch-finger-fade" maskUnits="userSpaceOnUse" x="-40" y="-40" width="80" height="400">
-          <rect x="-40" y="-40" width="80" height="400" fill="url(#touch-finger-fade-grad)" />
+        <mask id="touch-finger-fade" maskUnits="userSpaceOnUse" x="-50" y="-50" width="100" height="320">
+          <rect x="-50" y="-50" width="100" height="320" fill="url(#touch-finger-fade-grad)" />
         </mask>
       </defs>
 
@@ -195,7 +211,7 @@ export default function TouchPanel({ progress, reducedMotion }: ProductVisualPro
         {/* Seitenpunkte unten */}
         <g fill={C.line}>
           {[334, 350, 366].map((x) => (
-            <circle key={x} cx={x} cy="372" r="4" />
+            <circle key={x} cx={x} cy="382" r="4" />
           ))}
         </g>
 
@@ -253,7 +269,7 @@ export default function TouchPanel({ progress, reducedMotion }: ProductVisualPro
       {/* Schatten des Fingers auf dem Glas – zeigt, wie nah er ist */}
       <g ref={shadowRef} style={{ opacity: 0 }}>
         <g transform={`translate(${TOUCH.x} ${TOUCH.y}) rotate(${HAND_ANGLE})`}>
-          <ellipse cx="4" cy="72" rx="30" ry="94" fill="url(#touch-shadow-grad)" />
+          <ellipse cx="3" cy="66" rx="32" ry="78" fill="url(#touch-shadow-grad)" />
         </g>
       </g>
 
