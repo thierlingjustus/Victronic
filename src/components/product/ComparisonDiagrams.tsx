@@ -21,6 +21,14 @@ import type { ComponentType, ReactNode } from 'react';
  * - AF/AS: links zerläuft der Tropfen, rechts perlt er ab (> 110°).
  * - AM: Silberionen in der Oberfläche, Keime von aktiv bis abgetötet.
  *
+ * TFT-Displays – Panel-Technik in derselben Zelle (zwei Glasplatten, dazwischen
+ * der Flüssigkristall), Bonding im selben Stapel (Quellen in products.ts):
+ * - TN: Moleküle von unten nach oben um 90° verdreht, Elektroden oben und unten.
+ * - IPS: Moleküle liegen flach, Elektroden nebeneinander auf dem unteren Glas.
+ * - VA: Moleküle stehen ohne Spannung senkrecht zum Glas.
+ * - Air Bonding: Klebeband am Rand, Luftspalt – Licht spiegelt an drei Flächen.
+ * - Optical Bonding: OCA füllt den Spalt – es spiegelt nur noch die Oberfläche.
+ *
  * Schrift nie kleiner als 11 Einheiten: Die Spalten sind ab lg rund 300 px
  * breit, bei viewBox-Breite 320 bleibt die Schrift damit über 10 px.
  */
@@ -441,6 +449,173 @@ function AntiMicrobialDiagram() {
   );
 }
 
+/* ---------- TFT-Displays ---------- */
+
+/** Zeilen der Flüssigkristall-Moleküle zwischen den Glasplatten, von oben nach unten. */
+const LC_ROWS = [44, 54, 65, 76, 86];
+const LC_COLS = Array.from({ length: 8 }, (_, i) => 32 + i * 24);
+
+/** Flüssigkristall-Zelle: oberes und unteres Glas, optional mit Elektrode innen. */
+function Cell({ electrodes }: { electrodes: boolean }) {
+  return (
+    <>
+      <Glass y={24} h={12} />
+      <Glass y={94} h={12} />
+      {electrodes && (
+        <g fill={C.ito}>
+          <rect x="20" y="36" width="190" height="2" />
+          <rect x="20" y="92" width="190" height="2" />
+        </g>
+      )}
+    </>
+  );
+}
+
+/** Ein Molekül als Stäbchen; `half` ist die sichtbare halbe Länge in der Zeichenebene. */
+function Molecule({ x, y, half, upright = false }: { x: number; y: number; half: number; upright?: boolean }) {
+  return upright ? (
+    <ellipse cx={x} cy={y} rx="2.6" ry={half} fill={C.field} />
+  ) : (
+    <ellipse cx={x} cy={y} rx={half} ry="2.4" fill={C.field} />
+  );
+}
+
+function TnDiagram() {
+  // Unten liegen die Stäbchen in der Zeichenebene, nach oben drehen sie sich
+  // schrittweise um 90° aus ihr heraus – von vorn gesehen werden sie kürzer.
+  const halves = [2.6, 3.4, 5.7, 7.4, 8];
+  return (
+    <Frame label="Querschnitt TN-Zelle: Die Flüssigkristall-Moleküle sind zwischen den beiden Glasplatten schraubenförmig um 90 Grad verdreht.">
+      <Cell electrodes />
+      {LC_ROWS.map((y, row) =>
+        LC_COLS.map((x) => <Molecule key={`${x}-${y}`} x={x} y={y} half={halves[row]} />),
+      )}
+
+      <Label y={34}>Glas</Label>
+      <Label y={69}>Flüssigkristall</Label>
+      <Label y={104}>Glas</Label>
+      <Note>Moleküle um 90° verdreht</Note>
+    </Frame>
+  );
+}
+
+function IpsDiagram() {
+  // Elektrodenpaare nebeneinander auf dem unteren Glas, Feldlinien als Bögen
+  const electrodes = [26, 74, 122, 170];
+  return (
+    <Frame label="Querschnitt IPS-Zelle: Die Moleküle liegen flach, beide Elektroden sitzen nebeneinander auf dem unteren Glas, das Feld verläuft parallel zum Glas.">
+      <Cell electrodes={false} />
+      <g stroke={C.field} strokeWidth="1.4" fill="none" strokeDasharray="3 3" opacity="0.8">
+        {electrodes.slice(0, -1).map((x, i) => {
+          const x2 = electrodes[i + 1];
+          return <path key={x} d={`M${x + 7} 90 Q${(x + x2) / 2 + 7} 52 ${x2 + 7} 90`} />;
+        })}
+      </g>
+      {LC_ROWS.map((y) => LC_COLS.map((x) => <Molecule key={`${x}-${y}`} x={x} y={y} half={8} />))}
+      <g fill={C.ito}>
+        {electrodes.map((x) => (
+          <rect key={x} x={x} y="90" width="14" height="4" rx="1" />
+        ))}
+      </g>
+
+      <Label y={34}>Glas</Label>
+      <Label y={62}>Flüssigkristall</Label>
+      <Label y={85}>Elektroden</Label>
+      <Label y={105}>Glas</Label>
+      <Note>Feld parallel zum Glas</Note>
+    </Frame>
+  );
+}
+
+function VaDiagram() {
+  return (
+    <Frame label="Querschnitt VA-Zelle: Ohne Spannung stehen die Moleküle senkrecht zu den Glasplatten, der Bildpunkt bleibt schwarz.">
+      <Cell electrodes />
+      {[48, 65, 82].map((y) =>
+        LC_COLS.map((x) => <Molecule key={`${x}-${y}`} x={x} y={y} half={7} upright />),
+      )}
+
+      <Label y={34}>Glas</Label>
+      <Label y={69}>Flüssigkristall</Label>
+      <Label y={104}>Glas</Label>
+      <Note>Moleküle stehen senkrecht</Note>
+    </Frame>
+  );
+}
+
+/**
+ * Gemeinsamer Stapel für den Bonding-Vergleich: Deckglas mit Touch-Elektroden
+ * (46–63), darunter der Spalt (GAP) und das Display (91–109). Der Spalt ist
+ * bewusst hoch, damit rechts zwei Beschriftungen übereinander Platz haben.
+ * Das Licht kommt von links oben; `reflections` sind die Höhen, an denen es
+ * spiegelt – der Strahl trifft sie auf seiner Geraden von (34|18) nach (88|90).
+ */
+const GAP = { top: 63, bottom: 91 };
+const rayX = (y: number) => 34 + (y - 18) * 0.75;
+
+function BondingStack({ reflections, children }: { reflections: { y: number; w: number }[]; children: ReactNode }) {
+  return (
+    <>
+      <text x="20" y="12" fill={C.label} fontSize="11.5" fontWeight="500">
+        Licht
+      </text>
+      {children}
+      <Glass y={46} h={14} />
+      <g fill={C.ito}>
+        {Array.from({ length: 12 }, (_, i) => (
+          <rect key={i} x={24 + i * 16} y="60" width="10" height="3" rx="1" />
+        ))}
+      </g>
+      <rect x="20" y={GAP.bottom} width="190" height="18" rx="2" fill={C.display} />
+      {/* Einfallender Strahl bis aufs Display */}
+      <Arrow x1={34} y1={18} x2={88} y2={GAP.bottom - 1} color={C.ink} width={2.2} />
+      {reflections.map(({ y, w }) => (
+        <Arrow key={y} x1={rayX(y) + 2} y1={y - 2} x2={rayX(y) + 22} y2={y - 26} color={C.ito} width={w} />
+      ))}
+    </>
+  );
+}
+
+function AirBondingDiagram() {
+  return (
+    <Frame label="Air Bonding: Ein Klebeband am Rand hält Deckglas und Touch über dem Display, dazwischen bleibt ein Luftspalt. Das Licht spiegelt an der Oberfläche und an beiden Seiten des Luftspalts.">
+      <BondingStack
+        reflections={[
+          { y: 46, w: 2.2 },
+          { y: GAP.top, w: 1.6 },
+          { y: GAP.bottom, w: 1.6 },
+        ]}
+      >
+        <g fill={C.filmEdge}>
+          <rect x="20" y={GAP.top} width="12" height={GAP.bottom - GAP.top} />
+          <rect x="198" y={GAP.top} width="12" height={GAP.bottom - GAP.top} />
+        </g>
+      </BondingStack>
+
+      <Label y={57}>Deckglas, Touch</Label>
+      <Label y={74}>Klebeband</Label>
+      <Label y={89}>Luftspalt</Label>
+      <Label y={105}>Display</Label>
+      <Note>Zusätzliche Spiegelungen</Note>
+    </Frame>
+  );
+}
+
+function OpticalBondingDiagram() {
+  return (
+    <Frame label="Optical Bonding: Ein optisch klarer Kleber (OCA) füllt den Raum zwischen Deckglas mit Touch und Display vollflächig. Das Licht spiegelt nur noch an der Oberfläche.">
+      <BondingStack reflections={[{ y: 46, w: 2.2 }]}>
+        <rect x="20" y={GAP.top} width="190" height={GAP.bottom - GAP.top} fill={C.band} />
+      </BondingStack>
+
+      <Label y={57}>Deckglas, Touch</Label>
+      <Label y={81}>OCA-Kleber</Label>
+      <Label y={105}>Display</Label>
+      <Note>Klebstoff statt Luftspalt</Note>
+    </Frame>
+  );
+}
+
 export const COMPARISON_DIAGRAMS: Record<string, ComponentType> = {
   'touch-resistiv': ResistiveDiagram,
   'touch-pcap': PcapDiagram,
@@ -451,4 +626,9 @@ export const COMPARISON_DIAGRAMS: Record<string, ComponentType> = {
   'glas-ar': AntiReflectiveDiagram,
   'glas-af': AntiFingerprintDiagram,
   'glas-am': AntiMicrobialDiagram,
+  'tft-tn': TnDiagram,
+  'tft-ips': IpsDiagram,
+  'tft-va': VaDiagram,
+  'tft-air': AirBondingDiagram,
+  'tft-optical': OpticalBondingDiagram,
 };

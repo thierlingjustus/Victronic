@@ -14,8 +14,18 @@ import montageGehaeuseImg from '../assets/products/montage-gehaeuse.svg';
 // Entsprechend ist auf den Produktseiten ein Transparenzhinweis ausgespielt
 // (Product.tsx) und ein Abschnitt auf der Rechtsseite hinterlegt (InhaltRecht.tsx).
 // Werden diese Dateien durch echte Fotos ersetzt, beides mit anpassen.
-import tftCtpExploded from '../assets/products/tft-displays/tft-ctp-exploded.jpg';
-import tftPanelFront from '../assets/products/tft-displays/tft-panel-front.jpg';
+// TFT-Produktarten: standard.webp ist das Foto der alten Seite /tft/ (nur 150 px,
+// deshalb mit Rand statt hochskaliert); die übrigen sind Ausschnitte aus der
+// Präsentation Displaytechnologien (S. 4, 5, 6, 9) und den Key Facts TFT-CTP (S. 6).
+// Originale unter Victronic/Information/TFT-Displays/Modelle. Die KI-Bilder
+// tft-ctp-exploded.jpg / tft-panel-front.jpg liegen noch im Ordner, weil
+// scripts/card-images.mjs tft-panel-front.jpg für das Hover-Bild nutzt.
+import tftStandardModel from '../assets/products/tft-displays/modelle/standard.webp';
+import tftBarTypeModel from '../assets/products/tft-displays/modelle/bar-type.webp';
+import tftRundModel from '../assets/products/tft-displays/modelle/rund.webp';
+import tftMiniModel from '../assets/products/tft-displays/modelle/mini.webp';
+import tftSmartModel from '../assets/products/tft-displays/modelle/smart-tft.webp';
+import tftVaModel from '../assets/products/tft-displays/modelle/va.webp';
 import cogBonding from '../assets/products/lcm-lcd-module/cog-bonding.jpg';
 import fstnPanel from '../assets/products/lcm-lcd-module/fstn-panel.jpg';
 import cobModule from '../assets/products/lcm-lcd-module/cob-module.jpg';
@@ -109,26 +119,263 @@ export const products = [
     icon: Monitor,
     headline: "Brillante Darstellung für industrielle Umgebungen",
     strategicBenefit: "Maximale Ablesbarkeit und Langlebigkeit unter extremen Bedingungen. Unsere TFT-Displays garantieren eine fehlerfreie Informationsübermittlung in kritischen Anwendungen.",
+    // QUELLEN:
+    // [ALT]  victronic-gmbh.de/tft/ (Standard-Display-Module 1,4 bis 26 Zoll, optional
+    //        resistiver oder projektiv kapazitiver Touch, optional OT −30 °C bis 85 °C,
+    //        LED-Backlight, LVDS optional, 4:3 und/oder Widescreen; IPS mit erweitertem
+    //        oder universellem Blickwinkel; Interface-Anpassung, semi- und full-customized
+    //        TFT 2,8" bis 5", andere Größen auf Anfrage; zertifizierte Hersteller, lange
+    //        Verfügbarkeit, strukturierte Ablöse bei Abkündigung; Foto TFT-1.png)
+    // [PRÄS] Information/Firma/Victronic_Präsentation_Displaytechnologien_.pdf,
+    //        S. 2 (IPS, TN, MVA; RGB, MIPI, DSI, LVDS, HDMI; CTP über I²C und USB;
+    //        Optical Bonding, Airbonding), S. 3 (TFT-Roadmap 0,23–4,0 / 4,3–10,1 /
+    //        10,4–75,0 Zoll), S. 4 (Mini-Displays), S. 5 (Round Displays, CTP available),
+    //        S. 6 (Bar Type Displays), S. 7–8 (Display-Off Color Matching), S. 9
+    //        (High-Contrast Multi-Color VA Displays), S. 19 (Optical Bonding: High-end OCA;
+    //        Air Bonding: Cost-effective tape bonding; Reliability: Shock & vibration
+    //        resistant; Custom Colors: Matching TFT OFF-state)
+    // [KF]   Information/Firma/Victronic GmbH_Key Facts TFT-CTP_2024.pdf, S. 1 (Key Facts
+    //        TFT/CTP: Größen 0,96 bis 75 Zoll; alle Größen wahlweise mit CTP;
+    //        kundenspezifische Coverlens; Interface RGB, MIPI, I²C oder HDMI-Adapter;
+    //        Helligkeiten bis 2.000 cd; Air und Optical Bonding; Total Black Surface;
+    //        Bar Type; HDMI-Panels; Smart Panel Solutions z. B. Raspberry Pi; Special:
+    //        VA-Displays mit hohem Kontrast und farbigen Elementen/Symbolen),
+    //        S. 3 (Optical Bonding: Reflexionsverluste < 0,3 %, High Contrast Ratio,
+    //        Thinner & Lighter), S. 4 (Total Black; Optical Bonding 0,96"–15,6", max. 32"),
+    //        S. 5 (Bar Type: Kaffeemaschine, Smart Home/Office, POS, Security; HDMI
+    //        TFT+CTP+HDMI-Board 7,0"–15,6", Industrial Instrument, Control Board),
+    //        S. 6 (Smart TFT; Color MVA Display, Integrated Black, Full Viewing Angle,
+    //        High Reliability)
+    // Die alte Seite hat keine Einzelmodelle – die Produktarten unten stammen aus
+    // dem Text der alten Seite und den Typen in Präsentation und Key Facts.
     specs: [
-      { label: "Technologie", value: "IPS, TN, MVA – IPS-Modelle mit erweitertem bzw. universellem Blickwinkel" },
-      { label: "Größen", value: "1,4 Zoll bis 26 Zoll (Standard), semi- und full-customized 2,8\" bis 5\", weitere Größen auf Anfrage" },
-      { label: "Format & Temperatur", value: "4:3 und Widescreen, optional erweiterter Betriebsbereich -30 °C bis +85 °C" },
-      { label: "Schnittstellen", value: "LVDS, RGB, MIPI/DSI, HDMI – bei Kleinformaten auch SPI und 16-bit parallel" }
+      // Reihenfolge nicht ändern: TftStack.tsx ordnet die ersten vier Zeilen per
+      // SPEC_LAYERS den Schichten zu (Technologie → TFT-Glas, Schnittstellen → PCB).
+      { label: "Technologie", value: "IPS, TN und MVA – IPS mit erweitertem oder universellem Blickwinkel" }, // [ALT] [PRÄS] S. 2
+      // [KF] S. 1 nennt 0,96 bis 75 Zoll; die Roadmap [PRÄS] S. 3–4 reicht bis 0,23 Zoll.
+      { label: "Größen", value: "0,23 bis 75 Zoll, Standardmodule 1,4 bis 26 Zoll" }, // [PRÄS] S. 3–4 [ALT]
+      { label: "Format & Temperatur", value: "4:3, Widescreen, rund oder Bar Type – optional −30 °C bis +85 °C" }, // [ALT] [PRÄS] S. 5–6
+      // I²C aus [KF] S. 1 bewusst nicht: laut [PRÄS] S. 2 ist das die Touch-Schnittstelle.
+      { label: "Schnittstellen", value: "RGB, LVDS, MIPI/DSI, HDMI – kleine Formate auch SPI oder 16-bit parallel" }, // [ALT] [PRÄS] S. 2, 4, 5 [KF] S. 1
+      // legendOnly: nur in den Technischen Daten, nicht im Takt der Animation. Immer ans Ende.
+      { label: "Touch & Bonding", value: "Alle Größen auch mit Touch, resistiv oder kapazitiv – per Air oder Optical Bonding", legendOnly: true }, // [ALT] [KF] S. 1
+      // [PRÄS] S. 2 nennt „3.500 cd“ – mit dem Team klären, welcher Wert gilt.
+      { label: "Helligkeit", value: "Bis 2.000 cd/m²", legendOnly: true } // [KF] S. 1
     ],
     synergy: "Perfekt kombinierbar mit unseren OGS-Touchscreens und Cover-Gläsern für komplette HMI-Einheiten. Bei Abkündigungen sorgen frühzeitige Information und durchstrukturierte Ablöse-Szenarien unserer Hersteller für einen fließenden Übergang zum Nachfolgeprodukt.",
     modelType: "display",
+    // Technische Daten als Legende neben der Animation statt Faktenkarten
+    specsLegend: true,
     image: tftDisplaysImg,
     cardImage:tftDisplaysCard,
-    images: [
+    modelsTitle: "Produktarten",
+    models: [
       {
-        src: tftCtpExploded,
-        caption: "Der vollständige TFT+CTP-Schichtaufbau in der Explosionsansicht: Deckglas, kapazitiver Touch-Sensor, Farbfilter- und TFT-Glas mit den RGB-Subpixeln, Backlight-Diffusor-Stack, LED-Leiste und Treiber-PCB mit FPC-Anschluss – die Basis für unsere Schnittstellen LVDS, RGB und MIPI."
+        name: "Standard-TFT-Module",
+        kind: "4:3 und Widescreen",
+        image: tftStandardModel,
+        summary: "Brillante Standard-Display-Module mit LED-Backlight. Unsere zertifizierten Hersteller stehen für gleichbleibend hohe Qualität und lange Verfügbarkeit.", // [ALT]
+        specs: [
+          { label: "Größen", value: "1,4 bis 26 Zoll" }, // [ALT]
+          { label: "Technik", value: "IPS, TN oder MVA" }, // [PRÄS] S. 2
+          { label: "Blickwinkel", value: "Bei IPS erweitert oder universell" }, // [ALT]
+          { label: "Schnittstellen", value: "RGB, MIPI/DSI, optional LVDS" }, // [ALT] [PRÄS] S. 2
+          { label: "Touch", value: "Optional resistiv oder projiziert-kapazitiv" }, // [ALT]
+          { label: "Temperatur", value: "Optional −30 °C bis +85 °C" } // [ALT]
+        ]
       },
       {
-        src: tftPanelFront,
-        caption: "Ein fertig montiertes IPS-TFT-Panel in Frontalansicht. Die IPS-Technologie sorgt für weite Blickwinkel und damit für eine stabile Darstellung auch bei seitlicher Betrachtung."
+        name: "Bar-Type-Displays",
+        kind: "Schmale Streifenformate",
+        image: tftBarTypeModel,
+        summary: "Präzise zugeschnittene TFTs in jeder benötigten Höhe – etwa für Kaffeemaschinen, Smart-Home- und Bürotechnik, Kassensysteme oder Sicherheitstechnik.", // [PRÄS] S. 6 [KF] S. 5
+        specs: [
+          { label: "Größen", value: "2,86 bis 7,84 Zoll" }, // [PRÄS] S. 6
+          { label: "Auflösung", value: "480 × 128 bis 480 × 1280 Pixel" }, // [PRÄS] S. 6
+          { label: "Technik", value: "IPS oder TN" }, // [PRÄS] S. 6
+          { label: "Helligkeit", value: "310 bis 550 cd/m²" }, // [PRÄS] S. 6
+          { label: "Schnittstellen", value: "RGB oder MIPI" }, // [PRÄS] S. 6
+          { label: "Temperatur", value: "−20 °C bis +70 °C" } // [PRÄS] S. 6
+        ]
+      },
+      {
+        name: "Runde Displays",
+        kind: "Kreisrund, IPS",
+        image: tftRundModel,
+        summary: "Kreisrunde IPS-Displays, auf Wunsch mit kapazitivem Touch.", // [PRÄS] S. 5
+        specs: [
+          { label: "Größen", value: "1,28 bis 5,0 Zoll" }, // [PRÄS] S. 5
+          { label: "Auflösung", value: "240 × 240 bis 1080 × 1080 Pixel" }, // [PRÄS] S. 5
+          { label: "Helligkeit", value: "320 bis 760 cd/m²" }, // [PRÄS] S. 5
+          { label: "Schnittstellen", value: "MIPI, 1,28 Zoll mit SPI" } // [PRÄS] S. 5
+        ]
+      },
+      {
+        name: "Mini-Displays",
+        kind: "Unter 1 Zoll",
+        image: tftMiniModel,
+        summary: "Hohe Auflösung auf kleinster Fläche.", // [PRÄS] S. 4 („High Performance in Compact Size“)
+        specs: [
+          { label: "Größen", value: "0,23 bis 0,96 Zoll" }, // [PRÄS] S. 4
+          { label: "Auflösung", value: "640 × 400 bis 1400 × 1050 Pixel" }, // [PRÄS] S. 4
+          { label: "Farbe", value: "Vollfarbig oder grün" }, // [PRÄS] S. 4
+          { label: "Helligkeit", value: "200 bis 2.000 cd/m²" }, // [PRÄS] S. 4
+          { label: "Schnittstellen", value: "MIPI, RGB oder 16-bit parallel" } // [PRÄS] S. 4
+        ]
+      },
+      {
+        name: "Smart TFT",
+        kind: "Display mit eigener Steuerung",
+        image: tftSmartModel,
+        summary: "Bedienoberflächen entstehen am PC im UI-Editor und lassen sich im Emulator testen; das Display wird über ein vereinfachtes serielles Protokoll angesteuert. Auch Smart-Panel-Lösungen, etwa mit Raspberry Pi, sind möglich.", // [KF] S. 1, 6
+        specs: [
+          { label: "Größen", value: "Bis 10,1 Zoll" }, // [KF] S. 6
+          { label: "Auflösung", value: "Bis 1280 × 1024 Pixel" }, // [KF] S. 6
+          { label: "Bedienelemente", value: "Tasten, Text, Pop-ups, Tastatur, Schieberegler, Checkboxen" }, // [KF] S. 6
+          { label: "Effekte", value: "Pop-up, Slide, Rotation, Umblättern" } // [KF] S. 6
+        ]
+      },
+      {
+        name: "VA-Displays mit Farbsymbolen",
+        kind: "Special: hoher Kontrast",
+        image: tftVaModel,
+        summary: "Brillante VA-Displays mit hohem Kontrast und farbigen Elementen und Symbolen.", // [KF] S. 1
+        specs: [
+          { label: "Technik", value: "MVA (Multi-Domain Vertical Alignment)" }, // [KF] S. 6
+          { label: "Kontrast", value: "Hoch, mit integriertem Schwarz" }, // [PRÄS] S. 9 [KF] S. 6
+          { label: "Farben", value: "Frei wählbar" }, // [PRÄS] S. 9 („Any Color“)
+          { label: "Blickwinkel", value: "Voller Blickwinkel" }, // [KF] S. 6
+          { label: "Weitere Vorteile", value: "Hohe Zuverlässigkeit, kostengünstig" } // [KF] S. 6 [PRÄS] S. 9
+        ]
+      },
+      {
+        name: "HDMI-Panels",
+        kind: "TFT + Touch + HDMI-Board",
+        // Foto in [KF] S. 5 steht auf grünem Grund – bis ein Freisteller vorliegt, Kürzel
+        badge: "HDMI",
+        summary: "Komplettlösung aus TFT, kapazitivem Touch und HDMI-Wandlerplatine.", // [KF] S. 1, 5
+        specs: [
+          { label: "Größen", value: "7,0 bis 15,6 Zoll" }, // [KF] S. 5
+          { label: "Einsatz", value: "Industrie-Instrumente, Steuerplatinen" } // [KF] S. 5
+        ]
+      },
+      {
+        name: "Kundenspezifische TFT",
+        kind: "Semi- und full-customized",
+        badge: "2,8–5″",
+        summary: "TFT nach Ihren Vorgaben – vom angepassten Interface bis zum komplett kundenspezifischen Display.", // [ALT]
+        specs: [
+          { label: "Größen", value: "2,8 bis 5 Zoll, andere auf Anfrage" }, // [ALT]
+          { label: "Ausführung", value: "Semi- oder full-customized" }, // [ALT]
+          { label: "Interface", value: "Kundenspezifisch anpassbar" }, // [ALT]
+          { label: "Deckglas", value: "Kundenspezifische Coverlens, Farbe passend zum ausgeschalteten Display" } // [KF] S. 1 [PRÄS] S. 7, 19
+        ]
       }
-    ]
+    ],
+    // Keine Galerie mehr: Die KI-Bilder ersetzt der Vergleich unten mit Querschnitten.
+    images: [],
+    // QUELLEN zusätzlich zu [ALT]/[PRÄS]/[KF] oben:
+    // [WLCD]  de.wikipedia.org/wiki/Flüssigkristallanzeige, Abschnitte „Twisted Nematic
+    //         (TN)“ (Moleküle um 90° verdrillt, drehen die Polarisationsebene; Spannung
+    //         hebt die Verdrillung auf; niedrige Betriebsspannung), „Vertical Alignment
+    //         (PVA und MVA)“ (Kontrast > 1000:1 üblich, TN < 800:1; große
+    //         Blickwinkel-Unabhängigkeit; langsamer als TN), „In-Plane Switching (IPS)“
+    //         (Elektroden nebeneinander parallel zur Oberfläche, Moleküle drehen sich in
+    //         der Ebene, keine Schraubenform; blickwinkelstabiler Kontrast)
+    // [WLCDE] en.wikipedia.org/wiki/Liquid-crystal_display, Abschnitte „Twisted nematic“
+    //         (günstig, sehr schnell; enger Blickwinkel, Gamma-Verschiebung, begrenzte
+    //         Farbtreue), „In-plane switching“ (Moleküle parallel zum Glas, Elektroden
+    //         auf demselben Glas), „Vertical alignment“ (ohne Spannung senkrecht → schwarz
+    //         zwischen gekreuzten Polarisatoren; tieferes Schwarz und mehr Kontrast als
+    //         IPS, aber engerer Blickwinkel; Kosten VA < IPS, > TN; bessere Bildqualität
+    //         bei extremen Temperaturen als TN)
+    // [WOB]   en.wikipedia.org/wiki/Optical_bonding (Glas wird mit optischem Kleber auf
+    //         das Display geklebt, der Luftspalt entfällt; ohne Bonding beschlägt die
+    //         Innenseite bei Feuchte und Sonnenlicht spiegelt; mehr Kontrast durch
+    //         weniger reflektiertes Umgebungslicht)
+    comparison: {
+      title: "Panel-Technik und Bonding",
+      intro: "Zwei Entscheidungen prägen jedes TFT: wie die Flüssigkristalle schalten – und wie Touch und Deckglas mit dem Display verbunden werden.",
+      groups: [
+        {
+          title: "Panel-Technik",
+          intro: "In allen drei Techniken steuern Flüssigkristalle zwischen zwei Glasplatten, wie viel Licht der Hintergrundbeleuchtung durchkommt. Sie unterscheiden sich darin, wie die Moleküle liegen und sich bewegen.", // [WLCD] [WLCDE]
+          columns: [
+            {
+              title: "TN – Twisted Nematic",
+              tag: "Verdrillte Flüssigkristalle",
+              diagram: "tft-tn",
+              rows: [
+                { label: "So funktioniert’s", text: "Die Moleküle sind zwischen den Glasplatten schraubenförmig um 90° verdreht und drehen das Licht mit. Unter Spannung richten sie sich auf, die Drehung entfällt – der Bildpunkt wird dunkel." }, // [WLCD]
+                { label: "Stärken", items: [
+                  "Günstig in der Herstellung", // [WLCDE]
+                  "Sehr kurze Schaltzeiten und niedrige Betriebsspannung" // [WLCDE] [WLCD]
+                ] },
+                { label: "Gut zu wissen", text: "Der Blickwinkel ist enger: Von der Seite verschieben sich Helligkeit und Farben." } // [WLCDE]
+              ]
+            },
+            {
+              title: "IPS – In-Plane Switching",
+              tag: "Schaltet in der Ebene",
+              diagram: "tft-ips",
+              rows: [
+                { label: "So funktioniert’s", text: "Die Moleküle liegen flach, parallel zum Glas. Beide Elektroden sitzen nebeneinander auf derselben Glasplatte; ihr Feld dreht die Moleküle in dieser Ebene – ohne die Schraubenform der TN-Zelle." }, // [WLCD] [WLCDE]
+                { label: "Stärken", items: [
+                  "Kontrast und Farben bleiben auch von der Seite stabil", // [WLCD]
+                  "Bei uns mit erweitertem oder universellem Blickwinkel" // [ALT]
+                ] },
+                { label: "Gut zu wissen", text: "Teurer als VA und TN, und das Schwarz wirkt weniger tief als bei VA." } // [WLCDE]
+              ]
+            },
+            {
+              title: "VA – Vertical Alignment",
+              tag: "Senkrecht stehende Flüssigkristalle, z. B. MVA",
+              diagram: "tft-va",
+              rows: [
+                { label: "So funktioniert’s", text: "Ohne Spannung stehen die Moleküle senkrecht zum Glas – zwischen den gekreuzten Polarisatoren bleibt der Bildpunkt schwarz. Spannung kippt sie und lässt Licht durch." }, // [WLCDE]
+                { label: "Stärken", items: [
+                  "Tiefes Schwarz und hoher Kontrast: über 1.000:1 sind üblich, bei TN unter 800:1", // [WLCD]
+                  "Großer Blickwinkel, gute Bildqualität auch bei extremen Temperaturen" // [WLCD] [WLCDE]
+                ] },
+                { label: "Gut zu wissen", text: "Schaltet langsamer als TN. Von der Seite verschieben sich Farben und Kontrast etwas stärker als bei IPS." } // [WLCD] [WLCDE]
+              ]
+            }
+          ]
+        },
+        {
+          title: "Verbindung mit Touch und Deckglas",
+          intro: "Touch-Sensor, Deckglas und TFT werden zu einer stoß- und vibrationsfesten Einheit verbunden – mit Luftspalt oder vollflächig verklebt.", // [PRÄS] S. 19 [KF] S. 1
+          columns: [
+            {
+              title: "Air Bonding",
+              tag: "Am Rand verklebt, mit Luftspalt",
+              diagram: "tft-air",
+              rows: [
+                { label: "So funktioniert’s", text: "Ein Klebeband am Rand hält Touch und Deckglas über dem Display. Dazwischen bleibt ein dünner Luftspalt." }, // [PRÄS] S. 19 [WOB]
+                { label: "Stärken", items: [
+                  "Kostengünstig" // [PRÄS] S. 19
+                ] },
+                { label: "Gut zu wissen", text: "Im Sonnenlicht spiegelt der Luftspalt zusätzlich, der Kontrast sinkt. Bei hoher Luftfeuchte kann er von innen beschlagen." } // [WOB]
+              ]
+            },
+            {
+              title: "Optical Bonding",
+              tag: "Vollflächig mit optisch klarem Kleber (OCA)",
+              diagram: "tft-optical",
+              rows: [
+                { label: "So funktioniert’s", text: "Ein optisch klarer Klebstoff (OCA) verbindet Deckglas, Touch-Sensor und Display vollflächig – der Luftspalt entfällt." }, // [KF] S. 3 [PRÄS] S. 19 [WOB]
+                { label: "Stärken", items: [
+                  "Reflexionsverluste unter 0,3 % – mehr Kontrast, auch im Sonnenlicht", // [KF] S. 3 [WOB]
+                  "Beschlägt nicht von innen", // [WOB]
+                  "Dünner und leichter" // [KF] S. 3
+                ] },
+                { label: "Gut zu wissen", text: "Üblich von 0,96 bis 15,6 Zoll, maximal 32 Zoll. Mit reflexionsarmem OCA und Glas wirkt das ausgeschaltete Display so schwarz wie der Rand (Total Black)." } // [KF] S. 1, 4 [PRÄS] S. 7–8
+              ]
+            }
+          ]
+        }
+      ]
+    }
   },
   {
     id: "lcm-lcd-module",
