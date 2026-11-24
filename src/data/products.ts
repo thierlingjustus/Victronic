@@ -159,8 +159,9 @@ export const products = [
       { label: "Schnittstellen", value: "RGB, LVDS, MIPI/DSI, HDMI – kleine Formate auch SPI oder 16-bit parallel" }, // [ALT] [PRÄS] S. 2, 4, 5 [KF] S. 1
       // legendOnly: nur in den Technischen Daten, nicht im Takt der Animation. Immer ans Ende.
       { label: "Touch & Bonding", value: "Alle Größen auch mit Touch, resistiv oder kapazitiv – per Air oder Optical Bonding", legendOnly: true }, // [ALT] [KF] S. 1
-      // [PRÄS] S. 2 nennt „3.500 cd“ – mit dem Team klären, welcher Wert gilt.
-      { label: "Helligkeit", value: "Bis 2.000 cd/m²", legendOnly: true } // [KF] S. 1
+      // [KF] S. 1 nennt noch 2.000 cd. Laut Team (2026-11-24) ist der höhere Wert der
+      // Präsentation aktuell – heute sind deutlich hellere Displays möglich.
+      { label: "Helligkeit", value: "Bis 3.500 cd/m²", legendOnly: true } // [PRÄS] S. 2
     ],
     synergy: "Perfekt kombinierbar mit unseren OGS-Touchscreens und Cover-Gläsern für komplette HMI-Einheiten. Bei Abkündigungen sorgen frühzeitige Information und durchstrukturierte Ablöse-Szenarien unserer Hersteller für einen fließenden Übergang zum Nachfolgeprodukt.",
     modelType: "display",
