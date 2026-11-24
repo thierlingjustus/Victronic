@@ -66,6 +66,7 @@ import lagerDoppelt from '../assets/products/luefter/lager-doppelt.webp';
 // Victronic/Information/Kunststoffkomponenten/Beispiele). Bildtexte nach den
 // Dateinamen der alten Seite bzw. dem, was auf dem Foto zu sehen ist.
 import spritzgussModel from '../assets/products/kunststoffkomponenten/modelle/spritzguss.webp';
+import metallModel from '../assets/products/kunststoffkomponenten/modelle/metall.webp';
 import kunstDoubleMolding from '../assets/products/kunststoffkomponenten/beispiele/double-molding.webp';
 import kunstGehaeuseAussen from '../assets/products/kunststoffkomponenten/beispiele/gehaeuse-aussen.webp';
 import kunstGehaeuseInnen from '../assets/products/kunststoffkomponenten/beispiele/gehaeuse-innen.webp';
@@ -978,7 +979,9 @@ export const products = [
       {
         name: "Metall- und Verbundgehäuse",
         kind: "Aluminium · Magnesium · Materialverbund",
-        badge: "Al · Mg",
+        // KI-Bild (Information/Kunststoffkomponenten/Magnesium_die-cast_housing_part_…jpeg),
+        // Studio-Hintergrund auf Weiß gerechnet; Transparenzhinweis in Product.tsx
+        image: metallModel,
         summary: "Neben Kunststoff fertigen unsere Hersteller auch Gehäuse und Bauteile aus Metall – oder kombinieren beides.", // [ALT]
         specs: [
           { label: "Aluminium", value: "Aluminiumspritzguss" }, // [ALT]
