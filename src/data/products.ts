@@ -52,6 +52,10 @@ import housingInterior from '../assets/products/kunststoffkomponenten/housing-in
 import coverGlassEdge from '../assets/products/glasloesungen/cover-glass-edge.jpg';
 import coverGlassBorder from '../assets/products/glasloesungen/cover-glass-border.jpg';
 import coverGlassCutout from '../assets/products/glasloesungen/cover-glass-cutout.jpg';
+// Fotos der alten Seite /glas-4/ (Originale unter Victronic/Information/Glasloesungen/Modelle);
+// glasrahmen.webp setzt die Fotos „Glasrahmen Weiss" und „Glasrahmen Rot" zusammen.
+import frontglasModel from '../assets/products/glasloesungen/modelle/frontglas.webp';
+import glasrahmenModel from '../assets/products/glasloesungen/modelle/glasrahmen.webp';
 import smtPcb from '../assets/products/montage-gehaeuse/smt-pcb.jpg';
 import boxBuildModule from '../assets/products/montage-gehaeuse/box-build-module.jpg';
 import desktopBrick from '../assets/products/stromversorgungen/desktop-brick.jpg';
@@ -690,16 +694,64 @@ export const products = [
     icon: RectangleHorizontal,
     headline: "Robuste und veredelte Cover-Gläser",
     strategicBenefit: "Schutz und optische Aufwertung Ihrer Displays durch chemisch gehärtete und speziell beschichtete Gläser.",
+    // QUELLEN:
+    // [ALT]  victronic-gmbh.de/glas-4/ (Cover-Lenses und Abdeckscheiben aus Glas oder
+    //        PMMA, chemisch oder physikalisch gehärtet, Anti-Glare, Bedruckung; Glasrahmen
+    //        als Einfach-/Mehrfachrahmen in Transparent, Weiß oder Eintönung; drei Fotos)
+    // [PRÄS] Information/Firma/Victronic_Präsentation_Displaytechnologien_.pdf,
+    //        S. 2 (Glass/Plastic Coverlens, IML und IMR), S. 7 (Display-Off Color Matching),
+    //        S. 10 (AG/AS/AF/AR), S. 14 (AM: Silberionen, SGS-zertifiziert), S. 15–17
+    //        (AG, AF + AS, AR), S. 18 (2D, 2,5D, 3D), S. 19 Keyfacts (Glas thermisch und
+    //        chemisch gehärtet; PC, PMMA und Spezialtypen; freie Formen mit echten
+    //        Bohrungen; Siebdruck, IMR, IML; Optical/Air Bonding; Hygiene Medizin/öffentlich)
+    // [KF]   Information/Firma/Victronic GmbH_Key Facts TFT-CTP_2024.pdf, S. 3 (AM),
+    //        S. 4 (Coverlens max. length 1000 mm)
+    // Die alte Seite hat keine Einzelmodelle, nur die zwei Produktarten unten.
     specs: [
-      { label: "Materialien", value: "Cover-Lenses und Abdeckscheiben aus Glas oder PMMA, dazu Glasrahmen als Einfach- und Mehrfachrahmen (transparent, weiß oder kundenspezifisch eingetönt)" },
-      { label: "Härtung", value: "Optional chemisch oder physikalisch gehärtet" },
-      { label: "Oberflächen", value: "AG (Anti-Glare), AR (Anti-Reflective), AF (Anti-Fingerprint), AS (Anti-Smudge), AM (Anti-Microbial, Silber-Ionen, SGS-zertifiziert)" },
-      { label: "Bearbeitung & Design", value: "2D, 2.5D und 3D-Kanten, Bohrungen und Aussparungen, individueller Siebdruck (Passepartout, Logos, Buttons)" }
+      // Reihenfolge wie in der Animation: Scheibe → Ausschnitt/Druck → Kante mit Beschichtungen.
+      { label: "Materialien", value: "Glas, chemisch oder thermisch gehärtet, und Kunststoff (PMMA, PC)" }, // [ALT] [PRÄS] S. 19
+      { label: "Form & Druck", value: "Freie Formen mit Bohrungen, 2D-, 2,5D- und 3D-Kanten, Siebdruck nach Vorgabe" }, // [ALT] [PRÄS] S. 18–19
+      { label: "Oberflächen", value: "AG (Anti-Glare), AR (Anti-Reflective), AF (Anti-Fingerprint), AS (Anti-Smudge)" }, // [PRÄS] S. 10, 15–17
+      { label: "Antimikrobiell (AM)", value: "Beschichtung mit Silberionen, SGS-zertifiziert – für Medizintechnik und öffentlich genutzte Geräte" }, // [PRÄS] S. 14, 19 [KF] S. 3
+      // legendOnly: nur in den Technischen Daten, nicht im Takt der Animation. Immer ans Ende.
+      { label: "Anpassungen", value: "Form, Größe und Dicke nach Ihren Vorgaben", legendOnly: true } // [ALT]
     ],
     synergy: "Die perfekte Ergänzung zu unseren TFTs und Touchscreens.",
     modelType: "glass",
+    // Technische Daten als Legende neben der Animation statt Faktenkarten
+    specsLegend: true,
     image: glasloesungenImg,
     cardImage:glasloesungenCard,
+    // Produktarten direkt unter der Scroll-Bühne – die zwei Absätze der alten Seite
+    // /glas-4/, ergänzt um die Eckdaten aus Präsentation und Key Facts.
+    modelsTitle: "Produktarten",
+    models: [
+      {
+        name: "Cover-Lenses & Abdeckscheiben",
+        kind: "Glas oder Kunststoff (PMMA, PC)",
+        image: frontglasModel,
+        summary: "Für Anzeigen, Bedienpanels und Gehäusefronten – in Form, Größe und Dicke an Ihr Gerät angepasst. Auf Wunsch mit Touch und TFT zu einer Einheit verbunden.", // [ALT] [PRÄS] S. 19
+        specs: [
+          { label: "Härtung", value: "Glas chemisch oder thermisch gehärtet" }, // [ALT] [PRÄS] S. 19
+          { label: "Form", value: "Freie Formen mit echten Bohrungen, Länge bis 1.000 mm" }, // [PRÄS] S. 19 [KF] S. 4
+          { label: "Kanten", value: "2D, 2,5D oder 3D" }, // [PRÄS] S. 18
+          { label: "Oberflächen", value: "AG, AR, AF, AS und AM" }, // [PRÄS] S. 10, 14–17
+          // IML/IMR dekorieren im Spritzgießwerkzeug – das betrifft nur Kunststoff.
+          { label: "Dekor", value: "Siebdruck, Farbe passend zum ausgeschalteten Display; bei Kunststoff auch IML und IMR" }, // [ALT] [PRÄS] S. 2, 7, 19
+          { label: "Verbund", value: "Optical Bonding (OCA) oder Air Bonding mit Touch und TFT" } // [PRÄS] S. 19
+        ]
+      },
+      {
+        name: "Glasrahmen",
+        kind: "Einfach- und Mehrfachrahmen",
+        image: glasrahmenModel,
+        summary: "Hochwertige Glasrahmen, unter anderem für Schalter- und Bedienelemente.", // [ALT]
+        specs: [
+          { label: "Ausführung", value: "Einfach- oder Mehrfachrahmen" }, // [ALT]
+          { label: "Farben", value: "Transparent, Weiß oder kundenspezifisch eingetönt" } // [ALT]
+        ]
+      }
+    ],
     images: [
       {
         src: coverGlassEdge,
