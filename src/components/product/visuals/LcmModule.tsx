@@ -32,10 +32,14 @@ const iso = (n: number) => {
 const N = 6;
 
 /**
- * Faktenkarte → Schicht. specs in products.ts:
- * 0 Technologien · 1 Aufbau · 2 Darstellung · 3 Temperaturbereich
+ * Legendenzeile → Schicht. specs in products.ts:
+ * 0 Bauformen → Treiber-PCB · 1 Technologien → Glaszelle ·
+ * 2 Darstellung (Positiv/Negativ) → Polarisator · 3 Temperatur → -1
+ * Die Reihenfolge folgt dem Aufbau: Jede Schicht ist schon eingeblendet,
+ * wenn ihre Zeile an der Reihe ist (Zeilen bei 0,20 / 0,33 / 0,46, Schichten
+ * 0 / 3 / 4 ab 0,05 / 0,30 / 0,38).
  */
-const SPEC_LAYERS = [3, 2, 3, -1];
+const SPEC_LAYERS = [0, 3, 4, -1];
 
 /**
  * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:

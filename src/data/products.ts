@@ -31,9 +31,19 @@ import tftVaModel from '../assets/products/tft-displays/modelle/va.webp';
 // Transparenzhinweis in Product.tsx deckt sie mit ab.
 import tftHdmiModel from '../assets/products/tft-displays/modelle/hdmi.webp';
 import tftKundenspezifischModel from '../assets/products/tft-displays/modelle/kundenspezifisch.webp';
-import cogBonding from '../assets/products/lcm-lcd-module/cog-bonding.jpg';
-import fstnPanel from '../assets/products/lcm-lcd-module/fstn-panel.jpg';
-import cobModule from '../assets/products/lcm-lcd-module/cob-module.jpg';
+// LCD-Technologien: Fotos der alten Seite /lcmlcd/ (je 150 px, deshalb mit Rand
+// statt hochskaliert; Originale unter Victronic/Information/LCM-LCD-Module/Modelle).
+// Die KI-Bilder cog-bonding.jpg / fstn-panel.jpg / cob-module.jpg liegen noch im
+// Ordner, weil scripts/card-images.mjs cob-module.jpg für das Hover-Bild nutzt.
+import lcdTn from '../assets/products/lcm-lcd-module/modelle/tn.webp';
+import lcdEtn from '../assets/products/lcm-lcd-module/modelle/etn.webp';
+import lcdHtn from '../assets/products/lcm-lcd-module/modelle/htn.webp';
+import lcdStn from '../assets/products/lcm-lcd-module/modelle/stn.webp';
+import lcdFstn from '../assets/products/lcm-lcd-module/modelle/fstn.webp';
+import lcdDfstn from '../assets/products/lcm-lcd-module/modelle/dfstn.webp';
+import lcdIstn from '../assets/products/lcm-lcd-module/modelle/istn.webp';
+import lcdAstn from '../assets/products/lcm-lcd-module/modelle/astn.webp';
+import lcdFsc from '../assets/products/lcm-lcd-module/modelle/fsc.webp';
 // Touch-Arten: Fotos der alten Seite (wp-content/uploads/2015/09, Originale unter
 // Victronic/Information/Touchscreens/Modelle). PCAP und Resistiv gibt es dort nur in
 // 150 × 150 px – größere Vorlagen würden die Kacheln schärfer machen.
@@ -400,30 +410,217 @@ export const products = [
     icon: Smartphone,
     headline: "Monochrome und FSC-Anzeigen für Messen, Steuern, Regeln",
     strategicBenefit: "Kosteneffiziente, extrem stromsparende und kontrastreiche Anzeigen für Messgeräte, Steuerungen und IoT-Anwendungen.",
+    // QUELLEN:
+    // [ALT] victronic-gmbh.de/lcmlcd/ (alle aktuellen LCD-Technologien von TN, HTN, STN
+    //       über FSTN, ISTN, ASTN bis VA, FS etc. als COB, COG oder TAB, optional mit
+    //       resistivem oder kapazitivem Touch, als kundenspezifische Spezial- oder
+    //       Komplettmodul-Lösung inkl. PCB, Backlighthousing und Gerätehousing;
+    //       spezialisiert auf kundenspezifische monochrome Displays und Module;
+    //       Referenzen in Deutschland, Österreich, Schweiz; Liste „LCD technologies“
+    //       mit TN, ETN, HTN, STN, FSTN, DFSTN, ISTN, ASTN, FSC samt Modus, Max. Duty
+    //       Ratio, Betriebstemperatur und Hintergrundbeleuchtung; LCD-Module COB, COG,
+    //       TAB; Fotos je 150 px; Hersteller-Logos APEX, Yeebo, HTD)
+    // [CAD] Information/LCM-LCD-Module/lcm-module-128x64.glb (COB-Modul mit
+    //       Pfostenstecker „header_shroud“) – Vorlage der Bühnen-Grafik
     specs: [
-      { label: "Technologien", value: "TN, ETN, HTN, STN, FSTN, DFSTN, ISTN, ASTN, VA und FSC (Field Sequential Color: 8 Farben ohne Farbfilter, ≤ 5 ms)" },
-      { label: "Aufbau", value: "COG (Chip-on-Glass), COB (Chip-on-Board), TAB (Tape Automated Bonding)" },
-      { label: "Darstellung", value: "Positiv- und Negativ-Modus, hoher Kontrast bei FSTN/DFSTN/ASTN, Hintergrundbeleuchtung in jeder Farbe" },
-      { label: "Temperaturbereich", value: "-40 °C bis +90 °C je nach Technologie (HTN); FSC: 0 °C bis +50 °C" }
+      // Reihenfolge nicht ändern: LcmModule.tsx ordnet die ersten vier Zeilen per
+      // SPEC_LAYERS den Schichten zu (Bauformen → Treiber-PCB, Technologien →
+      // Glaszelle, Darstellung → Polarisator) – in der Reihenfolge des Aufbaus.
+      { label: "Bauformen", value: "COB, COG oder TAB" }, // [ALT]
+      { label: "Technologien", value: "TN, ETN, HTN, STN, FSTN, DFSTN, ISTN, ASTN, VA und FSC" }, // [ALT]
+      { label: "Darstellung", value: "Positiv- oder Negativ-Modus, Hintergrundbeleuchtung in jeder Farbe; FSC mit 8 Farben" }, // [ALT]
+      { label: "Temperatur", value: "Je nach Technologie bis −40 °C / +90 °C (HTN)" }, // [ALT]
+      // legendOnly: nur in den Technischen Daten, nicht im Takt der Animation. Immer ans Ende.
+      { label: "Touch", value: "Optional resistiv oder kapazitiv", legendOnly: true }, // [ALT]
+      { label: "Lösungen", value: "Kundenspezifisch bis zum Komplettmodul mit PCB, Backlight- und Gerätehousing", legendOnly: true } // [ALT]
     ],
-    synergy: "Ideal für batteriebetriebene Geräte. Nahtlose Integration in unsere Kunststoffgehäuse mit passgenauen Sichtfenstern.",
+    // Vorher „ideal für batteriebetriebene Geräte … passgenaue Sichtfenster“ – beides
+    // steht in keiner Unterlage.
+    synergy: "Auf Wunsch mit resistivem oder kapazitivem Touch und als Komplettmodul mit PCB, Backlight- und Gerätehousing – kombinierbar mit unseren Kunststoffgehäusen und Glaslösungen.", // [ALT]
     modelType: "lcd",
+    // Technische Daten als Legende neben der Animation statt Faktenkarten
+    specsLegend: true,
     image: lcmLcdModuleImg,
     cardImage:lcmLcdModuleCard,
-    images: [
+    // Die neun Technologien der alten Seite, Kennwerte wörtlich von dort.
+    // Positiv/Negativ: Die alte Seite beschreibt Negativ-Modus durchweg mit
+    // (tief)schwarzem Hintergrund, die Fotos zeigen Positiv dunkel auf hell.
+    // [WMUX] en.wikipedia.org/wiki/Multiplexed_display – Zeilen werden nacheinander
+    //        angesteuert; [WLCD] de.wikipedia.org/wiki/Flüssigkristallanzeige – STN
+    //        lässt sich besser multiplexen als TN, Passiv-Matrix im Zeitmultiplex.
+    modelsTitle: "LCD-Technologien",
+    modelsIntro: "Positiv-Modus: dunkle Zeichen auf hellem Grund. Negativ-Modus: helle Zeichen auf dunklem, oft tiefschwarzem Grund. Die Duty Ratio gibt an, auf wie viele Zeilen sich die Ansteuerung aufteilt – bei 1/240 werden bis zu 240 Zeilen nacheinander angesteuert, genug für volle Dot-Matrix-Auflösung.", // [ALT] [WMUX] [WLCD]
+    models: [
       {
-        src: cogBonding,
-        caption: "Makroaufnahme eines COG-Bondingbereichs (Chip-on-Glass): Der Treiber-IC wird über feine Golddrähte direkt auf das Glassubstrat gebondet und dort mit den Zeilen-/Spaltenleiterbahnen des Displays verbunden."
+        name: "TN",
+        kind: "Twisted Nematic",
+        image: lcdTn,
+        summary: "Reine Schwarz/Weiß-Anzeige – die kosteneffiziente Lösung für einfache Anzeigen.",
+        specs: [
+          { label: "Modus", value: "Positiv oder Negativ" },
+          { label: "Max. Duty Ratio", value: "1/16" },
+          { label: "Betriebstemperatur", value: "−30 °C bis +85 °C" },
+          { label: "Hintergrundbeleuchtung", value: "Jede Farbe möglich" }
+        ]
       },
       {
-        src: fstnPanel,
-        caption: "Ein monochromes FSTN-Glaspanel mit Elastomer-Streifenverbinder am unteren Rand – die typische, extrem stromsparende Aufbauweise unserer FSC-, DFSTN- und FSTN-Technologien."
+        name: "ETN",
+        kind: "Enhanced TN",
+        image: lcdEtn,
+        summary: "Tiefschwarzer Hintergrund, erweiterter Blickwinkel und hoher Kontrast.",
+        specs: [
+          { label: "Modus", value: "Negativ" },
+          { label: "Max. Duty Ratio", value: "1/8" },
+          { label: "Betriebstemperatur", value: "−30 °C bis +85 °C" },
+          { label: "Hintergrundbeleuchtung", value: "Jede Farbe möglich, Weiß empfohlen" }
+        ]
       },
       {
-        src: cobModule,
-        caption: "COB-Aufbau (Chip-on-Board): Der Treiber-IC sitzt als schwarzer Vergusstropfen direkt auf der grünen Leiterplatte, angebunden über einen Pfostenstecker – die Alternative zum Chip-on-Glass-Bonding."
+        name: "HTN",
+        kind: "High TN",
+        image: lcdHtn,
+        summary: "Erweiterter Blickwinkel und der größte Temperaturbereich der Liste.",
+        specs: [
+          { label: "Modus", value: "Positiv oder Negativ" },
+          { label: "Max. Duty Ratio", value: "1/32" },
+          { label: "Betriebstemperatur", value: "−40 °C bis +90 °C" },
+          { label: "Hintergrundbeleuchtung", value: "Jede Farbe möglich" }
+        ]
+      },
+      {
+        name: "STN",
+        kind: "Super TN",
+        image: lcdStn,
+        summary: "Erweiterter Blickwinkel und hohe Multiplexfähigkeit – für Anzeigen mit vielen Zeilen.", // [ALT] [WLCD]
+        specs: [
+          { label: "Modus", value: "Positiv oder Negativ" },
+          { label: "Max. Duty Ratio", value: "1/240" },
+          { label: "Betriebstemperatur", value: "−30 °C bis +85 °C" },
+          { label: "Hintergrundbeleuchtung", value: "Jede Farbe möglich" }
+        ]
+      },
+      {
+        name: "FSTN",
+        kind: "Film STN",
+        image: lcdFstn,
+        summary: "Reine Schwarz/Weiß-Anzeige mit hohem Kontrast, erweitertem Blickwinkel und hoher Multiplexfähigkeit.",
+        specs: [
+          { label: "Modus", value: "Positiv oder Negativ" },
+          { label: "Max. Duty Ratio", value: "1/240" },
+          { label: "Betriebstemperatur", value: "−30 °C bis +80 °C" },
+          { label: "Hintergrundbeleuchtung", value: "Jede Farbe möglich" }
+        ]
+      },
+      {
+        name: "DFSTN",
+        kind: "Double FSTN",
+        image: lcdDfstn,
+        summary: "Guter Schwarz/Weiß-Kontrast bei geringer Lichtdurchlässigkeit des Hintergrunds.",
+        specs: [
+          { label: "Modus", value: "Negativ" },
+          { label: "Max. Duty Ratio", value: "1/240" },
+          { label: "Betriebstemperatur", value: "−30 °C bis +80 °C" },
+          { label: "Hintergrundbeleuchtung", value: "Jede Farbe möglich" }
+        ]
+      },
+      {
+        name: "ISTN",
+        kind: "Improved STN",
+        image: lcdIstn,
+        summary: "Optimiert für einfarbige, farbige Hintergrundbeleuchtung – empfohlen als DSTN-Ersatz bei farbiger Anzeige in Rot oder Orange. Tiefschwarzer Hintergrund, hoher Kontrast.",
+        specs: [
+          { label: "Modus", value: "Negativ" },
+          { label: "Max. Duty Ratio", value: "1/128" },
+          { label: "Betriebstemperatur", value: "−30 °C bis +85 °C" },
+          { label: "Hintergrundbeleuchtung", value: "Jede Farbe möglich, Weiß nicht empfohlen" }
+        ]
+      },
+      {
+        name: "ASTN",
+        kind: "Advanced STN",
+        image: lcdAstn,
+        summary: "Hoher Kontrast und gute Leistung bei hohen Temperaturen – empfohlen als DSTN-Ersatz bei voller Dot-Matrix-Auflösung.",
+        specs: [
+          { label: "Modus", value: "Negativ" },
+          { label: "Max. Duty Ratio", value: "1/240" },
+          { label: "Betriebstemperatur", value: "−30 °C bis +85 °C" },
+          { label: "Hintergrundbeleuchtung", value: "Jede Farbe möglich" }
+        ]
+      },
+      {
+        name: "FSC",
+        kind: "Field Sequential Color",
+        image: lcdFsc,
+        summary: "Acht Farben ohne Farbfilter – Rot, Grün, Blau, Gelb, Violett, Dunkelblau, Weiß und Schwarz – mit sehr kurzer Reaktionszeit.",
+        specs: [
+          { label: "Reaktionszeit", value: "≤ 5 ms" },
+          { label: "Modus", value: "Negativ" },
+          { label: "Max. Duty Ratio", value: "1/2" },
+          { label: "Betriebstemperatur", value: "0 °C bis +50 °C" },
+          { label: "Hintergrundbeleuchtung", value: "RGB-LED" }
+        ]
       }
-    ]
+    ],
+    // Keine Galerie mehr: Die KI-Bilder ersetzt der Vergleich der Bauformen unten.
+    images: [],
+    // QUELLEN zusätzlich zu [ALT]/[CAD] oben:
+    // [WCOB] en.wikipedia.org/wiki/Chip_on_board – nackter Chip direkt auf der
+    //        Leiterplatte, per Draht (Wire Bonding) oder Flip-Chip angeschlossen,
+    //        mit Epoxid vergossen; ohne Chipgehäuse günstiger, leichter, kompakter
+    // [WACF] en.wikipedia.org/wiki/Anisotropic_conductive_film – ACF verbindet in
+    //        der Displayfertigung Treiber und Glas; genutzt für Chip-on-Glass (COG,
+    //        mit Goldkontakten) und Flex-on-Glass (FOG); hohe Signaldichte, kleine Bauform
+    // [WLCD] de.wikipedia.org/wiki/Flüssigkristallanzeige, Abschnitt Verbindungstechnik –
+    //        Leitgummis (Zebras) verbinden Glas und Elektronik; Chip-on-Glass: Chip
+    //        direkt auf den Kontakten der Anzeige; flexible dünne Leiterplatten mit
+    //        Nacktchips als Verbindung zur Anzeige
+    // [WTAB] en.wikipedia.org/wiki/Tape-automated_bonding – nackter Chip auf
+    //        Polyimid-Folie (FPC), alle Anschlüsse in einem Arbeitsgang, stark
+    //        automatisierbar, sehr leicht und dünn; braucht spezielle Maschinen,
+    //        eingesetzt in der Großserie
+    comparison: {
+      title: "COB, COG oder TAB?",
+      intro: "Die drei Bauformen unterscheiden sich darin, wo der Treiber-Chip sitzt: auf der Leiterplatte, direkt auf dem Glas oder auf einer flexiblen Folie.", // [ALT] [WCOB] [WACF] [WTAB]
+      columns: [
+        {
+          title: "COB – Chip on Board",
+          tag: "Chip auf der Leiterplatte",
+          diagram: "lcm-cob",
+          rows: [
+            { label: "So funktioniert’s", text: "Der nackte Treiber-Chip wird direkt auf die Leiterplatte gesetzt, über feine Drähte angeschlossen und mit einem Tropfen Epoxidharz vergossen. Das Glas ist mit der Leiterplatte verbunden, etwa über Leitgummis." }, // [WCOB] [WLCD]
+            { label: "Stärken", items: [
+              "Ohne Chipgehäuse: günstiger, leichter und kompakter" // [WCOB]
+            ] },
+            { label: "Gut zu wissen", text: "Die Leiterplatte trägt auch den Anschluss des Moduls, etwa einen Pfostenstecker." } // [CAD]
+          ]
+        },
+        {
+          title: "COG – Chip on Glass",
+          tag: "Chip direkt auf dem Glas",
+          diagram: "lcm-cog",
+          rows: [
+            { label: "So funktioniert’s", text: "Der Treiber-Chip sitzt auf dem Rand der Glasscheibe. Goldkontakte und ein leitfähiger Klebefilm (ACF) verbinden ihn mit den Leiterbahnen auf dem Glas." }, // [WACF] [WLCD]
+            { label: "Stärken", items: [
+              "Viele Anschlüsse auf kleinem Raum" // [WACF]
+            ] },
+            { label: "Gut zu wissen", text: "Angeschlossen wird das Glas über eine flexible Leiterplatte (Flex-on-Glass)." } // [WACF] [WLCD]
+          ]
+        },
+        {
+          title: "TAB – Tape Automated Bonding",
+          tag: "Chip auf einer flexiblen Folie",
+          diagram: "lcm-tab",
+          rows: [
+            { label: "So funktioniert’s", text: "Der nackte Chip sitzt auf einer dünnen Polyimid-Folie mit feinen Leiterbahnen. Die Folie verbindet das Glas mit der Leiterplatte." }, // [WTAB] [WLCD]
+            { label: "Stärken", items: [
+              "Alle Anschlüsse in einem Arbeitsgang verbunden, gut automatisierbar", // [WTAB]
+              "Sehr leicht und dünn" // [WTAB]
+            ] },
+            { label: "Gut zu wissen", text: "Braucht spezielle Maschinen und wird vor allem in großen Stückzahlen eingesetzt." } // [WTAB]
+          ]
+        }
+      ]
+    }
   },
   {
     id: "touchscreens",

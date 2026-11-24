@@ -88,6 +88,7 @@ export default function Product() {
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">
             <ProductModels
               title={product.modelsTitle ?? 'Modelle'}
+              intro={product.modelsIntro}
               models={product.models}
               accessories={product.accessories}
               accessoriesLabel={product.accessoriesLabel}

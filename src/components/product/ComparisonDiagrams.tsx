@@ -29,6 +29,11 @@ import type { ComponentType, ReactNode } from 'react';
  * - Air Bonding: Klebeband am Rand, Luftspalt – Licht spiegelt an drei Flächen.
  * - Optical Bonding: OCA füllt den Spalt – es spiegelt nur noch die Oberfläche.
  *
+ * LCM / LCD Module – wo der Treiber-Chip sitzt (Quellen in products.ts):
+ * - COB: unter der Leiterplatte, mit Epoxid vergossen; Glas über Leitgummi.
+ * - COG: auf dem überstehenden Rand der unteren Glasscheibe, Anschluss per Flex.
+ * - TAB: auf der Polyimid-Folie zwischen Glas und Leiterplatte.
+ *
  * Schrift nie kleiner als 11 Einheiten: Die Spalten sind ab lg rund 300 px
  * breit, bei viewBox-Breite 320 bleibt die Schrift damit über 10 px.
  */
@@ -50,6 +55,13 @@ const C = {
   drop: '#d7f0fb',
   silver: '#b4bcc6',
   silverEdge: '#6b7280',
+  pcb: '#1f7a4c',
+  pcbEdge: '#14532d',
+  /** Polyimid-Folie bzw. Flexleiterplatte (bernsteinfarben wie Kapton) */
+  flex: '#d99a2b',
+  gold: '#c9a227',
+  /** Leitgummi (Zebra): rosa Elastomer mit leitenden Streifen */
+  zebra: '#f2c4cd',
 };
 
 const VIEWBOX = '0 0 320 160';
@@ -616,6 +628,86 @@ function OpticalBondingDiagram() {
   );
 }
 
+/* ---------- LCM / LCD Module ---------- */
+
+/** Glasscheibe mit frei wählbarer Breite (für überstehende Ränder). */
+function Pane({ x = 20, y, w, h = 8 }: { x?: number; y: number; w: number; h?: number }) {
+  return <rect x={x} y={y} width={w} height={h} fill={C.glass} stroke={C.glassEdge} strokeWidth="1" />;
+}
+
+function CobDiagram() {
+  return (
+    <Frame label="Querschnitt COB: Der Treiber-Chip sitzt vergossen unter der Leiterplatte, das LCD-Glas ist über Leitgummis mit der Leiterplatte verbunden.">
+      <Pane y={34} w={190} />
+      <Pane y={45} w={190} />
+      {/* Leitgummis zwischen Glas und Leiterplatte */}
+      {[26, 192].map((x) => (
+        <g key={x}>
+          <rect x={x} y={53} width="12" height="27" fill={C.zebra} />
+          <g stroke={C.display} strokeWidth="1">
+            {[3, 6, 9].map((dx) => (
+              <line key={dx} x1={x + dx} y1={54} x2={x + dx} y2={79} />
+            ))}
+          </g>
+        </g>
+      ))}
+      <rect x="20" y="80" width="190" height="10" rx="1" fill={C.pcb} stroke={C.pcbEdge} strokeWidth="1" />
+      {/* Vergusstropfen mit dem Chip auf der Unterseite */}
+      <path d="M88 90 Q115 116 142 90 Z" fill={C.display} />
+
+      <Label y={47}>LCD-Glas</Label>
+      <Label y={70}>Leitgummi</Label>
+      <Label y={89}>Leiterplatte</Label>
+      <Label y={106}>Chip, vergossen</Label>
+      <Note>Chip auf der Leiterplatte</Note>
+    </Frame>
+  );
+}
+
+function CogDiagram() {
+  const bumps = [180, 186, 192, 198];
+  return (
+    <Frame label="Querschnitt COG: Der Treiber-Chip sitzt mit Goldkontakten direkt auf dem überstehenden Rand der unteren Glasscheibe, angeschlossen wird über eine flexible Leiterplatte.">
+      <Pane y={38} w={150} />
+      <Pane y={48} w={190} />
+      {/* Chip auf dem Glasrand, darunter Goldkontakte im leitfähigen Klebefilm */}
+      <rect x="176" y="46" width="26" height="2" fill={C.flex} opacity="0.5" />
+      <g fill={C.gold}>
+        {bumps.map((x) => (
+          <circle key={x} cx={x} cy="46.5" r="1.6" />
+        ))}
+      </g>
+      <rect x="176" y="37" width="26" height="8.5" rx="1" fill={C.display} />
+      {/* Flexleiterplatte am Glasrand */}
+      <path d="M186 57 H202 Q212 57 212 67 V106" fill="none" stroke={C.flex} strokeWidth="4" strokeLinecap="round" />
+
+      <Label y={44}>Treiber-Chip</Label>
+      <Label y={60}>LCD-Glas</Label>
+      <Label y={98}>Flex-Anschluss</Label>
+      <Note>Chip direkt auf dem Glas</Note>
+    </Frame>
+  );
+}
+
+function TabDiagram() {
+  return (
+    <Frame label="Querschnitt TAB: Der Treiber-Chip sitzt auf einer dünnen Polyimid-Folie, die das LCD-Glas mit der Leiterplatte verbindet.">
+      <Pane y={38} w={168} />
+      <Pane y={48} w={176} />
+      {/* Folie vom Glasrand zur Leiterplatte, Chip auf ihrem senkrechten Stück */}
+      <path d="M186 52 H200 Q210 52 210 62 V98 Q210 106 200 106 H150" fill="none" stroke={C.flex} strokeWidth="4" strokeLinecap="round" />
+      <rect x="204" y="70" width="12" height="18" rx="1" fill={C.display} />
+      <rect x="110" y="108" width="100" height="9" rx="1" fill={C.pcb} stroke={C.pcbEdge} strokeWidth="1" />
+
+      <Label y={47}>LCD-Glas</Label>
+      <Label y={64}>Polyimid-Folie</Label>
+      <Label y={83}>Treiber-Chip</Label>
+      <Label y={116}>Leiterplatte</Label>
+      <Note>Chip auf der Folie</Note>
+    </Frame>
+  );
+}
+
 export const COMPARISON_DIAGRAMS: Record<string, ComponentType> = {
   'touch-resistiv': ResistiveDiagram,
   'touch-pcap': PcapDiagram,
@@ -631,4 +723,7 @@ export const COMPARISON_DIAGRAMS: Record<string, ComponentType> = {
   'tft-va': VaDiagram,
   'tft-air': AirBondingDiagram,
   'tft-optical': OpticalBondingDiagram,
+  'lcm-cob': CobDiagram,
+  'lcm-cog': CogDiagram,
+  'lcm-tab': TabDiagram,
 };
