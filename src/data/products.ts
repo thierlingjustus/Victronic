@@ -19,9 +19,6 @@ import tftPanelFront from '../assets/products/tft-displays/tft-panel-front.jpg';
 import cogBonding from '../assets/products/lcm-lcd-module/cog-bonding.jpg';
 import fstnPanel from '../assets/products/lcm-lcd-module/fstn-panel.jpg';
 import cobModule from '../assets/products/lcm-lcd-module/cob-module.jpg';
-import ogsPanel from '../assets/products/touchscreens/ogs-panel.jpg';
-import pcapSensor from '../assets/products/touchscreens/pcap-sensor.jpg';
-import touchControllerBoard from '../assets/products/touchscreens/touch-controller-board.jpg';
 // Touch-Arten: Fotos der alten Seite (wp-content/uploads/2015/09, Originale unter
 // Victronic/Information/Touchscreens/Modelle). PCAP und Resistiv gibt es dort nur in
 // 150 × 150 px – größere Vorlagen würden die Kacheln schärfer machen.
@@ -180,20 +177,10 @@ export const products = [
     specsLegend: true,
     image: touchscreensImg,
     cardImage:touchscreensCard,
-    images: [
-      {
-        src: ogsPanel,
-        caption: "OGS – One Glass Solution: Touch-Sensor und Deckglas bilden eine einteilige Glasscheibe mit bedrucktem Rand-Bezel und FPC-Anschluss, ohne zusätzliche Bonding-Schicht zum Deckglas."
-      },
-      {
-        src: pcapSensor,
-        caption: "Auf dem PCAP-Glaspanel ist das rautenförmige ITO-Elektrodenraster des projiziert-kapazitiven Sensors sichtbar, mit zwei FPC-Anschlüssen – die Grundlage für präzises Multi-Touch."
-      },
-      {
-        src: touchControllerBoard,
-        caption: "Eine Touch-Controller-Platine mit QFP-IC und ZIF-Steckverbinder für den Sensor-FPC – stellvertretend für die eingesetzten Controller-ICs von EETI, Ilitek und Goodix."
-      }
-    ],
+    // Keine Galerie mehr: Die Aufbau-Bilder (ogs-panel.jpg, pcap-sensor.jpg,
+    // touch-controller-board.jpg) wollte das Team nicht – die Unterschiede der
+    // Techniken erklärt jetzt der Vergleich unten mit schematischen Querschnitten.
+    images: [],
     // Touch-Arten direkt unter der Scroll-Bühne – die drei Techniken der alten
     // Seite /touches/ mit ihren Eckdaten.
     modelsTitle: "Touch-Arten",
@@ -250,6 +237,105 @@ export const products = [
         { image: blendeSteuergeraet1, caption: "Steuergerät" },
         { image: blendeNaehmaschine, caption: "Nähmaschine" },
         { image: blendeKuechengeraet, caption: "Küchengerät" }
+      ]
+    },
+    //
+    // Vergleich der Techniken unter den Glastouch-Blenden (wie der Lager-Vergleich
+    // bei den Lüftern). NUR BELEGTE AUSSAGEN – recherchiert 2026-11-24:
+    // [ED]   electronicdesign.com/displays/what-s-difference-between-resistive-and-capacitive-touchscreens
+    //        (2015, Autor von Cypress) – Resistiv: zwei PET/ITO-Lagen mit Luftspalt und
+    //        Spacer-Dots, Berührung bringt sie in Kontakt; „finger and non-finger input (e.g.,
+    //        glove, stylus)"; „generally support single-finger touch"; „lower optical
+    //        transmissivity (< 80%)"; „reduced durability and vulnerability to scratches";
+    //        Kalibrierung nötig; „low cost to manufacture"; „automotive, medical, and industrial".
+    //        PCAP: Kapazitätsänderung durch den Finger, Sensor unter einer Cover Lens; „greater
+    //        than 90%"; „durable, scratch-resistant, free of aging symptoms, and needs no
+    //        calibration"; „multi-finger touch input and gestures"; „smartphones and tablets";
+    //        der Controller bestimmt Funktionen wie „water tolerance"
+    // [WPT]  en.wikipedia.org/wiki/Touchscreen – Resistiv: „only sufficient pressure is
+    //        necessary", „may be used with gloves on", „restaurants, factories, and hospitals due
+    //        to its high tolerance for liquids and contaminants"; PCAP: Kapazitätsänderung an jedem
+    //        Kreuzungspunkt des Rasters, Mutual Capacitance „allows multi-touch operation"
+    // [DKF]  forum.digikey.com/t/resistive-touch-vs-capacitive-touch-whats-the-difference/1063 –
+    //        Resistiv „Better resistance to dust and water", „Inexpensive"; kapazitiv „Cannot be
+    //        used with most gloves", „Multi-touch"
+    // [PAT]  US 8,982,097 B2 (Cypress) – Wasser auf dem Touch führt zu „false touches, and lost
+    //        touches"; Wasser wird über Self- und Mutual-Capacitance erkannt, Schwellen angepasst;
+    //        „detecting a touch by a wet finger"
+    // [AUO]  auodplus.com … gg_gff_ogs_touch_solution – OGS vereint Sensor- und Deckglas,
+    //        „reduces the thickness and weight", „increases light transmittance"; G/G „high
+    //        strength, high durability"; G/F/F auf zwei PET-Folien, „lightweight"; Einsatz G/G
+    //        „factory human-machine interface", G/F/F „ATMs, POS, kiosks", OGS „portable navigation
+    //        devices, touchscreen laptops, … POS, kiosks, and industrial control equipment"
+    // [FOC]  focuslcds.com/?p=14223 – OGS „thinner, lower cost", „up to ten touches"
+    // [WPO]  en.wikipedia.org/wiki/One_Glass_Solution – ITO auf der Rückseite des Deckglases;
+    //        „Damage to the cover glass will also impair the functionality of the touchscreen."
+    // [PRÄS] S. 10–11 (siehe oben) – CTP-Typen OGS, G+G, G+F mit WaterTouch, Wet finger touch
+    // [ALT]  victronic-gmbh.de/touches/ – Größen, resistiv auch als Multi-Touch
+    comparison: {
+      title: "Resistiv, PCAP oder OGS?",
+      intro: "Der Unterschied liegt darin, wie der Touch eine Berührung erkennt: resistiv über Druck, kapazitiv über das elektrische Feld des Fingers. OGS ist eine besonders flache Bauform des kapazitiven Touch. Multi-Touch und Wet Touch gelingen je nach Technik unterschiedlich gut.",
+      columns: [
+        {
+          title: "Resistiv",
+          tag: "4-, 5- oder 8-Draht",
+          diagram: "touch-resistiv",
+          rows: [
+            { label: "So funktioniert’s", text: "Zwei leitfähige Schichten liegen mit kleinem Abstand übereinander. Druck presst die flexible obere Schicht auf die untere – die Kontaktstelle ergibt die Position." }, // [ED] [WPT]
+            { label: "Multi-Touch", text: "Meist Single-Touch. Wir liefern resistive Touches auch als Multi-Touch." }, // [ED] [DKF] [ALT]
+            { label: "Wet Touch", text: "Ausgelöst wird nur durch Druck – Wasser und Schmutz auf der Oberfläche stören kaum." }, // [WPT] [DKF]
+            { label: "Stärken", items: [
+              "Bedienbar mit Finger, Handschuh oder Stift", // [ED] [WPT] [DKF]
+              "Günstig in der Herstellung" // [ED] [DKF]
+            ] },
+            { label: "Grenzen", items: [
+              "Weniger lichtdurchlässig: unter 80 %, kapazitiv über 90 %", // [ED]
+              "Die Deckfolie kann verkratzen und altert", // [ED]
+              "Muss kalibriert werden" // [ED]
+            ] },
+            { label: "Typischer Einsatz", text: "Industrie, Medizintechnik und Fahrzeuge – überall, wo mit Handschuh oder Stift bedient wird oder Flüssigkeiten im Spiel sind, etwa in Fabriken, Kliniken und der Gastronomie." } // [ED] [WPT]
+          ]
+        },
+        {
+          title: "Projiziert-kapazitiv (PCAP)",
+          tag: "G/G oder G/F/F",
+          diagram: "touch-pcap",
+          rows: [
+            { label: "So funktioniert’s", text: "Unter dem Deckglas liegt ein Raster aus transparenten Elektroden. Der Finger verändert die Kapazität an den Kreuzungspunkten, der Controller errechnet daraus die Position – ganz ohne Druck." }, // [WPT] [ED]
+            { label: "Multi-Touch", text: "Ja – mehrere Finger gleichzeitig, auch Gesten wie Zoomen." }, // [ED] [WPT] [DKF]
+            { label: "Wet Touch", text: "Wasser kann wie ein Finger wirken und Fehlauslösungen verursachen. Ein passend ausgelegter Controller erkennt Wasser und lässt sich auch mit nassen Fingern bedienen." }, // [PAT] [ED] [PRÄS]
+            { label: "Stärken", items: [
+              "Sehr klare Darstellung, über 90 % Lichtdurchlässigkeit", // [ED]
+              "Kratzfestes Glas, keine Alterung, keine Kalibrierung", // [ED]
+              "Als G/G (Sensor auf Glas) besonders robust, als G/F/F (Sensor auf zwei Folien) leichter" // [AUO]
+            ] },
+            { label: "Grenzen", items: [
+              "Reagiert nur auf Finger oder leitfähige Gegenstände – mit den meisten Handschuhen nicht bedienbar", // [DKF]
+              "Teurer als resistiv" // [ED] [DKF]
+            ] },
+            { label: "Typischer Einsatz", text: "Smartphones und Tablets, Bediengeräte in der Fertigung, Geldautomaten, Kassen und Kiosksysteme." } // [ED] [AUO]
+          ]
+        },
+        {
+          title: "OGS (One Glass Solution)",
+          tag: "Bauform des kapazitiven Touch",
+          diagram: "touch-ogs",
+          rows: [
+            { label: "So funktioniert’s", text: "Wie PCAP – nur sitzt der Sensor direkt auf der Rückseite des Deckglases. Ein Glas statt zwei." }, // [WPO] [AUO] [ALT]
+            { label: "Multi-Touch", text: "Ja, wie PCAP – zum Beispiel bis zu zehn Berührpunkte." }, // [FOC] [ALT]
+            { label: "Wet Touch", text: "Wie PCAP: Mit passendem Controller auch mit nassen Fingern bedienbar." }, // [PRÄS]
+            { label: "Stärken", items: [
+              "Dünner und leichter, weil eine Glasschicht entfällt", // [AUO] [FOC]
+              "Lichtdurchlässiger und günstiger in der Herstellung", // [AUO] [FOC]
+              "Frontglas frei gestaltbar: Form, Bedruckung, Durchbrüche, kapazitive Taster" // [ALT]
+            ] },
+            { label: "Grenzen", items: [
+              "Sensor und Deckglas sind eins – wird das Glas beschädigt, fällt auch der Touch aus", // [WPO]
+              "Bei uns bis 16 Zoll, PCAP bis 32 Zoll" // [ALT]
+            ] },
+            { label: "Typischer Einsatz", text: "Glastouch-Blenden für Geräte und Steuerungen, Navigationsgeräte, Laptops, Kassen und Kiosksysteme." } // [AUO] [GTB]
+          ]
+        }
       ]
     }
   },

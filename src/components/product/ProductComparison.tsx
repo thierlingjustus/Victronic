@@ -1,18 +1,29 @@
 import type { CSSProperties } from 'react';
 import type { ProductComparison as Comparison } from '../../data/types';
 import FadeIn from '../FadeIn';
+import { COMPARISON_DIAGRAMS } from './ComparisonDiagrams';
 
 /**
- * Zwei (oder mehr) Varianten nebeneinander: Bild mit markierter Stelle, Titel,
- * dann dieselben Zeilen je Spalte (Aufbau, Stärken, Grenzen, Einsatz).
+ * Zwei (oder mehr) Varianten nebeneinander: Bild mit markierter Stelle (oder
+ * schematische Zeichnung), Titel, dann dieselben Zeilen je Spalte (Aufbau,
+ * Stärken, Grenzen, Einsatz).
  *
- * Ab md liegen die Zeilen beider Spalten per CSS-Subgrid auf gleicher Höhe –
- * so lässt sich Zeile für Zeile vergleichen, auch wenn ein Text länger ist.
- * Darunter stehen die Spalten einfach untereinander.
+ * Ab md (bei drei und mehr Spalten ab lg) liegen die Zeilen per CSS-Subgrid
+ * auf gleicher Höhe – so lässt sich Zeile für Zeile vergleichen, auch wenn ein
+ * Text länger ist. Darunter stehen die Spalten einfach untereinander.
  */
 export default function ProductComparison({ title, intro, columns }: Comparison) {
   // Bild + Titel + Zeilen; alle Spalten haben dieselben Zeilen-Labels
   const rowCount = 2 + Math.max(...columns.map((c) => c.rows.length));
+  // Drei Spalten wären bei md nur gut 200 px breit – zu schmal für Text und
+  // Zeichnung. Die Klassen stehen ausgeschrieben, damit Tailwind sie findet.
+  const wide = columns.length > 2;
+  const gridClass = wide
+    ? 'grid gap-y-16 lg:gap-y-6 lg:gap-x-12 lg:grid-cols-[repeat(var(--cols),minmax(0,1fr))]'
+    : 'grid gap-y-16 md:gap-y-6 md:gap-x-10 lg:gap-x-16 md:grid-cols-[repeat(var(--cols),minmax(0,1fr))]';
+  const columnClass = wide
+    ? 'flex flex-col gap-6 lg:grid lg:grid-rows-subgrid lg:[grid-row:span_var(--rows)]'
+    : 'flex flex-col gap-6 md:grid md:grid-rows-subgrid md:[grid-row:span_var(--rows)]';
 
   return (
     // Abstand nach oben setzt Product.tsx – je nachdem, ob eine Galerie davor steht
@@ -28,17 +39,22 @@ export default function ProductComparison({ title, intro, columns }: Comparison)
 
       <FadeIn inView>
         <div
-          className="grid gap-y-16 md:gap-y-6 md:gap-x-10 lg:gap-x-16 md:grid-cols-[repeat(var(--cols),minmax(0,1fr))]"
+          className={gridClass}
           style={{ '--cols': columns.length, '--rows': rowCount } as CSSProperties}
         >
-          {columns.map((col) => (
-            <div
-              key={col.title}
-              className="flex flex-col gap-6 md:grid md:grid-rows-subgrid md:[grid-row:span_var(--rows)]"
-            >
-              {/* Bild mit Markierung der Stelle, um die es geht */}
+          {columns.map((col) => {
+            const Diagram = col.diagram ? COMPARISON_DIAGRAMS[col.diagram] : undefined;
+            return (
+            <div key={col.title} className={columnClass}>
+              {Diagram ? (
+                // Schematische Zeichnung auf dem Kachelverlauf der Modellfotos
+                <div className="rounded-3xl ring-1 ring-black/5 bg-[radial-gradient(ellipse_at_50%_35%,#ffffff_0%,#f2f5f8_55%,#e6ebf0_100%)] px-4 py-5 md:px-5 self-start w-full">
+                  <Diagram />
+                </div>
+              ) : (
+              /* Bild mit Markierung der Stelle, um die es geht */
               <div className="relative rounded-3xl overflow-hidden ring-1 ring-black/5 shadow-sm self-start">
-                <img src={col.image} alt={col.imageAlt} loading="lazy" decoding="async" className="block w-full h-auto" />
+                <img src={col.image} alt={col.imageAlt ?? ''} loading="lazy" decoding="async" className="block w-full h-auto" />
                 {col.highlight && (
                   <div
                     aria-hidden="true"
@@ -56,6 +72,7 @@ export default function ProductComparison({ title, intro, columns }: Comparison)
                   </div>
                 )}
               </div>
+              )}
 
               <div>
                 <h4 className="text-xl md:text-2xl font-semibold tracking-tight text-gray-900">{col.title}</h4>
@@ -79,7 +96,8 @@ export default function ProductComparison({ title, intro, columns }: Comparison)
                 </div>
               ))}
             </div>
-          ))}
+            );
+          })}
         </div>
       </FadeIn>
     </section>

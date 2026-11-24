@@ -1,170 +1,259 @@
-import {
-  C,
-  Chip,
-  FadeIn,
-  IsoPlate,
-  Layer,
-  LayerLabel,
-  useStageViewBox,
-  type ProductVisualProps,
-} from './stage';
+import { C, CompactNote, FadeIn, LayerLabel, StageText, useStageViewBox, type ProductVisualProps } from './stage';
+import { MODEL_WINDOW, useScrollStyle } from '../useScrollStyle';
 
 /**
- * Touchscreens (modelType "touch"): OGS-Panel – Sensor und Deckglas bilden eine
- * einteilige Glasscheibe mit bedrucktem Rand-Bezel und FPC-Anschluss, darunter
- * die Controller-Platine mit QFP-IC und ZIF-Steckverbinder.
- * Inhaltlich nach den Captions zu ogs-panel.jpg, pcap-sensor.jpg und
- * touch-controller-board.jpg in products.ts.
+ * Touchscreens (modelType "touch"): ein einfacher Touch. Beim Scrollen fährt
+ * ein Finger an das Display, berührt eine Schaltfläche, und das Gerät
+ * reagiert – die Fläche wird aktiv, Wellen laufen vom Berührpunkt aus, der
+ * Statusbalken füllt sich und ein Haken erscheint. Danach zieht sich der
+ * Finger ein Stück zurück, die Reaktion bleibt stehen.
+ *
+ * Bewusst keine Schichten und keine Technik-Unterschiede mehr (das Team fand
+ * die Explosionsdarstellung unpassend) – die erklärt der Vergleich „Resistiv,
+ * PCAP oder OGS?" weiter unten auf der Seite.
+ *
+ * Die Zeitpunkte unten sind direkte scrollYProgress-Werte der Bühne, nicht die
+ * lokalen Fenster von Layer/FadeIn (die laufen über at()).
  */
 
-const CX = 300;
-// Etwas höher als die Bühnenmitte: unter der Explosion steht die Chip-Reihe,
-// die vorher auf der Controller-Platine und ihrer Beschriftung lag.
-const CY = 296;
-const A = 196;
-const B = 108;
+/** Globaler Fortschritt → lokales Fenster für FadeIn (Umkehrung von at()). */
+const local = (p: number) => (p - MODEL_WINDOW[0]) / (MODEL_WINDOW[1] - MODEL_WINDOW[0]);
 
-/** Alle Beschriftungen stehen rechts – links wäre in der viewBox kein Platz. */
-const LABEL_X = CX + A;
+// Display, frontal
+// width/height statt w/h: die Objekte werden direkt auf <rect> gespreizt
+const BEZEL = { x: 110, y: 100, width: 480, height: 330 };
+const SCREEN = { x: 136, y: 126, width: 428, height: 278 };
+// Drei Kacheln wie auf einer Bedienoberfläche; die mittlere wird berührt
+const TILE_W = 116;
+const TILE_H = 120;
+const TILE_Y = 200;
+const TILE_XS = [154, 292, 430];
+/** Berührpunkt: etwas unter der Mitte der mittleren Kachel. */
+const TOUCH = { x: 350, y: 268 };
+/** Neigung der Hand: sie kommt von rechts unten. */
+const HAND_ANGLE = -28;
+
+/** Engerer Ausschnitt für das Handy (Display plus Hand, ohne Beschriftungsrand). */
+const COMPACT_VIEWBOX = '92 84 516 452';
 
 /**
- * Engerer Ausschnitt für das Handy, sobald die Beschriftungen entfallen:
- * gemessene Ausdehnung der Zeichnung über den ganzen Scrollverlauf plus Rand.
+ * Wo der Finger steht, relativ zur Berührposition: erst außerhalb, dann knapp
+ * über der Fläche, dann auf ihr, zum Schluss etwas zurückgezogen.
  */
-const COMPACT_VIEWBOX = '90 140 428 388';
+const FINGER_INPUT = [0.2, 0.3, 0.42, 0.5, 0.6, 0.7];
+const FINGER_X = [300, 170, 26, 0, 0, 70];
+const FINGER_Y = [330, 200, 30, 0, 0, 80];
+/** Schatten: liegt versetzt, solange der Finger schwebt, und läuft beim Berühren unter ihn. */
+const SHADOW_X = [322, 192, 48, 3, 3, 100];
+const SHADOW_Y = [356, 226, 56, 4, 4, 116];
+
+/** Einfache Kachel-Symbole, als Strich gezeichnet. */
+function TileIcon({ kind, cx, cy, color }: { kind: 'list' | 'power' | 'sun'; cx: number; cy: number; color: string }) {
+  const common = { stroke: color, strokeWidth: 4, strokeLinecap: 'round' as const, fill: 'none' };
+  if (kind === 'list') {
+    return (
+      <g {...common}>
+        {[-14, 0, 14].map((dy) => (
+          <path key={dy} d={`M${cx - 20} ${cy + dy} H${cx + 20}`} />
+        ))}
+      </g>
+    );
+  }
+  if (kind === 'power') {
+    return (
+      <g {...common}>
+        <path d={`M${cx - 13} ${cy - 13} A20 20 0 1 0 ${cx + 13} ${cy - 13}`} />
+        <path d={`M${cx} ${cy - 24} V${cy - 2}`} />
+      </g>
+    );
+  }
+  return (
+    <g {...common}>
+      <circle cx={cx} cy={cy} r="9" />
+      {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
+        const r = (deg * Math.PI) / 180;
+        return (
+          <path
+            key={deg}
+            d={`M${cx + Math.cos(r) * 16} ${cy + Math.sin(r) * 16} L${cx + Math.cos(r) * 21} ${cy + Math.sin(r) * 21}`}
+          />
+        );
+      })}
+    </g>
+  );
+}
+
+/**
+ * Hand als schlichtes Piktogramm (weiß mit Kontur, keine Hautfarbe): Zeigefinger
+ * nach oben, Fingerkuppe im Ursprung. Gezeichnet von hinten nach vorn – Ärmel,
+ * Handballen, Daumen, eingerollte Finger, Zeigefinger.
+ */
+function Hand() {
+  const line = { stroke: C.ink, strokeWidth: 2.5, strokeLinejoin: 'round' as const };
+  return (
+    <g>
+      {/* Ärmel */}
+      <rect x="-30" y="262" width="136" height="220" rx="14" fill={C.slate} />
+      {/* Handballen */}
+      <rect x="-26" y="112" width="124" height="166" rx="40" fill={C.white} {...line} />
+      {/* Daumen, seitlich angelegt */}
+      <rect x="-54" y="150" width="40" height="98" rx="20" fill={C.white} transform="rotate(16 -34 199)" {...line} />
+      {/* Eingerollte Finger */}
+      {[118, 154, 190].map((y) => (
+        <rect key={y} x="12" y={y} width="86" height="40" rx="20" fill={C.white} {...line} />
+      ))}
+      {/* Zeigefinger */}
+      <rect x="-20" y="-8" width="40" height="156" rx="20" fill={C.white} {...line} />
+      {/* Fingernagel und Knöchelfalten */}
+      <rect x="-11" y="-1" width="22" height="26" rx="9" fill={C.lineSoft} stroke={C.inkFaint} strokeWidth="1.5" />
+      <g stroke={C.inkFaint} strokeWidth="2" fill="none" strokeLinecap="round">
+        <path d="M-10 62 q10 5 20 0" />
+        <path d="M-10 102 q10 5 20 0" />
+      </g>
+    </g>
+  );
+}
 
 export default function TouchPanel({ progress, reducedMotion }: ProductVisualProps) {
   const common = { progress, reducedMotion };
   const viewBox = useStageViewBox(COMPACT_VIEWBOX);
 
+  // Finger: Weg zur Fläche, kurz drauf, dann etwas zurück. Beim Berühren
+  // minimal kleiner – er bewegt sich vom Betrachter weg zum Glas hin.
+  const fingerRef = useScrollStyle<SVGGElement>(
+    progress,
+    {
+      input: FINGER_INPUT,
+      x: FINGER_X,
+      y: FINGER_Y,
+      opacity: [0, 1, 1, 1, 1, 1],
+      scale: [1, 1, 1, 0.97, 0.97, 1],
+    },
+    reducedMotion
+  );
+  const shadowRef = useScrollStyle<SVGGElement>(
+    progress,
+    {
+      input: FINGER_INPUT,
+      x: SHADOW_X,
+      y: SHADOW_Y,
+      opacity: [0, 0.5, 0.6, 0.9, 0.9, 0.45],
+    },
+    reducedMotion
+  );
+
+  // Reaktion des Geräts
+  const activeRef = useScrollStyle<SVGGElement>(progress, { input: [0.5, 0.54], opacity: [0, 1] }, reducedMotion);
+  const ring1Ref = useScrollStyle<SVGCircleElement>(
+    progress,
+    { input: [0.5, 0.52, 0.64], opacity: [0, 0.9, 0], scale: [0.4, 0.7, 2.8] },
+    reducedMotion
+  );
+  const ring2Ref = useScrollStyle<SVGCircleElement>(
+    progress,
+    { input: [0.54, 0.56, 0.7], opacity: [0, 0.7, 0], scale: [0.4, 0.7, 2.8] },
+    reducedMotion
+  );
+  const statusRef = useScrollStyle<SVGPathElement>(progress, { input: [0.53, 0.68], dashOffset: [1, 0] }, reducedMotion);
+
+  // Wellen skalieren um ihren eigenen Mittelpunkt, der Finger um den Berührpunkt
+  const ringStyle = { opacity: 0, transformBox: 'fill-box', transformOrigin: 'center' } as const;
+
   return (
     <svg viewBox={viewBox} className="absolute inset-0 w-full h-full" aria-hidden="true">
-      {/* 1. Controller-Platine mit QFP-IC und ZIF-Steckverbinder */}
-      <Layer {...common} from={0.04} to={0.3} spread={138}>
-        <IsoPlate cx={CX} cy={CY} a={A * 0.62} b={B * 0.62} t={9} fill={C.pcb} side="#0d3a20">
-          {/* QFP-IC mit Pins an allen vier Kanten */}
-          <polygon
-            points={`${CX - 40},${CY + 4} ${CX},${CY - 18} ${CX + 40},${CY + 4} ${CX},${CY + 26}`}
-            fill={C.ic}
-          />
-          <g stroke={C.metal} strokeWidth="1.6">
-            {[0, 1, 2, 3, 4].map((i) => {
-              const f = (i - 2) / 2.6;
-              return (
-                <g key={i}>
-                  <path d={`M${CX - 40 + f * 36} ${CY + 4 + f * 20} l-8 -5`} />
-                  <path d={`M${CX + 40 + f * 36} ${CY + 4 - f * 20} l8 5`} />
-                  <path d={`M${CX + f * 36} ${CY - 18 + f * 20} l-8 -4`} />
-                  <path d={`M${CX + f * 36} ${CY + 26 - f * 20} l8 4`} />
-                </g>
-              );
-            })}
-          </g>
-          {/* ZIF-Steckverbinder als heller Riegel */}
-          <polygon
-            points={`${CX - 92},${CY - 10} ${CX - 46},${CY - 36} ${CX - 32},${CY - 28} ${CX - 78},${CY - 2}`}
-            fill="#e8ebee"
-          />
-        </IsoPlate>
-        <LayerLabel x={LABEL_X} y={CY + 52} text="Controller-IC" sub="EETI · Ilitek · Goodix" length={44} />
-      </Layer>
+      <defs>
+        <linearGradient id="touch-screen-grad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor={C.brand50} />
+          <stop offset="100%" stopColor={C.white} />
+        </linearGradient>
+        <radialGradient id="touch-shadow-grad">
+          <stop offset="0%" stopColor={C.slate} stopOpacity="0.35" />
+          <stop offset="100%" stopColor={C.slate} stopOpacity="0" />
+        </radialGradient>
+      </defs>
 
-      {/* 2. FPC-Band von der Platine zur Scheibe */}
-      <Layer {...common} from={0.08} to={0.32} spread={88}>
-        <path
-          d={`M${CX - 78} ${CY - 8} L${CX - 40} ${CY - 30} L${CX - 24} ${CY - 92} L${CX - 58} ${CY - 76} Z`}
-          fill={C.fpc}
-        />
-        <g stroke={C.fpcDark} strokeWidth="1.3" fill="none">
-          {[0, 1, 2].map((i) => (
-            <path key={i} d={`M${CX - 68 + i * 12} ${CY - 16 + i * 3} L${CX - 48 + i * 10} ${CY - 78}`} />
+      {/* Display: Rahmen, Glasfläche, Oberfläche mit drei Kacheln */}
+      <FadeIn {...common} from={0} to={0.1}>
+        <rect {...BEZEL} rx="26" fill={C.plasticDark} />
+        <rect {...BEZEL} rx="26" fill="none" stroke={C.plasticRib} strokeWidth="2" />
+        <rect {...SCREEN} rx="10" fill="url(#touch-screen-grad)" />
+
+        {/* Statusleiste: leere Spur, füllt sich nach der Berührung */}
+        <path d="M160 152 H400" stroke={C.lineSoft} strokeWidth="6" strokeLinecap="round" />
+        {/* Seitenpunkte unten */}
+        <g fill={C.line}>
+          {[334, 350, 366].map((x) => (
+            <circle key={x} cx={x} cy="372" r="4" />
           ))}
         </g>
-      </Layer>
 
-      {/* 3. OGS-Scheibe: Sensor und Deckglas in einem Stück Glas */}
-      <Layer {...common} from={0.12} to={0.38} spread={-30}>
-        {/* Das Glas selbst – transparent */}
-        <IsoPlate cx={CX} cy={CY} a={A} b={B} t={9} fill={C.glass} side={C.brand200} opacity={0.5} />
-
-        {/*
-          Siebdruck und Sensorraster liegen bewusst NEBEN der Platte, nicht in
-          ihr: als Kinder würden sie die Glas-Transparenz miterben und
-          ausbleichen.
-        */}
-        <path
-          fillRule="evenodd"
-          fill="#0d1117"
-          d={`M${CX - A} ${CY} L${CX} ${CY - B} L${CX + A} ${CY} L${CX} ${CY + B} Z
-              M${CX - A + 40} ${CY} L${CX} ${CY - B + 22} L${CX + A - 40} ${CY} L${CX} ${CY + B - 22} Z`}
-        />
-
-        {/* Rautenförmiges ITO-Elektrodenraster, wird beim Scrollen sichtbar */}
-        <FadeIn {...common} from={0.3} to={0.54} toOpacity={0.85}>
-          <g stroke={C.brand500} strokeWidth="1.6" fill="none">
-            {[-3, -2, -1, 0, 1, 2, 3].map((r) =>
-              [-3, -2, -1, 0, 1, 2, 3].map((c2) => {
-                if (Math.abs(c2 - r) > 5 || Math.abs(c2 + r) > 5) return null;
-                const gx = CX + (c2 - r) * 26;
-                const gy = CY + (c2 + r) * 14.5;
-                return (
-                  <polygon
-                    key={`${r}-${c2}`}
-                    points={`${gx - 12.5},${gy} ${gx},${gy - 7} ${gx + 12.5},${gy} ${gx},${gy + 7}`}
-                  />
-                );
-              })
-            )}
-          </g>
-        </FadeIn>
-
-        {/* Glanzstreifen auf dem Deckglas */}
-        <polygon
-          points={`${CX - 112},${CY - 28} ${CX - 44},${CY - 66} ${CX - 20},${CY - 53} ${CX - 88},${CY - 15}`}
-          fill={C.white}
-          opacity="0.4"
-        />
-
-        <LayerLabel x={LABEL_X} y={CY - 34} text="OGS-Deckglas" sub="Sensor + Glas in einem" length={44} />
-        <LayerLabel x={LABEL_X} y={CY + 12} text="ITO-Raster" sub="projiziert-kapazitiv" length={44} />
-      </Layer>
-
-      {/* Zwei Berührpunkte mit Feldlinien – Multi-Touch */}
-      <FadeIn {...common} from={0.56} to={0.74}>
-        {([
-          [CX - 66, CY - 96],
-          [CX + 68, CY - 58],
-        ] as [number, number][]).map(([fx, fy], i) => (
-          <g key={i}>
-            {[14, 26, 38].map((r, j) => (
-              <ellipse
-                key={r}
-                cx={fx}
-                cy={fy}
-                rx={r}
-                ry={r * 0.55}
-                fill="none"
-                stroke={C.brand500}
-                strokeWidth="2"
-                opacity={0.6 - j * 0.16}
-              />
-            ))}
-            <ellipse cx={fx} cy={fy} rx="11" ry="6" fill={C.brand500} opacity="0.5" />
-            <ellipse cx={fx} cy={fy} rx="5" ry="2.8" fill={C.brand700} />
+        {TILE_XS.map((x, i) => (
+          <g key={x}>
+            <rect x={x} y={TILE_Y} width={TILE_W} height={TILE_H} rx="16" fill={C.white} stroke={C.lineSoft} strokeWidth="2" />
+            <TileIcon kind={(['list', 'power', 'sun'] as const)[i]} cx={x + TILE_W / 2} cy={TILE_Y + TILE_H / 2} color={C.inkFaint} />
           </g>
         ))}
+
+        {/* Glanz auf dem Deckglas */}
+        <polygon points="136,126 300,126 196,404 136,404" fill={C.white} opacity="0.12" />
+
+        <LayerLabel x={BEZEL.x + BEZEL.width} y={160} text="Touch-Display" sub="Glas mit Touch-Sensor" length={30} />
       </FadeIn>
 
-      {/*
-        Chip-Reihe unterhalb der ausgefahrenen Platine: deren unterste Spitze
-        liegt bei CY + 138 + B*0.62 + 9 = 510, die Unterzeile der zugehörigen
-        Beschriftung bei 501. Alles darüber überdeckte vorher beides.
-      */}
-      <FadeIn {...common} from={0.62} to={0.78}>
-        <Chip x={98} y={548} label="Multi-Touch" />
-        <Chip x={218} y={548} label="Wet Touch" />
-        <Chip x={322} y={548} label="OGS · PCAP · Resistiv" />
+      {/* Reaktion: mittlere Kachel wird aktiv */}
+      <g ref={activeRef} style={{ opacity: 0 }}>
+        <rect x={TILE_XS[1]} y={TILE_Y} width={TILE_W} height={TILE_H} rx="16" fill={C.brand500} />
+        <TileIcon kind="power" cx={TILE_XS[1] + TILE_W / 2} cy={TILE_Y + TILE_H / 2} color={C.white} />
+      </g>
+
+      {/* Statusbalken füllt sich */}
+      <path
+        ref={statusRef}
+        d="M160 152 H400"
+        stroke={C.brand500}
+        strokeWidth="6"
+        strokeLinecap="round"
+        pathLength={1}
+        strokeDasharray={1}
+        style={{ strokeDashoffset: 1 }}
+      />
+
+      {/* Wellen vom Berührpunkt */}
+      <circle ref={ring1Ref} cx={TOUCH.x} cy={TOUCH.y} r="22" fill="none" stroke={C.brand500} strokeWidth="3" style={ringStyle} />
+      <circle ref={ring2Ref} cx={TOUCH.x} cy={TOUCH.y} r="22" fill="none" stroke={C.brand400} strokeWidth="2.5" style={ringStyle} />
+
+      {/* Haken in der Statusleiste und Beschriftung der Reaktion */}
+      <FadeIn {...common} from={local(0.62)} to={local(0.7)}>
+        <circle cx="538" cy="152" r="13" fill={C.brand500} />
+        <path d="M531 152 l5 5 l9 -10" stroke={C.white} strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <StageText x={418} y={157} fill={C.brand700} fontSize="13" fontWeight="700">
+          Aktiv
+        </StageText>
       </FadeIn>
+      <FadeIn {...common} from={local(0.56)} to={local(0.64)}>
+        <LayerLabel x={BEZEL.x + BEZEL.width} y={TOUCH.y} text="Touch erkannt" sub="Gerät reagiert" length={30} />
+      </FadeIn>
+      {/* Kompakt (Handy): Hinweis, solange der Finger kommt */}
+      <FadeIn {...common} from={local(0.3)} to={local(0.4)}>
+        <CompactNote text="Berührung" sub="Finger auf dem Glas" />
+      </FadeIn>
+
+      {/* Schatten des Fingers auf dem Glas – zeigt, wie nah er ist */}
+      <g ref={shadowRef} style={{ opacity: 0 }}>
+        <g transform={`translate(${TOUCH.x} ${TOUCH.y}) rotate(${HAND_ANGLE})`}>
+          <ellipse cx="6" cy="70" rx="30" ry="96" fill="url(#touch-shadow-grad)" />
+        </g>
+      </g>
+
+      {/* Hand */}
+      <g
+        ref={fingerRef}
+        style={{ opacity: 0, transformBox: 'view-box', transformOrigin: `${TOUCH.x}px ${TOUCH.y}px` }}
+      >
+        <g transform={`translate(${TOUCH.x} ${TOUCH.y}) rotate(${HAND_ANGLE})`}>
+          <Hand />
+        </g>
+      </g>
     </svg>
   );
 }

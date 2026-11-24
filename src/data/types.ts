@@ -68,8 +68,14 @@ export interface ComparisonColumn {
   title: string;
   /** Kurzbezeichnung, wie sie in Datenblättern steht (z. B. „Ball“). */
   tag: string;
-  image: string;
-  imageAlt: string;
+  /** Foto der Variante – oder stattdessen `diagram`. */
+  image?: string;
+  imageAlt?: string;
+  /**
+   * Schematische Zeichnung statt Foto, Schlüssel aus COMPARISON_DIAGRAMS
+   * (components/product/ComparisonDiagrams.tsx), z. B. „touch-resistiv".
+   */
+  diagram?: string;
   /** Markierung im Bild, Angaben in Prozent der Bildbreite/-höhe. */
   highlight?: { label: string; x: number; y: number; w: number; h: number };
   rows: { label: string; text?: string; items?: string[] }[];
