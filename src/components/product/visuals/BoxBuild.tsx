@@ -14,18 +14,21 @@ import {
  * Explosionsdarstellung – genau die Baugruppen, die Victronic laut
  * products.ts und systems.ts selbst liefert und im Modul vereint:
  *
- *  0 Kunststoff-Rückschale mit HDMI-, Ethernet- und DC-Buchse, Schraubdomen,
- *    eingebautem Open-Frame-Netzteil und konfektioniertem Kabelbaum
- *      → specs "Montage" (Modulmontage, Kabelkonfektionierung), Caption zu
- *        box-build-module.jpg (HDMI/Ethernet), Caption zu housing-interior.jpg
- *        (Gehäuseschale mit Schraubdomen), Stromversorgungen (Open Frame
- *        1–150 W) und die Synergie "… Stromversorgung … zu einem Gesamtsystem"
- *  1 Hauptplatine, SMT-bestückt, dazu sichtbar bedrahtete THT-Bauteile
- *      → specs "Elektronik": SMT-Bestückung und THT
+ *  0 Kunststoff-Rückschale mit Buchsen, Schraubdomen, eingebautem
+ *    Open-Frame-Netzteil und Kabel
+ *      → specs "Gehäuse" (kundenspezifische Gerätegehäuse, Werkzeugbau laut
+ *        alter Seite /housing/), Stromversorgungen (Open Frame 1–150 W) und
+ *        die Synergie "… Stromversorgung … zu einem Gesamtsystem"
+ *  1 Hauptplatine, bestückt
+ *      → specs "Elektronik": SMD/SMT laut alter Seite /assembling/. Die
+ *        Beschriftungen nennen bewusst kein THT und keine Kabelkonfektion –
+ *        beides steht in keiner Unterlage.
  *  2 TFT-Displaymodul   → Produkt "TFT-Displays", System "TFT + Touch"
  *  3 Touch-Sensor mit Deckglas → Produkte "Touchscreens" (OGS/PCAP) und
  *    "Glaslösungen", von der Synergie ausdrücklich mitgenannt
- *  4 Frontblende mit Bedientasten → Caption zu box-build-module.jpg
+ *  4 Frontblende mit Bedientasten → Key Facts TFT-CTP S. 1 (geschlossene
+ *    Gehäuseoberschale mit kapazitiven Bedientasten oder Durchbrüchen für
+ *    mechanische Tasten)
  *
  * Alles darüber hinaus (Prüfverfahren, Normen, Stückzahlen) ist auf der
  * Website nicht belegt und wird deshalb auch nicht gezeichnet.
@@ -59,12 +62,15 @@ const PSA = 54;
 const PSB = 30;
 
 /**
- * Faktenkarte → Schicht. specs in products.ts:
- * 0 Elektronik (SMT/THT) · 1 Montage (Box-Build, Kabel) · 2 Werkzeug- & Musterbau
- * Der Werkzeugbau hat kein Bauteil, deshalb -1: dann bleibt die Zeichnung
- * unverändert, statt willkürlich etwas hervorzuheben.
+ * Legendenzeile → Schicht. specs in products.ts:
+ * 0 Gehäuse → Rückschale · 1 Elektronik (SMD/SMT) → Platine ·
+ * 2 Module (Display-Touch) → TFT-Modul · 3 Werkzeug & Muster → -1
+ * Die Reihenfolge folgt dem Aufbau: Jede Schicht ist schon eingeblendet,
+ * wenn ihre Zeile an der Reihe ist (Modul-Zeile startet bei 0,46, die
+ * TFT-Schicht bei 0,26). Der Werkzeugbau hat kein Bauteil, deshalb -1:
+ * dann bleibt die Zeichnung unverändert, statt willkürlich etwas hervorzuheben.
  */
-const SPEC_LAYERS = [1, 0, -1];
+const SPEC_LAYERS = [0, 1, 2, -1];
 
 /** Bedrahteter Elko – das sichtbare Merkmal der THT-Bestückung. */
 function Elko({ x, y, h = 26, r = 9 }: { x: number; y: number; h?: number; r?: number }) {
@@ -121,7 +127,7 @@ export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: P
         {...layer}
         i={0}
         spread={130}
-        label={{ x: LABEL_R, y: CY + 46, text: 'HDMI · Ethernet · DC', sub: 'Kabelkonfektionierung', length: LEN_R }}
+        label={{ x: LABEL_R, y: CY + 46, text: 'Gerätegehäuse', sub: 'Werkzeugbau inklusive', length: LEN_R }}
       >
         <IsoPlate cx={CX} cy={CY} a={A} b={B} t={24} fill={C.plasticMid} side="#a2a9b2">
           {/* HDMI – Metallschacht mit dunkler Öffnung an der vorderen Kante.
@@ -205,7 +211,7 @@ export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: P
         {...layer}
         i={1}
         spread={65}
-        label={{ x: LABEL_R, y: CY + 8, text: 'SMT-Bestückung', sub: 'und THT', length: LEN_R }}
+        label={{ x: LABEL_R, y: CY + 8, text: 'SMD/SMT-Bestückung', sub: 'Leiterplatte', length: LEN_R }}
       >
         <IsoPlate cx={CX} cy={CY} a={A * 0.93} b={B * 0.93} t={9} fill={C.pcb} side="#0d3a20">
           {/* Leiterbahnen */}
@@ -332,8 +338,8 @@ export default function BoxBuild({ progress, reducedMotion, activeFact = -1 }: P
         y=512 mitten auf der Schale und über der Beschriftung daneben.
       */}
       <FadeIn {...common} from={0.66} to={0.82}>
-        <Chip x={93} y={560} label="SMT · THT" />
-        <Chip x={201} y={560} label="Box-Build · Kabelkonfektion" />
+        <Chip x={93} y={560} label="SMD/SMT" />
+        <Chip x={201} y={560} label="Module · Baugruppen" />
         <Chip x={446} y={560} label="Werkzeug- & Musterbau" />
       </FadeIn>
     </svg>

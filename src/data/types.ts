@@ -79,6 +79,19 @@ export interface ProductMaterialOverview {
   }[];
 }
 
+/**
+ * Projektablauf als Zeitstrahl (components/product/ProductProcess.tsx), z. B.
+ * der feste Ablauf für kundenspezifische Entwicklungen (Montage & Gehäuse).
+ */
+export interface ProductProcess {
+  title: string;
+  intro?: string;
+  /** In Reihenfolge; `approval` markiert Freigaben (Raute statt Nummer). */
+  steps: { title: string; approval?: boolean }[];
+  /** Zusagen unter dem Ablauf, je mit kurzer Überschrift. */
+  promises?: { title: string; text: string }[];
+}
+
 export interface ProductCertifications {
   title: string;
   image: string;

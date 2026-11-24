@@ -81,8 +81,17 @@ import kunstMuster3 from '../assets/products/kunststoffkomponenten/beispiele/mus
 // glasrahmen.webp setzt die Fotos „Glasrahmen Weiss" und „Glasrahmen Rot" zusammen.
 import frontglasModel from '../assets/products/glasloesungen/modelle/frontglas.webp';
 import glasrahmenModel from '../assets/products/glasloesungen/modelle/glasrahmen.webp';
-import smtPcb from '../assets/products/montage-gehaeuse/smt-pcb.jpg';
-import boxBuildModule from '../assets/products/montage-gehaeuse/box-build-module.jpg';
+// Montage-Produktarten: display-touch.webp ist das Foto aus den Key Facts TFT-CTP
+// S. 3 (Original unter Victronic/Information/Montage-Gehaeuse/Modelle); die
+// übrigen drei sind KI-Bilder aus Information/Montage-Gehaeuse bzw.
+// Information/Kunststoffkomponenten (Gehäuseschale), Studio-Hintergrund auf
+// Weiß gerechnet – der Transparenzhinweis in Product.tsx deckt sie ab.
+// smt-pcb.jpg / box-build-module.jpg (alte Galerie) liegen noch im Ordner,
+// weil scripts/card-images.mjs box-build-module.jpg für das Hover-Bild nutzt.
+import montageLeiterplatte from '../assets/products/montage-gehaeuse/modelle/leiterplatte.webp';
+import montageDisplayTouch from '../assets/products/montage-gehaeuse/modelle/display-touch.webp';
+import montageGehaeuse from '../assets/products/montage-gehaeuse/modelle/gehaeuse.webp';
+import montageKomplettgeraet from '../assets/products/montage-gehaeuse/modelle/komplettgeraet.webp';
 import desktopBrick from '../assets/products/stromversorgungen/desktop-brick.jpg';
 import dinRail from '../assets/products/stromversorgungen/din-rail.jpg';
 import openFrame from '../assets/products/stromversorgungen/open-frame.jpg';
@@ -1287,24 +1296,130 @@ export const products = [
     icon: Wrench,
     headline: "Komplettsysteme aus einer Hand",
     strategicBenefit: "Reduzierung Ihrer Supply-Chain-Komplexität durch unser Full-Service-Assembling von der Leiterplatte bis zum fertigen Endgerät.",
+    // QUELLEN:
+    // [ALT-A] victronic-gmbh.de/assembling/ (Platinenbestückung SMD/SMT; Assembling
+    //         einzelner Elemente zu Modulen, u. a. Display-Touch; Fertigung von
+    //         Halbzeugen, einbaufertigen Baugruppen und kundenspezifischen Komponenten;
+    //         vom Standardprodukt bis zur kundenspezifischen Lösung; offene
+    //         Preiskalkulationen, volle Transparenz, gleichbleibend hohe Qualität;
+    //         Hersteller-Logo SCEM)
+    // [ALT-H] victronic-gmbh.de/housing/ (Systemseite „Housing / Assembling“:
+    //         spezialisierte Hersteller für Housing/Kunststoffspritzguss und Assembling;
+    //         kundenspezifisch entwickelte Gerätegehäuse; Backlight-Housings für
+    //         LCM/LCD-Module, z. B. mit Schnapphaken zur Montage; Komponenten und Module
+    //         bis zu weiterverarbeitungsfertigen Baugruppen; Vorteile: Anpassung von
+    //         Standardprodukten, vollständig kundenspezifische Komponenten,
+    //         Komplettmodule z. B. Display mit Touch inkl. Backlighthousing + PCB,
+    //         Werkzeugbau + Herstellung von Kunststoffkomponenten und Gehäusen; keine
+    //         Mehrkosten für Korrekturschritte oder Änderungswünsche über die
+    //         freigegebenen Toolingkosten hinaus; Begleitung von Planung bis Serie;
+    //         fixer Projektablauf in sieben Schritten; Daten und Werkzeuge nach
+    //         Projektabschluss; Kunden- und Applikationsschutz, Qualität, Liefertreue)
+    // [PRÄS]  Information/Firma/Victronic_Präsentation_Displaytechnologien_.pdf,
+    //         S. 19 (Assembling Coverlens + CTP + TFT: Optical Bonding mit OCA, Air
+    //         Bonding per Klebeband, Full Stack; Reliability: Shock & vibration
+    //         resistant), S. 20 (7" Custom HMI: IMR-Gehäuse, 7" TFT 1280 × 800,
+    //         Multi-Finger-CTP, Full OCA Bonding von CTP, TFT und Kunststoff-Coverlens)
+    // [KF]    Information/Firma/Victronic GmbH_Key Facts TFT-CTP_2024.pdf, S. 1
+    //         (Specials: komplette, tektonikfreie Frontgehäuse-Designs, fertig
+    //         assembliert mit Touch und Display – komplett geschlossene
+    //         Gehäuseoberschale mit kapazitiven Bedientasten oder Durchbrüchen für
+    //         mechanische Tasten), S. 2 (TFT + CTP + PCBA + Kunststoffgehäuse:
+    //         Smart-Meter-Bedienteil; LCD-Modul mit Backlight-Housing + PCBA +
+    //         Gehäuse mit Tastenfeld: Akku-Einheit für Elektrowerkzeuge), S. 3 (Foto
+    //         TFT mit CTP), S. 7 (Whole Unit Production and Assembly: obere
+    //         Gehäuseschale inkl. Display und Touch vormontiert oder Lieferung des
+    //         kompletten Geräts nach kundenspezifischer Vorgabe)
+    // Die alte Seite hat keine Einzelmodelle – die vier Produktarten folgen ihrer
+    // Kette von der Leiterplatte bis zum Gerät.
     specs: [
-      { label: "Elektronik", value: "SMT-Bestückung (Surface-Mount Technology) und THT" },
-      { label: "Montage", value: "Modulmontage (Box-Build), Kabelkonfektionierung" },
-      { label: "Werkzeug- & Musterbau", value: "Keine Mehrkosten für Korrekturschritte oder Änderungswünsche über die freigegebenen Toolingkosten hinaus" }
+      // Reihenfolge nicht ändern: BoxBuild.tsx ordnet die ersten vier Zeilen per
+      // SPEC_LAYERS den Schichten zu (Gehäuse → Rückschale, Elektronik → Platine,
+      // Module → TFT-Modul) – in der Reihenfolge, in der sie eingeblendet werden.
+      { label: "Gehäuse", value: "Kundenspezifische Gerätegehäuse und Backlight-Housings, Werkzeugbau inklusive" }, // [ALT-H]
+      { label: "Elektronik", value: "Leiterplattenbestückung in SMD/SMT" }, // [ALT-A]
+      { label: "Module", value: "Display-Touch-Module bis zur einbaufertigen Baugruppe oder zum Komplettgerät" }, // [ALT-A] [ALT-H] [KF] S. 7
+      { label: "Werkzeug & Muster", value: "Keine Mehrkosten über die freigegebenen Toolingkosten hinaus" }, // [ALT-H]
+      // legendOnly: nur in den Technischen Daten, nicht im Takt der Animation. Immer ans Ende.
+      { label: "Projektablauf", value: "Fester Ablauf mit Freigaben, von der Planung über Prototypen bis zur Serie", legendOnly: true }, // [ALT-H]
+      { label: "Kalkulation", value: "Offen und transparent", legendOnly: true } // [ALT-A]
     ],
-    synergy: "Wir vereinen Displays, Touch, Stromversorgung, Kunststoff und Glas zu einem geprüften, zertifizierten Gesamtsystem (Plug & Play).",
+    // „geprüft, zertifiziert“ entfernt – steht in keiner Unterlage; „einbaufertig“ [ALT-A]
+    synergy: "Wir vereinen Displays, Touch, Stromversorgung, Kunststoff und Glas zu einem einbaufertigen Gesamtsystem.",
     modelType: "assembly",
+    // Technische Daten als Legende neben der Animation statt Faktenkarten
+    specsLegend: true,
     image: montageGehaeuseImg,
     cardImage:montageGehaeuseCard,
-    images: [
+    modelsTitle: "Leistungen",
+    models: [
       {
-        src: smtPcb,
-        caption: "Eine dicht bestückte Leiterplatte in SMT-Bestückungstechnik (Surface-Mount Technology) – die Grundlage unserer elektronischen Baugruppenfertigung."
+        name: "Leiterplattenbestückung",
+        kind: "SMD/SMT",
+        image: montageLeiterplatte, // KI-Bild
+        summary: "Bestückung von Leiterplatten in SMD/SMT – der Anfang der Kette bis zur einbaufertigen Baugruppe.", // [ALT-A]
+        specs: [
+          { label: "Verfahren", value: "SMD/SMT" }, // [ALT-A]
+          { label: "Einsatz", value: "In Modulen und Komplettlösungen, z. B. TFT + Touch + Leiterplatte + Gehäuse" } // [KF] S. 2
+        ]
       },
       {
-        src: boxBuildModule,
-        caption: "Ein fertig montiertes Box-Build-Modul mit Display, Bedientasten sowie HDMI- und Ethernet-Anschluss – ein geprüftes, einbaufertiges Plug-&-Play-Gesamtsystem."
+        name: "Display-Touch-Module",
+        kind: "Deckglas + Touch + TFT",
+        image: montageDisplayTouch, // Foto [KF] S. 3
+        summary: "Einzelne Elemente werden zu Modulen montiert, etwa Display mit Touch – auf Wunsch als Komplettmodul mit Backlight-Housing und Leiterplatte.", // [ALT-A] [ALT-H]
+        specs: [
+          { label: "Aufbau", value: "Deckglas, Touch (CTP) und TFT als ein Stapel" }, // [PRÄS] S. 19
+          { label: "Verbindung", value: "Optical Bonding (OCA) oder Air Bonding" }, // [PRÄS] S. 19
+          { label: "Belastbarkeit", value: "Stoß- und vibrationsfest" }, // [PRÄS] S. 19
+          { label: "Beispiel", value: "7″-HMI: TFT 1280 × 800, Multi-Touch, vollflächig verklebt, Gehäuse in IMR-Technik" } // [PRÄS] S. 20
+        ]
+      },
+      {
+        name: "Gehäuse & Backlight-Housings",
+        kind: "Mit Werkzeugbau",
+        image: montageGehaeuse, // KI-Bild
+        summary: "Kundenspezifisch entwickelte Gerätegehäuse und Kunststoffkomponenten – Werkzeugbau und Herstellung aus einer Hand.", // [ALT-H]
+        specs: [
+          { label: "Gerätegehäuse", value: "Kundenspezifisch entwickelt" }, // [ALT-H]
+          { label: "Backlight-Housings", value: "Für LCM/LCD-Module, z. B. mit Schnapphaken zur Montage im Gerät" }, // [ALT-H]
+          { label: "Fertigung", value: "Kunststoffspritzguss bei spezialisierten Herstellern" }, // [ALT-H]
+          { label: "Werkzeugbau", value: "Inklusive, ohne Mehrkosten über die freigegebenen Toolingkosten hinaus" } // [ALT-H]
+        ]
+      },
+      {
+        name: "Baugruppen & Komplettgeräte",
+        kind: "Einbaufertig",
+        image: montageKomplettgeraet, // KI-Bild
+        summary: "Von Halbzeugen und weiterverarbeitungsfertigen Baugruppen bis zum kompletten Gerät nach Ihren Vorgaben.", // [ALT-A] [ALT-H] [KF] S. 7
+        specs: [
+          { label: "Frontgehäuse", value: "Komplett geschlossene Oberschale, fertig montiert mit Display und Touch" }, // [KF] S. 1, 7
+          { label: "Bedienung", value: "Kapazitive Tasten oder Durchbrüche für mechanische Tasten" }, // [KF] S. 1
+          { label: "Lieferumfang", value: "Vormontierte Oberschale oder das komplette Gerät" }, // [KF] S. 7
+          { label: "Beispiele", value: "Smart-Meter-Bedienteil, Akku-Einheit für Elektrowerkzeuge" } // [KF] S. 2
+        ]
       }
-    ]
+    ],
+    // Keine Galerie mehr: Die KI-Bilder ersetzt der Projektablauf unten.
+    images: [],
+    process: {
+      title: "Projektablauf",
+      intro: "Für kundenspezifische Entwicklungen gilt ein fester Ablauf. Wir begleiten Sie durch das gesamte Projekt – von der Planung und Entwicklung über die Prototypen bis zur Serienproduktion.", // [ALT-H]
+      steps: [
+        { title: "Produktplanung und -entwicklung" }, // [ALT-H]
+        { title: "Zeichnungsfreigabe", approval: true },
+        { title: "Werkzeugbau" },
+        { title: "Werkzeugfreigabe", approval: true },
+        { title: "Prototypen-Herstellung" },
+        { title: "Freigabe der Prototypen", approval: true },
+        { title: "Serienproduktion" }
+      ],
+      promises: [
+        { title: "Feste Toolingkosten", text: "Unsere Agreements mit den Herstellern garantieren: keine Mehrkosten für Korrekturschritte oder Änderungswünsche im Werkzeug- und Musterbau über die freigegebenen Toolingkosten hinaus." }, // [ALT-H]
+        { title: "Daten und Werkzeuge", text: "Sämtliche Daten und Werkzeuge stehen Ihnen nach Abschluss des Projekts zur Verfügung." }, // [ALT-H]
+        { title: "Kunden- und Applikationsschutz", text: "Dazu gleichbleibend hohe Produktqualität und Liefertreue zu besten Konditionen." }, // [ALT-H]
+        { title: "Offene Kalkulation", text: "Offene Preiskalkulationen und volle Transparenz sind für uns selbstverständlich." } // [ALT-A]
+      ]
+    }
   }
 ];

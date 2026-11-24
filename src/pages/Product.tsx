@@ -13,6 +13,7 @@ import ProductExamples from '../components/product/ProductExamples';
 import ProductComparison from '../components/product/ProductComparison';
 import AirflowComparison from '../components/product/AirflowComparison';
 import ProductMaterials from '../components/product/ProductMaterials';
+import ProductProcess from '../components/product/ProductProcess';
 import Seo from '../components/Seo';
 import { productSeo } from '../data/seo';
 import CtaLink from '../components/CtaLink';
@@ -51,7 +52,7 @@ export default function Product() {
   // Fällt auf das bestehende Platzhalter-SVG zurück, solange für eine Kategorie
   // noch keine Abbildungen vorliegen – außer sie hat stattdessen einen
   // Bild-Vergleich (Lüfter), dann bleibt die Galerie bewusst leer.
-  const explains = !!(product.comparison || product.explainer || product.materials);
+  const explains = !!(product.comparison || product.explainer || product.materials || product.process);
   const galleryImages = product.images.length > 0
     ? product.images
     : explains
@@ -132,6 +133,12 @@ export default function Product() {
             {product.materials && (
               <div className={galleryImages.length > 0 || product.comparison || product.explainer ? 'mt-20 md:mt-28' : ''}>
                 <ProductMaterials {...product.materials} />
+              </div>
+            )}
+            {/* Montage & Gehäuse: fester Projektablauf mit Freigaben */}
+            {product.process && (
+              <div className={galleryImages.length > 0 || product.comparison || product.explainer || product.materials ? 'mt-20 md:mt-28' : ''}>
+                <ProductProcess {...product.process} />
               </div>
             )}
             {/* Transparenzhinweis zu den Abbildungen (Art. 50 KI-VO / UWG).
