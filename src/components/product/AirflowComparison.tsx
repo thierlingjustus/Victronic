@@ -178,7 +178,7 @@ export default function AirflowComparison() {
             Axial oder radial?
           </h2>
           <p className="mt-4 text-gray-600 leading-relaxed">
-            Der Unterschied liegt im Weg, den die Luft durch den Lüfter nimmt.
+            Beide Varianten bieten wir an.
           </p>
         </div>
       </FadeIn>
