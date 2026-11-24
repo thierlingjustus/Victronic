@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import type { MotionValue } from 'motion/react';
 import { useScrollStyle } from '../product/useScrollStyle';
 import StageCaptions, { useActiveCaption, type StageCaption } from './StageCaptions';
-import { at, Callout, QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN, type SystemVisualProps } from './shared';
+import { at, QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN, type SystemVisualProps } from './shared';
 
 /**
  * Scroll-Visualisierung für "Housing & Assembling": die Montage nach der
@@ -408,48 +408,7 @@ export default function HousingAssembly({ scrollYProgress, infoSlots, compact }:
         >
           <FrontBezel />
         </AssemblyLayer>
-
-        {/* infoSlots als Callouts an den passenden Bauteilen (nur breit) */}
-        {!compact && (
-          <>
-            <Callout
-              slot={infoSlots[0]}
-              progress={scrollYProgress}
-              from={0.58}
-              to={0.66}
-              reducedMotion={reducedMotion}
-              className="left-1/2 ml-[16rem] top-[24%]"
-            />
-            <Callout
-              slot={infoSlots[1]}
-              progress={scrollYProgress}
-              from={0.44}
-              to={0.52}
-              reducedMotion={reducedMotion}
-              className="right-1/2 mr-[16rem] top-[38%]"
-            />
-            <Callout
-              slot={infoSlots[2]}
-              progress={scrollYProgress}
-              from={0.72}
-              to={0.8}
-              reducedMotion={reducedMotion}
-              className="left-1/2 ml-[16rem] top-[48%]"
-            />
-            {/* Vierter Slot: der belegte Toolingkosten-Vorteil. Bewusst links und
-                tiefer, damit er die Qualifizierungs-Karte unten rechts nicht trifft. */}
-            {infoSlots[3] && (
-              <Callout
-                slot={infoSlots[3]}
-                progress={scrollYProgress}
-                from={0.78}
-                to={0.86}
-                reducedMotion={reducedMotion}
-                className="right-1/2 mr-[16rem] top-[60%]"
-              />
-            )}
-          </>
-        )}
+        {/* Die infoSlots stehen breit in der Legende rechts (SystemDetail.tsx) */}
       </div>
       </div>
 

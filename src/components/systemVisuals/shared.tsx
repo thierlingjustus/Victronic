@@ -1,7 +1,5 @@
 import type { MotionValue } from 'motion/react';
 import type { InfoSlot } from '../../data/types';
-import { useScrollStyle } from '../product/useScrollStyle';
-import VisualCallout from './VisualCallout';
 
 /**
  * Gemeinsame Taktung und Bausteine der vier System-Visualisierungen.
@@ -34,14 +32,15 @@ export type SystemVisualProps = {
   scrollYProgress: MotionValue<number>;
   infoSlots: InfoSlot[];
   /**
-   * Kompakte Darstellung für schmale Bildschirme: keine schwebenden Karten
-   * neben der Grafik (sie ragten aus dem Bild), stattdessen eine einzelne
-   * lesbare Textkarte am unteren Rand (StageCaptions).
+   * Kompakte Darstellung für schmale Bildschirme: die Infos laufen nacheinander
+   * durch eine lesbare Textkarte am unteren Rand (StageCaptions). Breit stehen
+   * sie stattdessen als Legende rechts neben der Grafik (SystemDetail.tsx) –
+   * schwebende Karten neben der Grafik gibt es nicht mehr.
    */
   compact: boolean;
 };
 
-/** Der Qualifizierungs-Hinweis – am Desktop als Karte, kompakt als letzte Textkarte. */
+/** Der Qualifizierungs-Hinweis – breit am Ende der Legende, kompakt als letzte Textkarte. */
 export const QUALIFICATION = {
   title: 'Kundenspezifische Qualifizierung',
   desc: 'Jedes Display-System durchläuft strenge, kundenspezifische Testverfahren. Von optischer Performance bis hin zu extremen Umweltbedingungen garantieren wir höchste Zuverlässigkeit für industrielle Anwendungen.',
@@ -49,28 +48,3 @@ export const QUALIFICATION = {
 
 /** Ab hier gilt in der kompakten Darstellung die Qualifizierungs-Karte. */
 export const QUALIFICATION_AT = 0.74;
-
-/** Schwebende Info-Karte neben der Grafik (nur in der breiten Darstellung). */
-export function Callout({
-  slot,
-  progress,
-  from,
-  to,
-  className,
-  reducedMotion = false,
-}: {
-  slot: InfoSlot;
-  progress: MotionValue<number>;
-  /** Lokales Fenster 0..1 des Visuals. */
-  from: number;
-  to: number;
-  className: string;
-  reducedMotion?: boolean;
-}) {
-  const ref = useScrollStyle<HTMLDivElement>(
-    progress,
-    { input: [at(from), at(to)], opacity: [0, 1] },
-    reducedMotion
-  );
-  return <VisualCallout ref={ref} slot={slot} className={className} />;
-}

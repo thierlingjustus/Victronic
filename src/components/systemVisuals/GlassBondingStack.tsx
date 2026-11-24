@@ -3,7 +3,7 @@ import type { MotionValue } from 'motion/react';
 import { useScrollStyle } from '../product/useScrollStyle';
 import { useMediaQuery } from '../useMediaQuery';
 import StageCaptions, { useActiveCaption, type StageCaption } from './StageCaptions';
-import { at, Callout, QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN, type SystemVisualProps } from './shared';
+import { at, QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN, type SystemVisualProps } from './shared';
 
 /**
  * Scroll-Visualisierung für "Glastouch-Blenden": flaches 2D-Querschnitt-
@@ -236,35 +236,7 @@ export default function GlassBondingStack({ scrollYProgress, infoSlots, compact 
               )}
             </Phase>
           </svg>
-
-          {/* infoSlots als Callouts an den passenden Stellen (nur breit) */}
-          {!compact && (
-            <>
-              <Callout
-                slot={infoSlots[0]}
-                progress={p}
-                from={0.32}
-                to={0.42}
-                className="-left-6 top-[63%]"
-              />
-              <Callout
-                slot={infoSlots[1]}
-                progress={p}
-                from={0.14}
-                to={0.24}
-                className="-right-6 top-[5%]"
-              />
-              {/* Etwas tiefer als früher: bei 76 % verdeckte die Karte die
-                  Beschriftung der unsichtbaren Taste. */}
-              <Callout
-                slot={infoSlots[2]}
-                progress={p}
-                from={0.52}
-                to={0.62}
-                className="left-[34%] top-[84%]"
-              />
-            </>
-          )}
+          {/* Die infoSlots stehen breit in der Legende rechts (SystemDetail.tsx) */}
         </div>
       </div>
 

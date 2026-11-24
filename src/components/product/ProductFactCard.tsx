@@ -1,10 +1,10 @@
 import { forwardRef } from 'react';
 
 /**
- * Fakten-Karte der Produkt-Bühne. Optisch identisch zur VisualCallout-Karte
- * der System-Detailseiten (deckend weiße Karte, Verbindungsstrich in
- * brand-600), nur etwas größer, weil sie hier der Haupttext neben dem Produkt
- * ist. Bewusst ohne backdrop-blur – siehe VisualCallout.tsx.
+ * Fakten-Karte der Produkt-Bühne (deckend weiße Karte, Verbindungsstrich in
+ * brand-600) – nur noch für Produkte ohne `specsLegend`. Bewusst ohne
+ * backdrop-blur: der Weichzeichner wird beim Scrollen in jedem Frame neu
+ * berechnet und ist auf schwächeren Handys die typische Ruckel-Ursache.
  *
  * Ein- und Ausblenden übernimmt useScrollStyle über das weitergereichte ref –
  * nicht motion, siehe Kommentar in useScrollStyle.ts.

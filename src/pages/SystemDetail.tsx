@@ -13,21 +13,24 @@ import FadeIn from '../components/FadeIn';
 import { useMediaQuery } from '../components/useMediaQuery';
 import { useScrollStyle } from '../components/product/useScrollStyle';
 import { INTRO_FADE_OUT, QUALIFICATION } from '../components/systemVisuals/shared';
-import TftExplosion from '../components/systemVisuals/TftExplosion';
+import TftExplosion, { TFT_LAYER_LEGEND } from '../components/systemVisuals/TftExplosion';
 import LcmAssembly from '../components/systemVisuals/LcmAssembly';
 import GlassBondingStack from '../components/systemVisuals/GlassBondingStack';
 import HousingAssembly from '../components/systemVisuals/HousingAssembly';
 
 // Wortlaut aus [ALT /produkte/] und [ALT /housing/] – dieselben sieben
-// Schritte wie im Prozess-Abschnitt der Startseite.
+// Schritte wie im Prozess-Abschnitt der Startseite. Weiche Trennstellen
+// (­): breit läuft die Leiste nur unter der Grafik, und ein langes Wort
+// wie ZEICHNUNGSFREIGABE lief sonst in den Nachbarschritt hinein.
 const PROJECT_STEPS = [
-  "Produktplanung und -entwicklung",
-  "Zeichnungsfreigabe",
-  "Werkzeugbau",
-  "Werkzeugfreigabe",
+  // ⁠ (Wortverbinder): der Bindestrich bleibt am Wort statt allein in einer Zeile
+  "Produkt­planung und -⁠entwicklung",
+  "Zeichnungs­freigabe",
+  "Werkzeug­bau",
+  "Werkzeug­freigabe",
   "Prototypen-Herstellung",
   "Freigabe der Prototypen",
-  "Serienproduktion"
+  "Serien­produktion"
 ];
 
 /**
@@ -40,6 +43,14 @@ const COMPACT_QUERY: Record<string, string> = {
   'tft-touch': '(max-width: 1279px)',
 };
 const DEFAULT_COMPACT_QUERY = '(max-width: 1023px)';
+
+/**
+ * Breite Bühne: Grafik | Legende – dieselbe Geometrie wie die Produktbühne
+ * mit Legende (ProductStage.tsx). Die Infos stehen damit nicht mehr als
+ * schwebende Karten links und rechts der Grafik, sondern ruhig rechts daneben.
+ */
+const LEGEND_GRID =
+  'mx-auto h-full w-full max-w-6xl xl:max-w-7xl px-6 grid gap-10 grid-cols-[minmax(0,1fr)_22rem]';
 
 /** Die drei Zusagen des Schluss-Abschnitts. */
 const NO_EXTRA_COST = [
@@ -62,7 +73,18 @@ const NO_EXTRA_COST = [
  * und nicht `fixed` am Fenster: als fixed-Element blieb sie über die ganze
  * Seite stehen und legte sich am Ende als weißer Schleier über den Footer.
  */
-const ProcessIndicator = ({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) => {
+const ProcessIndicator = ({
+  scrollYProgress,
+  inColumn = false,
+}: {
+  scrollYProgress: MotionValue<number>;
+  /**
+   * Breit mit Legende steht die Leiste nur unter der Grafik. Unter xl sind
+   * sieben Beschriftungen dort zu eng – dann nur die Punkte und darunter der
+   * aktuelle Schritt.
+   */
+  inColumn?: boolean;
+}) => {
   const [activeStep, setActiveStep] = useState(0);
 
   useEffect(() => {
@@ -93,13 +115,18 @@ const ProcessIndicator = ({ scrollYProgress }: { scrollYProgress: MotionValue<nu
                 />
                 <span className={`text-[10px] uppercase tracking-wider font-semibold max-w-[80px] text-center leading-tight transition-colors duration-500 ${
                   isActive ? 'text-brand-700' : 'text-gray-400'
-                }`}>
+                } ${inColumn ? 'hidden xl:block' : ''}`}>
                   {step}
                 </span>
               </div>
             );
           })}
         </div>
+        {inColumn && (
+          <p className="xl:hidden mt-3 text-center text-[10px] uppercase tracking-wider font-semibold text-brand-700">
+            {PROJECT_STEPS[activeStep]}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -128,19 +155,31 @@ export default function SystemDetail() {
     pointerEventsOffAfter: INTRO_FADE_OUT[1],
   });
 
-  // Gleiche Stützstellen wie bisher: 30 bis 60 % des Visual-Fensters (0.15–0.8).
-  const qualificationRef = useScrollStyle<HTMLDivElement>(scrollYProgress, {
-    input: [0.345, 0.54],
+  // Legende kommt, während das Intro geht, und bleibt bis zum Schluss stehen
+  const legendRef = useScrollStyle<HTMLDivElement>(scrollYProgress, {
+    input: [0.12, 0.2],
     opacity: [0, 1],
+    x: [24, 0],
   });
+  // TFT: Zeile der Schicht, die die Explosion gerade hervorhebt
+  const [legendActive, setLegendActive] = useState(-1);
 
   if (!system) {
     return <NotFound title="System nicht gefunden" backTo="/systems" backLabel="Zurück zur Übersicht" />;
   }
 
-  // Bei der TFT-Explosion ist unten rechts die Beschriftung der letzten
-  // Schicht – die Qualifizierung steht dort deshalb links.
-  const qualificationSide = system.id === 'tft-touch' ? 'left-8 xl:left-12' : 'right-8 xl:right-12';
+  // TFT: jede Schicht der Explosion, von vorn nach hinten. Sonst die infoSlots.
+  const tft = system.id === 'tft-touch';
+  const legendItems = tft ? TFT_LAYER_LEGEND : system.infoSlots.map(({ title, desc }) => ({ title, desc }));
+
+  const visual = (
+    <>
+      {tft && <TftExplosion scrollYProgress={scrollYProgress} compact={compact} onActiveLayer={setLegendActive} />}
+      {system.id === 'lcm-touch' && <LcmAssembly scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} compact={compact} />}
+      {system.id === 'glass-touch' && <GlassBondingStack scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} compact={compact} />}
+      {system.id === 'housing-assembling' && <HousingAssembly scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} compact={compact} />}
+    </>
+  );
 
   return (
     <div className="bg-white text-gray-800 font-sans selection:bg-brand-600 selection:text-white">
@@ -177,29 +216,62 @@ export default function SystemDetail() {
             </div>
           </div>
 
-          {/* System-spezifische Visualisierung (mittlerer Hauptteil) */}
-          {system.id === 'tft-touch' && <TftExplosion scrollYProgress={scrollYProgress} compact={compact} />}
-          {system.id === 'lcm-touch' && <LcmAssembly scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} compact={compact} />}
-          {system.id === 'glass-touch' && <GlassBondingStack scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} compact={compact} />}
-          {system.id === 'housing-assembling' && <HousingAssembly scrollYProgress={scrollYProgress} infoSlots={system.infoSlots} compact={compact} />}
+          {/* System-spezifische Visualisierung. Kompakt über die ganze Bühne
+              (Infos in der Textkarte unten), breit in der linken Spalte. */}
+          {/* Die Prozessleiste läuft breit nur unter der Grafik – so hat die
+              Legende rechts die volle Höhe (TFT: zehn Schichten). */}
+          {compact ? (
+            <>
+              {visual}
+              <ProcessIndicator scrollYProgress={scrollYProgress} />
+            </>
+          ) : (
+            <div className="absolute inset-0">
+              <div className={LEGEND_GRID}>
+                <div className="relative h-full">
+                  {visual}
+                  <ProcessIndicator scrollYProgress={scrollYProgress} inColumn />
+                </div>
+                <div />
+              </div>
+            </div>
+          )}
 
-          {/* Kundenspezifische Qualifizierung – breit als Karte über der
-              Prozessleiste, kompakt als letzte Textkarte des Visuals. */}
-          {/* Kompakt nur per CSS versteckt statt nicht gerendert: so bleibt das
-              ref bestehen und die Karte ist nach einem Größenwechsel des
-              Fensters sofort im richtigen Zustand. */}
-          <div
-            ref={qualificationRef}
-            style={{ opacity: 0 }}
-            className={`absolute bottom-28 z-[70] max-w-xs pointer-events-none ${qualificationSide} ${compact ? 'hidden' : ''}`}
-          >
-            <div className="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
-              <h3 className="text-gray-900 font-bold text-xs mb-2 uppercase tracking-wider">{QUALIFICATION.title}</h3>
-              <p className="text-gray-600 text-[13px] leading-relaxed">{QUALIFICATION.desc}</p>
+          {/* Legende rechts neben der Grafik (nur breit). Kompakt nur per CSS
+              versteckt statt nicht gerendert: so bleibt das ref bestehen und die
+              Legende ist nach einem Größenwechsel sofort im richtigen Zustand. */}
+          <div className={`absolute inset-0 z-[60] pointer-events-none ${compact ? 'hidden' : ''}`}>
+            <div className={LEGEND_GRID}>
+              <div />
+              <div className="flex h-full items-center pt-20 pb-8">
+                <div ref={legendRef} style={{ opacity: 0 }} className="w-full">
+                  <h2 className="text-lg font-semibold tracking-tight text-gray-900 mb-3">
+                    {tft ? 'Aufbau von vorn nach hinten' : 'Im Überblick'}
+                  </h2>
+                  <dl className="border-t border-gray-200">
+                    {legendItems.map((item, i) => (
+                      <div key={item.title} className={`border-b border-gray-200 ${tft ? 'py-1.5' : 'py-3.5'}`}>
+                        <dt
+                          className={`text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${
+                            tft && legendActive === i ? 'text-brand-700' : 'text-gray-500'
+                          }`}
+                        >
+                          {tft && <span className="mr-2 tabular-nums">{String(i + 1).padStart(2, '0')}</span>}
+                          {item.title}
+                        </dt>
+                        <dd className={`mt-0.5 leading-snug text-gray-700 ${tft ? 'text-[13px]' : 'text-sm'}`}>{item.desc}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <div className="mt-5">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500">{QUALIFICATION.title}</p>
+                    <p className="mt-1 text-[13px] leading-snug text-gray-600">{QUALIFICATION.desc}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <ProcessIndicator scrollYProgress={scrollYProgress} />
         </div>
       </div>
 

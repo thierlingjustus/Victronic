@@ -2,7 +2,7 @@ import { useMemo, type ReactNode } from 'react';
 import type { MotionValue } from 'motion/react';
 import { useScrollStyle } from '../product/useScrollStyle';
 import StageCaptions, { useActiveCaption, type StageCaption } from './StageCaptions';
-import { at, Callout, QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN, type SystemVisualProps } from './shared';
+import { at, QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN, type SystemVisualProps } from './shared';
 
 /**
  * Scroll-Visualisierung für "LCM/LCD mit Touch": Montage statt Explosion.
@@ -209,33 +209,7 @@ export default function LcmAssembly({ scrollYProgress, infoSlots, compact }: Sys
             </span>
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-tr from-white/25 via-transparent to-transparent" />
           </Part>
-
-          {/* infoSlots als Callouts an den passenden Bauteilen (nur breit) */}
-          {!compact && (
-            <>
-              <Callout
-                slot={infoSlots[0]}
-                progress={scrollYProgress}
-                from={0.64}
-                to={0.72}
-                className="left-1/2 ml-[14rem] top-[26%]"
-              />
-              <Callout
-                slot={infoSlots[1]}
-                progress={scrollYProgress}
-                from={0.56}
-                to={0.64}
-                className="right-1/2 mr-[14rem] top-[42%]"
-              />
-              <Callout
-                slot={infoSlots[2]}
-                progress={scrollYProgress}
-                from={0.24}
-                to={0.32}
-                className="left-1/2 ml-[15rem] top-[52%]"
-              />
-            </>
-          )}
+          {/* Die infoSlots stehen breit in der Legende rechts (SystemDetail.tsx) */}
         </div>
       </div>
 

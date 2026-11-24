@@ -11,17 +11,20 @@ import { QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN } from './shared';
  * Zehn Schichten: ganz oben der kapazitive Touch-Sensor – genau das, was
  * dieses System vom Produkt "TFT Displays" unterscheidet –, darunter die neun
  * Schichten des Displays. Ein früherer Umbau auf zwölf Schichten hat die
- * Grafik überladen und die Zuordnung zwischen Beschriftung und Ebene zerstört;
- * er ist bewusst zurückgenommen. Beim Ändern deshalb immer gegenprüfen, dass
- * jede Beschriftung auf die Schicht zeigt, die sie beschreibt.
+ * Grafik überladen; er ist bewusst zurückgenommen.
  *
- * Zwei Darstellungen:
- * - breit (ab 1280 px): die Schichten fahren diagonal auseinander, jede trägt
- *   ihre Beschriftung als Karte links bzw. rechts. Darunter reicht der Platz
- *   nicht – schon bei 1024 px ragten die äußeren Karten aus dem Bild.
- * - kompakt: die Schichten fahren senkrecht auseinander und füllen das
- *   Hochformat, die Beschriftungen laufen nacheinander durch die Textkarte am
- *   unteren Rand, die jeweilige Schicht ist dabei hervorgehoben.
+ * Beschriftet werden die Schichten nicht mehr mit Karten neben der Grafik,
+ * sondern in der Legende rechts (SystemDetail.tsx, Inhalt aus TFT_LAYER_LEGEND).
+ * Damit Zeile und Schicht zusammenfinden, läuft eine Hervorhebung von vorn
+ * nach hinten durch: die beschriebene Schicht bekommt einen Rahmen, die
+ * übrigen treten zurück, und die Legende färbt dieselbe Zeile ein
+ * (onActiveLayer). Kompakt (unter 1280 px) übernimmt die Textkarte am unteren
+ * Rand diese Rolle.
+ *
+ * Gut erkennbar sein müssen vor allem die beiden Enden des Stapels: vorn der
+ * Touch-Sensor (kräftiges Raster, Anschlussfahne, ein Finger tippt darauf) und
+ * hinten die Beleuchtung (warmer Leuchtschein mit LED-Leiste) – vorher waren
+ * beide auf dem weißen Grund kaum zu sehen.
  *
  * Die Kippung ist eine reine 2D-Abbildung (drehen, dann in der Höhe stauchen)
  * statt rotateX in einem preserve-3d-Kontext. Das Bild ist praktisch dasselbe,
@@ -32,92 +35,105 @@ import { QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN } from './shared';
 type LayerDef = {
   name: string;
   desc: string;
-  side: 'left' | 'right';
   content: ReactNode;
   className: string;
 };
 
+/** Rautenraster wie das ITO-Gitter in product/visuals/TouchPanel.tsx */
+const ITO_GRID =
+  "bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNiIgaGVpZ2h0PSIxNSI+PHBhdGggZD0iTTEzIDAuNSBMMjUuNSA3LjUgTDEzIDE0LjUgTDAuNSA3LjUgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDBhMGU4IiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')]";
+
 const LAYERS: LayerDef[] = [
   {
     name: 'Touch-Sensor',
-    desc: 'Kapazitives ITO-Raster auf dem Deckglas',
-    side: 'left',
-    // Rautenraster wie das ITO-Gitter in product/visuals/TouchPanel.tsx
-    content: <div className="absolute inset-0 rounded-2xl opacity-60 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNiIgaGVpZ2h0PSIxNSI+PHBhdGggZD0iTTEzIDAuNSBMMjUuNSA3LjUgTDEzIDE0LjUgTDAuNSA3LjUgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDBhMGU4IiBzdHJva2Utd2lkdGg9IjEiLz48L3N2Zz4=')]" />,
-    className: 'bg-brand-50/40 border-brand-200',
+    desc: 'Kapazitives ITO-Raster, erkennt den Finger',
+    content: (
+      <>
+        <div className={`absolute inset-0 rounded-2xl ${ITO_GRID}`} />
+        {/* Anschlussfahne zum Touch-Controller */}
+        <div className="absolute left-1/2 -bottom-7 h-7 w-16 -translate-x-1/2 rounded-b-md bg-amber-500/90" />
+      </>
+    ),
+    className: 'bg-brand-100/70 border-2 border-brand-500',
   },
   {
     name: 'Front-Polarisator',
-    desc: 'High-Res Bildschirmoberfläche',
-    side: 'right',
-    // TODO(Victronic): Hier optional ein echtes Produkt-/Display-Foto einsetzen.
-    // Bis dahin deutet ein Markenverlauf den aktiven Bildschirm an.
+    desc: 'Lässt nur Licht einer Schwingungsrichtung durch',
     content: <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-brand-800 via-brand-500 to-brand-200" />,
     className: 'bg-transparent border-gray-200 shadow-2xl',
   },
   {
     name: 'Glas',
-    desc: 'Schützendes Trägersubstrat',
-    side: 'left',
+    desc: 'Obere Glasplatte mit Farbfilter',
     content: <div className="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent rounded-2xl" />,
     className: 'bg-white/10 border-gray-300',
   },
   {
     name: 'Farbfilter',
-    desc: 'Erzeugt die RGB-Subpixel',
-    side: 'right',
+    desc: 'Erzeugt die roten, grünen und blauen Subpixel',
     content: <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjYiPjxyZWN0IHdpZHRoPSIyIiBoZWlnaHQ9IjYiIGZpbGw9InJlZCIgb3BhY2l0eT0iMC4zIi8+PHJlY3QgeD0iMiIgd2lkdGg9IjIiIGhlaWdodD0iNiIgZmlsbD0iZ3JlZW4iIG9wYWNpdHk9IjAuMyIvPjxyZWN0IHg9IjQiIHdpZHRoPSIyIiBoZWlnaHQ9IjYiIGZpbGw9ImJsdWUiIG9wYWNpdHk9IjAuMyIvPjwvc3ZnPg==')] rounded-2xl opacity-50" />,
     className: 'bg-transparent border-gray-200',
   },
   {
     name: 'Gegen-Elektrode',
-    desc: 'Gemeinsamer elektrischer Pol',
-    side: 'left',
+    desc: 'Gemeinsame, durchsichtige Elektrode (ITO)',
     content: <div className="absolute inset-0 bg-gray-100/10 rounded-2xl border border-gray-200" />,
     className: 'bg-transparent border-gray-200',
   },
   {
     name: 'Flüssigkristall',
-    desc: 'Steuert die Lichtdurchlässigkeit',
-    side: 'right',
+    desc: 'Dreht das Licht – je nach Spannung mehr oder weniger',
     content: <div className="absolute inset-0 bg-gradient-to-b from-brand-500/15 to-brand-600/15 rounded-2xl" />,
     className: 'bg-transparent border-brand-200',
   },
   {
     name: 'Transistor (TFT)',
-    desc: 'Aktive Matrix zur Pixelsteuerung',
-    side: 'left',
+    desc: 'Aktive Matrix: ein Dünnschichttransistor je Subpixel',
     content: <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHBhdGggZD0iTTAgMGgyMHYyMEgwem0xMCAxMGgxMHYxMEgxMHoiIGZpbGw9InJnYmEoMCwwLDAsMC4wMikiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==')] rounded-2xl" />,
     className: 'bg-white/90 border-gray-300',
   },
   {
     name: 'Pixel-Elektrode',
-    desc: 'Individuelle Pixel-Ansteuerung',
-    side: 'right',
-    content: <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4wMikiLz48L3N2Zz4=')] rounded-2xl" />,
+    desc: 'Legt die Spannung an jeden einzelnen Subpixel',
+    content: <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4wMiIvPjwvc3ZnPg==')] rounded-2xl" />,
     className: 'bg-transparent border-gray-200',
   },
   {
     name: 'Rear-Polarisator',
-    desc: 'Polarisiert das Hintergrundlicht',
-    side: 'left',
+    desc: 'Polarisiert das Licht der Beleuchtung',
     content: <div className="absolute inset-0 bg-slate-900/90 rounded-2xl" />,
     className: 'bg-transparent border-slate-700',
   },
   {
     name: 'Beleuchtung',
-    desc: 'LED-Hintergrundbeleuchtung',
-    side: 'right',
-    content: <div className="absolute inset-0 bg-white rounded-2xl shadow-[0_0_50px_rgba(255,255,255,0.9)]" />,
-    className: 'bg-white border-gray-200',
+    desc: 'LED-Hintergrundbeleuchtung, die Lichtquelle',
+    content: (
+      <>
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-amber-50 via-white to-amber-100" />
+        {/* LED-Leiste an der Kante, die hinter dem Rear-Polarisator hervorschaut */}
+        <div className="absolute inset-x-4 bottom-2 flex justify-between">
+          {Array.from({ length: 9 }, (_, i) => (
+            <span key={i} className="block h-2.5 w-2.5 rounded-full bg-amber-400 shadow-[0_0_8px_3px_rgba(251,191,36,0.7)]" />
+          ))}
+        </div>
+      </>
+    ),
+    className: 'bg-amber-50 border-amber-300 shadow-[0_0_60px_rgba(251,191,36,0.55)]',
   },
 ];
+
+/** Inhalt der Legende neben der Grafik (SystemDetail.tsx), von vorn nach hinten. */
+export const TFT_LAYER_LEGEND = LAYERS.map(({ name, desc }) => ({ title: name, desc }));
 
 /** Versatz-Faktor je Schicht: -5 (Touch, ganz vorn) bis +4 (Beleuchtung). */
 const FACTORS = LAYERS.map((_, i) => i - 5);
 
-/** Breit: diagonaler Versatz je Faktor und das Fenster, in dem er aufgeht. */
-const WIDE_SPREAD = 50;
+/**
+ * Breit: waagerechter Versatz je Faktor und das Fenster, in dem er aufgeht.
+ * Ohne Beschriftungskarten an den Seiten reicht ein schmalerer Fächer – so
+ * passt die Grafik neben die Legende.
+ */
+const WIDE_SPREAD_X = 40;
 const WIDE_WINDOW = [0.15, 0.8];
 /** Kompakt geht die Explosion schneller auf – danach laufen die Texte durch. */
 const COMPACT_WINDOW = [0.12, 0.3];
@@ -127,10 +143,16 @@ const TILT = 'scaleY(0.5) rotate(-45deg)';
 /** Eine gekippte 4:3-Platte der Breite w ist 1,237·w breit und 0,619·w hoch. */
 const TILT_WIDTH = 1.237;
 const TILT_HEIGHT = 0.619;
+/** Plattenbreite in der breiten Darstellung (w-80). */
+const WIDE_PLATE = 320;
 
-/** Startpunkte der Textkarten in der kompakten Darstellung. */
+/** Startpunkte der Hervorhebung: kompakt mit Textkarte, breit mit Legende. */
 const CAPTION_START = 0.3;
 const CAPTION_STEP = 0.044;
+const WIDE_CAPTION_START = 0.4;
+const WIDE_CAPTION_STEP = 0.036;
+/** Breit: danach endet die Hervorhebung, alle Schichten stehen wieder gleich. */
+const WIDE_CAPTION_END = 0.78;
 
 /**
  * Plattenbreite und senkrechter Abstand für die kompakte Darstellung, passend
@@ -143,9 +165,9 @@ function useCompactGeometry(compact: boolean) {
     if (!compact) return;
     const measure = () => {
       const width = Math.round(Math.min(340, (window.innerWidth - 32) / TILT_WIDTH));
-      // Oben die Navbar (64 px), unten Textkarte samt Abstand (200 px) und
-      // etwas Luft, damit die oberste Platte nicht an der Navbar klebt.
-      const free = window.innerHeight - 64 - 200 - 32;
+      // Oben die Navbar (64 px) samt Platz für den Finger, unten Textkarte
+      // samt Abstand (200 px).
+      const free = window.innerHeight - 64 - 200 - 64;
       const spread = Math.max(12, Math.min(38, (free - width * TILT_HEIGHT) / (LAYERS.length - 1)));
       setGeo((prev) => (prev.width === width && prev.spread === spread ? prev : { width, spread }));
     };
@@ -158,20 +180,19 @@ function useCompactGeometry(compact: boolean) {
 }
 
 /**
- * Senkrechter Versatz je Faktor in der breiten Darstellung. Auf niedrigen
- * Fenstern (z.B. 1280 × 720) geriete die oberste Beschriftung mit den vollen
- * 50 px unter die Navbar – dort wird die Explosion flacher.
+ * Senkrechter Versatz je Faktor in der breiten Darstellung. Die oberste Platte
+ * (Faktor -5, die Gruppe ist um 56 px angehoben) muss samt Finger unter der
+ * Navbar bleiben; auf niedrigen Fenstern wird die Explosion deshalb flacher.
  */
 function useWideSpreadY(enabled: boolean) {
-  const [spread, setSpread] = useState(WIDE_SPREAD);
+  const [spread, setSpread] = useState(44);
 
   useEffect(() => {
     if (!enabled) return;
     const measure = () => {
-      // Rahmenmitte (halbe Höhe, 56 px angehoben) minus halbe Kartenhöhe muss
-      // unter der Navbar (64 px) samt etwas Abstand bleiben.
-      const room = window.innerHeight / 2 - 56 - 32 - 76;
-      setSpread(Math.max(30, Math.min(WIDE_SPREAD, Math.floor(room / 5))));
+      const halfPlate = (WIDE_PLATE * TILT_HEIGHT) / 2;
+      const room = window.innerHeight / 2 - 56 - halfPlate - 72;
+      setSpread(Math.max(24, Math.min(46, Math.floor(room / 5))));
     };
     measure();
     window.addEventListener('resize', measure);
@@ -179,6 +200,28 @@ function useWideSpreadY(enabled: boolean) {
   }, [enabled]);
 
   return spread;
+}
+
+/** Finger, der auf die Mitte des Touch-Sensors tippt, mit Berührungsringen. */
+function Finger({ progress, compact }: { progress: MotionValue<number>; compact: boolean }) {
+  const ref = useScrollStyle<HTMLDivElement>(
+    progress,
+    compact ? { input: [0.26, 0.3], opacity: [0, 1], y: [-16, 0] } : { input: [0.6, 0.7], opacity: [0, 1], y: [-24, 0] }
+  );
+  return (
+    <div ref={ref} style={{ opacity: 0 }} className="absolute left-1/2 top-1/2 pointer-events-none">
+      {/* Ringe liegen flach auf der gekippten Platte, deshalb gestaucht */}
+      <svg width="140" height="70" viewBox="0 0 140 70" className="absolute -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
+        <ellipse cx="70" cy="35" rx="28" ry="14" fill="none" stroke="#00a0e8" strokeWidth="2" opacity="0.8" />
+        <ellipse cx="70" cy="35" rx="52" ry="26" fill="none" stroke="#00a0e8" strokeWidth="1.5" opacity="0.45" />
+      </svg>
+      {/* Fingerkuppe von hinten gesehen, Spitze auf der Plattenmitte */}
+      <svg width="40" height="76" viewBox="0 0 40 76" className="absolute -translate-x-1/2 -translate-y-full" aria-hidden="true">
+        <rect x="2" y="2" width="36" height="72" rx="18" fill="#ffffff" stroke="#475569" strokeWidth="2.5" />
+        <path d="M11 56 Q20 66 29 56" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
 }
 
 function Plate({
@@ -206,66 +249,25 @@ function Plate({
     progress,
     compact
       ? { input: COMPACT_WINDOW, x: [0, 0], y: [0, f * spread] }
-      : { input: WIDE_WINDOW, x: [0, f * WIDE_SPREAD], y: [0, f * wideSpreadY] }
+      : { input: WIDE_WINDOW, x: [0, f * WIDE_SPREAD_X], y: [0, f * wideSpreadY] }
   );
 
   return (
     <div
       ref={ref}
-      className={`absolute aspect-[4/3] ${compact ? '' : 'w-96'}`}
+      className={`absolute aspect-[4/3] ${compact ? '' : 'w-80'}`}
       // Oberste Schicht liegt vorn.
       style={{ zIndex: 60 - index, width: compact ? width : undefined }}
     >
       <div
         className={`absolute inset-0 rounded-2xl border transition-[opacity,outline-color] duration-300 outline outline-2 outline-offset-2 ${
           highlight === 'active' ? 'outline-brand-500' : 'outline-transparent'
-        } ${highlight === 'dim' ? 'opacity-60' : 'opacity-100'} ${layer.className}`}
+        } ${highlight === 'dim' ? 'opacity-50' : 'opacity-100'} ${layer.className}`}
         style={{ transform: TILT }}
       >
         {layer.content}
       </div>
-    </div>
-  );
-}
-
-/** Beschriftungskarte einer Schicht – fährt mit ihr mit (nur breite Darstellung). */
-function PlateLabel({
-  layer,
-  index,
-  progress,
-  spreadY,
-}: {
-  layer: LayerDef;
-  index: number;
-  progress: MotionValue<number>;
-  spreadY: number;
-}) {
-  const f = FACTORS[index];
-  const [from, to] = WIDE_WINDOW;
-  // Erscheint, sobald die Schichten weit genug auseinander sind.
-  const fadeFrom = from + (to - from) * 0.3;
-  const fadeTo = from + (to - from) * 0.6;
-  // Anteil des Wegs, der an einer Stützstelle schon zurückgelegt ist.
-  const part = (p: number) => (p - from) / (to - from);
-  const ref = useScrollStyle<HTMLDivElement>(progress, {
-    input: [from, fadeFrom, fadeTo, to],
-    opacity: [0, 0, 1, 1],
-    x: [0, part(fadeFrom) * f * WIDE_SPREAD, part(fadeTo) * f * WIDE_SPREAD, f * WIDE_SPREAD],
-    y: [0, part(fadeFrom) * f * spreadY, part(fadeTo) * f * spreadY, f * spreadY],
-  });
-  const isLeft = layer.side === 'left';
-
-  return (
-    <div
-      ref={ref}
-      style={{ opacity: 0 }}
-      className={`absolute z-[70] w-56 ${isLeft ? 'mr-[9rem] text-right right-1/2' : 'ml-[9rem] left-1/2'}`}
-    >
-      <div className={`h-px w-8 bg-brand-600 absolute top-4 opacity-50 ${isLeft ? '-right-8' : '-left-8'}`} />
-      <div className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
-        <h3 className="text-brand-700 font-bold text-xs uppercase tracking-wider">{layer.name}</h3>
-        <p className="text-gray-600 text-[11px] mt-1 leading-snug">{layer.desc}</p>
-      </div>
+      {index === 0 && <Finger progress={progress} compact={compact} />}
     </div>
   );
 }
@@ -273,9 +275,12 @@ function PlateLabel({
 export default function TftExplosion({
   scrollYProgress,
   compact,
+  onActiveLayer,
 }: {
   scrollYProgress: MotionValue<number>;
   compact: boolean;
+  /** Meldet die gerade beschriebene Schicht (-1 = keine) für die Legende. */
+  onActiveLayer?: (index: number) => void;
 }) {
   const rootRef = useScrollStyle<HTMLDivElement>(scrollYProgress, VISUAL_FADE_IN);
   const { width, spread } = useCompactGeometry(compact);
@@ -286,23 +291,27 @@ export default function TftExplosion({
       ...LAYERS.map((layer, i) => ({
         title: layer.name,
         desc: layer.desc,
-        at: CAPTION_START + i * CAPTION_STEP,
+        at: compact ? CAPTION_START + i * CAPTION_STEP : WIDE_CAPTION_START + i * WIDE_CAPTION_STEP,
       })),
-      { ...QUALIFICATION, at: QUALIFICATION_AT },
+      { ...QUALIFICATION, at: compact ? QUALIFICATION_AT : WIDE_CAPTION_END },
     ],
-    []
+    [compact]
   );
-  const active = useActiveCaption(scrollYProgress, captions, compact);
-  // Nur die zehn Schicht-Karten heben etwas hervor, die Qualifizierung nicht.
-  const activeLayer = compact && active >= 0 && active < LAYERS.length ? active : -1;
+  const active = useActiveCaption(scrollYProgress, captions);
+  // Nur die zehn Schichten heben etwas hervor, die Qualifizierung nicht.
+  const activeLayer = active >= 0 && active < LAYERS.length ? active : -1;
+
+  useEffect(() => {
+    onActiveLayer?.(activeLayer);
+  }, [activeLayer, onActiveLayer]);
 
   return (
     <div ref={rootRef} style={{ opacity: 0 }} className="absolute inset-0 pointer-events-none">
       {/* Kompakt: zentriert im Raum zwischen Navbar und Textkarte. Breit: etwas
-          angehoben, damit unten Prozessleiste und Qualifizierung Platz haben. */}
+          angehoben, damit unten die Prozessleiste Platz hat. */}
       <div
         className={`absolute inset-x-0 flex items-center justify-center ${
-          compact ? 'top-16 bottom-[12.5rem] lg:bottom-[19rem]' : 'inset-y-0'
+          compact ? 'top-28 bottom-[12.5rem] lg:bottom-[19rem]' : 'inset-y-0'
         }`}
       >
         <div className={`relative w-full max-w-4xl flex items-center justify-center ${compact ? '' : '-translate-y-14'}`}>
@@ -319,18 +328,6 @@ export default function TftExplosion({
               highlight={activeLayer < 0 ? 'none' : activeLayer === i ? 'active' : 'dim'}
             />
           ))}
-          {/* Beschriftungen nach den Platten und mit höherem z-index, damit
-              keine Platte eine Karte überdeckt. */}
-          {!compact &&
-            LAYERS.map((layer, i) => (
-              <PlateLabel
-                key={`label-${layer.name}`}
-                layer={layer}
-                index={i}
-                progress={scrollYProgress}
-                spreadY={wideSpreadY}
-              />
-            ))}
         </div>
       </div>
 
