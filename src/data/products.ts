@@ -192,7 +192,12 @@ export const products = [
       { label: "Bauarten", value: "Axial (DC und AC), Radial, Querstrom und EC – Eckdaten je Modell unter „Lüfter-Arten“" },
       { label: "Lagerung", value: "Gleitlager (Sleeve), Kugellager (Ball) oder doppelt kugelgelagert (Double Ball) mit entsprechend höherer Lebensdauer" },
       { label: "Varianten", value: "Jedes Modell in drei Speed-/Airflow-Versionen: High, Mid, Low" },
-      { label: "Steuerung & Zubehör", value: "Optional Tachosignal und PWM-Steuerung, Metal Finger Guards als Standardzubehör" }
+      { label: "Steuerung & Zubehör", value: "Optional Tachosignal und PWM-Steuerung, Metal Finger Guards als Standardzubehör" },
+      // Aus dem gestrichenen Einleitungstext (alte Seite victronic-gmbh.de/luefter/).
+      // legendOnly: nur in den Technischen Daten, nicht im Takt der Animation –
+      // sonst verschöbe sich, wann welches Bauteil hervorgehoben wird. Immer ans Ende.
+      { label: "Einsatz", value: "Akku-Ladegeräte, Industrierechner, Abluftförderung", legendOnly: true },
+      { label: "Anpassungen", value: "Sub-Customizing auf Basis der Standardmodelle oder Full-Customizing nach Ihrer Spezifikation", legendOnly: true }
     ],
     synergy: "Zentraler Bestandteil unseres Thermomanagement-Konzepts bei der Modulmontage. Verhindert Derating bei Hochleistungs-Stromversorgungen.",
     modelType: "fan",
@@ -275,8 +280,9 @@ export const products = [
     },
     // Modellübersicht direkt unter der Scroll-Bühne. Eckdaten wie auf der
     // bisherigen Seite victronic-gmbh.de/luefter/ („Lüfter-Arten").
+    // Ohne Einleitungstext (vom Team gestrichen) – die Bauarten erklärt die
+    // Grafik „Axial oder radial?" weiter unten.
     modelsTitle: "Lüfter-Arten",
-    modelsIntro: "Axial-, Radial- und Querstromlüfter als DC-, AC- und EC-Ausführung – zur Kühlung von Akku-Ladegeräten und Industrierechnern oder als Abluftförderer. Auf Basis der Standardmodelle passen wir Lüfter an (Sub-Customizing) oder fertigen sie nach Ihrer Spezifikation (Full-Customizing).",
     models: [
       {
         name: "DC Blower",
@@ -328,9 +334,8 @@ export const products = [
     accessories: [
       { name: "Fingerschutzgitter aus Metall", detail: "Fittings (Metal Finger Guards)", image: fingerGuard }
     ],
-    // Platz für die Erklär-Grafik zwischen Modellübersicht und Galerie.
-    // Live bleibt die Stelle leer, im Dev-Server ist sie markiert (Product.tsx).
-    comparisonSlot: "Axial- vs. Radiallüfter: visualisierte Erklärung der Unterschiede"
+    // Erklär-Grafik unter dem Lagerungs-Vergleich (Product.tsx → AirflowComparison.tsx)
+    explainer: "airflow"
   },
   {
     id: "kunststoffkomponenten",

@@ -10,6 +10,7 @@ import ProductShowcase from '../components/ProductShowcase';
 import ProductStage from '../components/product/ProductStage';
 import ProductModels from '../components/product/ProductModels';
 import ProductComparison from '../components/product/ProductComparison';
+import AirflowComparison from '../components/product/AirflowComparison';
 import Seo from '../components/Seo';
 import { productSeo } from '../data/seo';
 import CtaLink from '../components/CtaLink';
@@ -50,7 +51,7 @@ export default function Product() {
   // Bild-Vergleich (Lüfter), dann bleibt die Galerie bewusst leer.
   const galleryImages = product.images.length > 0
     ? product.images
-    : product.comparison
+    : product.comparison || product.explainer
       ? []
       : [{ src: product.image, caption: product.strategicBenefit }];
 
@@ -83,29 +84,14 @@ export default function Product() {
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">
             <ProductModels
               title={product.modelsTitle ?? 'Modelle'}
-              intro={product.modelsIntro}
               models={product.models}
               accessories={product.accessories}
             />
           </div>
         )}
 
-        {/* Reservierter Platz für eine Erklär-Grafik (Lüfter: Axial vs. Radial).
-            Bis sie gebaut ist, bleibt die Stelle live leer; im Dev-Server
-            markiert ein gestrichelter Rahmen, wo sie hinkommt. */}
-        {product.comparisonSlot && import.meta.env.DEV && (
-          <div
-            id="vergleich"
-            className="max-w-6xl mx-auto mb-20 md:mb-28 h-72 rounded-3xl border-2 border-dashed border-gray-200 flex items-center justify-center px-6 text-center"
-          >
-            <p className="text-sm text-gray-400">
-              Platzhalter, nur lokal sichtbar: {product.comparisonSlot}
-            </p>
-          </div>
-        )}
-
-        {/* Alternierende Bild/Text-Galerie und/oder Bild-Vergleich */}
-        {(galleryImages.length > 0 || product.comparison) && (
+        {/* Alternierende Bild/Text-Galerie, Bild-Vergleich und Erklär-Grafik */}
+        {(galleryImages.length > 0 || product.comparison || product.explainer) && (
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">
             {galleryImages.length > 0 && (
               <>
@@ -122,6 +108,12 @@ export default function Product() {
             {product.comparison && (
               <div className={galleryImages.length > 0 ? 'mt-20 md:mt-28' : ''}>
                 <ProductComparison {...product.comparison} />
+              </div>
+            )}
+            {/* Lüfter: Luftweg Axial vs. Radial, direkt unter dem Lager-Vergleich */}
+            {product.explainer === 'airflow' && (
+              <div className={galleryImages.length > 0 || product.comparison ? 'mt-20 md:mt-28' : ''}>
+                <AirflowComparison />
               </div>
             )}
             {/* Transparenzhinweis zu den Abbildungen (Art. 50 KI-VO / UWG).

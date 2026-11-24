@@ -13,7 +13,8 @@ type StageProduct = {
   headline: string;
   strategicBenefit: string;
   synergy: string;
-  specs: { label: string; value: string }[];
+  /** legendOnly: nur in der Legende, zählt nicht für den Takt der Animation (muss am Ende stehen). */
+  specs: { label: string; value: string; legendOnly?: boolean }[];
   modelType: string;
   image: string;
   icon: ComponentType<{ className?: string }>;
@@ -140,9 +141,11 @@ export default function ProductStage({ product }: { product: StageProduct }) {
   });
 
   // Fakten aus den vorhandenen Spezifikationen – abwechselnd links und rechts.
+  // Sie geben auch den Takt vor, in dem das Visual Bauteile hervorhebt;
+  // Zeilen mit legendOnly stehen nur in der Legende und zählen hier nicht mit.
   const facts: InfoSlot[] = useMemo(
     () =>
-      product.specs.map((spec, i) => ({
+      product.specs.filter((spec) => !spec.legendOnly).map((spec, i) => ({
         title: spec.label,
         desc: spec.value,
         align: i % 2 === 0 ? 'left' : 'right',
@@ -224,17 +227,19 @@ export default function ProductStage({ product }: { product: StageProduct }) {
   const specLegend = (
     <div>
       <h2 className="text-lg font-semibold tracking-tight text-gray-900 mb-3">Technische Daten</h2>
+      {/* Alle Zeilen, auch legendOnly. Die stehen am Ende, deshalb passt der
+          Index für die Hervorhebung zu den getakteten Fakten. */}
       <dl className="border-t border-gray-200">
-        {facts.map((fact, i) => (
-          <div key={fact.title} className="py-3.5 border-b border-gray-200">
+        {product.specs.map((spec, i) => (
+          <div key={spec.label} className="py-3.5 border-b border-gray-200">
             <dt
               className={`text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${
                 legendActive === i ? 'text-brand-700' : 'text-gray-500'
               }`}
             >
-              {fact.title}
+              {spec.label}
             </dt>
-            <dd className="mt-1 text-sm text-gray-700 leading-snug">{fact.desc}</dd>
+            <dd className="mt-1 text-sm text-gray-700 leading-snug">{spec.value}</dd>
           </div>
         ))}
       </dl>
