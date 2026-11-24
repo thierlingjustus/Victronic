@@ -15,11 +15,13 @@ import { QUALIFICATION, QUALIFICATION_AT, VISUAL_FADE_IN } from './shared';
  *
  * Beschriftet werden die Schichten nicht mehr mit Karten neben der Grafik,
  * sondern in der Legende rechts (SystemDetail.tsx, Inhalt aus TFT_LAYER_LEGEND).
- * Damit Zeile und Schicht zusammenfinden, läuft eine Hervorhebung von vorn
- * nach hinten durch: die beschriebene Schicht bekommt einen Rahmen, die
- * übrigen treten zurück, und die Legende färbt dieselbe Zeile ein
- * (onActiveLayer). Kompakt (unter 1280 px) übernimmt die Textkarte am unteren
- * Rand diese Rolle.
+ * Damit Zeile und Schicht zusammenfinden, trägt jede Platte dieselbe Nummer
+ * wie ihre Legendenzeile (LayerNumber, an der rechten Spitze – dort schaut
+ * jede Schicht unter der darüberliegenden hervor). Zusätzlich läuft eine
+ * Hervorhebung von vorn nach hinten durch: die beschriebene Schicht bekommt
+ * einen Rahmen und eine blaue Nummer, die übrigen treten zurück, und die
+ * Legende färbt dieselbe Zeile ein (onActiveLayer). Kompakt (unter 1280 px)
+ * übernimmt die Textkarte am unteren Rand die Legende.
  *
  * Gut erkennbar sein müssen vor allem die beiden Enden des Stapels: vorn der
  * Touch-Sensor (kräftiges Raster, Anschlussfahne, ein Finger tippt darauf) und
@@ -149,10 +151,13 @@ const WIDE_PLATE = 320;
 /** Startpunkte der Hervorhebung: kompakt mit Textkarte, breit mit Legende. */
 const CAPTION_START = 0.3;
 const CAPTION_STEP = 0.044;
-const WIDE_CAPTION_START = 0.4;
-const WIDE_CAPTION_STEP = 0.036;
+/** Breit erst, wenn die Nummern da sind (NUMBER_FADE) und nicht mehr überlappen. */
+const WIDE_CAPTION_START = 0.5;
+const WIDE_CAPTION_STEP = 0.028;
 /** Breit: danach endet die Hervorhebung, alle Schichten stehen wieder gleich. */
-const WIDE_CAPTION_END = 0.78;
+const WIDE_CAPTION_END = 0.8;
+/** Nummern blenden ein, sobald die Platten weit genug auseinander stehen. */
+const NUMBER_FADE = { compact: [0.24, 0.3], wide: [0.42, 0.5] };
 
 /**
  * Plattenbreite und senkrechter Abstand für die kompakte Darstellung, passend
@@ -224,6 +229,44 @@ function Finger({ progress, compact }: { progress: MotionValue<number>; compact:
   );
 }
 
+/**
+ * Nummer einer Schicht wie in der Legende. Sitzt an der rechten Spitze der
+ * gekippten Platte (bei 4:3 und Breite w: 0,619·w rechts, 0,044·w über der
+ * Mitte), leicht nach innen gerückt – so bleibt sie auch auf dem Handy im Bild,
+ * und die Platte darüber verdeckt sie nicht.
+ */
+function LayerNumber({
+  index,
+  progress,
+  compact,
+  plateWidth,
+  active,
+}: {
+  index: number;
+  progress: MotionValue<number>;
+  compact: boolean;
+  plateWidth: number;
+  active: boolean;
+}) {
+  const ref = useScrollStyle<HTMLSpanElement>(progress, {
+    input: compact ? NUMBER_FADE.compact : NUMBER_FADE.wide,
+    opacity: [0, 1],
+  });
+  const tipX = plateWidth * 0.619 - 18;
+  const tipY = -plateWidth * 0.044;
+  return (
+    <span
+      ref={ref}
+      style={{ opacity: 0, left: `calc(50% + ${tipX}px)`, top: `calc(50% + ${tipY}px)` }}
+      className={`absolute z-10 flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border text-[10px] font-bold tabular-nums shadow-sm transition-colors duration-300 ${
+        active ? 'border-brand-600 bg-brand-600 text-white' : 'border-gray-300 bg-white text-gray-700'
+      }`}
+    >
+      {String(index + 1).padStart(2, '0')}
+    </span>
+  );
+}
+
 function Plate({
   layer,
   index,
@@ -268,6 +311,15 @@ function Plate({
         {layer.content}
       </div>
       {index === 0 && <Finger progress={progress} compact={compact} />}
+      <LayerNumber
+        index={index}
+        progress={progress}
+        compact={compact}
+        plateWidth={compact ? width : WIDE_PLATE}
+        active={highlight === 'active'}
+      />
+      {/* Nummer liegt über der eigenen Platte; die Platten darüber reichen
+          an dieser Stelle nicht heran (siehe LayerNumber). */}
     </div>
   );
 }
