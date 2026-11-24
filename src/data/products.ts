@@ -45,6 +45,25 @@ import boxBuildModule from '../assets/products/montage-gehaeuse/box-build-module
 import desktopBrick from '../assets/products/stromversorgungen/desktop-brick.jpg';
 import dinRail from '../assets/products/stromversorgungen/din-rail.jpg';
 import openFrame from '../assets/products/stromversorgungen/open-frame.jpg';
+// Netzteil-Modelle: echte Produktfotos von der bisherigen Website (wp-content/uploads/2015/09,
+// Hutschiene 2020/07; Originale unter Victronic/Information/Stromversorgungen/Modelle).
+// Auf Weiß eng zugeschnitten, quadratisch, mind. 512 px als WebP. Die meisten Originale
+// sind nur rund 200 × 150 px groß – größere Vorlagen würden die Kacheln schärfer machen.
+import steckerNtModel from '../assets/products/stromversorgungen/modelle/stecker-nt.webp';
+import tischNtModel from '../assets/products/stromversorgungen/modelle/tisch-nt.webp';
+import hutschieneModel from '../assets/products/stromversorgungen/modelle/hutschiene.webp';
+import openFrameModel from '../assets/products/stromversorgungen/modelle/open-frame.webp';
+import industrieNtModel from '../assets/products/stromversorgungen/modelle/industrie-nt.webp';
+import wechselsteckerModel from '../assets/products/stromversorgungen/modelle/wechselstecker.webp';
+import usbChargerModel from '../assets/products/stromversorgungen/modelle/usb-charger.webp';
+import carChargerModel from '../assets/products/stromversorgungen/modelle/car-charger.webp';
+import acKabel from '../assets/products/stromversorgungen/modelle/ac-kabel.webp';
+import dcStecker from '../assets/products/stromversorgungen/modelle/dc-stecker.webp';
+// Prüfzeichen-Leiste der alten Seite (Yingjiao_Zertifikate.jpg), ohne die Rahmenlinien;
+// -1/-2 sind die beiden Hälften für die zweizeilige Handy-Ansicht.
+import zertifikate from '../assets/products/stromversorgungen/zertifikate.webp';
+import zertifikate1 from '../assets/products/stromversorgungen/zertifikate-1.webp';
+import zertifikate2 from '../assets/products/stromversorgungen/zertifikate-2.webp';
 
 // Hover-Bilder der Produktkarten auf der Startseite (siehe CardPhoto.tsx):
 // freigestellte Ausschnitte der Abbildungen oben, Hintergrund auf den
@@ -155,15 +174,19 @@ export const products = [
     headline: "Effiziente und sichere Energieversorgung",
     strategicBenefit: "Ausfallsichere Stromversorgungen mit höchsten Wirkungsgraden für den 24/7-Dauerbetrieb in industriellen und medizinischen Anlagen.",
     specs: [
-      { label: "Bauformen", value: "Steckernetzteile 1–36 W, Tischnetzteile 6–200 W, Hutschiene 10–30 W, Open Frame 1–150 W, Industrie-Netzteile 12–350 W" },
-      { label: "Weitere Produkte", value: "USB-Ladegeräte, Car Charger, AC-Kabel und -Stecker für alle gängigen Länderstandards, DC-Stecker – auf Anfrage Linear-Netzteile und Trafos" },
-      { label: "Prüfung & Garantie", value: "100 % Burn-in-Test unter Volllast, 3 Jahre Garantie, Klasse-2-Isolierung" },
-      { label: "Zuverlässigkeit", value: "MTBF > 200.000 h (Hutschiene), geringe Restwelligkeit, Ausgangsspannung einstellbar" },
-      { label: "Schutz", value: "Überspannung (OVP), Kurzschluss (SCP), Ausgangsspannungsüberwachung" },
-      { label: "Effizienz", value: "Effizienzlevel VI (externe Netzteile)" }
+      // Kurz gehalten: Leistung, Spannungen und Stecker stehen je Modell unter
+      // „Netzteilarten". Burn-in, Garantie, Isolierung, MTBF und Schutz nennt die
+      // alte Seite nur für die Hutschienen-Netzteile – sie stehen deshalb dort.
+      { label: "Bauformen", value: "Stecker-, Tisch-, Hutschienen-, Open-Frame- und Industrie-Netzteile sowie USB- und Auto-Ladegeräte – Eckdaten je Modell unter „Netzteilarten“" },
+      { label: "Effizienz", value: "Energy Star Level VI (externe Netzteile)" },
+      { label: "Weitere Produkte", value: "Linear-Netzteile und Transformatoren, auch Hochfrequenz-Trafos, auf Anfrage" },
+      // legendOnly: nur in den Technischen Daten, nicht im Takt der Animation. Immer ans Ende.
+      { label: "Anpassungen", value: "Kundenspezifische Anpassung der Standardnetzteile oder kundenspezifische Ausführung", legendOnly: true }
     ],
     synergy: "Perfekt abgestimmt auf den Energiebedarf unserer Display- und Embedded-Systeme.",
     modelType: "power",
+    // Technische Daten als Legende neben der Animation statt Faktenkarten
+    specsLegend: true,
     image: stromversorgungenImg,
     cardImage:stromversorgungenCard,
     images: [
@@ -179,7 +202,133 @@ export const products = [
         src: openFrame,
         caption: "Ein Open-Frame-Netzteil als offene Platine mit Elkos, Ringkerndrossel, Übertrager, Sicherungen und Kühlkörper, AC-Eingang links, DC-Ausgang rechts – für den Einbau direkt ins Gerät, von 1 bis 150 W."
       }
-    ]
+    ],
+    // Modellübersicht direkt unter der Scroll-Bühne. Reihenfolge, Namen und
+    // Eckdaten wie auf der bisherigen Seite victronic-gmbh.de/netzteile/
+    // („Netzteilarten"); die Kurzbeschreibungen beschreiben nur, was Name und
+    // Foto zeigen, plus die dort genannten Kenndaten.
+    modelsTitle: "Netzteilarten",
+    models: [
+      {
+        name: "Steckernetzteile",
+        kind: "Wall Mount Power Adapter",
+        image: steckerNtModel,
+        summary: "Kompaktes Netzteil, das direkt in der Steckdose sitzt – mit dem AC-Stecker des jeweiligen Landes.",
+        specs: [
+          { label: "Leistung", value: "1–36 W" },
+          { label: "Eingangsspannung", value: "100–240 V AC, 47–63 Hz" },
+          { label: "Ausgangsspannung", value: "4,2–36 V DC" },
+          { label: "AC-Stecker", value: "EU, USA/Japan/China, Australien/Neuseeland, UK/Hongkong, Südafrika" },
+          { label: "DC-Stecker", value: "optional" }
+        ]
+      },
+      {
+        name: "Tischnetzteile",
+        kind: "Desktop Power Adapter",
+        image: tischNtModel,
+        summary: "Externes Netzteil im eigenen Gehäuse, angeschlossen über ein AC-Kabel – für Leistungen bis 200 W.",
+        specs: [
+          { label: "Leistung", value: "6–200 W" },
+          { label: "Eingangsspannung", value: "100–240 V AC, 47–63 Hz" },
+          { label: "Ausgangsspannung", value: "5–48 V DC" },
+          { label: "AC-Eingang", value: "2-polig oder 3-polig" },
+          { label: "AC-Kabel", value: "EU, USA/Japan/China, Australien/Neuseeland, UK/Hongkong, Südafrika" },
+          { label: "DC-Stecker", value: "optional" }
+        ]
+      },
+      {
+        name: "Hutschienen-Netzteile",
+        kind: "DIN Rail Power Supply",
+        image: hutschieneModel,
+        // Kenndaten der alten Seite: hoher Wirkungsgrad, 100 % Burn-in unter Volllast,
+        // geringe Restwelligkeit und Rauschen, Ausgangsspannung einstellbar,
+        // Klasse 2 Isolierung, Schutz, 3 Jahre Garantie
+        summary: "Für die Montage auf der Hutschiene. Hoher Wirkungsgrad, geringe Restwelligkeit und geringes Rauschen, Ausgangsspannung einstellbar, Klasse-2-Isolierung.",
+        specs: [
+          { label: "Leistung", value: "10–30 W max." },
+          { label: "Eingangsspannung", value: "90–264 V AC, 47–63 Hz" },
+          { label: "Ausgangsspannung", value: "5–48 V DC" },
+          { label: "Nennstrom", value: "0,32–6,5 A" },
+          { label: "MTBF", value: "200.000 h" },
+          { label: "Schutz", value: "Überspannung, Kurzschluss, Überwachung der Ausgangsspannung" },
+          { label: "Prüfung & Garantie", value: "100 % Burn-in-Test unter Volllast, 3 Jahre Garantie" }
+        ]
+      },
+      {
+        name: "Open Frame Netzteile",
+        kind: "Open Frame Switching Power Modules",
+        image: openFrameModel,
+        summary: "Schaltnetzteil als offene Platine ohne eigenes Gehäuse – für den Einbau direkt ins Gerät.",
+        specs: [
+          { label: "Leistung", value: "1–150 W" },
+          { label: "Eingangsspannung", value: "100–240 V AC, 47–63 Hz" },
+          { label: "Ausgangsstrom", value: "350 mA – 6,5 A" }
+        ]
+      },
+      {
+        name: "Industrie-Netzteile",
+        kind: "Industrial Power Supplies",
+        image: industrieNtModel,
+        summary: "Im gelochten Metallgehäuse mit Schraubklemmen, für 12 oder 24 V DC und Ströme bis 30 A.",
+        specs: [
+          { label: "Leistung", value: "12–350 W" },
+          { label: "Eingangsspannung", value: "90–264 V AC, 50/60 Hz" },
+          { label: "Ausgangsspannung", value: "12 / 24 V DC" },
+          { label: "Ausgangsstrom", value: "2,5–30 A" }
+        ]
+      },
+      {
+        name: "Steckernetzteile mit Wechselsteckern",
+        kind: "Power Adapters with Changeable Plugs",
+        image: wechselsteckerModel,
+        summary: "Ein Netzteil für verschiedene Länder: Der AC-Stecker wird gewechselt, statt für jede Region ein eigenes Modell zu führen.",
+        specs: [
+          { label: "Leistung", value: "1–25 W" },
+          { label: "Eingangsspannung", value: "100–240 V AC, 47–63 Hz" },
+          { label: "Ausgangsspannung", value: "5–36 V DC" },
+          { label: "AC-Stecker", value: "optional oder als Set: US/EU/UK/AU" },
+          { label: "DC-Stecker", value: "optional" }
+        ]
+      },
+      {
+        name: "USB-Ladegeräte",
+        kind: "USB Charger",
+        image: usbChargerModel,
+        summary: "Ladegeräte mit USB-Ausgang für die Steckdose.",
+        specs: [
+          { label: "Leistung", value: "1–12 W" },
+          { label: "Eingangsspannung", value: "100–240 V AC, 47–63 Hz" },
+          { label: "Ausgangsspannung", value: "5 V DC" }
+        ]
+      },
+      {
+        name: "Auto-Ladegeräte",
+        kind: "Car Charger",
+        image: carChargerModel,
+        summary: "Für die Bordsteckdose im Fahrzeug, mit DC-Ausgang von 1,5 bis 48 V.",
+        specs: [
+          { label: "Leistung", value: "5–100 W" },
+          // Die alte Seite schreibt „9-32VAC“. Das Bordnetz eines Fahrzeugs liefert
+          // Gleichspannung – vermutlich ein Tippfehler, deshalb hier V DC.
+          { label: "Eingangsspannung", value: "9–32 V DC" },
+          { label: "Ausgangsspannung", value: "1,5–48 V DC" }
+        ]
+      }
+    ],
+    accessoriesLabel: "Zubehör",
+    accessories: [
+      { name: "AC-Kabel", detail: "2- oder 3-polig, für EU, USA/Japan/China, Australien/Neuseeland, UK/Hongkong und Südafrika", image: acKabel },
+      { name: "DC-Stecker", detail: "gerade oder in L‑Form", image: dcStecker } // geschützter Bindestrich: kein Umbruch nach „L-"
+    ],
+    // Prüfzeichen-Leiste der alten Seite, am Ende der Liste. Welche Zeichen für
+    // welches Modell gelten, sagt die alte Seite nicht – daher der Hinweis.
+    certifications: {
+      title: "Zertifizierungen",
+      image: zertifikate,
+      mobileImages: [zertifikate1, zertifikate2] as [string, string],
+      alt: "Prüfzeichen und Zertifizierungen: UL, TÜV Rheinland GS, CE, EMC, ErP, SAA, FCC, CCC, CB Scheme, PSE, PSE (JET), F im Dreieck, RoHS, ISO 9001",
+      caption: "Zertifizierungen und Prüfzeichen unseres Netzteil-Herstellers. Welche davon ein bestimmtes Modell trägt, nennen wir Ihnen auf Anfrage."
+    }
   },
   {
     id: "luefter",

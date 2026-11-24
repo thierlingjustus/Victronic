@@ -79,13 +79,15 @@ export default function Product() {
           </div>
         )}
 
-        {/* Modellübersicht – nur Kategorien mit `models` (aktuell Lüfter) */}
+        {/* Modellübersicht – nur Kategorien mit `models` (Lüfter, Stromversorgungen) */}
         {product.models && product.models.length > 0 && (
           <div className="max-w-6xl mx-auto mb-20 md:mb-28">
             <ProductModels
               title={product.modelsTitle ?? 'Modelle'}
               models={product.models}
               accessories={product.accessories}
+              accessoriesLabel={product.accessoriesLabel}
+              certifications={product.certifications}
             />
           </div>
         )}

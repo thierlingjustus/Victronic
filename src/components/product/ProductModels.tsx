@@ -1,4 +1,4 @@
-import type { ProductAccessory, ProductModel } from '../../data/types';
+import type { ProductAccessory, ProductCertifications, ProductModel } from '../../data/types';
 import CtaLink from '../CtaLink';
 import FadeIn from '../FadeIn';
 
@@ -7,6 +7,9 @@ type ProductModelsProps = {
   intro?: string;
   models: ProductModel[];
   accessories?: ProductAccessory[];
+  /** Kennzeile über jedem Zubehörteil, z. B. „Standard-Zubehör" (Lüfter) oder „Zubehör". */
+  accessoriesLabel?: string;
+  certifications?: ProductCertifications;
 };
 
 /**
@@ -18,7 +21,14 @@ type ProductModelsProps = {
  * Die Fotos stehen auf reinem Weiß und werden per mix-blend-multiply auf den
  * Verlauf der Kachel gelegt; der Verlauf greift den Bühnenhintergrund auf.
  */
-export default function ProductModels({ title, intro, models, accessories = [] }: ProductModelsProps) {
+export default function ProductModels({
+  title,
+  intro,
+  models,
+  accessories = [],
+  accessoriesLabel = 'Standard-Zubehör',
+  certifications,
+}: ProductModelsProps) {
   return (
     <section aria-labelledby="modelle-titel">
       <FadeIn inView>
@@ -83,18 +93,20 @@ export default function ProductModels({ title, intro, models, accessories = [] }
           <div className="mt-8 md:mt-10 space-y-4">
             {accessories.map((item) => (
               <div key={item.name} className="flex items-center gap-5">
-                {/* Nur in kleiner Auflösung vorhanden – deshalb bewusst klein gezeigt. */}
+                {/* Nur in kleiner Auflösung vorhanden – deshalb bewusst klein gezeigt.
+                    Breiter als hoch, weil Kabel und Stecker als lange Zeichnungen
+                    vorliegen; auf dem Handy schmaler, damit der Text Platz behält. */}
                 <img
                   src={item.image}
                   alt={item.name}
-                  width={64}
+                  width={128}
                   height={64}
                   loading="lazy"
                   decoding="async"
-                  className="h-16 w-16 shrink-0 object-contain"
+                  className="h-12 w-20 sm:h-16 sm:w-32 shrink-0 object-contain"
                 />
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">Standard-Zubehör</p>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">{accessoriesLabel}</p>
                   <p className="mt-1 text-gray-900 font-medium">
                     {item.name}
                     <span className="font-normal text-gray-500"> · {item.detail}</span>
@@ -103,6 +115,42 @@ export default function ProductModels({ title, intro, models, accessories = [] }
               </div>
             ))}
           </div>
+        </FadeIn>
+      )}
+
+      {/* Zertifizierungen als Abschluss der Liste – ab md als eine Leiste,
+          darunter in zwei Zeilen, damit die Zeichen lesbar bleiben. */}
+      {certifications && (
+        <FadeIn inView>
+          <figure className="mt-12 md:mt-16 border-t border-gray-100 pt-10 md:pt-12">
+            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">{certifications.title}</p>
+            <img
+              src={certifications.image}
+              alt={certifications.alt}
+              width={1401}
+              height={85}
+              loading="lazy"
+              decoding="async"
+              className="hidden md:block mt-6 w-full h-auto"
+            />
+            <div className="md:hidden mt-5 space-y-2">
+              {certifications.mobileImages.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={i === 0 ? certifications.alt : ''}
+                  width={738}
+                  height={85}
+                  loading="lazy"
+                  decoding="async"
+                  className="block w-full h-auto"
+                />
+              ))}
+            </div>
+            <figcaption className="mt-5 text-sm text-gray-500 leading-relaxed max-w-2xl">
+              {certifications.caption}
+            </figcaption>
+          </figure>
         </FadeIn>
       )}
     </section>

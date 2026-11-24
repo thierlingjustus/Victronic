@@ -25,11 +25,25 @@ export interface ProductModel {
   specs: { label: string; value: string }[];
 }
 
-/** Standard-Zubehör, das klein unter der Modellübersicht steht. */
+/** Zubehör, das klein unter der Modellübersicht steht. */
 export interface ProductAccessory {
   name: string;
   detail: string;
   image: string;
+}
+
+/**
+ * Prüfzeichen/Zertifizierungen als Bildleiste am Ende der Modellübersicht
+ * (Stromversorgungen). Die Leiste ist sehr breit – auf dem Handy wären die
+ * Zeichen darin nur gut 15 px hoch. Dort stehen deshalb zwei Hälften
+ * untereinander (`mobileImages`).
+ */
+export interface ProductCertifications {
+  title: string;
+  image: string;
+  mobileImages: [string, string];
+  alt: string;
+  caption: string;
 }
 
 /**

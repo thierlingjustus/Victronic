@@ -4,9 +4,9 @@ import { C, Chip, CompactNote, FadeIn, Layer, StageText, useStageCaption, useSta
  * Stromversorgungen (modelType "power"): drei der in [ALT /netzteile/]
  * genannten Bauformen nebeneinander – Hutschiene (TS35), Open Frame und
  * Steckernetzteil. "Enclosed" ist kein Begriff der alten Website. Bewusst kein
- * Schichtstapel – diese Produktseite hat keine Galeriebilder, das Visual trägt
- * die Kategorie allein. Schutzschaltungen und Effizienzklasse stehen als
- * Beschriftung darunter.
+ * Schichtstapel – das Visual zeigt die Bauformen, die Fotos aller Netzteilarten
+ * stehen in der Modellübersicht darunter. Schutzschaltungen und Effizienzklasse
+ * stehen als Beschriftung darunter.
  */
 
 const BASE = 372;
@@ -35,13 +35,14 @@ function FormLabel({ cx, title, sub }: { cx: number; title: string; sub: string 
 }
 
 /**
- * Faktenkarte → Bauform. specs in products.ts:
- * 0 Bauformen · 1 Weitere Produkte · 2 Prüfung & Garantie ·
- * 3 Zuverlässigkeit · 4 Schutz · 5 Effizienz
- * Die ersten drei Zeilen gelten für alle Bauformen – dort wird bewusst nichts
- * hervorgehoben, statt willkürlich eine der drei auszuwählen.
+ * Legendenzeile → Bauform. specs in products.ts (ohne legendOnly):
+ * 0 Bauformen · 1 Effizienz · 2 Weitere Produkte
+ * Keine der Zeilen gehört zu genau einer gezeichneten Bauform, deshalb wird
+ * nichts hervorgehoben. (Effizienz → Steckernetzteil wurde verworfen: die Zeile
+ * ist aktiv, bevor das Steckernetzteil eingeblendet ist – die übrigen Bauformen
+ * wurden abgeblendet und die Grafik wirkte leer.)
  */
-const SPEC_LAYERS = [-1, -1, -1, 0, 1, 2];
+const SPEC_LAYERS = [-1, -1, -1];
 
 export default function PowerForms({ progress, reducedMotion, activeFact = -1 }: ProductVisualProps) {
   const common = { progress, reducedMotion };
